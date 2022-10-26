@@ -1,0 +1,908 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+  <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>MxDraw控件</title>
+
+
+</head>
+
+<SCRIPT language="JavaScript">
+  document.oncontextmenu = new Function('event.returnValue=false;'); //禁用右键
+</SCRIPT>
+
+<body topmargin="10" leftmargin="10">
+
+<p>
+  <input type="button" value="打开dwg文件1" onclick="myclick()">
+  <input type="button" value="打开dwg文件2" onclick="myclick2()">
+  <input type="button" value="全图比较" onclick="compare()">
+  <input type="button" value="选择范围比较" onclick="DoCmd(20)">
+  <input type="button" value="选择圆形范围比较" onclick="DoCmd(21)">
+  <input type="button" value="用户自定义比较" onclick="DoCmd(22)">
+  <input type="button" value="在指定位置绘批注" onclick="drawcomment()">
+  <input type="button" value="在图上交互绘批注" onclick="usercomment()">
+  <input type="button" value="在图上交互绘批注2" onclick="usercomment2()">
+  <input type="button" value="得到图上所有批注" onclick="getallcomment()">
+  <input type="button" value="删除图上所有批注" onclick="deleteallcomment()">
+  <input type="button" value="在指定位置绘图章(密码为:123)" onclick="drawstamp()">
+  <input type="button" value="在图上交互绘图章" onclick="userstamp()">
+  <input type="button" value="得到图上所有图章" onclick="getallstamp()">
+  <input type="button" value="删除图上所有图章" onclick="deleteallstamp()">
+  <input type="button" value="保存略缩图" onclick="savejpg()">
+  <input type="button" value="保存为DXF文件" onclick="savedxf()">
+  <input type="button" value="保存为PDF文件" onclick="savepdf()">
+  <input type="button" value="保存为DWF文件" onclick="savedwf()">
+  <input type="button" value="保存为加密文件" onclick="saveEncryptionDWG()">
+  <input type="button" value="打开加密的文件" onclick="openEncryptionDWG()">
+  <input type="button" value="删除选择的标注" onclick="deleteselectcomment()">
+  <input type="button" value="写扩展数据" onclick="WriteExData()">
+  <input type="button" value="读扩展数据" onclick="ReadExData()">
+  <input type="button" value="删除比较标注" onclick="DoCmd(23)">
+
+</p>
+
+<p align="center">
+  <object clsid="{74A777F8-7A8F-4e7c-AF47-7074828086E2}"
+          id="MxDrawXCtrl1" codebase="http://www.mxdraw.com/MxDrawX52.CAB#version=11,0,0,1"
+          type="application/mxdraw-activex" width=48% height=85% align="left">
+    <param name="_Version" value="65536">
+    <param name="_ExtentX" value="24262">
+    <param name="_ExtentY" value="16219">
+    <param name="_StockProps" value="0">
+    <param name="DwgFilePath" value="">
+    <param name="IsRuningAtIE" value="1">
+    <param name="EnablePrintCmd" value="0">
+    <param name="ShowCommandWindow" value="1">
+    <param name="ShowToolBars" value="1">
+    <param name="ShowModelBar" value="0">
+    <param name="Iniset" value="ResPath=Compare,LoadMrx=Compare,EnableSingleSelection=Y">
+    <param name="ToolBarFiles" value="Compare-ToolBar.mxt">
+  </object>
+
+  <object clsid="{74A777F8-7A8F-4e7c-AF47-7074828086E2}"
+          id="MxDrawXCtrl2" codebase="http://www.mxdraw.com/MxDrawX52.CAB#version=11,0,0,1"
+          type="application/mxdraw-activex" width=48% height=85% align="right">
+    <param name="_Version" value="65536">
+    <param name="_ExtentX" value="24262">
+    <param name="_ExtentY" value="16219">
+    <param name="_StockProps" value="0">
+    <param name="DwgFilePath" value="">
+    <param name="IsRuningAtIE" value="1">
+    <param name="EnablePrintCmd" value="0">
+    <param name="ShowCommandWindow" value="1">
+    <param name="ShowToolBars" value="1">
+    <param name="ShowModelBar" value="0">
+    <param name="Iniset" value="ResPath=Compare,LoadMrx=Compare,EnableSingleSelection=Y">
+    <param name="ToolBarFiles" value="Compare-ToolBar.mxt">
+  </object>
+
+  <script>
+
+    function DoCmd(iCmd) {
+      document.getElementById("MxDrawXCtrl1").DoCommand(iCmd);
+    }
+
+
+    function myclick() {
+      document.getElementById("MxDrawXCtrl1").focus();
+      document.getElementById("MxDrawXCtrl1").SendStringToExecute("Compare_OpenDwgFile");
+    }
+
+    function myclick2() {
+      document.getElementById("MxDrawXCtrl2").focus();
+      document.getElementById("MxDrawXCtrl2").SendStringToExecute("Compare_OpenDwgFile");
+    }
+
+    function compare() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(1);
+    }
+
+
+    function compare2() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(10);
+    }
+
+
+    function usercomment() {
+      document.getElementById("MxDrawXCtrl1").SendStringToExecute("MxET_DrawComment");
+
+    }
+
+    function usercomment2() {
+
+      document.getElementById("MxDrawXCtrl1").DoCommand(14);
+    }
+
+
+    function userstamp() {
+      document.getElementById("MxDrawXCtrl1").SendStringToExecute("MxET_DrawStamp");
+      //document.getElementById("MxDrawXCtrl1").DoCommand(9);
+
+    }
+
+
+    function drawcomment() {
+
+      // 在点(10，10)处，绘一个注释,15是注释的文字高度.
+      document.getElementById("MxDrawXCtrl1").Call("MxET_DrawComment", "10,10,\"测试在指定位置绘一个注释\",15");
+
+      //  把所以实体都显示到视区
+      document.getElementById("MxDrawXCtrl1").ZoomAll();
+
+
+    }
+
+    function drawstamp() {
+
+      document.getElementById("MxDrawXCtrl1").DoCommand(11);
+
+    }
+
+    function drawstampimp() {
+
+
+      // 在点(50，10)处，绘一个图章
+      // 下面的代码可以插入一个服务器上的图章http://localhost:6046/stamp.dwg
+      //document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"http://localhost:6046/stamp.dwg\",50,10,1,\"stamplayer\"");
+      //var ret = document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"stamp.dwg\",50,10,1,\"stamplayer\"");
+
+      var ret = document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp", "\"StampPassword.dwg\",\"NULL\",\"NULL\",0,\"stamplayer\",\"\",\"Y\"");
+
+      //var ret   = document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"stamp.png\",\"NULL\",\"NULL\",0,\"stamplayer\",\"\",\"Y\"");
+
+      // 例如与用户交互插入图章，并提示用户输入缩放比例，和密码的调用代码
+      //var ret   = document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"http://localhost:6046/stamp.dwg\",\"NULL\",\"NULL\",0,\"stamplayer\",\"\",\"Y\"");
+
+
+      //var ret   = document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"http://localhost:6046/stamp.png\",\"NULL\",\"NULL\",0,\"stamplayer\",\"\",\"Y\"");
+
+
+      if (ret.AtString(0) == "Ok")
+        //alert("插入成功");
+        ;
+      else
+        alert("插入失败");
+
+
+      //  把所以实体都显示到视区
+      //document.getElementById("MxDrawXCtrl1").ZoomAll();
+    }
+
+    function getallcomment() {
+      var MxDrawXCtrl_Obj = document.all.item("MxDrawXCtrl1");
+      var ret = MxDrawXCtrl_Obj.Call("MxET_GetAllComment", "");
+
+      if (ret.Count > 1) {
+        // 得到了批注，i为批注的X坐标，i+1为Y坐标，i+2为批注内容，i+3为批注对象名柄
+
+        var i = 1;
+        for (; i < ret.Count;) {
+          alert("批对象信息内容:" + ret.AtString(i + 2) + " 坐标X:" + ret.AtDouble(i) + " 坐标Y:" + ret.AtDouble(i + 1) + " 对象名柄:" + ret.AtString(i + 3));
+          // 把得到的第一个批注对象放到视区中.
+          if (i == 1) {
+            MxDrawXCtrl_Obj.Call("Mx_PutEntityInView", ret.AtString(i + 3));
+          }
+
+          i = i + 4;
+        }
+      } else {
+
+        alert("没有批注");
+      }
+
+      ret = null;
+      CollectGarbage();
+    }
+
+    function getallstamp() {
+      var MxDrawXCtrl_Obj = document.all.item("MxDrawXCtrl1");
+      var ret = MxDrawXCtrl_Obj.Call("MxET_GetAllStamp", "");
+
+      if (ret.Count > 1) {
+        // 得到了图章，i为批注的X坐标，i+1为Y坐标，i+2为图章的名柄
+
+        var i = 1;
+        for (; i < ret.Count;) {
+          alert("图章对象信息内容," + " 坐标X:" + ret.AtDouble(i) + " 坐标Y:" + ret.AtDouble(i + 1) + " 对象名柄:" + ret.AtString(i + 2));
+
+
+          // 把得到的第一个图章对象放到视区中.
+          if (i == 1) {
+            MxDrawXCtrl_Obj.Call("Mx_PutEntityInView", ret.AtString(i + 2));
+          }
+
+          i = i + 3;
+
+        }
+      } else {
+
+        alert("没有图章");
+      }
+
+      ret = null;
+      CollectGarbage();
+    }
+
+
+    function deleteallcomment() {
+      document.getElementById("MxDrawXCtrl1").Call("MxET_DeleteAllComment", "");
+      document.getElementById("MxDrawXCtrl1").UpdateDisplay();
+    }
+
+    function deleteallstamp() {
+      document.getElementById("MxDrawXCtrl1").Call("MxET_DeleteAllStamp", "");
+      document.getElementById("MxDrawXCtrl1").UpdateDisplay();
+    }
+
+
+    function savejpg() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(4);
+
+
+    }
+
+    function savedxf() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(5);
+
+    }
+
+    function savepdf() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(6);
+
+    }
+
+    function savedwf() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(7);
+
+    }
+
+
+    function saveEncryptionDWG() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(2);
+
+
+    }
+
+    function openEncryptionDWG() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(3);
+
+
+    }
+
+
+    function deleteselectcomment() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(8);
+    }
+
+    function WriteExData() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(12);
+    }
+
+    function ReadExData() {
+      document.getElementById("MxDrawXCtrl1").DoCommand(13);
+    }
+
+    // 返回比较图层，除0层外。0层上的实体，不参加比较.
+    function GetCompareLayer() {
+      var mxocx = document.getElementById("MxDrawXCtrl1")
+      var database = mxocx.GetDatabase();
+
+      // 得到所有图层名
+      var sRet = null;
+
+      var spLayerTable = database.GetLayerTable();
+
+      var spIter = spLayerTable.NewIterator();
+
+      for (; !spIter.Done(); spIter.Step(true, true)) {
+        var spLayerRec = spIter.GetRecord();
+        var sName = spLayerRec.Name;
+        // 0零层不参加比较
+        if (sName != "0") {
+          if (sRet == null)
+            sRet = sName;
+          else {
+
+            sRet = sRet + "," + sName;
+          }
+        }
+
+      }
+
+      return sRet;
+    }
+
+    function AllCompareDWG() {
+
+      var ocx1 = document.getElementById("MxDrawXCtrl1");
+      var ocx2 = document.getElementById("MxDrawXCtrl2");
+
+      var database1 = ocx1.GetDatabase();
+      var database2 = ocx2.GetDatabase();
+
+      var filter = ocx1.NewResbuf();
+
+      // 得到过滤的图层名
+      //var layers = GetCompareLayer();
+
+      // 增加图层过滤.
+      //if (layers != null) {
+      //    filter.AddStringEx(layers, 8);
+      //}
+
+
+      var compare1 = ocx1.NewComObject("IMxDrawCompare");
+
+      compare1.Do(database1, database2, filter);
+
+      var aryDifferent1 = compare1.GetCurveIdsOfTheDifferent();
+
+      compare1.DrawFlag(1.0, false);
+
+
+      // 反过来比较一下，用来确定，那些对象是新增加的。
+      var compare2 = ocx1.NewComObject("IMxDrawCompare");
+
+      compare2.Do(database2, database1, filter);
+
+      var aryDifferent2 = compare2.GetCurveIdsOfTheDifferent();
+
+      compare2.DrawFlag(1.0, true);
+
+
+      var iErase = 0;
+      var iModify = 0;
+      var iAdd = 0;
+      var i = 0;
+
+      for (; i < aryDifferent1.Count; i++) {
+        var lId = aryDifferent1.AtObjectId(i);
+        if (compare1.GetIsErase(lId)) {
+          iErase = iErase + 1;
+        } else {
+          iModify = iModify + 1;
+        }
+      }
+
+      i = 0;
+      for (; i < aryDifferent2.Count; i++) {
+        var lId = aryDifferent2.AtObjectId(i);
+        if (compare2.GetIsErase(lId)) {
+          iAdd = iAdd + 1;
+        }
+      }
+
+      // 把没有改的对象，变成灰色，个修改过的对象变成红色
+      //var color = ocx1.NewComObject("IMxDrawMcCmColor");
+      //color.SetRGB(50,50,50);// ?3289650? = 0x323232
+
+      //var colorRed = ocx1.NewComObject("IMxDrawMcCmColor");
+      //colorRed.SetRGB(255,0,00);
+
+      var modfColor = ocx1.NewComObject("IMxDrawModifyTheColor");
+      modfColor.Do(ocx1.GetDatabase(), 3289650);
+      //modfColor.Do(ocx2.GetDatabase(),3289650);
+      modfColor.DoEntity(aryDifferent1, 255);
+      //modfColor.DoEntity(aryDifferent2,255);
+      //
+      alert(iModify + "对象修改," + iErase + "对象删除," + iAdd + "对象被增加");
+    }
+
+
+    function DoCommandEventFunc(iCmd) {
+      if (iCmd == 1) {
+        // 下面的代码，可以让MxDrawXCtrl1控件显示的内容与一个网络上的图纸比较
+        // document.getElementById("MxDrawXCtrl1").Call("Compare_CompareDWG","http://localhost:6046/test2.dwg");
+
+        AllCompareDWG();
+        /*
+                 {
+                   var sFileName = document.getElementById("MxDrawXCtrl2").GetFileName();
+
+                   var ret = document.getElementById("MxDrawXCtrl1").Call("Compare_CompareDWG", sFileName);
+                        if(ret.AtString(0) == "Ok")
+                        {
+                             var count = ret.AtLong(1);
+                             for(var i = 0; i < count;i++)
+                             {
+                                // 得到被修改的实体id.
+                                alert(ret.AtLong(i + 2) );
+                             }
+                        }
+                 }
+                 {
+                   var sFileName = document.getElementById("MxDrawXCtrl1").GetFileName();
+
+                   var ret = document.getElementById("MxDrawXCtrl2").Call("Compare_CompareDWG", sFileName);
+                        if(ret.AtString(0) == "Ok")
+                        {
+                             var count = ret.AtLong(1);
+                             for(var i = 0; i < count;i++)
+                             {
+                                // 得到被修改的实体id.
+                                alert(ret.AtLong(i + 2) );
+                             }
+                        }
+            document.getElementById("MxDrawXCtrl2").UpdateDisplay();
+                 }
+                 */
+      } else if (iCmd == 2) {
+        var ret = document.getElementById("MxDrawXCtrl1").Call("MxET_SaveEncryptionDWG", "c:\\TmpEncryption.dwg");
+        if (ret.AtString(0) == "Ok") {
+          alert("加密文件已经成功保存到C:\\TmpEncryption.dwg");
+        } else {
+          alert("保存失败");
+        }
+        ret = null;
+        CollectGarbage();
+
+      } else if (iCmd == 3) {
+        var ret = document.getElementById("MxDrawXCtrl1").Call("MxET_OpenEncryptionDWG", "c:\\TmpEncryption.dwg");
+        if (ret.AtString(0) == "Ok") {
+          alert("加密文件已经成功打开");
+        } else {
+          alert("打开失败");
+        }
+        ret = null;
+        CollectGarbage();
+
+      } else if (iCmd == 4) {
+        document.getElementById("MxDrawXCtrl1").SaveJpgFile("c:\\tmp.jpg", 300, 300, 0);
+        alert("略缩图已经保存到C:\\tmp.jpg");
+        // 也可以用下面的方法，不打开文件，直接把dwg转成jpg文件
+        //var app ;
+        //app = new ActiveXObject("MxDrawX.MxDrawApplication");
+        //app.DwgToJpg("xxx.dwg","xxx.jpg",300,300);
+      } else if (iCmd == 5) {
+        document.getElementById("MxDrawXCtrl1").SaveDwgFile("c:\\tmp.dxf");
+        alert("dxf文件已经保存到C:\\tmp.dxf");
+      } else if (iCmd == 6) {
+        document.getElementById("MxDrawXCtrl1").SaveDwgFile("c:\\tmp.pdf");
+        alert("pdf文件已经保存到C:\\tmp.pdf");
+      } else if (iCmd == 7) {
+        document.getElementById("MxDrawXCtrl1").SaveDwgFile("c:\\tmp.dwf");
+        alert("dwf文件已经保存到C:\\tmp.dwf");
+      } else if (iCmd == 8) {
+        var mxOcx = document.all.item("MxDrawXCtrl1");
+        var ss = mxOcx.Call("Mx_NewSelectionSet", "");
+        var utility = mxOcx.Call("Mx_NewUtility", "");
+        utility.Prompt("\n 选择要删除的标注实体:");
+        ss.Select2(8, null, null, null, null);
+
+        var i = 0;
+        for (; i < ss.Count; i++) {
+          var ent = ss.Item(i);
+          if (ent.ObjectName == "MxCommentEntity") {
+            //alert("MxCommentEntity");
+            ent.Erase();
+          }
+        }
+      } else if (iCmd == 9) {
+        var mxOcx = document.all.item("MxDrawXCtrl1");
+        mxOcx.focus();
+        var point1 = mxOcx.GetPoint(false, 0, 0, "\n 点取插入点:");
+        if (point1 == null) {
+          return;
+        }
+        var insPt = "" + point1.x + "," + point1.y + "";
+
+        //alert("\"http://localhost:6046/stamp.dwg\"," + insPt + ",1,\"stamplayer\"");
+        //document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"http://localhost:6046/stamp.dwg\",50,10,1,\"stamplayer\"");
+        //document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp","\"http://localhost:6046/stamp.dwg\"," + insPt + ",1,\"stamplayer\"");
+
+        document.getElementById("MxDrawXCtrl1").Call("MxET_DrawStamp", "\"C:\\1.jpg\"," + insPt + ",1,\"stamplayer\"");
+      } else if (iCmd == 10) {
+        var ocx2Id = document.getElementById("MxDrawXCtrl2").Call("Compare_GetOcxId", "");
+
+        document.getElementById("MxDrawXCtrl1").CallEx("Compare_CompareDWG2", ocx2Id);
+      } else if (iCmd == 11) {
+        drawstampimp();
+      } else if (iCmd == 12) {
+        var mxOcx = document.all.item("MxDrawXCtrl1");
+        var ent = mxOcx.GetEntity("选择要写扩展数据的实体:");
+        if (ent == null) {
+          return;
+        }
+        var exData = mxOcx.Call("Mx_NewResbuf", "");
+        exData.AddStringEx("TestApp", 1001);
+        exData.AddStringEx("甲", 1000);
+        ent.SetXData(exData);
+      } else if (iCmd == 13) {
+        var mxOcx = document.all.item("MxDrawXCtrl1");
+        var ent = mxOcx.GetEntity("选择要读扩展数据的实体:");
+        if (ent == null) {
+          return;
+        }
+        var exData = ent.GetXData("TestApp");
+
+        if (exData.Count == 0) {
+          alert("没有扩展数据");
+
+        } else {
+          // 向命令行窗口打印扩展数据。
+          exData.PrintData();
+          alert(exData.AtString(1));
+        }
+      } else if (iCmd == 14) {
+        //alert("11");
+        var txt = "Test";
+
+        // 出来一个自己的窗口，让用户输入标注文字。
+        // ..
+
+        txt = "\"" + txt + "\"";
+
+        document.getElementById("MxDrawXCtrl1").Call("MxET_DrawComment2", txt + ",0,\"\",200,2,2,0");
+
+        //  把所以实体都显示到视区
+        //document.getElementById("MxDrawXCtrl1").ZoomAll();
+      } else if (iCmd == 20) {
+        BoundCompare();
+      } else if (iCmd == 21) {
+        CircleCompare();
+      } else if (iCmd == 22) {
+        UserAxisCompare();
+      } else if (iCmd == 23) {
+        DelCompareFlagEntity();
+      }
+
+
+    }
+
+    function DoImpCompare(points, filter) {
+
+      var ocx1 = document.getElementById("MxDrawXCtrl1");
+      var ocx2 = document.getElementById("MxDrawXCtrl2");
+
+      var database1 = ocx1.GetDatabase();
+      var database2 = ocx2.GetDatabase();
+
+      var compare1 = ocx1.NewComObject("IMxDrawCompare");
+      compare1.Bound = points;
+
+      compare1.Do(database1, database2, filter);
+
+      var aryDifferent1 = compare1.GetCurveIdsOfTheDifferent();
+
+      compare1.DrawFlag(1.0, false);
+
+
+      // 反过来比较一下，用来确定，那些对象是新增加的。
+      var compare2 = ocx1.NewComObject("IMxDrawCompare");
+      compare2.Bound = points;
+      compare2.Do(database2, database1, filter);
+
+      var aryDifferent2 = compare2.GetCurveIdsOfTheDifferent();
+
+      compare2.DrawFlag(1.0, true);
+
+
+      var iErase = 0;
+      var iModify = 0;
+      var iAdd = 0;
+      var i = 0;
+
+      for (; i < aryDifferent1.Count; i++) {
+        var lId = aryDifferent1.AtObjectId(i);
+        if (compare1.GetIsErase(lId)) {
+          iErase = iErase + 1;
+        } else {
+          iModify = iModify + 1;
+        }
+      }
+
+      i = 0;
+      for (; i < aryDifferent2.Count; i++) {
+        var lId = aryDifferent2.AtObjectId(i);
+        if (compare2.GetIsErase(lId)) {
+          iAdd = iAdd + 1;
+        }
+      }
+
+      alert(iModify + "对象修改," + iErase + "对象删除," + iAdd + "对象被增加");
+    }
+
+
+    function CircleCompare() {
+
+      var mxOcx = document.getElementById("MxDrawXCtrl1");
+
+      var getPt1 = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt1.message = "指定圆心";
+      if (getPt1.go() != 1) {
+        return;
+      }
+
+      var getPt2 = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt2.message = "指定圆上一点";
+      getPt2.basePoint = getPt1.value();
+
+      var spDrawData = getPt2.InitUserDraw("DrawCircle");
+      spDrawData.SetPoint("pt1", getPt1.value());
+
+      getPt2.setUseBasePt(true);
+      if (getPt2.go() != 1) {
+        return;
+      }
+
+      var cen = getPt1.value();
+      var pt2 = getPt2.value();
+
+      var dR = cen.DistanceTo(pt2);
+
+      var circle = mxOcx.NewEntity("IMxDrawCircle");
+
+      circle.Center = cen;
+      circle.Radius = dR;
+
+      var points = circle.GetSamplePoints(0.1);
+
+      if (points.Count < 3) {
+        alert("圆太小");
+      }
+
+      var filter = mxOcx.NewResbuf();
+      DoImpCompare(points, filter);
+
+
+    }
+
+
+    // 返回比较图层，除0层外。0层上的实体，不参加比较.
+    function GetUserAxisCompareLayer() {
+      var mxocx = document.getElementById("MxDrawXCtrl1")
+      var database = mxocx.GetDatabase();
+
+      // 得到所有图层名
+      var sRet = null;
+
+      var spLayerTable = database.GetLayerTable();
+
+      var spIter = spLayerTable.NewIterator();
+
+      for (; !spIter.Done(); spIter.Step(true, true)) {
+        var spLayerRec = spIter.GetRecord();
+        var sName = spLayerRec.Name;
+        // 0零层不参加比较
+        if (sName != "DOTE") {
+          if (sRet == null)
+            sRet = sName;
+          else {
+
+            sRet = sRet + "," + sName;
+          }
+        }
+
+      }
+
+      return sRet;
+    }
+
+    // 用户的轴网比例
+    function UserAxisCompare() {
+      var ocx1 = document.getElementById("MxDrawXCtrl1");
+      var ocx2 = document.getElementById("MxDrawXCtrl2");
+
+      // 把轴网所在图层名，转入.
+      var param = ocx1.NewResbuf();
+      param.AddString("DOTE");
+
+      // 得到第一张图的轴网1,A点。
+      ocx1.MakeCurrentOcx();
+      var ret1 = ocx1.CallEx("ExApp_Axis_1A", param);
+      if (ret1.AtString(0) != "Ok") {
+        alert("没有发现轴网");
+        return;
+      }
+
+      var pt1A1 = ret1.AtPoint(1);
+
+      // 得到第二张图的轴网1,A点。
+      ocx2.MakeCurrentOcx();
+      var ret2 = ocx2.CallEx("ExApp_Axis_1A", param);
+      if (ret2.AtString(0) != "Ok") {
+        alert("没有发现轴网");
+        return;
+      }
+      ocx1.MakeCurrentOcx();
+      var pt1A2 = ret2.AtPoint(1);
+
+      // 由两个点，构造一个偏移矩阵
+      var vec = ocx1.NewComObject("IMxDrawVector3d");
+      vec.x = pt1A2.x - pt1A1.x;
+      vec.y = pt1A2.y - pt1A1.y;
+
+      var mat = ocx1.NewComObject("IMxDrawMatrix3d");
+      mat.Translation(vec);
+
+      // 得到图纸比较时用到的过滤条件，这里需要把轴网所在图层过滤掉，不参加比较。
+
+      var filter = ocx1.NewResbuf();
+
+      // 得到过滤的图层名
+      var layers = GetUserAxisCompareLayer();
+
+      // 增加图层过滤.
+      if (layers != null) {
+        filter.AddStringEx(layers, 8);
+      }
+
+      var database1 = ocx1.GetDatabase();
+      var database2 = ocx2.GetDatabase();
+
+      var compare1 = ocx1.NewComObject("IMxDrawCompare");
+      compare1.SetTheOffsetMatrix(mat);
+
+      compare1.Do(database1, database2, filter);
+
+      var aryDifferent1 = compare1.GetCurveIdsOfTheDifferent();
+
+      compare1.DrawFlag(1.0, false);
+
+
+      // 反过来比较一下，用来确定，那些对象是新增加的。
+      var compare2 = ocx1.NewComObject("IMxDrawCompare");
+      mat.Invert();
+      compare2.SetTheOffsetMatrix(mat);
+      compare2.Do(database2, database1, filter);
+
+      var aryDifferent2 = compare2.GetCurveIdsOfTheDifferent();
+
+      compare2.DrawFlag(1.0, true);
+
+
+      var iErase = 0;
+      var iModify = 0;
+      var iAdd = 0;
+      var i = 0;
+
+      ocx1.MakeCurrentOcx();
+
+      for (; i < aryDifferent1.Count; i++) {
+        var lId = aryDifferent1.AtObjectId(i);
+        if (compare1.GetIsErase(lId)) {
+          iErase = iErase + 1;
+        } else {
+          iModify = iModify + 1;
+        }
+
+        // 得到被修改的对象，所在轴网中的位置文本.
+        var tmpParam = ocx1.NewResbuf();
+        // 被修改的对象id
+        tmpParam.AddObjectId(lId);
+
+        // 轴线所在图层
+        tmpParam.AddString("DOTE");
+
+        // 轴线文字的图块名.
+        tmpParam.AddString("_AXISO");
+
+        var tmpRet = ocx1.CallEx("ExApp_Axis_Pos", tmpParam);
+        if (tmpRet.AtString(0) == "Ok") {
+          alert(tmpRet.AtString(1));
+
+        }
+      }
+
+      ocx2.MakeCurrentOcx();
+      i = 0;
+      for (; i < aryDifferent2.Count; i++) {
+        var lId = aryDifferent2.AtObjectId(i);
+        if (compare2.GetIsErase(lId)) {
+          iAdd = iAdd + 1;
+
+
+          // 得到被修改的对象，所在轴网中的位置文本.
+          var tmpParam = ocx2.NewResbuf();
+          // 被修改的对象id
+          tmpParam.AddObjectId(lId);
+
+          // 轴线所在图层
+          tmpParam.AddString("DOTE");
+
+          // 轴线文字的图块名.
+          tmpParam.AddString("_AXISO");
+
+          var tmpRet = ocx2.CallEx("ExApp_Axis_Pos", tmpParam);
+          if (tmpRet.AtString(0) == "Ok") {
+            alert(tmpRet.AtString(1));
+
+          }
+
+        }
+      }
+
+      alert(iModify + "对象修改," + iErase + "对象删除," + iAdd + "对象被增加");
+
+    }
+
+    function BoundCompare() {
+
+      var ocx1 = document.getElementById("MxDrawXCtrl1");
+      var ocx2 = document.getElementById("MxDrawXCtrl2");
+      var filter = ocx1.NewResbuf();
+      var getPt = ocx1.NewComObject("IMxDrawUiPrPoint");
+
+      getPt.message = "点取第一点";
+      if (getPt.go() != 1)
+        return;
+
+      var frstPt = getPt.value();
+
+      var getCorner = ocx1.NewUtility();
+
+
+      var secondPt = getCorner.GetCorner(frstPt, "点取第二点:");
+      if (secondPt == null)
+        return;
+
+      var points = ocx1.NewComObject("IMxDrawPoints");
+
+      points.Add2(frstPt);
+      points.Add2(secondPt);
+
+      var filter = ocx1.NewResbuf();
+      DoImpCompare(points, filter);
+
+    }
+
+    function DoDynWorldDrawFun(dX, dY, pWorldDraw, pData) {
+      var sGuid = pData.Guid;
+      var ocx1 = document.getElementById("MxDrawXCtrl1");
+      ocx1.SetEventRet(0);
+      if (sGuid == "DrawCircle") {
+        var pt1 = pData.GetPoint("pt1");
+        if (pt1 == null)
+          return;
+
+
+        var pt2 = ocx1.NewPoint();
+        pt2.x = dX;
+        pt2.y = dY;
+        var dR = pt1.DistanceTo(pt2);
+
+        pWorldDraw.DrawCircle(pt1.x, pt1.y, dR);
+      }
+
+    }
+
+    function DelCompareFlagEntity() {
+
+      var mxOcx = document.getElementById("MxDrawXCtrl1");
+      var ss = mxOcx.NewSelectionSet();
+      var spFilte = mxOcx.NewResbuf();
+
+      // 把批注对象，当着过滤条件.
+      spFilte.AddStringEx("MxCompareFlagEntity", 5020);
+
+      // 与用户交互，得到批注.
+      ss.Select2(5, null, null, null, spFilte);
+
+
+      // 遍历每个文字.
+      var bFind = false;
+      for (var i = 0; i < ss.Count; i++) {
+        var ent = ss.Item(i);
+        if (ent == null)
+          continue;
+
+        ent.Erase();
+
+      }
+    }
+
+
+    document.getElementById("MxDrawXCtrl1").ImplementCommandEventFun = DoCommandEventFunc;
+    document.getElementById("MxDrawXCtrl1").ImpDynWorldDrawFun = DoDynWorldDrawFun;
+
+  </script>
+
+</p>
+
+
+</body>
+</html>
+

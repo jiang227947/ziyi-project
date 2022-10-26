@@ -1,0 +1,71 @@
+<div class="body">
+  <div class="div1">
+    <div class="dxf_show">
+      <div class="button-item">
+<!--        <button nz-button nzType="primary" (click)="openFile()">打开DWG文件</button>-->
+<!--        <button nz-button nzType="primary" (click)="getAllLayer()">获取图层</button>-->
+<!--        <button nz-button nzType="primary" (click)="getAllLayerId()">获取图层Id</button>-->
+        <div>
+          <button nz-button nzType="primary" (click)="getAllEntity()">获取实体数量</button>
+<!--          <button nz-button nzType="primary" (click)="database()">获取块</button>-->
+          <button nz-button nzType="primary" (click)="getAllDimText()">获取标注文本</button>
+          <button nz-button nzType="primary" (click)="getAllText()">获取文本</button>
+          <button nz-button nzType="primary" (click)="drawText()">绘制一个文字</button>
+<!--          <button nz-button nzType="primary" (click)="hiddenToolBar()">隐藏工具栏</button>-->
+          <button nz-button nzType="primary" (click)="hiddenIcon()">隐藏图标</button>
+        </div>
+        <div>
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+            <input type="text" nz-input [(ngModel)]="searchTxt"/>
+          </nz-input-group>
+          <ng-template #suffixButton>
+            <button nz-button nzType="primary" (click)="findText()" nzSearch>查找文字</button>
+          </ng-template>
+        </div>
+      </div>
+      <table border="0" width="100%">
+        <tr>
+          <!-- Chrome-->
+          <div class="chrome">
+            <object clsid="{74A777F8-7A8F-4e7c-AF47-7074828086E2}"
+                    id="ChromeMxDrawX" codebase="http://www.mxdraw.com/MxDrawX52.CAB#version=11,0,0,1"
+                    type="application/mxdraw-activex" style="margin-top:-1px;width:100%;height:100%;">
+              <param name="_Version" value="65536">
+              <param name="_ExtentX" value="24262">
+              <param name="_ExtentY" value="16219">
+              <param name="_StockProps" value="0">
+              <param name="DwgFilePath" value="">
+              <param name="IsRuningAtIE" value="1">
+              <param name="EnablePrintCmd" value="1">
+              <!--底部命令栏-->
+              <param name="ShowCommandWindow" value="0">
+              <!--工具条-->
+              <param name="ShowToolBars" value="1">
+              <!--标尺栏-->
+              <param name="ShowRulerWindow" value="1">
+              <!--模型栏-->
+              <param name="ShowModelBar" value="0">
+              <!--菜单栏-->
+              <param name="ShowMenuBar" value="0">
+              <!--状态栏-->
+              <param name="ShowStatusBar" value="0">
+              <!--工具条文件-->
+              <param name="ToolBarFiles" value="">
+              <param name="Iniset" value="READCONTENT=131072,CHROME=Y,ASYNCALL=Y,UseCurl=Y">
+              <span style="color:red">
+                不能装载CAD控件。请确认你可以连接网络或者检查浏览器的选项中安全设置。
+                <a href="http://www.mxdraw.com/MxDrawX52.msi">
+                    http://www.mxdraw.com/MxDrawX52.msi安载CAD控件
+                </a>
+              </span>
+            </object>
+          </div>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #searchTxtRef>
+  <textarea nz-input [(ngModel)]="searchTxt"></textarea>
+</ng-template>

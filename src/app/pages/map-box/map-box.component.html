@@ -1,0 +1,17 @@
+<div id="mapBox">
+  <div class="select">
+    <nz-select ngModel="武汉" (ngModelChange)="jumpTo($event)">
+      <nz-option nzValue="武汉" nzLabel="武汉"></nz-option>
+      <nz-option nzValue="纽约" nzLabel="纽约"></nz-option>
+    </nz-select>
+    <button nz-button (click)="measureDistances()">开始测量</button>
+    <button nz-button (click)="removeDistances()">删除测量</button>
+  </div>
+  <!--距离测量显示-->
+  <div id="distance" class="distance-container"></div>
+  <!--绘制多边形-->
+  <div class="calculation-box">
+    <p>Click the map to draw a polygon.</p>
+    <div id="calculated-area"></div>
+  </div>
+</div>

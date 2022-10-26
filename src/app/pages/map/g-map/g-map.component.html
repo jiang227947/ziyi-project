@@ -1,0 +1,9 @@
+<div id="googleMap" [ngClass]="{'googleMap':mapLoadType === mapLoadTypeEnum.done}">
+  <div #googleMap></div>
+</div>
+<div class="example" *ngIf="mapLoadType === mapLoadTypeEnum.loading">
+  <nz-spin nzSimple nzTip="加载谷歌地图API中..." class="spin"></nz-spin>
+</div>
+<div class="example" *ngIf="mapLoadType === mapLoadTypeEnum.error">
+  <span class="spin">谷歌地图加载失败</span>
+</div>

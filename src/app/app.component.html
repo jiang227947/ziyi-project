@@ -1,0 +1,56 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a target="_blank">
+        <img src="favicon.ico" alt="logo">
+        <h1>测试项目</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="项目Demo" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/CAD">CAD</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/map/gMap">GooGle Map</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/mapBox">Map Box</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/map/aMap">高德地图</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/weather">和风天气</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
+        <div class="header-trigger-div">
+          <span class="version">Angular Version 11</span>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

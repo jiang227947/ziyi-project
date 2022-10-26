@@ -1,0 +1,27 @@
+<div>
+  <div class="search-city">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+      <input type="text" nz-input placeholder="输入城市" [(ngModel)]="cityName" (keydown.enter)="queryCityLookupWeather()"/>
+    </nz-input-group>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" nzSearch (click)="queryCityLookupWeather()">查询</button>
+    </ng-template>
+  </div>
+  <nz-spin [nzSpinning]="loading">
+    <nz-descriptions nzTitle="实时天气" nzBordered>
+      <nz-descriptions-item nzTitle="地区/城市名称">{{city?.name}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="经纬度">{{city?.lat}}，{{city?.lon}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="国家">{{city?.country}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="数据观测时间">{{cityWeather?.obsTime | date:'yyyy-MM-dd hh:mm'}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="温度">{{cityWeather?.temp}}℃</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="体感温度">{{cityWeather?.feelsLike}}℃</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="风速">
+        <nz-badge nzStatus="processing" nzText="{{cityWeather?.windSpeed}}公里/小时"></nz-badge>
+      </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="风向">{{cityWeather?.windDir}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="风力等级">{{cityWeather?.windScale}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="描述">{{cityWeather?.text}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="降水量">{{cityWeather?.precip}}</nz-descriptions-item>
+    </nz-descriptions>
+  </nz-spin>
+</div>

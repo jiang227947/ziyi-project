@@ -1,0 +1,1352 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+  <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>MxDraw控件</title>
+
+  <script language="javascript" type="text/javascript" src="mxcustom.js"></script>
+
+
+</head>
+
+<SCRIPT language="JavaScript">
+  // document.oncontextmenu = new Function('event.returnValue=false;'); //禁用右键
+  function LoadMxDrawX(id, dwgfile, cabpath, msipath) {
+    var s, classid, Sys = {}, ua = navigator.userAgent.toLowerCase();
+    (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : (s = ua.match(/trident\/([\d.]+)/)) ? Sys.ie9 = s[1] : (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] : (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] : (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] : (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0,
+      classid = "74A777F8-7A8F-4e7c-AF47-7074828086E2",
+
+      Sys.ie || Sys.ie9 ? (document.write("<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   "),
+          document.write("<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   "),
+          document.write('<object id="' + id + '" classid="clsid:' + classid + '" '),
+          //document.write('width="85%" height="85%" align="left">   '),
+          document.write('codebase="' + cabpath + '" width="85%" height="85%" align="left">   '),
+          document.write('<param name="_Version" value="65536">  '),
+          document.write('<param name="_ExtentX" value="24262">  '),
+          document.write('<param name="_ExtentY" value="16219">  '),
+          document.write('<param name="_StockProps" value="0">'),
+          document.write('<param name="DwgFilePath" value="' + dwgfile + '" > '),
+          document.write('<param name="IsRuningAtIE" value="1">'),
+          document.write('<param name="EnablePrintCmd" value="1">  '),
+          document.write('<param name="ShowCommandWindow" value="1">   '),
+          document.write('<param name="ShowToolBars" value="1">  '),
+          document.write('<param name="ShowModelBar" value="1">'),
+          document.write('<param name="Iniset" value="READCONTENT=131072,ENABLECOMMADLINEINFO=Y">  '),
+          document.write('<param name="ToolBarFiles" value="">'),
+          document.write('<param name="ShowMenuBar" value="1">'),
+          document.write('<param name="EnableUndo" value="1">'),
+          document.write('<param name="ShowPropertyWindow" value="1">'),
+          document.write('<SPAN STYLE="color:red">不能装载文档控件。请在检查浏览器的选项中检查浏览器的安全设置。请点击<a href=' + msipath + '>安装控件</a></SPAN>'),
+          document.write('</object>')) :
+
+        Sys.chrome ? (document.write('<object id="' + id + '" clsid="{' + classid + '}" '),
+            document.write('type="application/mxdraw-activex" width="85%" height="85%" align="left"> '),
+            document.write('<param name="_Version" value="65536">  '),
+            document.write('<param name="_ExtentX" value="24262">  '),
+            document.write('<param name="_ExtentY" value="16219">  '),
+            document.write('<param name="_StockProps" value="0">'),
+            document.write('<param name="DwgFilePath" value="' + dwgfile + '" > '),
+            document.write('<param name="IsRuningAtIE" value="1">'),
+            document.write('<param name="EnablePrintCmd" value="1">  '),
+            document.write('<param name="ShowCommandWindow" value="1">   '),
+            document.write('<param name="ShowToolBars" value="1">  '),
+            document.write('<param name="ShowModelBar" value="1">'),
+            document.write('<param name="Iniset" value="CHROME=Y,LimitDisplayObjectNumber=10,ENABLECOMMADLINEINFO=Y">  '),
+            document.write('<param name="ToolBarFiles" value="">'),
+            document.write('<param name="ShowMenuBar" value="1">'),
+            document.write('<param name="EnableUndo" value="1">'),
+            document.write('<param name="ShowPropertyWindow" value="1">'),
+            document.write('<param name="Event_ImplementCommandEvent" value="DoCommandEventFunc">'),
+            document.write('<SPAN STYLE="color:red">不能装载文档控件,谷歌浏览器使用,下载MxChrome安装包到本地，安装后点击桌面 Chrome企业版 快捷方式启动。请点击<a href=' + msipath + '>安装控件</a></SPAN>'),
+            document.write('</object>')) :
+
+          Sys.firefox ? (document.write("<!-- 需要安装ieTab插件才能使用-->   "),
+                document.write("<!-- 右键弹出菜单，点击使用ieTab浏览> -->  "),
+
+                document.write('<div class="no_title">  不能装载文档控件。1.请在安装ieTab插件，2.然后请点击<a href=' + msipath + '>安装控件</a>, 3.然后右键弹出菜单，点击使用ieTab浏览 </div> ')
+
+            ) :
+            Sys.opera ? alert("sorry,ntko 暂时不支持opera!") :
+              Sys.safari && alert("sorry,ntko 暂时不支持safari!");
+  }
+
+
+  function isFireFox() {
+    var s, classid, Sys = {}, ua = navigator.userAgent.toLowerCase();
+    (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : (s = ua.match(/trident\/([\d.]+)/)) ? Sys.ie9 = s[1] : (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] : (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] : (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] : (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+
+    return Sys.firefox;
+
+  }
+</SCRIPT>
+
+<body topmargin="10" leftmargin="10">
+
+<p>
+  <input type="button" value="动态插入图块" onclick="DoDynInsert()">
+  <input type="button" value="修改属性块文字" onclick="DoCmd(21)">
+  <input type="button" value="查找块属性文字" onclick="DoCmd(22)">
+  <input type="button" value="绘制自定义实体" onclick="DoCustomEntity()">
+  <input type="button" value="插入图片" onclick="DoCmd(3)">
+  <input type="button" value="绘制动画" onclick="DoCmd(4)">
+  <input type="button" value="修改图片" onclick="DoCmd(5)">
+  <input type="button" value="浏览模式切换" onclick="DoCmd(6)">
+  <input type="button" value="显示水印" onclick="DoCmd(7)">
+  <input type="button" value="设置超连接" onclick="DoCmd(8)">
+  <input type="button" value="绘制标记" onclick="DoCmd(9)">
+  <input type="button" value="创建组" onclick="DoCmd(10)">
+  <input type="button" value="写扩展数据" onclick="DoCmd(11)">
+  <input type="button" value="读扩展数据" onclick="DoCmd(12)">
+  <input type="button" value="查找图上文字" onclick="DoCmd(13)">
+  <input type="button" value="选择范围打印" onclick="DoCmd(14)">
+  <input type="button" value="绘制带宽度的样条线件" onclick="DoCmd(16)">
+  <!-- <input type="button" value="打印网页" onclick="DoCmd(15)"> -->
+  <input type="button" value="动态绘圆弧" onclick="DoCmd(17)">
+  <input type="button" value="Test" onclick="DoCmd(18)">
+  <input type="button" value="得到选中实体数据" onclick="DoCmd(19)">
+  <input type="button" value="绘制文本" onclick="DoCmd(20)">
+  <input type="button" value="隐藏图层" onclick="DoCmd(23)">
+  <input type="button" value="绘制二维码" onclick="DoCmd(24)">
+  <input type="button" value="得到指定范围实体" onclick="DoCmd(25)">
+  <input type="button" value="自动找图框插入图章" onclick="DoCmd(26)">
+
+  <input type="button" value="自动排列" onclick="DoCmd(27)">
+  <input type="button" value="选择实体输出到dwg" onclick="DoCmd(28)">
+  <input type="button" value="保存DWG文件到服务器" onclick="DoCmd(29)">
+
+  <input type="button" value="charme内核，得到绘制对像" onclick="DoCmd(30)">
+
+</p>
+
+<p align="center">
+
+
+  <!--<script type="text/javascript">LoadMxDrawX("http://www.mxdraw.com/downland/test.dwg");</script> -->
+  <!--<script type="text/javascript">LoadMxDrawX("","http://www.mxdraw.com/MxDrawX52.CAB#version=8.0.0.1");</script> -->
+  <script
+    type="text/javascript">    LoadMxDrawX("MxDrawXCtrl", "", "http://www.mxdraw.com/MxDrawX52.CAB#version=11,0,0,1", "http://www.mxcad.net:2080/MxChromex86Setup.exe");</script>
+  <script>
+
+    function alert(str) {
+      var mxOcx = document.getElementById("MxDrawXCtrl");
+      if (mxOcx)
+        mxOcx.Call("Mx_Alert", str);
+    }
+
+    var mxOcx = document.getElementById("MxDrawXCtrl");
+
+    function DoCustomEntity() {
+      document.getElementById("MxDrawXCtrl").DoCommand(1);
+    }
+
+    function DoDynInsert() {
+      document.getElementById("MxDrawXCtrl").DoCommand(2);
+    }
+
+    function DoCmd(iCmd) {
+      mxOcx.DoCommand(iCmd);
+    }
+
+    function DoCommandEventFunc(iCmd) {
+      if (iCmd == 1) {
+        //该函数在mxcustom.js中
+        InsertCustomEntity();
+      } else if (iCmd == 2) {
+        DynInsert();
+      } else if (iCmd == 3) {
+        InsertImage();
+      } else if (iCmd == 4) {
+        DrawGif();
+      } else if (iCmd == 5) {
+        ModifyImage();
+      } else if (iCmd == 6) {
+        BrownerMode();
+      } else if (iCmd == 7) {
+        ShowWatermark();
+      } else if (iCmd == 8) {
+        SetHyperlink();
+      } else if (iCmd == 99) {
+        DoUserCustomMenu();
+      } else if (iCmd == 9) {
+        DrawFlag();
+      } else if (iCmd == 10) {
+        CreateGroup();
+      } else if (iCmd == 11) {
+        WriteXData();
+      } else if (iCmd == 12) {
+        ReadXData();
+      } else if (iCmd == 13) {
+        FindText();
+      } else if (iCmd == 14) {
+        Print();
+      } else if (iCmd == 15) {
+        PrintHtml();
+      } else if (iCmd == 16) {
+        DrawSpline();
+      } else if (iCmd == 17) {
+        DrawArc();
+      } else if (iCmd == 18) {
+        DoTest();
+      } else if (iCmd == 19) {
+        DoGetSelect();
+      } else if (iCmd == 20) {
+        DrawText();
+      } else if (iCmd == 21) {
+        ModifyBlockAttrib();
+      } else if (iCmd == 22) {
+        FindBlockAttrib();
+      } else if (iCmd == 23) {
+        HideLayer();
+      } else if (iCmd == 24) {
+        DrawQrCode();
+      } else if (iCmd == 25) {
+        TestSSGET();
+      } else if (iCmd == 26) {
+        SearchPictureFrame();
+
+      } else if (iCmd == 27) {
+        AutoPlace();
+
+      } else if (iCmd == 28) {
+        ToDwg();
+      } else if (iCmd == 29) {
+        savedwgurl();
+      } else if (iCmd == 30) {
+        testchrome();
+      } else if (iCmd == 1000) {
+        mxInit();
+      }
+
+    }
+
+    // 在记下当前位置addindex，这样下次调用Mx_GetEntitysNewAddCmd时，
+    // 返回的长度大于记下的位置 ，表示新增加的对象。
+    var addindex = -1;
+
+    function reSetDrawIndex() {
+
+      var ret = mxOcx.Call("Mx_GetEntitysNewAddCmd", "");
+      if (!ret)
+        return;
+      addindex = ret.Count;
+    }
+
+    // 得到新绘制的对象,配合reSetDrawIndex使用.
+    function GetDrawObject() {
+      var ret = mxOcx.Call("Mx_GetEntitysNewAddCmd", "");
+      if (!ret)
+        return;
+      if (addindex == -1) {
+        ret.AtObject(ret.Count - 1)
+      } else {
+        if (ret.Count <= addindex)
+          return;
+        addindex = ret.Count;
+        return ret.AtObject(ret.Count - 1);
+      }
+    }
+
+    // 因为在chrome内核模式下，ocx接口不支持64变量的返回，所以DrawLine返回的id为空，
+    // 这样就不能得到绘制对象，下面演示了使用Mx_GetEntitysNewAddCmd函数，得到新绘制的对象的。
+    function testchrome() {
+      var color2 = mxOcx.NewComObject("IMxDrawMcCmColor");
+      color2.SetRGB(0, 0, 255);
+      //mxOcx.DrawCADColorIndex = color2.ColorIndex;;
+      reSetDrawIndex();
+      mxOcx.DrawLine(0, 0, 100, 100);
+      var line = GetDrawObject();
+
+      if (line == null)
+        return;
+      line.TrueColor = color2;
+      mxOcx.Prompt("ok");
+    }
+
+
+    function savedwgurl() {
+
+      mxOcx.focus();
+
+
+      var param = mxOcx.Call("Mx_NewResbuf", "");
+
+      param.AddString("http://localhost");             //  服务器网址地址，如：www.mxdraw.com
+      param.AddString("/Save.aspx");             //  服务器的文件上传处理程序,如:upload.asp
+
+      param.AddString("testsave.dwg");      //  HTML组件名称
+
+      param.AddString("6046");                     //  服务处理端口. 如：_T("80")
+      param.AddString("testsave.dwg");               //  文件标志名称值,表单提交事件中filename值
+
+      var ret = mxOcx.CallEx("Mx_SaveDwgToURLEx", param);
+
+      if (ret.AtString(0) == "Ok") {
+
+        alert("成功");
+      } else {
+        alert(ret.AtString(1));
+      }
+    }
+
+    function ToDwg() {
+      //实例化一个构造选择集进行过滤,该类封装了选择集及其处理函数。
+      var ss = mxOcx.NewSelectionSet();
+
+      ss.Select2(8, null, null, null, null);
+
+      var param = mxOcx.NewResbuf();
+
+      var aryId = new Array();
+      for (var i = 0; i < ss.Count; i++) {
+        var ent = ss.Item(i);
+        if (ent != null) {
+          param.AddObjectId(ent.ObjectID);
+          //aryId.Add(ent.ObjectID);
+
+          aryId[i] = ent.ObjectID;
+
+          ent.Close();
+        }
+      }
+      //  计算新的图块的插入基点，把所实体外包的中点做为插入基点。
+      //返回控件的数据库对象
+      var curDatabase = mxOcx.GetDatabase();
+      var dMinX = 0, dMinY = 0, dMaxX = 0, dMaxY = 0;
+      var isFirstEnt = true;
+      for (var l = 0; l < aryId.length; l++) {
+        var pObj = curDatabase.ObjectIdToObject(aryId[l]);
+        if (pObj == null)
+          continue;
+        var pEnt = pObj;
+        if (pEnt == null)
+          continue;
+        var pt1Ob = mxOcx.NewPoint();
+        var pt2Ob = mxOcx.NewPoint();
+        pEnt.GetBoundingBox(pt1Ob, pt2Ob);
+        var minPt = pt1Ob;
+        var maxPt = pt2Ob;
+
+        if (minPt != null && maxPt != null) {
+          if (isFirstEnt) {
+            dMinX = minPt.x;
+            dMinY = minPt.y;
+            dMaxX = maxPt.x;
+            dMaxY = maxPt.y;
+            isFirstEnt = false;
+          } else {
+            if (dMinX > minPt.x)
+              dMinX = minPt.x;
+
+            if (dMinY > minPt.y)
+              dMinY = minPt.y;
+
+            if (dMaxX < maxPt.x)
+              dMaxX = maxPt.x;
+
+            if (dMaxY < maxPt.y)
+              dMaxY = maxPt.y;
+          }
+        }
+      }
+      if (isFirstEnt) {
+        // 没有实体
+        return;
+      }
+      var pos = mxOcx.NewPoint();
+      pos.x = dMinX + (dMaxX - dMinX) / 2.0;
+      pos.y = dMinY + (dMaxY - dMinY) / 2.0;
+
+      param.AddPoint(pos);
+
+
+      var newDatabase = mxOcx.CallEx("Mx_Wblock", param);
+
+
+      // 保存为dwg文件。
+      if (newDatabase.SaveAs("D:\\wblock.dwg", 1, null)) {
+        alert("Ok");
+      } else {
+        alert("Failed");
+      }
+
+
+    }
+
+    function AutoPlace() {
+
+      var selEnt = mxOcx.NewComObject("IMxDrawUiPrEntity");
+
+      selEnt.message = "选择边界对象";
+      if (selEnt.go() != 1)
+        return;
+
+
+      var ent = selEnt.Entity();
+      if (ent == null)
+        return;
+
+      var points = ent.GetBoundingBox2();
+
+      var minPt = points.Item(0);
+      var maxPt = points.Item(1);
+
+
+      var dStep = 100;
+      var sFile = mxOcx.GetOcxAppPath() + "\\Blk\\building.dwg";
+
+      if (mxOcx.InsertBlock(sFile, "Bulid") == 0)
+        return;
+
+
+      for (var i = dStep; i + minPt.x < maxPt.x - dStep; i += dStep)
+        for (var j = dStep; j + minPt.y < maxPt.y - dStep; j += dStep) {
+
+          mxOcx.DrawBlockReference(i + minPt.x, j + minPt.y, "Bulid", 1.0, 0.0);
+
+
+        }
+
+      mxOcx.ZoomAll();
+
+
+    }
+
+    function SearchPictureFrame() {
+      var sFile = mxOcx.GetOcxAppPath() + "\\Blk\\testtk.dwg";
+      mxOcx.OpenDwgFile(sFile);
+      var param = mxOcx.Call("ExApp_SearchPictureFrame", "PUB_TITLE");
+      if (param.AtString(0) != "Ok")
+        return;
+
+      // 插入块的块名。
+      var sBlkName = "MyBlkName";
+
+      // 把要插入的块文件引入到控件数据库中。
+      var sBlkFile = mxOcx.GetOcxAppPath() + "\\Blk\\testStamp.dwg";
+      var id = mxOcx.InsertBlock(sBlkFile, sBlkName);
+
+
+      for (var i = 1; i + 1 < param.Count;) {
+        var pt1 = param.AtPoint(i);
+        var pt2 = param.AtPoint(i + 1);
+        i += 2;
+
+        // 创建块引用，把图块插入到当前空间，并显示。
+        mxOcx.DrawBlockReference(pt2.x - 2500, pt1.y + 2500, sBlkName, 0.14, 0.0);
+
+      }
+    }
+
+    function DrawQrCode() {
+      var winWidth = 440;
+      var winHeight = 140;
+      var winLeft = (screen.width - winWidth) / 2;
+      var winTop = (screen.height - winHeight) / 2 - 20;
+
+      var str = 'dialogHeight:' + winHeight + 'px;dialogWidth:' + winWidth + 'px;dialogTop:' + winTop + 'px;dialogLeft:' + winLeft + 'px;resizable:yes;center:yes;status:no;'
+
+      var rt = window.showModalDialog("Gettext.htm?tmp=" + Math.random(), "输入二维码文本", str);
+
+      var txt;
+
+      if (typeof (rt) == "undefined") {
+        return;
+      } else {
+        var arr = rt.split(",");
+        txt = arr[0];
+      }
+
+
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+
+      getPt.message = "点取插入点";
+
+      if (getPt.go() != 1) {
+        return;
+      }
+      var pos = getPt.value();
+      if (pos == null)
+        return;
+
+      var qrCode = mxOcx.NewEntity("IMxDrawQrCode");
+      qrCode.Text = txt;
+      qrCode.Center = pos;
+      mxOcx.DrawEntity(qrCode);
+    }
+
+
+    function HideLayer() {
+      var winWidth = 440;
+      var winHeight = 140;
+      var winLeft = (screen.width - winWidth) / 2;
+      var winTop = (screen.height - winHeight) / 2 - 20;
+
+      var str = 'dialogHeight:' + winHeight + 'px;dialogWidth:' + winWidth + 'px;dialogTop:' + winTop + 'px;dialogLeft:' + winLeft + 'px;resizable:yes;center:yes;status:no;'
+
+      var rt = window.showModalDialog("Gettext.htm?tmp=" + Math.random(), "输入图层名", str);
+
+      var txt;
+
+      if (typeof (rt) == "undefined") {
+        return;
+      } else {
+        var arr = rt.split(",");
+        txt = arr[0];
+      }
+
+      var database = mxOcx.GetDatabase();
+      var layerTable = database.GetLayerTable();
+      var layerRec = layerTable.GetAt(txt, false);
+      if (layerRec == null)
+        return;
+      layerRec.IsOff = true;
+      alert("成功隐藏图层");
+    }
+
+    function FindBlockAttrib() {
+      var winWidth = 440;
+      var winHeight = 140;
+      var winLeft = (screen.width - winWidth) / 2;
+      var winTop = (screen.height - winHeight) / 2 - 20;
+
+      var str = 'dialogHeight:' + winHeight + 'px;dialogWidth:' + winWidth + 'px;dialogTop:' + winTop + 'px;dialogLeft:' + winLeft + 'px;resizable:yes;center:yes;status:no;'
+
+      var rt = window.showModalDialog("Gettext.htm?tmp=" + Math.random(), "输入属性文字", str);
+
+      var txt;
+
+      if (typeof (rt) == "undefined") {
+        return;
+      } else {
+        var arr = rt.split(",");
+        txt = arr[0];
+      }
+
+      var ss = mxOcx.NewSelectionSet();
+      var spFilte = mxOcx.NewResbuf();
+
+      // 把块对象，当着过滤条件.
+      spFilte.AddStringEx("INSERT", 5020);
+
+      // 得到图上，所有块对象.
+      ss.Select2(5, null, null, null, spFilte);
+
+
+      // 遍历每个块.
+      for (var i = 0; i < ss.Count; i++) {
+        var ent = ss.Item(i);
+        if (ent == null)
+          continue;
+        if (ent.ObjectName == "McDbBlockReference") {
+          var blkref = ent;
+          var j = 0;
+          for (; j < blkref.AttributeCount; j++) {
+            var attrib = blkref.AttributeItem(j);
+            if (attrib.TextString == txt) {
+              // 找到块属性。
+              mxOcx.PutEntityInView(ent.ObjectID, 300);
+
+              var dLen = mxOcx.ViewLongToDocCoord(80);
+
+              // 绘制一个标记圆.
+              mxOcx.DrawVectorCircle(ent.Position.x,
+                ent.Position.y,
+                dLen, 65280);
+              return;
+            }
+          }
+        }
+        ent = null;
+      }
+
+
+      alert("没有找到块属性文字");
+
+
+      // 在这里必须显示释放控件的COM对象指针.
+      ss = null;
+      spFilte = null;
+      CollectGarbage();
+    }
+
+    function ModifyBlockAttrib() {
+      var ent = mxOcx.GetEntity("选择图面的属性块:");
+      if (ent == null) {
+        return;
+      }
+      if (ent.ObjectName != "McDbBlockReference") {
+        alert("选择的对象不是块引用");
+      }
+
+      var blkref = ent;
+
+      if (blkref.AttributeCount == 0)
+        alert("图块没有属性");
+
+      //遍历所有属性，修改属性值
+      var i = 0;
+      for (; i < blkref.AttributeCount; i++) {
+        var attrib = blkref.AttributeItem(i);
+        attrib.TextString += "<被修改>"
+      }
+      // 通知块引，它的属性被修改，用于更新显示.
+      blkref.AssertWriteEnabled();
+    }
+
+    function DoDynWorldDrawFun(dX, dY, pWorldDraw, pData) {
+
+
+      var sGuid = pData.Guid;
+
+      mxOcx.SetEventRet(0);
+      if (sGuid == "TestDynDraw") {
+        // 动态插入图块。
+        var firstPt = pData.GetPoint("pt1");
+        if (firstPt == null)
+          return;
+
+        var sBlkName = pData.GetString("BlkName");
+        var scale = pData.GetDouble("scale");
+
+
+        var secondPt = mxOcx.NewPoint();
+
+        secondPt.x = dX;
+        secondPt.y = dY;
+
+        var vec = firstPt.SumVector(secondPt);
+        var dAng = vec.Angle();
+
+        pWorldDraw.DrawBlockReference(firstPt.x, firstPt.y, sBlkName, scale, dAng * 180.0 / 3.14159265 + 90.0);
+
+        mxOcx.SetEventRet(1);
+      } else if (sGuid == "TestDynDraw1") {
+        var sBlkName = pData.GetString("BlkName");
+        pWorldDraw.DrawBlockReference(dX, dY, sBlkName, 1.0, 0.0);
+      } else if (sGuid == "DrawArc") {
+        var pt1 = pData.GetPoint("pt1");
+        if (pt1 == null)
+          return;
+
+        var pt2 = pData.GetPoint("pt2");
+        if (pt2 == null)
+          return;
+
+        pWorldDraw.DrawArc2(pt1.x, pt1.y, pt2.x, pt2.y, dX, dY);
+      }
+
+
+    }
+
+
+    function DrawArc() {
+      var getPt1 = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt1.message = "指定圆弧的起点";
+      if (getPt1.go() != 1) {
+        return;
+      }
+
+      var getPt2 = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt2.message = "指定圆弧的第二个点";
+      getPt2.basePoint = getPt1.value();
+      getPt2.setUseBasePt(true);
+      if (getPt2.go() != 1) {
+        return;
+      }
+
+      var getPt3 = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt3.message = "指定圆弧的端点";
+
+      var spDrawData = getPt3.InitUserDraw("DrawArc");
+      spDrawData.SetPoint("pt1", getPt1.value());
+      spDrawData.SetPoint("pt2", getPt2.value());
+      if (getPt3.go() != 1) {
+        return;
+      }
+
+      spDrawData.Draw();
+    }
+
+
+    function DynInsert() {
+      var sBlkName = "Tree";
+      var sBlkFile = mxOcx.GetOcxAppPath() + "\\Blk\\树.dwg";
+      mxOcx.InsertBlock(sBlkFile, "Tree");
+
+
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt.message = "点取插入点";
+
+      var spDrawData1 = getPt.InitUserDraw("TestDynDraw1");
+      spDrawData1.SetString("BlkName", "Tree");
+
+      if (getPt.go() != 1) {
+        return;
+      }
+
+      var frstPt = getPt.value();
+      if (frstPt == null) {
+
+        return;
+      }
+
+
+      var getSecondPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+
+      var spDrawData = getSecondPt.InitUserDraw("TestDynDraw");
+
+      var dScale = mxOcx.ViewLongToDocCoord(100) / 300;
+      if (dScale < 0.0000001)
+        dScale = 1.0;
+
+      getSecondPt.message = "点取旋转角度";
+      getSecondPt.basePoint = frstPt;
+      getSecondPt.setUseBasePt(true);
+
+      spDrawData.SetPoint("pt1", frstPt);
+      spDrawData.SetDouble("scale", dScale);
+
+
+      spDrawData.SetString("BlkName", "Tree");
+
+      if (getSecondPt.go() != 1) {
+
+        return;
+      }
+
+
+      var ret = spDrawData.Draw();
+
+      // 给属性块写文字.
+      var blkRef = ret.AtObject(0);
+
+      if (blkRef != null) {
+        var param = mxOcx.NewResbuf();
+        blkRef.SetProp("createAttribute", param);
+      }
+    }
+
+
+    function DoInputPointToolTipFun(ent) {
+      var sHyperlinks = ent.Hyperlinks;
+      if (sHyperlinks.length != 0) {
+        var sClassName = ent.ObjectName;
+
+        var tip = "<b><ct=0x0000FF><al_c>" + sClassName +
+          "</b><br><ct=0x00AA00><hr=100%></ct><br><a=\"link\">" + sHyperlinks + "</a>";
+
+        mxOcx.SetEventRetString(tip);
+      }
+      ent = null;
+      CollectGarbage();
+    }
+
+    function DoHyperlinkClickFun(ent, dX, dY) {
+      mxOcx.GotoURL(ent.Hyperlinks);
+      mxOcx.SetEventRet(1);
+    }
+
+    function DoUserCustomMenu() {
+      var filter = mxOcx.NewResbuf();
+      var ent = mxOcx.GetPopupMenuEntity(filter);
+      if (ent == null)
+        return;
+
+      var sName = ent.ObjectName;
+      var sT = "点击了:" + sName + "实体";
+      alert(sT);
+    }
+
+    // 控件鼠标事件
+    function MouseEvent(dX, dY, lType) {
+      if (lType == 3) {
+        // 鼠标右键按下
+        var filter = mxOcx.NewResbuf();
+
+        // 5020 = RTDXF0,只选择直线实体，设置过滤条件
+        //filter.AddStringEx("LINE",5020);
+
+        var ent = mxOcx.FindEntAtPoint(dX, dY, filter);
+
+        var sPopMenu;
+        if (ent != null) {
+          mxOcx.ClearCurrentSelect();
+          mxOcx.AddCurrentSelect(ent.ObjectID, true, true);
+
+          sPopMenu = mxOcx.GetOcxAppPath() + "\\MxPopMenuEnt.mnu"
+        } else {
+          sPopMenu = mxOcx.GetOcxAppPath() + "\\MxPopMenu.mnu"
+        }
+
+
+        mxOcx.TrackPopupMenu(dX, dY, sPopMenu);
+        // 设置1，表示鼠标事件，不再往下传递.
+        mxOcx.SetEventRet(1);
+      }
+    }
+
+    function mxInit() {
+      console.log("mxInit")
+      // 启动时打开文件
+      var sDwgFile = "http://mxtmpweb.mxdraw.f3322.net:3561/test.dwg";
+      mxOcx.OpenWebDwgFile(sDwgFile);
+      //....
+      //mxOcx.setCurrentLayout("布局名")
+
+    }
+
+    //初始化
+    function InitMxDrawX() {
+      var mxOcx = document.getElementById("MxDrawXCtrl");
+      if (mxOcx) {
+        if (!mxOcx.IsIniting()) {
+          clearInterval(mxtime);
+          mxOcx.ReDraw();
+          // 控件初始化完成，需要在启动做的事，在这里做
+          // DoCommand(1000)调用会开执行一个控件命令，在命令响应事件中，然后会调用mxInit()，在mxInit函数执行一个初始操作;
+          mxOcx.DoCommand(1000);
+        }
+      }
+    }
+
+    function DoCustomEventEventFun(sEventName) {
+
+      if (sEventName == "objectModifyed") {
+        var param3 = mxOcx.CustomEventParam();
+
+        // 得到编辑的对象id
+        var lId = param3.AtLong(0);
+        var lErase = param3.AtLong(1);
+        // var obj = database.ObjectIdToObject(lId)
+
+        if (lErase == 1) {
+          alert("对象被删除了");
+        }
+
+
+      } else if (sEventName == "OpenFileComplete") {
+        //alert("打开图纸完成");
+        ;
+      } else if (sEventName == "ObjectGripEdit") {
+        var param = mxOcx.CustomEventParam();
+        //alert(param.AtObjectId(0));
+        //var ent = param.AtObject(0);
+        //if (ent.ObjectName == "McDbMxImageMark") {
+        //    alert("move Image Mark");
+        //    alert(ent.position.x);
+        //    alert(ent.position.y);
+        //}
+
+      } else if (sEventName == "SetTipCoord") {
+        var param = mxOcx.CustomEventParam();
+        var sCoord = param.AtString(0);
+        //console.log(sCoord)
+
+      } else if (sEventName == "Mx_CommandLineInformation") {
+        /*
+              var param = mxOcx.CustomEventParam();
+
+           if(param.Count < 3)
+                          return;
+                      var sCmd = param.AtString(0);
+                      var sCmdDisplay = param.AtString(1);
+                      var sCmdTip = param.AtString(2);
+              console.log(sCmd);
+              console.log(sCmdDisplay);
+              console.log(sCmdTip);
+              */
+
+
+      }
+
+
+    }
+
+
+    mxtime = setInterval(InitMxDrawX, 100);
+
+    document.getElementById("MxDrawXCtrl").ImplementCommandEventFun = DoCommandEventFunc;
+    document.getElementById("MxDrawXCtrl").ImpDynWorldDrawFun = DoDynWorldDrawFun;
+    document.getElementById("MxDrawXCtrl").ImpExplodeFun = ExplodeFun;
+    document.getElementById("MxDrawXCtrl").ImpGetGripPointsFun = GetGripPointsFun;
+    document.getElementById("MxDrawXCtrl").ImpMoveGripPointsAtFun = MoveGripPointsFun;
+    document.getElementById("MxDrawXCtrl").ImpTransformByFun = TransformByFun;
+    document.getElementById("MxDrawXCtrl").ImpGetGeomExtentsFun = GetGeomExtentsFun;
+    document.getElementById("MxDrawXCtrl").ImpInputPointToolTipFun = DoInputPointToolTipFun;
+    document.getElementById("MxDrawXCtrl").ImpHyperlinkClickFun = DoHyperlinkClickFun;
+    document.getElementById("MxDrawXCtrl").ImplementMouseEventFun = MouseEvent;
+    document.getElementById("MxDrawXCtrl").ImpGetOsnapPointsFun = GetOsnapPointsFun;
+    document.getElementById("MxDrawXCtrl").ImplementCustomEvent = DoCustomEventEventFun;
+
+
+    function InsertImage() {
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt.message = "点取图片的插入中点";
+      if (getPt.go() != 1) {
+        return;
+      }
+
+      var frstPt = getPt.value();
+      if (frstPt == null) {
+
+        return;
+      }
+
+      var sImageFile = mxOcx.GetOcxAppPath() + "\\mxcad.jpg";
+      mxOcx.DrawImageMark(frstPt.x, frstPt.y, -100.0, 0.0, sImageFile, "", true);
+
+    }
+
+    function DrawGif() {
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt.message = "点取图片的插入中点";
+      if (getPt.go() != 1) {
+        return;
+      }
+
+      var frstPt = getPt.value();
+      if (frstPt == null) {
+
+        return;
+      }
+
+      var sImageFile1 = mxOcx.GetOcxAppPath() + "\\1.png";
+      var sImageFile2 = mxOcx.GetOcxAppPath() + "\\2.png";
+      var sImageFile3 = mxOcx.GetOcxAppPath() + "\\3.png";
+      //    var lId = mxOcx.DrawImageMark(frstPt.x, frstPt.y, -20, 45.0 * 3.14159265 / 180.0, sImageFile1,
+//       sImageFile1 + "," + sImageFile2 + "," + sImageFile3, true);
+      var lId = mxOcx.DrawImageMark(frstPt.x, frstPt.y, -20, 0, sImageFile1,
+        sImageFile1 + "," + sImageFile2 + "," + sImageFile3, true);
+      mxOcx.TwinkeEnt(lId);
+    }
+
+    function ModifyImage() {
+      var selEnt = mxOcx.NewComObject("IMxDrawUiPrEntity");
+
+      selEnt.message = "选择图像对象";
+      if (selEnt.go() != 1)
+        return;
+
+      var image = selEnt.Entity();
+      if (image == null)
+        return;
+      if (image.ObjectName != "McDbMxImageMark") {
+        alert("选择对象不是图像")
+        return;
+      }
+
+      var sImageFile = mxOcx.GetOcxAppPath() + "\\mxcad.jpg";
+      image.ImageFile = sImageFile;
+    }
+
+    function geturl() {
+      return document.URL;
+    }
+
+    var isBrowner = false;
+
+    function BrownerMode() {
+      isBrowner = !isBrowner;
+      mxOcx.BrowseMode = isBrowner;
+      mxOcx.ShowMenuBar = !isBrowner;
+      mxOcx.ShowPropertyWindow = !isBrowner;
+    }
+
+    var iShowWatermark = false;
+
+    function ShowWatermark() {
+      iShowWatermark = !iShowWatermark;
+      if (iShowWatermark) {
+        mxOcx.Watermark = mxOcx.GetOcxAppPath() + "\\Watermark.png" + ",20,5,5,1";
+        mxOcx.ViewColor = 16777215; // 背景色改成白色
+      } else {
+        mxOcx.Watermark = "";
+        mxOcx.ViewColor = 0; // 背景色改成白色
+      }
+    }
+
+    function SetHyperlink() {
+      var selEnt = mxOcx.NewComObject("IMxDrawUiPrEntity");
+
+      selEnt.message = "选择要设置的对象";
+      if (selEnt.go() != 1)
+        return;
+
+      var ent = selEnt.Entity();
+      if (ent == null)
+        return;
+
+      ent.Hyperlinks = "www.mxdraw.com";
+
+      mxOcx.DynToolTipTime = 100;
+    }
+
+    function CreateGroup() {
+      mxOcx.Prompt("选择要做成组的实体:");
+      var ss = mxOcx.NewSelectionSet();
+
+//     var pt1 = mxOcx.NewPoint();
+//     var pt2 = mxOcx.NewPoint();
+//     var filter = mxOcx.NewResbuf();
+//     ss.Select(8, pt1, pt2, filter);
+      ss.Select2(8, null, null, null);
+      var param = mxOcx.NewResbuf();
+
+      for (var i = 0; i < ss.Count; i++) {
+        var ent = ss.Item(i);
+        if (ent == null)
+          continue;
+
+        param.AddObjectId(ent.ObjectID);
+      }
+      if (param.Count == 0)
+        return;
+      mxOcx.CreateGroup("", param);
+
+    }
+
+
+    function DrawFlag() {
+      while (true) {
+        var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+
+        getPt.message = "点取绘制点";
+
+        if (getPt.go() != 1) {
+          return;
+        }
+        var frstPt = getPt.value();
+        if (frstPt == null)
+          return;
+
+        var dLen = mxOcx.GetCursorPickRect();
+        dLen = mxOcx.ViewLongToDocCoord(dLen);
+
+        dLen *= 3.0;
+        mxOcx.DrawVectorLine(frstPt.x - dLen, frstPt.y - dLen,
+          frstPt.x + dLen, frstPt.y + dLen,
+          255
+        );
+
+        mxOcx.DrawVectorLine(frstPt.x - dLen, frstPt.y + dLen,
+          frstPt.x + dLen, frstPt.y - dLen,
+          255
+        );
+
+        mxOcx.DrawVectorCircle(frstPt.x, frstPt.y,
+          dLen * 0.5, 65280);
+        mxOcx.UpdateDisplay();
+      }
+
+    }
+
+    function WriteXData() {
+      var selEnt = mxOcx.NewComObject("IMxDrawUiPrEntity");
+
+      selEnt.message = "选择要写扩展数据的对象";
+      if (selEnt.go() != 1)
+        return;
+
+      var ent = selEnt.Entity();
+      if (ent == null)
+        return;
+
+      if (ent.SetxDataString("ExDataName", 0, "ExDataValue")) {
+        alert("写扩展数据成功");
+      } else {
+        alert("写扩展数据失败");
+      }
+
+
+    }
+
+    function ReadXData() {
+      var selEnt = mxOcx.NewComObject("IMxDrawUiPrEntity");
+
+      selEnt.message = "选择要读取扩展数据的对象";
+      if (selEnt.go() != 1)
+        return;
+
+      var ent = selEnt.Entity();
+      if (ent == null)
+        return;
+
+      var val = ent.GetxDataString2("ExDataName", 0);
+      if (mxOcx.IsOk()) {
+        alert(val);
+      } else {
+        alert("没有扩展数!");
+      }
+
+    }
+
+    function FindText() {
+      var txt = '钢管';
+      var ss = mxOcx.NewSelectionSet();
+      var spFilte = mxOcx.NewResbuf();
+      // 把文字对象，当着过滤条件.
+      spFilte.AddStringEx("TEXT,MTEXT", 5020);
+      // 得到图上，所有文字对象.
+      ss.Select2(5, null, null, null, spFilte);
+      // 遍历每个文字.
+      var bFind = false;
+      for (var i = 0; i < ss.Count; i++) {
+        var ent = ss.Item(i);
+        if (ent == null)
+          continue;
+        if (ent.ObjectName == "McDbText") {
+          var sTxt = ent.TextString;
+          if (sTxt == txt) {
+            // 把文字放到视区中间.
+            mxOcx.PutEntityInView(ent.ObjectID, 300);
+            var dLen = mxOcx.ViewLongToDocCoord(80);
+            // 绘制一个标记圆.
+            mxOcx.DrawVectorCircle(ent.Position.x,
+              ent.Position.y,
+              dLen, 65280);
+            bFind = true;
+          }
+        } else if (ent.ObjectName == "McDbMText") {
+          var param = mxOcx.NewResbuf();
+          param.AddObjectId(ent.ObjectID);
+          var ret = mxOcx.CallEx("Mx_GetMTextContent", param);
+          if (ret.AtString(0) == "Ok") {
+
+            if (ret.AtString(1) == txt) {
+              // 把文字放到视区.
+              mxOcx.PutEntityInView(ent.ObjectID, 300);
+              var dLen = mxOcx.ViewLongToDocCoord(80);
+              // 绘制一个标记圆.
+              mxOcx.DrawVectorCircle(ent.Location.x,
+                ent.Location.y,
+                dLen, 65280);
+              bFind = true;
+              break;
+            }
+          }
+        }
+        ent = null;
+      }
+      if (!bFind) {
+        alert("没有找到文字对象");
+      }
+      // 在这里必须显示释放控件的COM对象指针.
+      ss = null;
+      spFilte = null;
+      CollectGarbage();
+    }
+
+    function PrintHtml() {
+      var print = mxOcx.NewComObject("IMxDrawPrint");
+      if (print.PrintHtml(true)) {
+        alert("打印成功");
+      } else {
+        alert("打印失败");
+      }
+    }
+
+    function Print() {
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+      getPt.message = "点取打印范围第一点";
+      if (getPt.go() != 1) {
+        return;
+      }
+      var frstPt = getPt.value();
+      if (frstPt == null)
+        return;
+      var utl = mxOcx.NewUtility();
+      var secondPt = utl.GetCorner(frstPt, "点取打印范围第二点");
+      if (secondPt == null)
+        return;
+      var print = mxOcx.NewComObject("IMxDrawPrint");
+      if (print.Print(frstPt.x, frstPt.y, secondPt.x, secondPt.y)) {
+        alert("打印成功");
+      } else {
+        alert("打印失败");
+      }
+
+    }
+
+    /*
+    function DrawSpline() {
+         var param = mxOcx.NewResbuf();
+         mxOcx.SendStringToExecuteFun("_DrawSpline",param);
+         var retparam = mxOcx.GetEntitysLastCmd();
+         if (retparam == null)
+             return;
+
+         if (retparam.Count == 0)
+             return;
+
+         var spline = retparam.AtObject(0);
+         if(spline == null)
+         {
+            return;
+         }
+        var aryPoints = spline.GetSamplePoints(0.1);
+        if (aryPoints == null) {
+            return;
+        }
+
+        if (aryPoints.Count < 2)
+            return;
+
+        var pt = aryPoints.Item(0);
+        mxOcx.PathMoveTo(pt.x, pt.y);
+        for(var i = 1; i < aryPoints.Count;i++)
+        {
+            pt = aryPoints.Item(i);
+            mxOcx.PathLineTo(pt.x,pt.y)
+        }
+
+        mxOcx.LineWidth = 10;
+        mxOcx.DrawPathToPolyline();
+
+    }
+    */
+
+    function DrawSpline() {
+      mxOcx.Cal("Mx_ShowWeight");
+
+      var param = mxOcx.NewResbuf();
+      mxOcx.SendStringToExecuteFun("_DrawSpline", param);
+      var retparam = mxOcx.GetEntitysLastCmd();
+      if (retparam == null)
+        return;
+      if (retparam.Count == 0)
+        return;
+      var spline = retparam.AtObject(0);
+      if (spline == null) {
+        return;
+      }
+      spline.Lineweight = 40;
+    }
+
+    function TestSSGET() {
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+
+      getPt.message = "点取范围第一点";
+
+      if (getPt.go() != 1) {
+        return;
+      }
+      var frstPt = getPt.value();
+      if (frstPt == null)
+        return;
+
+      var utl = mxOcx.NewUtility();
+      var secondPt = utl.GetCorner(frstPt, "点取范围第二点");
+      if (secondPt == null)
+        return;
+      //
+      var ssget = mxOcx.NewSelectionSet();
+
+      var param = mxOcx.NewResbuf();
+
+      ssget.Select(1, frstPt, secondPt, param);
+
+      sT = "发现" + ssget.Count + "个实体";
+      alert(sT);
+    }
+
+    function DoTest() {
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+
+      getPt.message = "点取范围第一点或点取实体";
+
+      if (getPt.go() != 1) {
+        return;
+      }
+      var frstPt = getPt.value();
+      if (frstPt == null)
+        return;
+
+      var filter = mxOcx.NewResbuf();
+      // 查找点取的点下面有没有实体
+      var ent = mxOcx.FindEntAtPoint(frstPt.x, frstPt.y, filter);
+      if (ent != null) {
+        alert("选择了实体");
+        return;
+      }
+      //
+
+
+      var utl = mxOcx.NewUtility();
+      var secondPt = utl.GetCorner(frstPt, "点取范围第二点");
+      if (secondPt == null)
+        return;
+
+      alert("选择了范围");
+
+    }
+
+    function DoGetSelect() {
+      var ss = mxOcx.NewSelectionSet();
+      var filter = mxOcx.NewResbuf();
+      ss.CurrentSelect(filter);
+      var i = 0;
+      for (; i < ss.Count; i++) {
+        var ent = ss.Item(i);
+        alert(ent.ObjectName);
+        if (ent.ObjectName === "McDbLine") {
+          // 是个直线。
+          var spt = ent.StartPoint;
+          var ept = ent.EndPoint;
+          alert(spt.x);
+        } else if (ent.ObjectName === "McDbPolyline") {
+          // 是个多义线.
+          var j = 0;
+          // 循环，得到端点坐标
+          for (j = 0; j < ent.NumVerts; j++) {
+            var pt = ent.GetPointAt(j);
+            alert(pt.x);
+          }
+        }
+      }
+    }
+
+    function DrawText() {
+      var winWidth = 440;
+      var winHeight = 140;
+      var winLeft = (screen.width - winWidth) / 2;
+      var winTop = (screen.height - winHeight) / 2 - 20;
+
+      var str = 'dialogHeight:' + winHeight + 'px;dialogWidth:' + winWidth + 'px;dialogTop:' + winTop + 'px;dialogLeft:' + winLeft + 'px;resizable:yes;center:yes;status:no;'
+
+      var rt = window.showModalDialog("Gettext.htm?tmp=" + Math.random(), "输入文字", str);
+
+      var txt;
+
+      if (typeof (rt) == "undefined") {
+        //alert("error");
+        return;
+      } else {
+        var arr = rt.split(",");
+        txt = arr[0];
+      }
+      //alert(txt);
+
+      var getPt = mxOcx.NewComObject("IMxDrawUiPrPoint");
+
+      getPt.message = "点取插入点";
+
+      if (getPt.go() != 1) {
+        return;
+      }
+      var pos = getPt.value();
+      if (pos == null)
+        return;
+      mxOcx.DrawText(pos.x, pos.y, txt, 100, 0, 0, 1);
+
+    }
+
+  </script>
+
+</p>
+
+
+</body>
+</html>
+
