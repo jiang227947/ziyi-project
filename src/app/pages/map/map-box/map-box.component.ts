@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import mapboxgl from 'mapbox-gl';
-import {MapBoxLoaderService} from "../service/map-box-loader.service";
+import {MapBoxLoaderService} from '../service/map-box-loader.service';
 
 declare let turf: any; //
 declare let MapboxDraw: any;// 多边形
@@ -36,6 +36,12 @@ export class MapBoxComponent implements OnInit {
       projection: 'globe', // display the map as a 3D globe
       attributionControl: false, // 控制展示地图的属性信息。
     });
+    this.map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionoptions: {
+          enableHighAccuracy: true,
+        }, trackUserLocation: true,
+      }));
     this.map.on('style.load', () => {
       // 监听样式加载完毕
       this.addControl();
@@ -62,7 +68,7 @@ export class MapBoxComponent implements OnInit {
     // 全屏控件
     this.map.addControl(new mapboxgl.FullscreenControl());
     // 放大缩小控件
-    this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), "top-right");
+    this.map.addControl(new mapboxgl.NavigationControl({showCompass: false}), 'top-right');
     // 多边形控件
     this.draw = new MapboxDraw({
       displayControlsDefault: true,
@@ -169,7 +175,9 @@ export class MapBoxComponent implements OnInit {
 
         // Remove the linestring from the group
         // so we can redraw it based on the points collection.
-        if (geojson.features.length > 1) geojson.features.pop();
+        if (geojson.features.length > 1) {
+          geojson.features.pop();
+        }
 
         // Clear the distance container to populate it with a new value.
         distanceContainer.innerHTML = '';
@@ -233,10 +241,11 @@ export class MapBoxComponent implements OnInit {
         answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
       } else {
         answer.innerHTML = '';
-        if (e.type !== 'draw.delete')
+        if (e.type !== 'draw.delete') {
           alert('Click the map to draw a polygon.');
+        }
       }
-    }
+    };
     this.map.on('draw.create', updateArea);
     this.map.on('draw.delete', updateArea);
     this.map.on('draw.update', updateArea);
