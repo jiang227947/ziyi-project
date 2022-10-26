@@ -24,7 +24,7 @@
           <span nz-icon [nzType]="menu.icon" *ngIf="!menu.imageUrl"></span>
           <span class="item-icon" [ngStyle]="{'background-image':'url('+ menu.imageUrl +')'}"
                 *ngIf="menu.imageUrl"></span>
-          <span>{{menu.menuName}}</span>
+          <span *ngIf="!isCollapsed">{{menu.menuName}}</span>
         </li>
         <!--有子级的菜单-->
         <li nz-submenu [nzIcon]="menu.icon" [nzTitle]="menu.menuName"
