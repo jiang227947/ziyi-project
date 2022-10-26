@@ -42,7 +42,7 @@
   padding-left: 24px;
   overflow: hidden;
   line-height: 64px;
-  background: #001529;
+  //background: #001529;
   transition: all .3s;
 }
 
@@ -85,4 +85,13 @@ nz-content {
   padding: 12px;
   background: #fff;
   height: 100%;
+}
+
+.item-icon {
+  width: 30px;
+  height: 20px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: contain;
+  vertical-align: text-bottom;
 }

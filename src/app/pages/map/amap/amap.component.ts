@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MapComponent} from "../map/map.component";
-import {AMapLoaderService} from "../a-map-loader.service";
+import {AMapLoaderService} from "../service/a-map-loader.service";
 import {NzModalService} from "ng-zorro-antd/modal";
 
 @Component({

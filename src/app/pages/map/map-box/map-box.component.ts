@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import mapboxgl from 'mapbox-gl';
-import {MapBoxLoaderService} from "./map-box-loader.service";
+import {MapBoxLoaderService} from "../service/map-box-loader.service";
 
 declare let turf: any; //
 declare let MapboxDraw: any;// 多边形

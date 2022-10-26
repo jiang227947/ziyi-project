@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {GoogleMapLoaderService} from "../google-map-loader.service";
+import {GoogleMapLoaderService} from "../service/google-map-loader.service";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {MarkerClusterer, MarkerClustererOptions} from "@googlemaps/markerclusterer";
 import Marker = google.maps.Marker;

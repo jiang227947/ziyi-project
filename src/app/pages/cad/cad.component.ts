@@ -4,10 +4,10 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  templateUrl: './cad.component.html',
+  styleUrls: ['./cad.component.scss']
 })
-export class WelcomeComponent implements OnInit, AfterViewInit {
+export class CadComponent implements OnInit, AfterViewInit {
   mxOcx: any;
   mxinittime: any;
 
@@ -29,7 +29,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
     if (pluginsItem === null) {
       this.modal.error({
         nzTitle: '警告',
-        nzContent: '请使用指定浏览器打开，否则一些功能将无法使用',
+        nzContent: '请使用版本49.0.2623.112 Chromium内核浏览器打开，否则功能将无法使用！',
         nzOnCancel: null
       });
       return;

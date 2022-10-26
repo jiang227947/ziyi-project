@@ -4,7 +4,7 @@
       <input type="text" nz-input placeholder="输入城市" [(ngModel)]="cityName" (keydown.enter)="queryCityLookupWeather()"/>
     </nz-input-group>
     <ng-template #suffixButton>
-      <button nz-button nzType="primary" nzSearch (click)="queryCityLookupWeather()">查询</button>
+      <button nz-button nzType="primary" nzSearch [disabled]="loading" (click)="queryCityLookupWeather()">查询</button>
     </ng-template>
   </div>
   <nz-spin [nzSpinning]="loading">

@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
-import {AppGlobal, AppGlobalRef} from "../map/google-map-loader.service";
+import {AppGlobal, AppGlobalRef} from "./google-map-loader.service";
 
 @Injectable()
 export class MapBoxLoaderService {

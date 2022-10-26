@@ -8,29 +8,41 @@
     <div class="sidebar-logo">
       <a target="_blank">
         <img src="favicon.ico" alt="logo">
-        <h1>测试项目</h1>
+        <h1>Angular</h1>
       </a>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="项目Demo" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/CAD">CAD</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/map/gMap">GooGle Map</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/mapBox">Map Box</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/map/aMap">高德地图</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/weather">和风天气</a>
-          </li>
-        </ul>
-      </li>
+    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <ng-container *ngFor="let menu of menuList;">
+        <!--无子级的菜单-->
+        <li nz-menu-item
+            nzMatchRouter
+            nzMatchRouterExact
+            [nzSelected]="menu.isSelected"
+            [routerLink]="menu.menuHref"
+            (click)="menuitemClick(menu)"
+            *ngIf="menu.children.length === 0">
+          <span nz-icon [nzType]="menu.icon" *ngIf="!menu.imageUrl"></span>
+          <span class="item-icon" [ngStyle]="{'background-image':'url('+ menu.imageUrl +')'}"
+                *ngIf="menu.imageUrl"></span>
+          <span>{{menu.menuName}}</span>
+        </li>
+        <!--有子级的菜单-->
+        <li nz-submenu [nzIcon]="menu.icon" [nzTitle]="menu.menuName"
+            *ngIf="menu.children.length > 0">
+          <ul>
+            <li nz-menu-item
+                nzMatchRouter
+                nzMatchRouterExact
+                [nzSelected]="menuChildren.isSelected"
+                [routerLink]="menuChildren.menuHref"
+                (click)="menuitemClick(menu)"
+                *ngFor="let menuChildren of menu.children">
+              <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}"></span>
+              <a [routerLink]="menuChildren.menuHref">{{menuChildren.menuName}}</a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
     </ul>
   </nz-sider>
   <nz-layout>

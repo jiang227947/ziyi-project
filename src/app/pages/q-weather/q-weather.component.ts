@@ -66,7 +66,6 @@ export class QWeatherComponent implements OnInit {
         location: city || this.cityName
       }).subscribe((result: CityInterface) => {
         if (result.code === '200') {
-          this.cityName = '';
           if (!city) {
             this.city = result.location[0] || undefined;
             this.queryNowWeather(this.city.id);

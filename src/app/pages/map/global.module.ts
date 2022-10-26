@@ -1,5 +1,5 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {AppGlobalRef, BrowserGlobalRef} from "./google-map-loader.service";
+import {AppGlobalRef, BrowserGlobalRef} from "./service/google-map-loader.service";
 
 @NgModule()
 export class GlobalModule {

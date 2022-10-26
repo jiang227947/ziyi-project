@@ -5,10 +5,13 @@ import {SharedModuleModule} from "../../shared-module/shared-module.module";
 import {GlobalModule} from "./global.module";
 import {AmapComponent} from "./amap/amap.component";
 import {MapRoutingModule} from "./map-routing.module";
+import {AppGlobalMapBoxRef, BrowserGlobalMapBoxRef} from "./service/map-box-loader.service";
+import {MapBoxComponent} from "./map-box/map-box.component";
 
 const COMPONENTS = [
   GMapComponent,
   MapComponent,
+  MapBoxComponent,
   AmapComponent
 ];
 
@@ -18,6 +21,11 @@ const COMPONENTS = [
     SharedModuleModule,
     MapRoutingModule,
     GlobalModule.forBrowser(),
+  ],
+  providers: [
+    {
+      provide: AppGlobalMapBoxRef, useClass: BrowserGlobalMapBoxRef
+    }
   ]
 })
 export class MapModule {
