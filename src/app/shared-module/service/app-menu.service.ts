@@ -40,7 +40,7 @@ export class AppMenuService {
             menuName: '高德地图',
             menuLevel: 2,
             menuHref: '/map/aMap',
-            imageUrl: '../../../assets/icon/amap.ico',
+            imageUrl: '../../../assets/icon/ico/amap.ico',
             isShow: true,
             isSelected: false,
             children: []
@@ -51,7 +51,7 @@ export class AppMenuService {
             menuName: 'MapBox',
             menuLevel: 2,
             menuHref: '/map/mapBox',
-            imageUrl: '../../../assets/icon/mapBox.ico',
+            imageUrl: '../../../assets/icon/ico/mapBox.ico',
             isShow: true,
             isSelected: false,
             children: []
@@ -62,7 +62,7 @@ export class AppMenuService {
             menuName: '谷歌地图',
             menuLevel: 2,
             menuHref: '/map/gMap',
-            imageUrl: '../../../assets/icon/gmap.png',
+            imageUrl: '../../../assets/icon/ico/gmap.png',
             isShow: true,
             isSelected: false,
             children: []
@@ -74,7 +74,7 @@ export class AppMenuService {
         menuName: 'MxDraw CAD',
         menuLevel: 1,
         menuHref: '/cad',
-        imageUrl: '../../../assets/icon/mxcad.ico',
+        imageUrl: '../../../assets/icon/ico/mxcad.ico',
         isShow: true,
         isSelected: false,
         children: []
@@ -84,7 +84,7 @@ export class AppMenuService {
         menuName: '和风天气',
         menuLevel: 1,
         menuHref: '/weather',
-        imageUrl: '../../../assets/icon/weather.ico',
+        imageUrl: '../../../assets/icon/ico/weather.ico',
         isShow: true,
         isSelected: false,
         children: []

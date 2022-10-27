@@ -1,4 +1,19 @@
 .search-city {
-  width: 300px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+
+  .input-group {
+    width: 100%;
+  }
+}
+
+.card {
+  margin: 12px 0;
+}
+
+.weatherTitle-select {
+  width: 200px;
+}
+
+.extra-select {
+  width: 100px;
 }

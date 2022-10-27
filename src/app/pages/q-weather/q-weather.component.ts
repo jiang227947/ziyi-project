@@ -1,7 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {WeatherRequestService} from "./api";
-import {CityInterface, LocationInterface, NowInterface, WeatherNowInterface} from "./interface/interface";
-import {NzModalService} from "ng-zorro-antd/modal";
+import {WeatherRequestService} from './api';
+import {
+  CityInterface,
+  DailyInterface, FutureWeatherInterface,
+  LocationInterface,
+  NowInterface,
+  WeatherNowInterface
+} from './interface/interface';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-q-weather',
@@ -10,11 +16,57 @@ import {NzModalService} from "ng-zorro-antd/modal";
 })
 export class QWeatherComponent implements OnInit {
 
-  key: string = '17b72541b5214c85800d1cbe259ce6d2';
-  loading: boolean = true;
-  cityName: string = ''; // 搜索的城市名称
+  key = '17b72541b5214c85800d1cbe259ce6d2';
+  loading = true; // 查询状态
+  cityName = ''; // 搜索的城市名称
   city: LocationInterface; // 查询的城市信息
   cityWeather: NowInterface; // 城市天气
+  weatherTitle = [
+    {
+      label: '逐小时预报',
+      value: 'hour'
+    },
+    {
+      label: '逐天预报',
+      value: 'day'
+    }
+  ]; // 未来时间分类
+  weatherType = 'hour'; // 默认未来时间类型
+  hoursList = [
+    {
+      label: '24小时',
+      value: '24'
+    },
+    {
+      label: '72小时',
+      value: '72'
+    },
+    {
+      label: '168小时',
+      value: '168'
+    }
+  ]; // 未来N小时分类
+  hours = '24'; // 默认小时
+  daysList = [
+    {
+      label: '3天',
+      value: '3'
+    },
+    {
+      label: '7天',
+      value: '7'
+    },
+    {
+      label: '10天',
+      value: '10'
+    },
+    {
+      label: '15天',
+      value: '15'
+    }
+  ]; // 未来N天分类
+  days = '3'; // 默认天
+  futureWeather: DailyInterface[]; // 未来N天城市天气
 
   constructor(private weatherRequestService: WeatherRequestService,
               private modal: NzModalService) {
@@ -24,13 +76,11 @@ export class QWeatherComponent implements OnInit {
     this.queryCityLookupWeather('武汉').then((result: CityInterface) => {
       if (result) {
         this.city = result.location[0] || undefined;
+        // 查询实时天气
         this.queryNowWeather(this.city.id);
+        // 查询未来小时天气
+        this.queryHoursHWeather(this.city.id);
       } else {
-        this.modal.info({
-          nzTitle: '提示',
-          nzContent: '查询失败！',
-          nzCancelText: null
-        });
         this.loading = false;
       }
     });
@@ -44,6 +94,12 @@ export class QWeatherComponent implements OnInit {
     }).subscribe((result: WeatherNowInterface) => {
       if (result.code === '200') {
         this.cityWeather = result.now;
+      } else {
+        this.modal.info({
+          nzTitle: result.code,
+          nzContent: `查询${this.cityName}实时天气失败！`,
+          nzCancelText: null
+        });
       }
       this.loading = false;
     });
@@ -68,26 +124,66 @@ export class QWeatherComponent implements OnInit {
         if (result.code === '200') {
           if (!city) {
             this.city = result.location[0] || undefined;
-            this.queryNowWeather(this.city.id);
+            // 查询未来天气
+            this.weatherTitleChange(this.weatherType);
             this.loading = false;
           }
           resolve(result);
         } else {
+          this.modal.info({
+            nzTitle: result.code,
+            nzContent: `查询${this.cityName}信息失败！`,
+            nzCancelText: null
+          });
           reject();
         }
       });
     });
   }
 
-
-  // 热门城市天气
-  queryCityTopWeather(): void {
-    this.weatherRequestService.queryCityTopWeather({
-      number: 5,
-      range: 'cn',
-      key: this.key
-    }).subscribe((result) => {
-      console.log(result);
+  // 逐小时预报（未来time小时）
+  queryHoursHWeather(location: string = this.city.id): void {
+    const params = {location, key: this.key};
+    this.weatherRequestService.queryHoursHWeather(params, this.hours).subscribe((result: FutureWeatherInterface) => {
+      if (result.code === '200') {
+        this.futureWeather = result.hourly;
+      } else {
+        this.modal.info({
+          nzTitle: result.code,
+          nzContent: `查询未来${this.hours}小时天气失败！`,
+          nzCancelText: null
+        });
+      }
     });
+  }
+
+  // 逐天预报（未来time天）
+  queryDaysWeather(location: string = this.city.id): void {
+    const params = {location, key: this.key};
+    this.weatherRequestService.queryDaysWeather(params, this.days).subscribe((result: FutureWeatherInterface) => {
+      if (result.code === '200') {
+        this.futureWeather = result.daily;
+      } else {
+        this.modal.info({
+          nzTitle: result.code,
+          nzContent: `查询未来${this.days}天天气失败！`,
+          nzCancelText: null
+        });
+      }
+    });
+  }
+
+  // 卡片标题类型切换
+  weatherTitleChange(weatherType: string): void {
+    switch (weatherType) {
+      case 'hour':
+        // 查询逐小时预报
+        this.queryHoursHWeather();
+        break;
+      case 'day':
+        // 查询逐天预报
+        this.queryDaysWeather();
+        break;
+    }
   }
 }

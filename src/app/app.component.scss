@@ -39,28 +39,28 @@
 .sidebar-logo {
   position: relative;
   height: 64px;
-  padding-left: 24px;
+  padding-left: 20px;
   overflow: hidden;
   line-height: 64px;
   //background: #001529;
   transition: all .3s;
-}
 
-.sidebar-logo img {
-  display: inline-block;
-  height: 32px;
-  width: 32px;
-  vertical-align: middle;
-}
+  img {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    vertical-align: middle;
+    border-radius: 20px;
+  }
 
-.sidebar-logo h1 {
-  display: inline-block;
-  margin: 0 0 0 20px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
-  vertical-align: middle;
+  h1 {
+    display: inline-block;
+    margin: 0 0 0 20px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 24px;
+    vertical-align: middle;
+  }
 }
 
 nz-header {
@@ -85,6 +85,8 @@ nz-content {
   padding: 12px;
   background: #fff;
   height: 100%;
+  overflow-y: auto;
+  overflow-x: clip;
 }
 
 .item-icon {
@@ -94,4 +96,18 @@ nz-content {
   background-repeat: no-repeat;
   background-size: contain;
   vertical-align: text-bottom;
+}
+
+/** 滚动条样式*/
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #bae7ff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.27);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #bfbfbf;
 }
