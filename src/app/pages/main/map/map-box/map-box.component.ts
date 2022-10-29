@@ -1,9 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import {MapBoxLoaderService} from '../service/map-box-loader.service';
-
-declare let turf: any; //
-declare let MapboxDraw: any;// 多边形
 
 @Component({
   selector: 'app-map-box',
@@ -11,22 +8,18 @@ declare let MapboxDraw: any;// 多边形
   styleUrls: ['./map-box.component.scss'],
   providers: [MapBoxLoaderService]
 })
-export class MapBoxComponent implements OnInit {
+export class MapBoxComponent implements OnInit, AfterViewInit {
 
-  map: any;
-  draw: any; // 绘制多边形函数
-  measureDistancesFunc: any; // 测距函数
+  private map: any;
+  private draw: any; // 绘制多边形函数
+  private measureDistancesFunc: any; // 测距函数
 
-  constructor(private $mapBoxLoaderService: MapBoxLoaderService) {
-    /**
-     * 本地化语言包 https://github.com/mapbox/mapbox-gl-language/
-     * */
+  constructor(private $mapBoxLoaderService: MapBoxLoaderService, private el: ElementRef<HTMLElement>) {
+    /*** 本地化语言包 https://github.com/mapbox/mapbox-gl-language/* */
   }
 
-  ngOnInit(): void {
-    /**
-     * 中文文档地址：http://www.mapbox.cn/mapbox-gl-js/api/#map
-     * */
+  ngAfterViewInit(): void {
+    /*** 中文文档地址：http://www.mapbox.cn/mapbox-gl-js/api/#map* */
     mapboxgl.accessToken = 'pk.eyJ1Ijoienp5aSIsImEiOiJjbDU4dzZ4d28xbzJoM2lvNTZtOTlxOHFhIn0.CKo_wchkEXfJ1YE9rC1Ckw';
     this.map = new mapboxgl.Map({
       container: 'mapBox', // 地图ID
@@ -61,9 +54,10 @@ export class MapBoxComponent implements OnInit {
     });
   }
 
-  /**
-   * 添加控制组件
-   * */
+  ngOnInit(): void {
+  }
+
+  /*** 添加控制组件* */
   addControl(): void {
     // 全屏控件
     this.map.addControl(new mapboxgl.FullscreenControl());
@@ -84,9 +78,7 @@ export class MapBoxComponent implements OnInit {
     this.map.addControl(this.draw);
   }
 
-  /**
-   * 添加标记点
-   * */
+  /*** 添加标记点* */
   addMarker(): void {
     const options = {
       color: '#efabab', // 标记点颜色
@@ -125,21 +117,21 @@ export class MapBoxComponent implements OnInit {
     this.$mapBoxLoaderService.loadDistances().then(() => {
       const distanceContainer = document.getElementById('distance');
       const geojson = {
-        'type': 'FeatureCollection',
-        'features': []
+        type: 'FeatureCollection',
+        features: []
       };
 
       // Used to draw a line between points
       const linestring = {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'LineString',
-          'coordinates': []
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: []
         }
       };
       this.map.addSource('geojson', {
-        'type': 'geojson',
-        'data': geojson
+        type: 'geojson',
+        data: geojson
       });
 
       // Add styles to the map
@@ -190,13 +182,13 @@ export class MapBoxComponent implements OnInit {
           );
         } else {
           const point = {
-            'type': 'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [e.lngLat.lng, e.lngLat.lat]
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [e.lngLat.lng, e.lngLat.lat]
             },
-            'properties': {
-              'id': String(new Date().getTime())
+            properties: {
+              id: String(new Date().getTime())
             }
           };
           geojson.features.push(point);
@@ -237,8 +229,8 @@ export class MapBoxComponent implements OnInit {
       if (data.features.length > 0) {
         const area = turf.area(data);
         // Restrict the area to 2 decimal points.
-        const rounded_area = Math.round(area * 100) / 100;
-        answer.innerHTML = `<p><strong>${rounded_area}</strong></p><p>square meters</p>`;
+        const roundedArea = Math.round(area * 100) / 100;
+        answer.innerHTML = `<p><strong>${roundedArea}</strong></p><p>square meters</p>`;
       } else {
         answer.innerHTML = '';
         if (e.type !== 'draw.delete') {
