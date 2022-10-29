@@ -1,0 +1,98 @@
+<nz-layout class="app-layout">
+  <!--头部-->
+  <nz-header>
+    <div class="app-header">
+      <!--logo-->
+      <div class="sidebar-logo" [ngClass]="{'sidebar-logo-fold':isCollapsed}">
+        <a target="_blank">
+          <img src="./assets/image/cat.jpg" alt="logo">
+          <h1 class="logo-title" *ngIf="!isCollapsed">Cat</h1>
+        </a>
+      </div>
+      <!--头部功能-->
+      <div class="header-nav-wrap">
+        <div class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span>
+            <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </span>
+        </div>
+      </div>
+      <div class="alain-default__nav-item" nz-dropdown [nzDropdownMenu]="settingsMenu"
+           nzTrigger="click"
+           nzPlacement="bottomRight">
+        <div class="d-flex align-items-center px-sm">
+          <nz-avatar nzIcon="user" class="avatar"></nz-avatar>
+          {{ userName }}
+        </div>
+        <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
+          <div nz-menu style="width:160px;">
+            <div nz-menu-item>
+              <a (click)="logout()">
+                <i nz-icon nzType="logout"></i>
+                退出登录
+              </a>
+            </div>
+          </div>
+        </nz-dropdown-menu>
+      </div>
+    </div>
+  </nz-header>
+  <!--菜单-->
+  <nz-sider class="menu-sidebar"
+            [ngClass]="{'menu-sidebar-collapsed':isCollapsed}"
+            nzCollapsible
+            nzWidth="220px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <ng-container *ngFor="let menu of menuList;">
+        <!--菜单是否可见-->
+        <ng-container *ngIf="menu.isShow">
+          <!--无子级的菜单-->
+          <li nz-menu-item
+              nzMatchRouter
+              nzMatchRouterExact
+              [nzSelected]="menu.isSelected"
+              [routerLink]="menu.menuHref"
+              (click)="menuitemClick(menu)"
+              *ngIf="menu.children.length === 0">
+            <span nz-icon [nzType]="menu.icon" *ngIf="!menu.imageUrl"></span>
+            <span class="item-icon" [ngStyle]="{'background-image':'url('+ menu.imageUrl +')'}"
+                  *ngIf="menu.imageUrl"></span>
+            <span *ngIf="!isCollapsed">{{menu.menuName}}</span>
+          </li>
+          <!--有子级的菜单-->
+          <li nz-submenu [nzIcon]="menu.icon" [nzTitle]="menu.menuName"
+              *ngIf="menu.children.length > 0">
+            <ul>
+              <!--循环子级菜单-->
+              <ng-container *ngFor="let menuChildren of menu.children">
+                <!--菜单是否可见-->
+                <ng-container *ngIf="menuChildren.isShow">
+                  <li nz-menu-item
+                      nzMatchRouter
+                      nzMatchRouterExact
+                      [nzSelected]="menuChildren.isSelected"
+                      [routerLink]="menuChildren.menuHref"
+                      (click)="menuitemClick(menu)">
+                    <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}"></span>
+                    <a [routerLink]="menuChildren.menuHref">{{menuChildren.menuName}}</a>
+                  </li>
+                </ng-container>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </nz-sider>
+  <!--内容-->
+  <nz-layout class="main-layout">
+    <nz-content class="ant-layout-content" [ngClass]="{'ant-layout-content-collapsed':isCollapsed}">
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

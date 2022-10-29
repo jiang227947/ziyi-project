@@ -2,11 +2,20 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo: '/home'},
-  {path: 'home', loadChildren: () => import('./pages/index/index.module').then(m => m.IndexModule)},
-  {path: 'cad', loadChildren: () => import('./pages/cad/cad.module').then(m => m.CadModule)},
-  {path: 'map', loadChildren: () => import('./pages/map/map.module').then(m => m.MapModule)},
-  {path: 'weather', loadChildren: () => import('./pages/q-weather/q-weather.module').then(m => m.QWeatherModule)}
+  // 默认路由
+  {path: '', pathMatch: 'full', redirectTo: 'main'},
+  // 首页
+  {
+    path: 'main',
+    loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)
+  },
+  // 登录
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
+  },
+  // 404页面
+  {path: '**', redirectTo: 'exception/404'},
 ];
 
 @NgModule({

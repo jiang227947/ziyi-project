@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 const CODEMESSAGE = {
   200: '服务器成功返回请求的数据。',
@@ -39,11 +39,10 @@ export class DefaultInterceptor implements HttpInterceptor {
   constructor(private injector: Injector) {
   }
 
-  private checkStatus(ev: HttpResponseBase) {
+  checkStatus(ev: HttpResponseBase): any {
     if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
       return;
     }
-
     let message: string;
     if (ev instanceof HttpErrorResponse) {
       const error = (ev as HttpErrorResponse).error;
@@ -131,7 +130,9 @@ export class DefaultInterceptor implements HttpInterceptor {
     return next.handle(newReq).pipe(
       mergeMap((event: any) => {
         // 允许统一对请求错误处理
-        if (event instanceof HttpResponseBase) return this.handleData(event);
+        if (event instanceof HttpResponseBase) {
+          return this.handleData(event);
+        }
         // 若一切都正常，则后续操作
         return of(event);
       }),

@@ -1,0 +1,40 @@
+<form nz-form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" role="form">
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="loginNameInfo">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" nz-input formControlName="loginName" placeholder="请输入用户名" />
+      </nz-input-group>
+      <ng-template #loginNameInfo>
+        <ng-container *ngIf="loginName.dirty && loginName.errors">
+          <div>
+            <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+            <span>请输入用户名，最短为3位数</span>
+          </div>
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="passwordInfo">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" nz-input formControlName="password" placeholder="请输入密码" />
+      </nz-input-group>
+      <ng-template #passwordInfo>
+        <ng-container *ngIf="password.dirty && password.errors">
+          <div>
+            <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+            <span>请输入密码，最短为3位数</span>
+          </div>
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <label nz-checkbox formControlName="remember">记住用户</label>
+  </nz-form-item>
+  <nz-form-item>
+    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loginLoading" nzBlock>
+      登录
+    </button>
+  </nz-form-item>
+</form>

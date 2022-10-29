@@ -10,17 +10,10 @@ import {MenuModel} from "./core-module/model/menu.model";
 })
 export class AppComponent {
 
-  isCollapsed: boolean = false;
+  isCollapsed = false;
   menuList: MenuModel[];
 
   constructor(private appMenuService: AppMenuService) {
-    const menu = localStorage.getItem('app_menu');
-    if (menu) {
-      this.menuList = JSON.parse(menu);
-    } else {
-      this.menuList = appMenuService.getAppMenu();
-      localStorage.setItem('app_menu', JSON.stringify(this.menuList));
-    }
   }
 
   menuitemClick(menuItem: MenuModel): void {

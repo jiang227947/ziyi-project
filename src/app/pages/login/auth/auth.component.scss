@@ -1,0 +1,52 @@
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: #f0f2f5;
+
+  .login-panel {
+    flex: 1;
+    padding: 50px 0 24px;
+
+    .top {
+      text-align: center;
+    }
+
+    .head {
+      margin-top: 12px;
+      margin-bottom: 40px;
+      position: relative;
+      color: #000000d9;
+      font-weight: 600;
+      font-size: 33px;
+      vertical-align: middle;
+    }
+  }
+
+  .form {
+    display: block;
+    width: 368px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    padding: 32px 0 24px;
+  }
+  .login-container {
+    background-image: unset;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .login-container {
+    background: url("../../../../assets/image/login-background.svg") no-repeat center 110px;
+    background-size: 100%;
+  }
+}

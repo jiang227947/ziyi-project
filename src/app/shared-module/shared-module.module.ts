@@ -14,14 +14,18 @@ import {NzBadgeModule} from 'ng-zorro-antd/badge';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzTableModule} from 'ng-zorro-antd/table';
 import {NzCardModule} from 'ng-zorro-antd/card';
+import {NzFormModule} from 'ng-zorro-antd/form';
+import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
+import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
+import {NzAvatarModule} from 'ng-zorro-antd/avatar';
 
-const MODULE = [
+const MODULES = [
   CommonModule,
   FormsModule,
   ReactiveFormsModule,
   RouterModule
 ];
-const NZMODULE = [
+const NZMODULES = [
   NzInputModule,
   NzModalModule,
   NzSpinModule,
@@ -33,18 +37,21 @@ const NZMODULE = [
   NzBadgeModule,
   NzGridModule,
   NzTableModule,
-  NzCardModule
+  NzCardModule,
+  NzFormModule,
+  NzCheckboxModule,
+  NzDropDownModule,
+  NzAvatarModule
 ];
 
 @NgModule({
-  declarations: [],
   imports: [
-    ...MODULE,
-    ...NZMODULE
+    ...MODULES,
+    ...NZMODULES
   ],
   exports: [
-    ...MODULE,
-    ...NZMODULE
+    ...MODULES,
+    ...NZMODULES
   ]
 })
 export class SharedModuleModule {
