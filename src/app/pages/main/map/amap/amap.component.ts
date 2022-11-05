@@ -20,6 +20,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
   }
 
   ngOnDestroy(): void {
+    this.aMap.destroy();
     this.aMap = null;
   }
 
@@ -40,6 +41,8 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
         this.geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
           enableHighAccuracy: true,
+          // 设置为true的时候可以调整PC端为优先使用浏览器定位，失败后使用IP定位
+          GeoLocationFirst: true,
           // 设置定位超时时间，默认：无穷大
           timeout: 10000,
           // 定位按钮的停靠位置的偏移量

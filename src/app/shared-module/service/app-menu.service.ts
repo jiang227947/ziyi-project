@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MenuModel} from "../../core-module/model/menu.model";
+import {MenuModel} from '../../core-module/model/menu.model';
 
 @Injectable()
 export class AppMenuService {

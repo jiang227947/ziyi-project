@@ -20,7 +20,8 @@
         <nz-descriptions-item nzTitle="国家">{{city?.country}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="数据观测时间">{{cityWeather?.obsTime | date:'yyyy-MM-dd hh:mm'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="天气">
-          <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + cityWeather?.icon + '-fill.svg'">
+          <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + cityWeather?.icon + '-fill.svg'"
+               *ngIf="cityWeather?.icon">
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="温度">{{cityWeather?.temp}}℃</nz-descriptions-item>
         <nz-descriptions-item nzTitle="体感温度">{{cityWeather?.feelsLike}}℃</nz-descriptions-item>

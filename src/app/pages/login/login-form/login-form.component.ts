@@ -2,6 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AppMenuService} from '../../../shared-module/service/app-menu.service';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {Result} from '../../../shared-module/interface/result';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {Token} from '../../../shared-module/interface/token';
+import {User} from '../../../shared-module/interface/user';
 
 @Component({
   selector: 'app-login-form',
@@ -14,7 +20,8 @@ export class LoginFormComponent implements OnInit {
   // 登录的loading
   loginLoading = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService) {
+  constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
+              private $http: HttpClient, private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
@@ -23,8 +30,8 @@ export class LoginFormComponent implements OnInit {
 
   buildForm(): void {
     this.loginForm = this.fb.group({
-      loginName: ['测试用户', [Validators.required, Validators.minLength(3)]],
-      password: ['000', [Validators.required, Validators.minLength(3)]],
+      loginName: [null, [Validators.required, Validators.minLength(3)]],
+      password: [null, [Validators.required, Validators.minLength(3)]],
       remember: [true],
     });
   }
@@ -40,6 +47,7 @@ export class LoginFormComponent implements OnInit {
       return;
     }
     this.loginLoading = true;
+    const messageId = this.$message.loading('登陆中..', {nzDuration: 0}).messageId;
     // 判断记住用户
     const rememberMe: boolean = this.loginForm.controls.remember.value;
     if (rememberMe) {
@@ -47,17 +55,55 @@ export class LoginFormComponent implements OnInit {
     } else {
       localStorage.removeItem('rememberMe');
     }
-    const userInfo = {
+    const loginInfo = {
       name: this.loginName.value,
       password: this.password.value
     };
-    setTimeout(() => {
-      const menuList = this.appMenuService.getAppMenu();
-      localStorage.setItem('user_info', JSON.stringify(userInfo));
-      localStorage.setItem('app_menu', JSON.stringify(menuList));
-      this.loginLoading = false;
-      this.router.navigate(['/main']);
-    }, 1000);
+    // 用户登录
+    this.login(loginInfo, messageId).then((user: any) => {
+      if (user) {
+        // 查询用户接口
+        this.$http.get(`${environment.LOCAL}/queryUserById/${user.id}`).subscribe((result: Result<User>) => {
+          if (result.code === 200) {
+            const userInfo: User = result.data;
+            // 用户信息保存到浏览器
+            localStorage.setItem('user_info', JSON.stringify(userInfo));
+            // 菜单
+            const menuList = this.appMenuService.getAppMenu();
+            localStorage.setItem('app_menu', JSON.stringify(menuList));
+            this.$message.remove(messageId);
+            this.$message.success('登录成功');
+            this.router.navigate(['/main']);
+          } else {
+            this.$message.error(result.msg);
+            this.$message.remove(messageId);
+          }
+          this.loginLoading = false;
+        });
+      }
+    }).catch(() => {
+    });
+  }
+
+  // 登录接口
+  login(loginInfo, messageId: string): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
+      this.$http.post(`${environment.LOCAL}/login`, loginInfo).subscribe((result: Result<User>) => {
+        if (result.code === 200) {
+          const userInfo: User = result.data;
+          localStorage.setItem('token', JSON.stringify(userInfo.saTokenInfo));
+          resolve(userInfo);
+        } else {
+          this.$message.remove(messageId);
+          this.$message.error(result.msg);
+          this.loginLoading = false;
+          reject(null);
+        }
+      }, () => {
+        this.$message.remove(messageId);
+        reject(null);
+      });
+    });
   }
 
   get loginName(): AbstractControl {

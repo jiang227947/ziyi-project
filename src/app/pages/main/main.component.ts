@@ -1,6 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuModel} from '../../core-module/model/menu.model';
 import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
+import {Result} from '../../shared-module/interface/result';
+import {User} from '../../shared-module/interface/user';
+import {HttpClient} from '@angular/common/http';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-main',
@@ -13,17 +18,18 @@ export class MainComponent implements OnInit {
   menuList: MenuModel[];
   userName: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private $http: HttpClient, private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
     const menu = localStorage.getItem('app_menu');
     const userInfo = localStorage.getItem('user_info');
-    if (userInfo && menu) {
-      this.userName = JSON.parse(userInfo).name;
+    if (userInfo) {
+      this.userName = JSON.parse(userInfo).userName;
       this.menuList = JSON.parse(menu);
     } else {
-      this.logout();
+      localStorage.clear();
+      this.router.navigate(['/login']);
     }
   }
 
@@ -42,7 +48,15 @@ export class MainComponent implements OnInit {
 
   // 退出
   logout(): void {
-    localStorage.clear();
-    this.router.navigate(['/login']);
+    const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
+    this.$http.post(`${environment.LOCAL}/loginOut`, {id: userInfo.id}).subscribe((result: Result<any>) => {
+      if (result.code === 200) {
+        localStorage.clear();
+        this.$message.success(result.msg);
+        this.router.navigate(['/login']);
+      } else {
+        this.$message.error(result.msg);
+      }
+    });
   }
 }

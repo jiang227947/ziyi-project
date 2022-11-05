@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AppMenuService} from "./shared-module/service/app-menu.service";
-import {MenuModel} from "./core-module/model/menu.model";
+import {AppMenuService} from './shared-module/service/app-menu.service';
+import {MenuModel} from './core-module/model/menu.model';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,7 @@ export class AppComponent {
       if (item.menuId !== menuItem.menuId && item.isSelected) {
         // 其他节点关闭选选中
         item.isSelected = false;
-      } else if (item.menuId == menuItem.menuId) {
+      } else if (item.menuId === menuItem.menuId) {
         // 当前节点选中
         item.isSelected = true;
       }

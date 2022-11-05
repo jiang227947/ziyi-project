@@ -18,6 +18,7 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzAvatarModule} from 'ng-zorro-antd/avatar';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 const MODULES = [
   CommonModule,
@@ -52,7 +53,8 @@ const NZMODULES = [
   exports: [
     ...MODULES,
     ...NZMODULES
-  ]
+  ],
+  providers: [NzMessageService]
 })
 export class SharedModuleModule {
 }

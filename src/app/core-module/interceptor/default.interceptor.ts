@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {
   HttpErrorResponse,
   HttpEvent,
-  HttpHandler,
+  HttpHandler, HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HttpResponseBase,
@@ -11,6 +11,9 @@ import {
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
+import {Token} from '../../shared-module/interface/token';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {User} from '../../shared-module/interface/user';
 
 const CODEMESSAGE = {
   200: '服务器成功返回请求的数据。',
@@ -36,7 +39,7 @@ const CODEMESSAGE = {
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private $router: Router, private $message: NzMessageService) {
   }
 
   checkStatus(ev: HttpResponseBase): any {
@@ -58,7 +61,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   private handleData(ev: HttpResponseBase): Observable<any> {
     // 可能会因为 `throw` 导出无法执行 `_HttpClient` 的 `end()` 操作
-    this.checkStatus(ev);
+    // this.checkStatus(ev);
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -83,16 +86,22 @@ export class DefaultInterceptor implements HttpInterceptor {
         // }
         break;
       case 401:
-        // 清空 token 信息
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_info');
+        this.$message.error('登录已过期！');
+        this.$router.navigate(['/login']);
         break;
       case 403:
+        break;
       case 404:
+        this.$message.error('请求无效！');
         break;
       case 500:
+        this.$message.error('服务异常，请稍后重试！');
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
-          console.warn('未可知错误，大部分是由于后端不支持CORS或无效配置引起', ev);
+          this.$message.error('未可知错误，大部分是由于后端不支持CORS或无效配置引起！');
           return throwError(ev);
         }
         break;
@@ -103,13 +112,24 @@ export class DefaultInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // 统一加上服务端前缀
     let url = req.url;
-    if (!url.includes('qweather') && !url.includes('qweather')) {
-      url = environment.SERVER_URL + url;
+    let headers = new HttpHeaders();
+    const token: Token = JSON.parse(localStorage.getItem('token'));
+    const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
+    // 判断第三方API的接口
+    if (url.includes('qweather')) {
+      if (!url.startsWith('https://') && !url.startsWith('http://')) {
+        url = environment.SERVER_URL + url;
+      }
+    } else {
+      // 添加token信息
+      if (token) {
+        headers = headers.append(token.tokenName, token.tokenValue);
+      }
+      // 添加用户id
+      if (userInfo) {
+        headers = headers.append('userId', `${userInfo.id}`);
+      }
     }
-    // const token = this.token.get().token;
-    // console.log('token is :', token);
-    // req.headers.append('Authentication', token);
-
     // 统一添加国际化的头部处理    并携带WEB标识
     // let newHeaders = req.headers.append('Accept-Language', this.i18n.currentLang);
     // if (!newHeaders.get(AppSecurity.APP_HTTP_HEADERS.TERMINAL)) {
@@ -126,8 +146,9 @@ export class DefaultInterceptor implements HttpInterceptor {
     //     }),
     //     catchError((err: HttpErrorResponse) => this.handleData(err)),
     // );
-    const newReq = req.clone({url});
-    return next.handle(newReq).pipe(
+    // 设置url和headers
+    const cloneReq = req.clone({url, headers});
+    return next.handle(cloneReq).pipe(
       mergeMap((event: any) => {
         // 允许统一对请求错误处理
         if (event instanceof HttpResponseBase) {
@@ -138,5 +159,29 @@ export class DefaultInterceptor implements HttpInterceptor {
       }),
       catchError((err: HttpErrorResponse) => this.handleData(err)),
     );
+  }
+
+  doIntercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).pipe(catchError(err => {
+      if (err instanceof HttpErrorResponse) {
+        switch ((err as HttpErrorResponse).status) {
+          case 401:
+            this.$router.navigate(['/main']);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user_info');
+            this.$message.error('登录已过期！');
+            break;
+          case 403:
+            break;
+          case 404:
+            this.$message.error('请求无效！');
+            break;
+          case 500:
+            this.$message.error('服务异常，请稍后重试！');
+            break;
+        }
+      }
+      return throwError(err);
+    }));
   }
 }
