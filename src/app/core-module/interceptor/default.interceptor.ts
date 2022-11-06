@@ -115,6 +115,9 @@ export class DefaultInterceptor implements HttpInterceptor {
     let headers = new HttpHeaders();
     const token: Token = JSON.parse(localStorage.getItem('token'));
     const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
+    if (!token) {
+      this.$router.navigate(['/login']);
+    }
     // 判断第三方API的接口
     if (url.includes('qweather')) {
       if (!url.startsWith('https://') && !url.startsWith('http://')) {
@@ -166,7 +169,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       if (err instanceof HttpErrorResponse) {
         switch ((err as HttpErrorResponse).status) {
           case 401:
-            this.$router.navigate(['/main']);
+            this.$router.navigate(['/login']);
             localStorage.removeItem('token');
             localStorage.removeItem('user_info');
             this.$message.error('登录已过期！');

@@ -7,5 +7,6 @@ export interface User {
   password: string; // 密码
   role: string;    // 角色
   roleName: string;    // 角色名称
+  lastLoginTime: string;    // 上次登录时间
   saTokenInfo: Token;   // token数据
 }

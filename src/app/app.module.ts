@@ -12,6 +12,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {DefaultInterceptor} from './core-module/interceptor/default.interceptor';
 import {SharedModuleModule} from './shared-module/shared-module.module';
+import {SimpleGuardService} from './core-module/interceptor/simple-guard.service';
 
 registerLocaleData(zh);
 
@@ -33,7 +34,9 @@ registerLocaleData(zh);
       provide: HTTP_INTERCEPTORS,
       useClass: DefaultInterceptor,
       multi: true,
-    }
+    },
+    /* 路由守卫*/
+    SimpleGuardService
   ],
   bootstrap: [AppComponent]
 })

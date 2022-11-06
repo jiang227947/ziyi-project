@@ -6,8 +6,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {Token} from '../../../shared-module/interface/token';
 import {User} from '../../../shared-module/interface/user';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'app-login-form',
@@ -30,8 +30,8 @@ export class LoginFormComponent implements OnInit {
 
   buildForm(): void {
     this.loginForm = this.fb.group({
-      loginName: [null, [Validators.required, Validators.minLength(3)]],
-      password: [null, [Validators.required, Validators.minLength(3)]],
+      loginName: ['test', [Validators.required, Validators.minLength(3)]],
+      password: ['000', [Validators.required, Validators.minLength(3)]],
       remember: [true],
     });
   }
@@ -63,7 +63,7 @@ export class LoginFormComponent implements OnInit {
     this.login(loginInfo, messageId).then((user: any) => {
       if (user) {
         // 查询用户接口
-        this.$http.get(`${environment.LOCAL}/queryUserById/${user.id}`).subscribe((result: Result<User>) => {
+        this.$http.get(`${environment.API_URL}/queryUserById/${user.id}`).subscribe((result: Result<User>) => {
           if (result.code === 200) {
             const userInfo: User = result.data;
             // 用户信息保存到浏览器
@@ -72,7 +72,11 @@ export class LoginFormComponent implements OnInit {
             const menuList = this.appMenuService.getAppMenu();
             localStorage.setItem('app_menu', JSON.stringify(menuList));
             this.$message.remove(messageId);
-            this.$message.success('登录成功');
+            // 设置上次登录时间显示
+            const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
+            // 设置message提示文字
+            const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
+            this.$message.success(messageTitle, {nzDuration: 3000});
             this.router.navigate(['/main']);
           } else {
             this.$message.error(result.msg);
@@ -88,7 +92,7 @@ export class LoginFormComponent implements OnInit {
   // 登录接口
   login(loginInfo, messageId: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-      this.$http.post(`${environment.LOCAL}/login`, loginInfo).subscribe((result: Result<User>) => {
+      this.$http.post(`${environment.API_URL}/login`, loginInfo).subscribe((result: Result<User>) => {
         if (result.code === 200) {
           const userInfo: User = result.data;
           localStorage.setItem('token', JSON.stringify(userInfo.saTokenInfo));

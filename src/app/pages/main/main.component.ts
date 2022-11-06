@@ -49,10 +49,10 @@ export class MainComponent implements OnInit {
   // 退出
   logout(): void {
     const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
-    this.$http.post(`${environment.LOCAL}/loginOut`, {id: userInfo.id}).subscribe((result: Result<any>) => {
+    this.$http.post(`${environment.API_URL}/loginOut`, {id: userInfo.id}).subscribe((result: Result<any>) => {
       if (result.code === 200) {
         localStorage.clear();
-        this.$message.success(result.msg);
+        this.$message.success(result.msg, {nzDuration: 1000});
         this.router.navigate(['/login']);
       } else {
         this.$message.error(result.msg);

@@ -4,7 +4,7 @@
 
 export const environment = {
   SERVER_URL: './',
-  API_URL: 'https://www.evziyi.top/',
+  API_URL: 'https://www.evziyi.top/api',
   LOCAL: 'http://localhost:8080',
   weather: 'https://devapi.qweather.com/v7', // 实时天气
   city: 'https://geoapi.qweather.com/v2', // 城市天气

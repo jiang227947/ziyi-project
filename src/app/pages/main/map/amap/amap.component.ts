@@ -20,8 +20,10 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
   }
 
   ngOnDestroy(): void {
-    this.aMap.destroy();
-    this.aMap = null;
+    if (this.aMap) {
+      this.aMap.destroy();
+      this.aMap = null;
+    }
   }
 
   ngAfterViewInit(): void {
