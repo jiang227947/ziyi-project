@@ -31,14 +31,15 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
     });
     this.map.addControl(
       new mapboxgl.GeolocateControl({
-        positionoptions: {
-          enableHighAccuracy: true,
-        }, trackUserLocation: true,
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true
       }));
     this.map.on('style.load', () => {
       // 监听样式加载完毕
       this.addControl();
-      this.addMarker();
+      // this.addMarker();
     });
     this.map.on('dragend', (event) => {
       // 监听拖拽

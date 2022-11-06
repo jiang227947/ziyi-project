@@ -8,16 +8,18 @@ import {
 
 @Injectable()
 export class SimpleGuardService implements CanActivate {
-  token: string = localStorage.getItem('token');
+  token: string;
 
   constructor(private router: Router) {
   }
 
   // 是否允许进入该路由
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    this.token = localStorage.getItem('token');
     // 权限控制逻辑如 是否登录/拥有访问权限
     if (!this.token) {
-      this.router.navigateByUrl('login');
+      this.router.navigateByUrl('/login');
+      return false;
     }
     return true;
   }
