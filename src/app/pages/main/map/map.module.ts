@@ -8,12 +8,14 @@ import {MAP_ROUTER_CONFIG} from './map-routing.module';
 import {AppGlobalMapBoxRef, BrowserGlobalMapBoxRef} from './service/map-box-loader.service';
 import {MapBoxComponent} from './map-box/map-box.component';
 import {RouterModule} from '@angular/router';
+import {BmapComponent} from './bmap/bmap.component';
 
 const COMPONENTS = [
   GMapComponent,
   MapComponent,
   MapBoxComponent,
-  AmapComponent
+  AmapComponent,
+  BmapComponent
 ];
 
 @NgModule({

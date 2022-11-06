@@ -1,0 +1,9 @@
+<div id="bMap">
+  <div #bMap></div>
+</div>
+<div class="example" *ngIf="mapLoadType === mapLoadTypeEnum.loading">
+  <nz-spin nzSimple nzTip="加载百度地图API中..." class="spin"></nz-spin>
+</div>
+<div class="example" *ngIf="mapLoadType === mapLoadTypeEnum.error">
+  <span class="spin">百度地图加载失败</span>
+</div>

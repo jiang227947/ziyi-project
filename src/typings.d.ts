@@ -1,3 +1,6 @@
+declare var BMap: any;
+declare var BMAP_ANCHOR_BOTTOM_RIGHT: any;
+declare var BMapGL: any;
 declare var AMap: any;
 declare var AMapUI: any;
 declare let turf: any; // 测量距离

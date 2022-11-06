@@ -1,7 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import Marker = google.maps.Marker;
-import {EMapLoadTypeStatus, EMapType} from "../../../../shared-module/enum/map-enum";
-import {MarkerClusterer} from "@googlemaps/markerclusterer";
+import {EMapLoadTypeStatus, EMapType} from '../../../../shared-module/enum/map-enum';
+import {MarkerClusterer} from '@googlemaps/markerclusterer';
 
 /**
  * 封装地图的公共方法
@@ -29,12 +29,10 @@ export class MapComponent {
     polygon: false,
     rectangle: false,
     circle: false
-  }
+  };
 
   constructor() {
   }
-
-
 
 
 }

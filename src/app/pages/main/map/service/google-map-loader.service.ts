@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {DOCUMENT} from "@angular/common";
+import {DOCUMENT} from '@angular/common';
 
 /**
  * 加载谷歌地图

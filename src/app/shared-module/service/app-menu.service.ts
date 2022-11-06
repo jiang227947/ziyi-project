@@ -48,6 +48,17 @@ export class AppMenuService {
           {
             menuId: '2-2',
             parentMenuId: '2',
+            menuName: '百度地图',
+            menuLevel: 2,
+            menuHref: '/main/map/bMap',
+            imageUrl: '../../../assets/icon/ico/bmap.ico',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
+          {
+            menuId: '2-3',
+            parentMenuId: '2',
             menuName: 'MapBox',
             menuLevel: 2,
             menuHref: '/main/map/mapBox',
@@ -57,7 +68,7 @@ export class AppMenuService {
             children: []
           },
           {
-            menuId: '2-3',
+            menuId: '2-4',
             parentMenuId: '2',
             menuName: '谷歌地图',
             menuLevel: 2,

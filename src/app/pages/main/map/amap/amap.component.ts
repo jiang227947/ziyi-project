@@ -14,7 +14,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
   aMap: any; // 地图实体
   geolocation: any; // 地图控件实体
 
-  constructor(private amapLoader: AMapLoaderService,
+  constructor(private aMapLoader: AMapLoaderService,
               private modal: NzModalService) {
     super();
   }
@@ -31,7 +31,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
   }
 
   loadAMap(): void {
-    this.amapLoader.load().then(() => {
+    this.aMapLoader.load().then(() => {
       this.aMap = new AMap.Map('aMap', {
         resizeEnable: true,
         zoom: this.mapZoom,
