@@ -6,13 +6,12 @@ import {NZ_I18N} from 'ng-zorro-antd/i18n';
 import {zh_CN} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {DefaultInterceptor} from './core-module/interceptor/default.interceptor';
 import {SharedModuleModule} from './shared-module/shared-module.module';
-import {SimpleGuardService} from './core-module/interceptor/simple-guard.service';
+import {SimpleGuardService} from './core-module/service/simple-guard.service';
 
 registerLocaleData(zh);
 

@@ -4,6 +4,7 @@ import {NzModalService} from "ng-zorro-antd/modal";
 import {MarkerClusterer, MarkerClustererOptions} from "@googlemaps/markerclusterer";
 import Marker = google.maps.Marker;
 import {MapComponent} from "../map/map.component";
+import {EMapType} from '../../../../shared-module/enum/map-enum';
 
 @Component({
   selector: 'app-g-map',
@@ -535,6 +536,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
         });
       }
       this.mapLoadType = this.mapLoadTypeEnum.done;
+      this.mapType = EMapType.google;
     }, () => {
       this.mapLoadType = this.mapLoadTypeEnum.error;
       this.modal.create({

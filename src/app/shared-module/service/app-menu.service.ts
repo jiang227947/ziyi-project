@@ -13,6 +13,7 @@ export class AppMenuService {
    * */
   getAppMenu(): MenuModel[] {
     return [
+      // 首页
       {
         menuId: '1',
         menuName: '首页',
@@ -24,6 +25,7 @@ export class AppMenuService {
         isSelected: false,
         children: []
       },
+      // 地图
       {
         menuId: '2',
         menuName: '地图',
@@ -80,6 +82,7 @@ export class AppMenuService {
           }
         ]
       },
+      // MxDraw CAD
       {
         menuId: '3',
         menuName: 'MxDraw CAD',
@@ -90,6 +93,7 @@ export class AppMenuService {
         isSelected: false,
         children: []
       },
+      // 和风天气
       {
         menuId: '4',
         menuName: '和风天气',
@@ -99,6 +103,29 @@ export class AppMenuService {
         isShow: true,
         isSelected: false,
         children: []
+      },
+      // 用户管理
+      {
+        menuId: '5',
+        menuName: '用户管理',
+        menuLevel: 1,
+        menuHref: '/main/user-management',
+        icon: 'solution',
+        isShow: true,
+        isSelected: false,
+        children: [
+          {
+            menuId: '5-1',
+            parentMenuId: '5',
+            menuName: '用户列表',
+            menuLevel: 2,
+            menuHref: '/main/user-management/user-list',
+            icon: 'team',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
+        ]
       }
     ];
   }

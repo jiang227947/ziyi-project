@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
-import {AppGlobalRef} from "./google-map-loader.service";
-import {DOCUMENT} from "@angular/common";
+import {AppGlobalRef} from './google-map-loader.service';
+import {DOCUMENT} from '@angular/common';
 
 @Injectable()
 export class AMapLoaderService {
@@ -35,7 +35,7 @@ export class AMapLoaderService {
     script.async = true;
     script.defer = true;
     script.id = this._SCRIPT_ID;
-    script.src = 'https://webapi.amap.com/maps?v=2.0&key=844738f780d861f81137d1308c09768a&plugin=AMap.ToolBar&callback=initAMap';// this._getScriptSrc(this.callbackName);
+    script.src = 'https://webapi.amap.com/maps?v=2.0&key=844738f780d861f81137d1308c09768a&plugin=AMap.ToolBar&callback=initAMap'; // this._getScriptSrc(this.callbackName);
     //// webapi.amap.com/ui/1.0/main-async.js
     const uiScript = this._document.createElement('script');
     uiScript.type = 'text/javascript';

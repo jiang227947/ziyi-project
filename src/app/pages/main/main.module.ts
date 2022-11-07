@@ -11,6 +11,7 @@ import {SharedModuleModule} from '../../shared-module/shared-module.module';
 @NgModule({
   declarations: [MainComponent],
   imports: [
+    // RouterModule.forRoot(MAIN_ROUTER_CONFIG, {useHash: true}),
     RouterModule.forChild(MAIN_ROUTER_CONFIG),
     SharedModuleModule,
     IconsProviderModule,

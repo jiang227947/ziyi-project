@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {MapComponent} from '../map/map.component';
 import {AMapLoaderService} from '../service/a-map-loader.service';
 import {NzModalRef, NzModalService} from 'ng-zorro-antd/modal';
+import {EMapType} from '../../../../shared-module/enum/map-enum';
 
 @Component({
   selector: 'app-amap',
@@ -31,6 +32,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
   }
 
   loadAMap(): void {
+    this.mapLoadType = this.mapLoadTypeEnum.loading;
     this.aMapLoader.load().then(() => {
       this.aMap = new AMap.Map('aMap', {
         resizeEnable: true,
@@ -67,6 +69,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
         });
       });
       this.mapLoadType = this.mapLoadTypeEnum.done;
+      this.mapType = EMapType.aMap;
     }, () => {
       this.mapLoadType = this.mapLoadTypeEnum.error;
       this.createModalRef('提示', '高德地图加载失败，请检查网络！');

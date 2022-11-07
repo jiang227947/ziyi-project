@@ -29,15 +29,16 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
       projection: 'globe', // display the map as a 3D globe
       attributionControl: false, // 控制展示地图的属性信息。
     });
-    this.map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true
-        },
-        trackUserLocation: true
-      }));
+
     this.map.on('style.load', () => {
       // 监听样式加载完毕
+      this.map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          trackUserLocation: true
+        }));
       this.addControl();
       // this.addMarker();
     });

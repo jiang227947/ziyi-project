@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {BMapLoaderService} from '../service/b-map-loader-service';
 import {MapComponent} from '../map/map.component';
 import {NzModalRef, NzModalService} from 'ng-zorro-antd/modal';
+import {EMapType} from '../../../../shared-module/enum/map-enum';
 
 @Component({
   selector: 'app-bmap',
@@ -22,6 +23,7 @@ export class BmapComponent extends MapComponent implements OnInit, AfterViewInit
   }
 
   ngAfterViewInit(): void {
+    this.mapLoadType = this.mapLoadTypeEnum.loading;
     this.bMapLoader.load().then(() => {
       this.bMap = new BMap.Map('bMap'); // 创建Map实例
       this.bMap.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
@@ -45,6 +47,7 @@ export class BmapComponent extends MapComponent implements OnInit, AfterViewInit
         console.log('locationError', e);
       });
       this.mapLoadType = this.mapLoadTypeEnum.done;
+      this.mapType = EMapType.bMap;
     }, () => {
       this.mapLoadType = this.mapLoadTypeEnum.error;
       this.createModalRef('提示', '百度地图加载失败，请检查网络！');

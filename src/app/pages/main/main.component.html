@@ -76,7 +76,8 @@
                       [nzSelected]="menuChildren.isSelected"
                       [routerLink]="menuChildren.menuHref"
                       (click)="menuitemClick(menu)">
-                    <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}"></span>
+                    <span nz-icon [nzType]="menuChildren.icon" *ngIf="!menuChildren.imageUrl"></span>
+                    <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}" *ngIf="menuChildren.imageUrl"></span>
                     <a [routerLink]="menuChildren.menuHref">{{menuChildren.menuName}}</a>
                   </li>
                 </ng-container>

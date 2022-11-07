@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {SimpleGuardService} from './core-module/interceptor/simple-guard.service';
+import {SimpleGuardService} from './core-module/service/simple-guard.service';
 
 const routes: Routes = [
   // 默认路由
-  {path: '', pathMatch: 'full', redirectTo: 'main'},
+  {path: '', pathMatch: 'full', redirectTo: 'main/index'},
   // 首页
   {
     path: 'main',

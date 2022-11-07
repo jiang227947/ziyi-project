@@ -77,7 +77,7 @@ export class LoginFormComponent implements OnInit {
             // 设置message提示文字
             const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
             this.$message.success(messageTitle, {nzDuration: 3000});
-            this.router.navigate(['/main']);
+            this.router.navigate(['/main/index']);
           } else {
             this.$message.error(result.msg);
             this.$message.remove(messageId);

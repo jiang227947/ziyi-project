@@ -29,7 +29,7 @@ export class MenuModel {
   /**
    * 图片路径
    */
-  public imageUrl: string;
+  public imageUrl?: string;
   /**
    * icon路径
    */

@@ -19,6 +19,7 @@ import {NzCheckboxModule} from 'ng-zorro-antd/checkbox';
 import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzAvatarModule} from 'ng-zorro-antd/avatar';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {NzResultModule} from 'ng-zorro-antd/result';
 
 const MODULES = [
   CommonModule,
@@ -42,7 +43,8 @@ const NZMODULES = [
   NzFormModule,
   NzCheckboxModule,
   NzDropDownModule,
-  NzAvatarModule
+  NzAvatarModule,
+  NzResultModule
 ];
 
 @NgModule({
