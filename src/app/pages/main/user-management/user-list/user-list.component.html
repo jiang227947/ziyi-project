@@ -1,0 +1,24 @@
+<button nz-button nzType="primary" (click)="addUser()">新增</button>
+<nz-table #basicTable [nzData]="userList"
+          [nzLoading]="loading"
+          [nzLoadingDelay]="300"
+          [nzScroll]="{ x: '1000px', y: '300px' }">
+  <thead>
+  <tr>
+    <th nzWidth="100px">序号</th>
+    <th>登录名</th>
+    <th>用户名</th>
+    <th>角色</th>
+    <th>上次登录时间</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data;index as idx">
+    <td>{{ idx + 1 }}</td>
+    <td>{{ data.name }}</td>
+    <td>{{ data.userName }}</td>
+    <td>{{ data.roleName }}</td>
+    <td>{{ data.lastLoginTime }}</td>
+  </tr>
+  </tbody>
+</nz-table>
