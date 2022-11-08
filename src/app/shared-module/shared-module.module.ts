@@ -20,6 +20,7 @@ import {NzDropDownModule} from 'ng-zorro-antd/dropdown';
 import {NzAvatarModule} from 'ng-zorro-antd/avatar';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzResultModule} from 'ng-zorro-antd/result';
+import {NzBreadCrumbModule} from 'ng-zorro-antd/breadcrumb';
 
 const MODULES = [
   CommonModule,
@@ -44,7 +45,8 @@ const NZMODULES = [
   NzCheckboxModule,
   NzDropDownModule,
   NzAvatarModule,
-  NzResultModule
+  NzResultModule,
+  NzBreadCrumbModule
 ];
 
 @NgModule({

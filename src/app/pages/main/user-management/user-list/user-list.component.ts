@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment.prod';
 import {Result} from '../../../../shared-module/interface/result';
 import {Router} from '@angular/router';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-user-list',
@@ -17,7 +18,7 @@ export class UserListComponent implements OnInit {
   // 用户列表
   userList: User[] = [];
 
-  constructor(private $http: HttpClient, private router: Router) {
+  constructor(private $http: HttpClient, private router: Router, private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
@@ -26,7 +27,7 @@ export class UserListComponent implements OnInit {
       if (result.code === 200) {
         this.userList = result.data;
       } else {
-
+        this.$message.error(result.msg);
       }
       this.loading = false;
     });

@@ -1,0 +1,16 @@
+.form-content {
+  min-height: 100%;
+  background-color: #fff;
+  padding: 20px;
+
+  .form {
+    margin: 40px 0;
+  }
+
+  .submit-button {
+    width: 200px;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+

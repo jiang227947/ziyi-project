@@ -1,2 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
+
+/**列表页面最外层*/
+.table-content {
+  min-height: 100%;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+/**按钮的样式*/
+.ant-btn {
+  height: 38px;
+  border-radius: 5px;
+  width: 70px;
+}
+
+.ant-btn-block {
+  width: 100% !important;
+}
+
+/**搜索按钮的样式*/
+.ant-input-search-button {
+  border-radius: 5px;
+}
+
+/**输入框的样式*/
+.ant-input {
+  height: 38px;
+  line-height: 40px;
+  border-radius: 5px;
+  padding: 4px 8px;
+}
+
+/**表单的label文字*/
+.ant-form-item-label > label {
+  height: 38px;
+}
+
+
+/** 滚动条样式*/
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #bae7ff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.27);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #bfbfbf;
+}
