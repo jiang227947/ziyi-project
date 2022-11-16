@@ -11,7 +11,7 @@
     </div>
   </div>
   <!--实时天气-->
-  <nz-spin [nzSpinning]="loading">
+  <nz-spin [nzSpinning]="loading" [nzDelay]="500">
     <nz-card nzTitle="实时天气" class="card">
       <nz-descriptions nzBordered
                        [nzColumn]="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }">
@@ -36,14 +36,14 @@
     </nz-card>
   </nz-spin>
   <!--每日天气预报-->
-  <nz-spin [nzSpinning]="loading">
+  <nz-spin [nzSpinning]="loading" [nzDelay]="500">
     <nz-card [nzTitle]="weatherTitleTemp" [nzExtra]="dayWeatherTemp" class="card">
-      <nz-table #basicTable [nzData]="futureWeather" [nzLoading]="loading" [nzLoadingDelay]="300"
+      <nz-table #basicTable [nzData]="futureWeather" [nzLoading]="loading" [nzLoadingDelay]="500"
                 [nzScroll]="{ x: '1000px', y: '300px' }">
         <thead>
         <tr *ngIf="weatherType === 'day';else hourTr">
           <th nzWidth="100px">序号</th>
-          <th>预报日期</th>
+          <th nzWidth="150px">预报日期</th>
           <th>天气</th>
           <th>预报当天最高温度</th>
           <th>预报当天最低温度</th>
@@ -56,7 +56,7 @@
         <ng-template #hourTr>
           <tr>
             <th nzWidth="100px">序号</th>
-            <th>预报时间</th>
+            <th nzWidth="150px">预报时间</th>
             <th>天气</th>
             <th>温度</th>
             <th>降水量</th>
@@ -83,7 +83,7 @@
             <td>{{ data.textDay }}</td>
           </ng-container>
           <ng-template #hourTd>
-            <td>{{ data.fxTime | date:'yyyy-MM-dd hh:mm' }}</td>
+            <td>{{ data.fxTime | date:'yyyy-MM-dd HH:mm': 'UTC+8' }}</td>
             <td>
               <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + data?.icon + '-fill.svg'">
             </td>

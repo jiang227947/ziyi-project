@@ -8,11 +8,14 @@ import {
   WeatherNowInterface
 } from './interface/interface';
 import {NzModalService} from 'ng-zorro-antd/modal';
+import {BMapLoaderService} from '../map/service/b-map-loader-service';
+import {format} from 'date-fns';
 
 @Component({
   selector: 'app-q-weather',
   templateUrl: './q-weather.component.html',
-  styleUrls: ['./q-weather.component.scss']
+  styleUrls: ['./q-weather.component.scss'],
+  providers: [BMapLoaderService]
 })
 export class QWeatherComponent implements OnInit {
 
@@ -69,20 +72,26 @@ export class QWeatherComponent implements OnInit {
   futureWeather: DailyInterface[]; // 未来N天城市天气
 
   constructor(private weatherRequestService: WeatherRequestService,
-              private modal: NzModalService) {
+              private modal: NzModalService, private bMapLoader: BMapLoaderService) {
   }
 
   ngOnInit(): void {
-    this.queryCityLookupWeather('武汉').then((result: CityInterface) => {
-      if (result) {
-        this.city = result.location[0] || undefined;
-        // 查询实时天气
-        this.queryNowWeather(this.city.id);
-        // 查询未来小时天气
-        this.queryHoursHWeather(this.city.id);
-      } else {
-        this.loading = false;
-      }
+    // 使用百度地图ip定位
+    this.bMapLoader.load().then(() => {
+      const myFun = (city) => {
+        const cityName = city.name || '武汉';
+        this.queryCityLookupWeather(cityName).then((result: CityInterface) => {
+          if (result) {
+            this.city = result.location[0] || undefined;
+            // 查询实时天气
+            this.queryNowWeather(this.city.id);
+            // 查询未来小时天气
+            this.queryHoursHWeather(this.city.id);
+          }
+        });
+      };
+      // 使用百度地图ip定位
+      new BMap.LocalCity().get(myFun);
     });
   }
 
@@ -126,7 +135,6 @@ export class QWeatherComponent implements OnInit {
             this.city = result.location[0] || undefined;
             // 查询未来天气
             this.weatherTitleChange(this.weatherType);
-            this.loading = false;
           }
           resolve(result);
         } else {
@@ -135,6 +143,7 @@ export class QWeatherComponent implements OnInit {
             nzContent: `查询${this.cityName}信息失败！`,
             nzCancelText: null
           });
+          this.loading = false;
           reject();
         }
       });
@@ -154,6 +163,7 @@ export class QWeatherComponent implements OnInit {
           nzCancelText: null
         });
       }
+      this.loading = false;
     });
   }
 

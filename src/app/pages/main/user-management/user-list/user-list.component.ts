@@ -17,11 +17,13 @@ export class UserListComponent implements OnInit {
   loading = false;
   // 用户列表
   userList: User[] = [];
+  role: string;
 
   constructor(private $http: HttpClient, private router: Router, private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
+    this.role = JSON.parse(localStorage.getItem('user_info')).role;
     this.loading = true;
     this.$http.get(`${environment.API_URL}/listUser`).subscribe((result: Result<User[]>) => {
       if (result.code === 200) {

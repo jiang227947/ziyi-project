@@ -94,10 +94,8 @@ export interface DailyInterface {
   pressure; // 大气压强，默认单位：百帕
   vis; // 能见度，默认单位：公里
   cloud; // 云量，百分比数值。可能为空
-}
 
-// 逐小时信息
-export interface HourlyInterface {
+  // 逐小时信息
   fxTime; // 预报时间
   temp; // 温度，默认单位：摄氏度
   icon; // 天气状况和图标的代码，图标可通过天气状况和图标下载
@@ -106,10 +104,6 @@ export interface HourlyInterface {
   windDir; // 风向
   windScale; // 风力等级
   windSpeed; // 风速，公里/小时
-  humidity; // 相对湿度，百分比数值
-  precip; // 当前小时累计降水量，默认单位：毫米
   pop; // 逐小时预报降水概率，百分比数值，可能为空
-  pressure; // 大气压强，默认单位：百帕
-  cloud; // 云量，百分比数值。可能为空
   dew; // 露点温度。可能为空
 }

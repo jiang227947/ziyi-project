@@ -1,5 +1,5 @@
 <div class="table-content">
-  <button nz-button nzType="primary" (click)="addUser()">新增</button>
+  <button nz-button nzType="primary" (click)="addUser()" *ngIf="role === '1001'">新增</button>
   <nz-table #basicTable [nzData]="userList"
             [nzLoading]="loading"
             [nzLoadingDelay]="300"

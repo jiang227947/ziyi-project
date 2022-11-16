@@ -30,8 +30,8 @@ export class LoginFormComponent implements OnInit {
 
   buildForm(): void {
     this.loginForm = this.fb.group({
-      loginName: ['test', [Validators.required, Validators.minLength(3)]],
-      password: ['000', [Validators.required, Validators.minLength(3)]],
+      loginName: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       remember: [true],
     });
   }
@@ -74,10 +74,10 @@ export class LoginFormComponent implements OnInit {
             this.$message.remove(messageId);
             // 设置上次登录时间显示
             const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
+            this.router.navigate(['/main/index']);
             // 设置message提示文字
             const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
             this.$message.success(messageTitle, {nzDuration: 3000});
-            this.router.navigate(['/main/index']);
           } else {
             this.$message.error(result.msg);
             this.$message.remove(messageId);
@@ -108,6 +108,11 @@ export class LoginFormComponent implements OnInit {
         reject(null);
       });
     });
+  }
+
+  // 使用测试账户
+  testUser(): void {
+    this.loginForm.patchValue({loginName: 'test', password: '000'});
   }
 
   get loginName(): AbstractControl {
