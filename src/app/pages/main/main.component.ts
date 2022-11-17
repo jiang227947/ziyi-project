@@ -28,7 +28,9 @@ export class MainComponent implements OnInit {
       this.userName = JSON.parse(userInfo).userName;
       this.menuList = JSON.parse(menu);
     } else {
-      localStorage.clear();
+      localStorage.removeItem('app_menu');
+      localStorage.removeItem('user_info');
+      localStorage.removeItem('token');
       this.router.navigate(['/login']);
     }
   }
@@ -51,8 +53,10 @@ export class MainComponent implements OnInit {
     const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
     this.$http.post(`${environment.API_URL}/loginOut`, {id: userInfo.id}).subscribe((result: Result<any>) => {
       if (result.code === 200) {
-        localStorage.clear();
         this.$message.success(result.msg, {nzDuration: 1000});
+        localStorage.removeItem('app_menu');
+        localStorage.removeItem('user_info');
+        localStorage.removeItem('token');
         this.router.navigate(['/login']);
       } else {
         this.$message.error(result.msg);

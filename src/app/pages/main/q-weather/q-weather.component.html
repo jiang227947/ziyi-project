@@ -9,19 +9,31 @@
         <button nz-button nzType="primary" nzSearch [disabled]="loading" (click)="queryCityLookupWeather()">查询</button>
       </ng-template>
     </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" class="tags">
+      <nz-tag
+        *ngFor="let tag of cityTags;index as idx"
+        [nzMode]="'closeable'"
+        (nzOnClose)="handleClose(idx)"
+      >
+        <a (click)="handleQuery(tag)">{{ tag }}</a>
+      </nz-tag>
+    </div>
   </div>
   <!--实时天气-->
   <nz-spin [nzSpinning]="loading" [nzDelay]="500">
     <nz-card nzTitle="实时天气" class="card">
       <nz-descriptions nzBordered
                        [nzColumn]="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }">
-        <nz-descriptions-item nzTitle="地区/城市名称">{{city?.name}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="经纬度">{{city?.lat}}，{{city?.lon}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="行政区/地区/城市名称">
+          <span *ngIf="city?.adm1">{{city?.adm1}}/{{city?.adm2}}/{{city?.name}}</span>
+        </nz-descriptions-item>
         <nz-descriptions-item nzTitle="国家">{{city?.country}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="经纬度">{{city?.lat}}，{{city?.lon}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="数据观测时间">{{cityWeather?.obsTime | date:'yyyy-MM-dd hh:mm'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="天气">
-          <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + cityWeather?.icon + '-fill.svg'"
+          <img class="weather-icon" [src]="'./assets/icon/QWeather-Icons-1.1.1/' + cityWeather?.icon + '-fill.svg'"
                *ngIf="cityWeather?.icon">
+          {{cityWeather?.text}}
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="温度">{{cityWeather?.temp}}℃</nz-descriptions-item>
         <nz-descriptions-item nzTitle="体感温度">{{cityWeather?.feelsLike}}℃</nz-descriptions-item>
@@ -39,7 +51,7 @@
   <nz-spin [nzSpinning]="loading" [nzDelay]="500">
     <nz-card [nzTitle]="weatherTitleTemp" [nzExtra]="dayWeatherTemp" class="card">
       <nz-table #basicTable [nzData]="futureWeather" [nzLoading]="loading" [nzLoadingDelay]="500"
-                [nzScroll]="{ x: '1000px', y: '300px' }">
+                [nzScroll]="{ x: '1000px', y: '400px' }">
         <thead>
         <tr *ngIf="weatherType === 'day';else hourTr">
           <th nzWidth="100px">序号</th>
@@ -51,7 +63,6 @@
           <th>风速</th>
           <th>风向</th>
           <th>风力等级</th>
-          <th>描述</th>
         </tr>
         <ng-template #hourTr>
           <tr>
@@ -72,7 +83,8 @@
           <ng-container *ngIf="weatherType === 'day';else hourTd">
             <td>{{ data.fxDate }}</td>
             <td>
-              <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + data?.iconDay + '-fill.svg'">
+              <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + data?.iconDay + '-fill.svg'" class="weather-icon">
+              <span>{{ data.textDay }}</span>
             </td>
             <td>{{ data.tempMax }}</td>
             <td>{{ data.tempMin }}</td>
@@ -80,12 +92,12 @@
             <td>{{ data.windSpeedDay }}</td>
             <td>{{ data.windDirNight }}</td>
             <td>{{ data.windScaleNight }}</td>
-            <td>{{ data.textDay }}</td>
           </ng-container>
           <ng-template #hourTd>
             <td>{{ data.fxTime | date:'yyyy-MM-dd HH:mm': 'UTC+8' }}</td>
             <td>
-              <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + data?.icon + '-fill.svg'">
+              <img [src]="'./assets/icon/QWeather-Icons-1.1.1/' + data?.icon + '-fill.svg'" class="weather-icon">
+              <span>{{ data.text }}</span>
             </td>
             <td>{{ data.temp }}</td>
             <td>{{ data.precip }}毫米</td>

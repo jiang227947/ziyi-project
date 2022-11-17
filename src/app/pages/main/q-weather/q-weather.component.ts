@@ -9,7 +9,6 @@ import {
 } from './interface/interface';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {BMapLoaderService} from '../map/service/b-map-loader-service';
-import {format} from 'date-fns';
 
 @Component({
   selector: 'app-q-weather',
@@ -70,25 +69,23 @@ export class QWeatherComponent implements OnInit {
   ]; // 未来N天分类
   days = '3'; // 默认天
   futureWeather: DailyInterface[]; // 未来N天城市天气
+  cityTags: string[] = []; // 搜索历史
 
   constructor(private weatherRequestService: WeatherRequestService,
               private modal: NzModalService, private bMapLoader: BMapLoaderService) {
   }
 
   ngOnInit(): void {
+    const cityRecord: string[] = JSON.parse(localStorage.getItem('city_record'));
+    if (cityRecord) {
+      // 读取历史记录
+      this.cityTags = cityRecord;
+    }
     // 使用百度地图ip定位
     this.bMapLoader.load().then(() => {
       const myFun = (city) => {
         const cityName = city.name || '武汉';
-        this.queryCityLookupWeather(cityName).then((result: CityInterface) => {
-          if (result) {
-            this.city = result.location[0] || undefined;
-            // 查询实时天气
-            this.queryNowWeather(this.city.id);
-            // 查询未来小时天气
-            this.queryHoursHWeather(this.city.id);
-          }
-        });
+        this.queryCityLookupWeather(cityName);
       };
       // 使用百度地图ip定位
       new BMap.LocalCity().get(myFun);
@@ -115,7 +112,7 @@ export class QWeatherComponent implements OnInit {
   }
 
   // 根据城市名称查询城市信息
-  queryCityLookupWeather(city?: string): Promise<CityInterface> {
+  queryCityLookupWeather(city?: string): void {
     if (!city && this.cityName === '') {
       this.modal.info({
         nzTitle: '提示',
@@ -125,28 +122,36 @@ export class QWeatherComponent implements OnInit {
       return;
     }
     this.loading = true;
-    return new Promise<CityInterface>((resolve, reject) => {
-      this.weatherRequestService.queryCityLookupWeather({
-        key: this.key,
-        location: city || this.cityName
-      }).subscribe((result: CityInterface) => {
-        if (result.code === '200') {
-          if (!city) {
-            this.city = result.location[0] || undefined;
-            // 查询未来天气
-            this.weatherTitleChange(this.weatherType);
+    this.weatherRequestService.queryCityLookupWeather({
+      key: this.key,
+      location: city || this.cityName
+    }).subscribe((result: CityInterface) => {
+      if (result.code === '200') {
+        this.city = result.location[0] || undefined;
+        if (!city) {
+          // 如果搜索记录没有，则添加城市名称
+          if (!this.cityTags.includes(this.cityName)) {
+            // 长度不大于5
+            if (this.cityTags.length >= 5) {
+              this.cityTags.splice(0, 1);
+            }
+            this.cityTags.push(this.cityName);
+            // 储存记录
+            localStorage.setItem('city_record', JSON.stringify(this.cityTags));
           }
-          resolve(result);
-        } else {
-          this.modal.info({
-            nzTitle: result.code,
-            nzContent: `查询${this.cityName}信息失败！`,
-            nzCancelText: null
-          });
-          this.loading = false;
-          reject();
         }
-      });
+        // 查询实时天气
+        this.queryNowWeather(this.city.id);
+        // 查询未来天气
+        this.weatherTitleChange(this.weatherType);
+      } else {
+        this.modal.info({
+          nzTitle: result.code,
+          nzContent: `查询${this.cityName}信息失败！`,
+          nzCancelText: null
+        });
+      }
+      this.loading = false;
     });
   }
 
@@ -195,5 +200,16 @@ export class QWeatherComponent implements OnInit {
         this.queryDaysWeather();
         break;
     }
+  }
+
+  // 历史记录查询
+  handleQuery(tag: string): void {
+    this.queryCityLookupWeather(tag);
+  }
+
+  // 删除搜索历史
+  handleClose(idx: number): void {
+    this.cityTags.splice(idx, 1);
+    localStorage.setItem('city_record', JSON.stringify(this.cityTags));
   }
 }

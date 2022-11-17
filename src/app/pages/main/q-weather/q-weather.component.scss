@@ -17,3 +17,18 @@
 .extra-select {
   width: 100px;
 }
+
+.tags {
+  display: flex;
+  align-items: center;
+
+  a {
+    display: inline-block;
+    margin: 5px;
+    text-decoration: underline;
+  }
+}
+
+.weather-icon {
+  vertical-align: text-top;
+}
