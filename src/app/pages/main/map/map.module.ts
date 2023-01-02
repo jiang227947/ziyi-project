@@ -9,13 +9,15 @@ import {AppGlobalMapBoxRef, BrowserGlobalMapBoxRef} from './service/map-box-load
 import {MapBoxComponent} from './map-box/map-box.component';
 import {RouterModule} from '@angular/router';
 import {BmapComponent} from './bmap/bmap.component';
+import {LeafletComponent} from './leaflet/leaflet.component';
 
 const COMPONENTS = [
   GMapComponent,
   MapComponent,
   MapBoxComponent,
   AmapComponent,
-  BmapComponent
+  BmapComponent,
+  LeafletComponent
 ];
 
 @NgModule({

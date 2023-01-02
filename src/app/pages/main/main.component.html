@@ -16,6 +16,22 @@
             <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
         </span>
         </div>
+        <!--搜索路由-->
+        <div class="search-menu">
+          <input
+            nz-input type="text" placeholder="搜索菜单"
+            [(ngModel)]="searchMenuValue"
+            [nzAutocomplete]="auto"
+            (ngModelChange)="searchMenuValueChange($event)"/>
+          <nz-autocomplete nzBackfill #auto>
+            <nz-auto-option *ngFor="let option of menuOption"
+                            (click)="optionChange(option.url)"
+                            [nzValue]="option.url"
+                            [nzLabel]="option.text">
+              {{ option.text }}
+            </nz-auto-option>
+          </nz-autocomplete>
+        </div>
       </div>
       <div class="alain-default__nav-item" nz-dropdown [nzDropdownMenu]="settingsMenu"
            nzTrigger="click"
@@ -77,7 +93,8 @@
                       [routerLink]="menuChildren.menuHref"
                       (click)="menuitemClick(menu)">
                     <span nz-icon [nzType]="menuChildren.icon" *ngIf="!menuChildren.imageUrl"></span>
-                    <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}" *ngIf="menuChildren.imageUrl"></span>
+                    <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}"
+                          *ngIf="menuChildren.imageUrl"></span>
                     <a [routerLink]="menuChildren.menuHref">{{menuChildren.menuName}}</a>
                   </li>
                 </ng-container>

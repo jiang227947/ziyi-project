@@ -14,9 +14,16 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 })
 export class MainComponent implements OnInit {
 
+  // 菜单展开变量
   isCollapsed = false;
+  // 菜单List
   menuList: MenuModel[];
+  // 用户名称
   userName: string;
+  // 搜索路由值
+  searchMenuValue: string;
+  // 搜索结果option
+  menuOption: { url: string; text: string }[] = [];
 
   constructor(private router: Router, private $http: HttpClient, private $message: NzMessageService) {
   }
@@ -36,7 +43,7 @@ export class MainComponent implements OnInit {
   }
 
   menuitemClick(menuItem: MenuModel): void {
-    this.menuList.forEach(item => {
+    this.menuList.forEach((item: MenuModel) => {
       if (item.menuId !== menuItem.menuId && item.isSelected) {
         // 其他节点关闭选选中
         item.isSelected = false;
@@ -48,7 +55,38 @@ export class MainComponent implements OnInit {
     localStorage.setItem('app_menu', JSON.stringify(this.menuList));
   }
 
-  // 退出
+  /**
+   * 搜索路由
+   * */
+  searchMenuValueChange(value: string): void {
+    if (value === '') {
+      this.menuOption = [];
+      return;
+    }
+    this.menuOption = [];
+    this.menuList.forEach((item: MenuModel) => {
+      if (item.menuName.includes(value)) {
+        this.menuOption.push({url: item.menuHref, text: item.menuName});
+      }
+      if (item.children.length > 0) {
+        item.children.forEach((itemChildren: MenuModel) => {
+          if (itemChildren.menuName.includes(value)) {
+            this.menuOption.push({url: itemChildren.menuHref, text: itemChildren.menuName});
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * 选择路由
+   * */
+  optionChange(url: string): void {
+    this.menuOption = [];
+    this.router.navigate([url]);
+  }
+
+  // 退出登录
   logout(): void {
     const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
     this.$http.post(`${environment.API_URL}/loginOut`, {id: userInfo.id}).subscribe((result: Result<any>) => {

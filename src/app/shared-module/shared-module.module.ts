@@ -22,6 +22,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzResultModule} from 'ng-zorro-antd/result';
 import {NzBreadCrumbModule} from 'ng-zorro-antd/breadcrumb';
 import {NzTagModule} from 'ng-zorro-antd/tag';
+import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 
 const MODULES = [
   CommonModule,
@@ -48,7 +49,8 @@ const NZMODULES = [
   NzAvatarModule,
   NzResultModule,
   NzBreadCrumbModule,
-  NzTagModule
+  NzTagModule,
+  NzAutocompleteModule
 ];
 
 @NgModule({
