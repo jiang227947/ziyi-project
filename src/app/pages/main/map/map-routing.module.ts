@@ -4,6 +4,7 @@ import {AmapComponent} from './amap/amap.component';
 import {MapBoxComponent} from './map-box/map-box.component';
 import {BmapComponent} from './bmap/bmap.component';
 import {LeafletComponent} from './leaflet/leaflet.component';
+import {BingComponent} from './bing/bing.component';
 
 export const MAP_ROUTER_CONFIG: Routes = [
   {path: '', redirectTo: 'aMap', pathMatch: 'full'},
@@ -12,4 +13,5 @@ export const MAP_ROUTER_CONFIG: Routes = [
   {path: 'mapBox', component: MapBoxComponent},
   {path: 'gMap', component: GMapComponent},
   {path: 'leafletMap', component: LeafletComponent},
+  {path: 'bingMap', component: BingComponent},
 ];

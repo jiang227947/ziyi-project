@@ -10,6 +10,7 @@ import {MapBoxComponent} from './map-box/map-box.component';
 import {RouterModule} from '@angular/router';
 import {BmapComponent} from './bmap/bmap.component';
 import {LeafletComponent} from './leaflet/leaflet.component';
+import {BingComponent} from './bing/bing.component';
 
 const COMPONENTS = [
   GMapComponent,
@@ -17,7 +18,8 @@ const COMPONENTS = [
   MapBoxComponent,
   AmapComponent,
   BmapComponent,
-  LeafletComponent
+  LeafletComponent,
+  BingComponent
 ];
 
 @NgModule({

@@ -1,6 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 
+body, form, h1, h2, h3, img, li, p, ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  max-height: 1440px;
+  min-height: 600px;
+}
+
 /**列表页面最外层*/
 .table-content {
   min-height: 100%;
