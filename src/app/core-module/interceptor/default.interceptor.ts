@@ -120,9 +120,12 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
     // 判断第三方API的接口
     if (url.includes('qweather')) {
+      /** 排除天气查询*/
       if (!url.startsWith('https://') && !url.startsWith('http://')) {
         url = environment.SERVER_URL + url;
       }
+    } else if (url.includes('timor')) {
+      /** 排除假期查询*/
     } else {
       // 添加token信息
       if (token) {

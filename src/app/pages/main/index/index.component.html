@@ -1,1 +1,24 @@
-<nz-result [nzIcon]="'smile-twotone'" [nzTitle]="'首页待开发'"></nz-result>
+<div class="content">
+  <div nz-row>
+    <div nz-col [nzSpan]="18">
+      <nz-result [nzIcon]="'smile-twotone'" [nzTitle]="'待开发'"></nz-result>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <div class="timor">
+        今天是
+        <span class="sp">{{holidayWorkdayNext?.date}}{{holidayWorkdayNext?.name}}</span>，
+        距离下个工作日还有
+        <span class="sp">{{holidayWorkdayNext?.rest}}</span>
+        天
+      </div>
+      <div class="timor">
+        <span>{{holidayTts}}</span>
+      </div>
+      <div class="timor">
+        距离发工资还有
+        <span class="sp">{{wagesCountdown}}</span>
+        天
+      </div>
+    </div>
+  </div>
+</div>

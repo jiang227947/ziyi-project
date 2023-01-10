@@ -1,0 +1,20 @@
+.content {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 10px;
+
+  .timor {
+    font-size: 18px;
+    min-height: 40px;
+    margin: 10px 0;
+    padding: 10px;
+    border: solid 1px #1890ff;
+    border-radius: 10px;
+
+    .sp {
+      font-size: 22px;
+      color: #108ee9;
+    }
+  }
+}
