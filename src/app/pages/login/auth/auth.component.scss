@@ -10,8 +10,14 @@
   background: #f0f2f5;
 
   .login-panel {
-    flex: 1;
+    width: 500px;
+    height: 450px;
+    margin: 50px auto 0;
+    background-color: #fff;
+    /* flex: 1; */
     padding: 50px 0 24px;
+    //backdrop-filter: blur(15px);
+    border-radius: 30px;
 
     .top {
       text-align: center;
@@ -41,6 +47,7 @@
     left: 0;
     right: 0;
     color: #888;
+    z-index: 1;
   }
 }
 
@@ -55,7 +62,7 @@
 
 @media screen and (min-width: 767px) {
   .login-container {
-    background: url("../../../../assets/image/login-background.svg") no-repeat center 110px;
+    //background: url("../../../../assets/image/login-background.svg") no-repeat center -215px;
     background-size: 100%;
   }
 }
