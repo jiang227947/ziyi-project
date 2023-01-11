@@ -2,7 +2,7 @@
 <div class="chatGPT">
   <nz-ribbon nzText="ChatGPT人工智能对话AI">
     <article>
-      <div class="chatGPT-content">
+      <div #chatGPT class="chatGPT-content">
         <!--对话框-->
         <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
           <!--对话框数据循环-->
@@ -18,7 +18,7 @@
             <!--文字朗读-->
             <nz-comment-action *ngIf="isShowSynth">
               <i nz-icon [nzType]="message.speak ? 'audio-muted':'audio'" nzTheme="outline"></i>
-              <span class="count like" (click)="speak(idx, message)">{{message.speak ? '结束朗读':'朗读'}}</span>
+              <span class="count like" (click)="speak(idx, message)">{{message.speak ? '结束朗读' : '朗读'}}</span>
             </nz-comment-action>
           </nz-comment>
         </div>
@@ -26,8 +26,10 @@
         <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
         <!--输入框-->
         <div class="send">
-          <input nz-input type="text" placeholder="输入想问的问题" [(ngModel)]="sQuestion"/>
-          <button nz-button nzType="primary" class="send-button" [disabled]="dialogLogin" (click)="send()">发送</button>
+          <input nz-input type="text" placeholder="输入想问的问题" [(ngModel)]="sQuestion" (keyup.enter)="send()"/>
+          <button nz-button nzType="primary" type="submit" class="send-button" [disabled]="dialogLogin"
+                  (click)="send()">发送
+          </button>
         </div>
       </div>
     </article>

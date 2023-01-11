@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -7,6 +7,8 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./chat-gpt.component.scss']
 })
 export class ChatGPTComponent implements OnInit {
+
+  @ViewChild('chatGPT') chatGPT: ElementRef<Element>;
 
   // 输入的问题文字
   sQuestion = '';
@@ -53,6 +55,8 @@ export class ChatGPTComponent implements OnInit {
       speak: false
     });
     this.dialogLogin = true;
+    this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
+
     this.$http.post('https://api.openai.com/v1/completions', {
       model: 'text-davinci-003', // 对话模型
       prompt: this.sQuestion,
@@ -69,6 +73,7 @@ export class ChatGPTComponent implements OnInit {
         value: result.choices[0].text,
         speak: false
       });
+      this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
       this.dialogLogin = false;
     }, () => {
       this.dialogLogin = false;

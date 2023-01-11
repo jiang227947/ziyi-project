@@ -79,6 +79,28 @@ export class AppMenuService {
             isShow: true,
             isSelected: false,
             children: []
+          },
+          {
+            menuId: '2-5',
+            parentMenuId: '2',
+            menuName: 'leaflet地图',
+            menuLevel: 2,
+            menuHref: '/main/map/leafletMap',
+            imageUrl: '../../../assets/icon/ico/leaflet.ico',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
+          {
+            menuId: '2-6',
+            parentMenuId: '2',
+            menuName: 'bing地图',
+            menuLevel: 2,
+            menuHref: '/main/map/bingMap',
+            imageUrl: '../../../assets/icon/ico/bing.ico',
+            isShow: true,
+            isSelected: false,
+            children: []
           }
         ]
       },
