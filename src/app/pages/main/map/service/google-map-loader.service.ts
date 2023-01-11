@@ -37,7 +37,8 @@ export class GoogleMapLoaderService {
     script.async = true;
     script.defer = true;
     script.id = this._SCRIPT_ID;
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAsr90Gk__CiPfe407CBLlZQqfGNFEZAmI&libraries=drawing&callback=initGoogleMap';// this._getScriptSrc(this.callbackName);
+    // script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAsr90Gk__CiPfe407CBLlZQqfGNFEZAmI&libraries=drawing&callback=initGoogleMap';// this._getScriptSrc(this.callbackName);
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCGwT3XelPA7xS3wtyOekwZ6RKCJKV_GKM&libraries=drawing&callback=initGoogleMap';// this._getScriptSrc(this.callbackName);
     this._assignScriptLoadingPromise(script);
     this._document.body.appendChild(script);
     return this._scriptLoadingPromise;
