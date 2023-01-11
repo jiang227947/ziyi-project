@@ -6,7 +6,7 @@
 }
 
 .chatGPT-content {
-  height: 500px;
+  height: 600px;
   padding: 48px 12px;
   overflow-y: auto;
 
@@ -15,19 +15,48 @@
     ::ng-deep {
       .ant-comment-content-author-time {
         font-size: 16px;
-        color: #ffffff;
       }
 
       .ant-comment-actions > li > span {
         font-size: 16px;
       }
 
+      /*我的对话框*/
+      .me {
+        .ant-comment-content-author-time {
+          color: #000000;
+        }
+
+        .ant-comment-content {
+          background-color: #87d068;
+          color: #000000;
+        }
+
+        .ant-comment-actions > li > span {
+          color: #000000;
+        }
+      }
+
+      /*AI对话框*/
+      .ai {
+        .ant-comment-content-author-time {
+          color: #ffffff;
+        }
+
+        .ant-comment-content {
+          background-color: #1890ff;
+          color: #ffffff;
+        }
+
+        .ant-comment-actions > li > span {
+          color: #ffffff;
+        }
+      }
+
       .ant-comment-content {
         border: 1px solid #87d068;
         border-radius: 8px;
         padding: 6px;
-        background-color: #87d068;
-        color: #000000;
         font-size: 20px;
       }
     }

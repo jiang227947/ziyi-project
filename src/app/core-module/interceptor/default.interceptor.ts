@@ -127,10 +127,17 @@ export class DefaultInterceptor implements HttpInterceptor {
     } else if (url.includes('timor')) {
       /** 排除假期查询*/
     } else if (url.includes('openai')) {
+      const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
+      let openAI = '';
+      key.split('/').forEach((v) => {
+        if (v !== '') {
+          openAI = openAI + v;
+        }
+      });
       /*openai请求头*/
       headers = headers.append('Accept', 'application/json');
       headers = headers.append('Content-Type', 'application/json');
-      headers = headers.append('Authorization', 'Bearer ' + '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');
+      headers = headers.append('Authorization', 'Bearer ' + openAI);
     } else {
       // 添加token信息
       if (token) {

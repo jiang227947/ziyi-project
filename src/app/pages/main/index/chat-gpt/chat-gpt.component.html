@@ -6,7 +6,7 @@
         <!--对话框-->
         <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
           <!--对话框数据循环-->
-          <nz-comment [nzAuthor]="message.name" [nzDatetime]="message.time | date:'yyyy-MM-dd HH:mm:ss'">
+          <nz-comment class="{{message.create}}" [nzAuthor]="message.name" [nzDatetime]="message.time | date:'yyyy-MM-dd HH:mm:ss'">
             <nz-avatar nz-comment-avatar nzIcon="user" class="avatar"
                        *ngIf="message.create === 'me'"></nz-avatar>
             <nz-avatar nz-comment-avatar nzIcon="user"
