@@ -73,6 +73,10 @@
         "always"
       ]
     },
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
     "space-before-function-paren": {
       "options": {
         "anonymous": "never",

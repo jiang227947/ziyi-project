@@ -1,9 +1,10 @@
 <div class="content">
-  <div nz-row>
-    <div nz-col [nzSpan]="18">
-      <nz-result [nzIcon]="'smile-twotone'" [nzTitle]="'待开发'"></nz-result>
+  <div nz-row nzGutter="24">
+    <div nz-col nzXs="24" nzSm="24" nzMd="18" nzXl="18">
+      <!--      <nz-result [nzIcon]="'smile-twotone'" [nzTitle]="'待开发'"></nz-result>-->
+      <app-chat-gpt></app-chat-gpt>
     </div>
-    <div nz-col [nzSpan]="6">
+    <div nz-col nzXs="24" nzSm="24" nzMd="6" nzXl="6">
       <div class="timor">
         今天是
         <span class="sp">{{holidayWorkdayNext?.date}}{{holidayWorkdayNext?.name}}</span>，

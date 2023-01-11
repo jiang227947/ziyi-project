@@ -126,6 +126,11 @@ export class DefaultInterceptor implements HttpInterceptor {
       }
     } else if (url.includes('timor')) {
       /** 排除假期查询*/
+    } else if (url.includes('openai')) {
+      /*openai请求头*/
+      headers = headers.append('Accept', 'application/json');
+      headers = headers.append('Content-Type', 'application/json');
+      headers = headers.append('Authorization', 'Bearer ' + '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');
     } else {
       // 添加token信息
       if (token) {

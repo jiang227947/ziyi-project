@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import {MapBoxLoaderService} from '../service/map-box-loader.service';
 
@@ -14,7 +14,7 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
   private draw: any; // 绘制多边形函数
   private measureDistancesFunc: any; // 测距函数
 
-  constructor(private $mapBoxLoaderService: MapBoxLoaderService, private el: ElementRef<HTMLElement>) {
+  constructor(private $mapBoxLoaderService: MapBoxLoaderService) {
     /*** 本地化语言包 https://github.com/mapbox/mapbox-gl-language/* */
   }
 

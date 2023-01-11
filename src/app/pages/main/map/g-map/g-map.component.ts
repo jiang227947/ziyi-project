@@ -29,29 +29,29 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
           areaCode: '001',
           areaId: 'AHCgF3FvTBHFrATY6v0',
           areaInfo: {
-            'areaId': 'AHCgF3FvTBHFrATY6v0',
-            'areaCode': '001',
-            'level': 1,
-            'areaName': 'defaultArea[YXj2UJJJIJFKTkQbkyr]',
-            'provinceName': '',
-            'cityName': '',
-            'districtName': '',
-            'address': null,
-            'accountabilityUnit': null,
-            'accountabilityUnitCodes': null,
-            'accountabilityUnitName': '',
-            'remarks': '',
-            'createTime': '2022-05-25T07:07:17.000+0000',
-            'parentId': null,
-            'createUser': '1',
-            'updateTime': '2022-05-26T06:30:04.000+0000',
-            'isDeleted': '0',
-            'tenantId': null,
-            'updateUser': '',
-            'areaAndPrentName': null,
-            'parentName': null,
-            'hasChild': false,
-            'hasPermissions': null
+            areaId: 'AHCgF3FvTBHFrATY6v0',
+            areaCode: '001',
+            level: 1,
+            areaName: 'defaultArea[YXj2UJJJIJFKTkQbkyr]',
+            provinceName: '',
+            cityName: '',
+            districtName: '',
+            address: null,
+            accountabilityUnit: null,
+            accountabilityUnitCodes: null,
+            accountabilityUnitName: '',
+            remarks: '',
+            createTime: '2022-05-25T07:07:17.000+0000',
+            parentId: null,
+            createUser: '1',
+            updateTime: '2022-05-26T06:30:04.000+0000',
+            isDeleted: '0',
+            tenantId: null,
+            updateUser: '',
+            areaAndPrentName: null,
+            parentName: null,
+            hasChild: false,
+            hasPermissions: null
           },
           assetNumbers: 'FiberhomeDP461D(G)65535-2204091353070983',
           businessStatus: null,
@@ -580,7 +580,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
     // 创建Marker点集合
     this.markers = locations.map((position, i) => {
       // 创建Marker点
-      let marker: Marker = new google.maps.Marker({
+      const marker: Marker = new google.maps.Marker({
         draggable: true, // 是否允许拖动
         label: {
           text: i + '',
@@ -643,7 +643,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
     /**
      * 绘图库
      * https://developers.google.com/maps/documentation/javascript/drawinglayer
-     * */
+     */
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true, // 是否显示工具
       drawingControlOptions: {
@@ -677,7 +677,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
   /**
    * 自定义控件
    * https://developers.google.com/maps/documentation/javascript/examples/control-custom
-   * */
+   */
   AddControl(): void {
     // Set CSS for the control interior.
     const controlText = document.createElement('div');
@@ -713,7 +713,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
   /**
    * 地面覆盖
    * https://developers.google.com/maps/documentation/javascript/examples/groundoverlay-simple
-   * */
+   */
   GroundOverlay(): void {
     const imageBounds = {
       north: 40.773941,
@@ -731,7 +731,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
 
   /**
    * SVG矢量图形符号标记
-   * */
+   */
   SVGOverlay(): void {
     const svgMarker = {
       path: 'M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z',
@@ -752,7 +752,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
 
   /**
    * 数据层
-   * */
+   */
   Geometry(): void {
     // 定义外部路径的LatLng坐标
     const outerCoords = [
@@ -793,7 +793,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
 
   /**
    * 距离服务 需要收费 暂时搁置
-   * */
+   */
   distanceMatrixService(): void {
     const origin1 = new google.maps.LatLng(55.930385, -3.118425);
     const origin2 = 'Greenwich, England';
@@ -806,25 +806,24 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
         origins: [origin1, origin2],
         destinations: [destinationA, destinationB],
         travelMode: google.maps.TravelMode.DRIVING
-      }, callback);
+      }, (response, status) => {
+        // See Parsing the Results for
+        // the basics of a callback function.
+        console.log(response);
+      });
 
-    function callback(response, status) {
-      // See Parsing the Results for
-      // the basics of a callback function.
-      console.log(response);
-    }
   }
 
   /**
    * Google Drive 获取KML文件链接
-   上传完文件之后，右键获取链接，条件设置为知道链接的任何人，复制链接地址并修改格式
-   例如：
-   https://drive.google.com/file/d/1FF1Vbm5N4V4T5al52Qi1RTaY6wG9NxOP/view?usp=sharing
-   https://drive.google.com/file/d/1BPXji6CS3ekbTv5ycQikRlE9dsudiQpb/view?usp=sharing
-   变成：
-   https://drive.google.com/uc?export=download&id=1FF1Vbm5N4V4T5al52Qi1RTaY6wG9NxOP
-   https://drive.google.com/uc?export=download&id=1BPXji6CS3ekbTv5ycQikRlE9dsudiQpb
-   * */
+   * 上传完文件之后，右键获取链接，条件设置为知道链接的任何人，复制链接地址并修改格式
+   * 例如：
+   * https://drive.google.com/file/d/1FF1Vbm5N4V4T5al52Qi1RTaY6wG9NxOP/view?usp=sharing
+   * https://drive.google.com/file/d/1BPXji6CS3ekbTv5ycQikRlE9dsudiQpb/view?usp=sharing
+   * 变成：
+   * https://drive.google.com/uc?export=download&id=1FF1Vbm5N4V4T5al52Qi1RTaY6wG9NxOP
+   * https://drive.google.com/uc?export=download&id=1BPXji6CS3ekbTv5ycQikRlE9dsudiQpb
+   */
   KmlLyer(): void {
     const kmlLayer = new google.maps.KmlLayer({
       url: 'https://drive.google.com/uc?export=download&id=1BPXji6CS3ekbTv5ycQikRlE9dsudiQpb',
@@ -839,7 +838,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
   /**
    * 清除覆盖物
    * API V3只能使用循环清除
-   * */
+   */
   clearOverlays(): void {
     // 清除点聚合
     this.markerClusterer.clearMarkers();

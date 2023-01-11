@@ -1,0 +1,35 @@
+<!--chatGPT人工智能AI对话-->
+<div class="chatGPT">
+  <nz-ribbon nzText="ChatGPT人工智能对话AI">
+    <article>
+      <div class="chatGPT-content">
+        <!--对话框-->
+        <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
+          <!--对话框数据循环-->
+          <nz-comment [nzAuthor]="message.name" [nzDatetime]="message.time | date:'yyyy-MM-dd HH:mm:ss'">
+            <nz-avatar nz-comment-avatar nzIcon="user" class="avatar"
+                       *ngIf="message.create === 'me'"></nz-avatar>
+            <nz-avatar nz-comment-avatar nzIcon="user"
+                       nzSrc="https://openaiapi-site.azureedge.net/public-assets/d/9e50936dfb/favicon.svg"
+                       *ngIf="message.create === 'ai'"></nz-avatar>
+            <nz-comment-content>
+              <p>{{message.value}}</p>
+            </nz-comment-content>
+            <!--文字朗读-->
+            <nz-comment-action *ngIf="isShowSynth">
+              <i nz-icon [nzType]="message.speak ? 'audio-muted':'audio'" nzTheme="outline"></i>
+              <span class="count like" (click)="speak(idx, message)">{{message.speak ? '结束朗读':'朗读'}}</span>
+            </nz-comment-action>
+          </nz-comment>
+        </div>
+        <nz-spin nzSimple [nzIndicator]="indicatorTemplate" *ngIf="dialogLogin"></nz-spin>
+        <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
+        <!--输入框-->
+        <div class="send">
+          <input nz-input type="text" placeholder="输入想问的问题" [(ngModel)]="sQuestion"/>
+          <button nz-button nzType="primary" class="send-button" [disabled]="dialogLogin" (click)="send()">发送</button>
+        </div>
+      </div>
+    </article>
+  </nz-ribbon>
+</div>

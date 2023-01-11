@@ -1,0 +1,63 @@
+.chatGPT {
+  font-size: 18px;
+  border: solid 1px #1890ff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.chatGPT-content {
+  height: 500px;
+  padding: 48px 12px;
+  overflow-y: auto;
+
+  // 对话框
+  .dialog-box {
+    ::ng-deep {
+      .ant-comment-content-author-time {
+        font-size: 16px;
+        color: #ffffff;
+      }
+
+      .ant-comment-actions > li > span {
+        font-size: 16px;
+      }
+
+      .ant-comment-content {
+        border: 1px solid #87d068;
+        border-radius: 8px;
+        padding: 6px;
+        background-color: #87d068;
+        color: #000000;
+        font-size: 20px;
+      }
+    }
+
+
+    .avatar {
+      background-color: #87d068;
+    }
+
+    .ant-comment-content-author {
+      color: #000000;
+    }
+  }
+
+  .loading {
+    font-size: 24px;
+  }
+
+  .send {
+    width: 80%;
+    min-width: 300px;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+
+    .send-button {
+      margin-left: 8px;
+    }
+  }
+}

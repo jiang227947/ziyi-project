@@ -5,9 +5,10 @@ import {RouterModule} from '@angular/router';
 import {INDEX_ROUTER_CONFIG} from './index-routing.module';
 import {SharedModuleModule} from '../../../shared-module/shared-module.module';
 import {IndexApiService} from './service/indexApiService';
+import {ChatGPTComponent} from './chat-gpt/chat-gpt.component';
 
 @NgModule({
-  declarations: [IndexComponent],
+  declarations: [IndexComponent, ChatGPTComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(INDEX_ROUTER_CONFIG),
