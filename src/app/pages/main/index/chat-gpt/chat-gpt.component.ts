@@ -10,9 +10,11 @@ export class ChatGPTComponent implements OnInit {
 
   @ViewChild('chatGPT') chatGPT: ElementRef<Element>;
 
+  // 对话模型
+  sendModel = 'text-davinci-003';
   // 输入的问题文字
   sQuestion = '';
-  // 查询loading
+  // 对话loading
   dialogLogin = false;
   // 对话数据
   dialogBoxMessageList = [];
@@ -20,6 +22,8 @@ export class ChatGPTComponent implements OnInit {
   isShowSynth = false;
   // 朗读功能
   synth: SpeechSynthesis;
+  // 朗读语言
+  synthModel = 'zh-CN';
   // 朗读功能的入参
   synthUtt: SpeechSynthesisUtterance;
 
@@ -45,7 +49,7 @@ export class ChatGPTComponent implements OnInit {
 
   /*发送问题*/
   send(): void {
-    if (this.sQuestion === '') {
+    if (this.sQuestion === '' || this.dialogLogin) {
       return;
     }
     this.dialogBoxMessageList.push({
@@ -55,17 +59,17 @@ export class ChatGPTComponent implements OnInit {
       speak: false
     });
     this.dialogLogin = true;
-    this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
-
+    setTimeout(() => {
+      this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
+    }, 0);
     this.$http.post('https://api.openai.com/v1/completions', {
-      model: 'text-davinci-003', // 对话模型
+      model: this.sendModel, // 对话模型
       prompt: this.sQuestion,
       max_tokens: 2048,
       user: '1',
       temperature: 0.5,
       frequency_penalty: 0.0, // -2.0和2.0之间的数字正值降低了模型逐字重复同一行的可能性。
       presence_penalty: 0.0,  // 介于-2.0和2.0之间的数字。 正值增加了模型谈论新话题的可能性。
-      stop: ['#', ';'] // 最多4个序列，API将停止生成进一步的令牌。 返回的文本将不包含停止序列
     }).subscribe((result: any) => {
       this.dialogBoxMessageList.push({
         create: 'ai',
@@ -73,7 +77,9 @@ export class ChatGPTComponent implements OnInit {
         value: result.choices[0].text,
         speak: false
       });
-      this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
+      setTimeout(() => {
+        this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
+      }, 0);
       this.dialogLogin = false;
     }, () => {
       this.dialogLogin = false;
@@ -101,8 +107,8 @@ export class ChatGPTComponent implements OnInit {
       // 朗读变量赋值
       this.dialogBoxMessageList[idx].speak = false;
     });
-    // 汉语
-    this.synthUtt.lang = 'zh-CN';
+    // 朗读语言
+    this.synthUtt.lang = this.synthModel;
     this.synthUtt.rate = 1;
     // 文字
     this.synthUtt.text = message.value;

@@ -68,11 +68,10 @@
       true,
       "single"
     ],
-    "semicolon": {
-      "options": [
-        "always"
-      ]
-    },
+    "semicolon": [
+      true,
+      "always"
+    ],
     "triple-equals": [
       true,
       "allow-null-check"

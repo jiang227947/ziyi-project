@@ -52,7 +52,7 @@ const NZMODULES = [
   NzBreadCrumbModule,
   NzTagModule,
   NzAutocompleteModule,
-  NzCommentModule
+  NzCommentModule,
 ];
 
 @NgModule({

@@ -53,14 +53,17 @@ body {
 
 /** 滚动条样式*/
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
+  border-radius: 2px;
   background-color: #bae7ff;
 }
 
 ::-webkit-scrollbar-thumb {
+  border-radius: 2px;
   background-color: rgba(0, 0, 0, 0.27);
 }
 
 ::-webkit-scrollbar-track {
+  border-radius: 2px;
   background-color: #bfbfbf;
 }
