@@ -41,7 +41,7 @@ export class ChatGPTComponent implements OnInit {
           clearInterval(getVoices);
         }
         count += 1;
-      }, 1000);
+      }, 500);
     } catch (e) {
       console.error('浏览器无朗读功能');
     }

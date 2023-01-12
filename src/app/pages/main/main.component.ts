@@ -101,4 +101,9 @@ export class MainComponent implements OnInit {
       }
     });
   }
+
+  /*前往github*/
+  githubLink(): void {
+    window.open('https://github.com/jiang227947/Angular-Project', '_blank');
+  }
 }

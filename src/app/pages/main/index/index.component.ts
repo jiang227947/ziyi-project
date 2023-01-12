@@ -26,30 +26,49 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWagesCountdown();
-    const timeHours = new Date().getHours();
+    this.getHolidayWorkdayNext();
+    this.getHolidayTts();
+    this.getHolidayInfo();
+  }
+
+  getHolidayInfo(): void {
     this.$IndexApiService.getHolidayInfo().subscribe((result) => {
       // console.log(result);
       if (result.code === 0) {
+        this.holidayWorkdayNext.name = result.type.name;
       }
     });
+
+  }
+
+  getHolidayNext(): void {
     this.$IndexApiService.getHolidayNext().subscribe((result) => {
       // console.log(result);
       if (result.code === 0) {
 
       }
     });
+  }
+
+  getHolidayWorkdayNext(): void {
     this.$IndexApiService.getHolidayWorkdayNext().subscribe((result) => {
       // console.log(result);
       if (result.code === 0) {
         this.holidayWorkdayNext = result.workday;
       }
     });
+  }
+
+  getHolidayTts(): void {
     this.$IndexApiService.getHolidayTts().subscribe((result) => {
       // console.log(result);
       if (result.code === 0) {
         this.holidayTts = result.tts;
       }
     });
+  }
+
+  getHolidayTtsTomorrow(): void {
     this.$IndexApiService.getHolidayTtsTomorrow().subscribe((result) => {
       // console.log(result);
       if (result.code === 0) {

@@ -78,7 +78,6 @@
   }
 
   .send {
-    height: 50px;
     min-width: 300px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -88,6 +87,10 @@
     left: 0;
     right: 0;
     background-color: #fff;
+
+    > div {
+      margin: 10px 0;
+    }
 
     .send-model {
       font-size: 14px;
@@ -111,7 +114,7 @@
       font-size: 14px;
 
       .send-synthModel {
-        width: 80px;
+        width: 70px;
       }
     }
   }
