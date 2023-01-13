@@ -8,7 +8,6 @@ import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzNotificationModule} from 'ng-zorro-antd/notification';
 import {NzButtonModule} from 'ng-zorro-antd/button';
 import {NzSelectModule} from 'ng-zorro-antd/select';
-import {NzIconModule} from 'ng-zorro-antd/icon';
 import {NzDescriptionsModule} from 'ng-zorro-antd/descriptions';
 import {NzBadgeModule} from 'ng-zorro-antd/badge';
 import {NzGridModule} from 'ng-zorro-antd/grid';
@@ -38,7 +37,6 @@ const NZMODULES = [
   NzNotificationModule,
   NzButtonModule,
   NzSelectModule,
-  NzIconModule,
   NzDescriptionsModule,
   NzBadgeModule,
   NzGridModule,
