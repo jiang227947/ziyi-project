@@ -59,7 +59,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
         this.aMap.addControl(this.geolocation);
         this.geolocation.getCurrentPosition((result) => {
           if (result === 'error') {
-            this.createModalRef('提示', '获取当前位置失败！请使用MapBox地图重试！');
+            this.createModalRef('提示', '获取当前位置失败！请使用百度地图重试！');
           } else {
             const pos = new AMap.LngLat(result.coords.longitude, result.coords.latitude);
             this.aMap.setCenter(pos); // 中心点经纬度

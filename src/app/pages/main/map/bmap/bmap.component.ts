@@ -29,7 +29,7 @@ export class BmapComponent extends MapComponent implements OnInit, AfterViewInit
       this.bMap.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
       // this.bMap.addControl(new BMap.GeolocationControl());
       this.ipPosition();
-      this.enableSDKLocation();
+      // this.enableSDKLocation();
       const locationControl = new BMap.GeolocationControl();
       // 将控件添加到地图上
       this.bMap.addControl(locationControl);
@@ -67,15 +67,18 @@ export class BmapComponent extends MapComponent implements OnInit, AfterViewInit
 
   // SDK模糊定位
   enableSDKLocation(): void {
-    const geolocation = new BMap.Geolocation();
-    geolocation.enableSDKLocation();
-    geolocation.getCurrentPosition((r) => {
-      if (r) {
-        console.log('Geolocation', r);
-        this.bMap.panTo(r.point);
-        this.bMap.setZoom(12);
-      }
-    });
+    try {
+      const geolocation = new BMap.Geolocation();
+      geolocation.enableSDKLocation();
+      geolocation.getCurrentPosition((r) => {
+        if (r) {
+          console.log('Geolocation', r);
+          this.bMap.panTo(r.point);
+          this.bMap.setZoom(12);
+        }
+      });
+    }catch (e) {
+    }
   }
 
   createModalRef(title: string, content: string): NzModalRef {

@@ -88,6 +88,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 401:
         localStorage.removeItem('token');
         localStorage.removeItem('user_info');
+        localStorage.removeItem('app_menu');
         this.$message.error('登录已过期！');
         this.$router.navigate(['/login']);
         break;
@@ -101,7 +102,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
-          this.$message.error('未可知错误，大部分是由于后端不支持CORS或无效配置引起！');
+          this.$message.error(`状态码${ev.status}，未知错误，大部分是由于后端不支持CORS或无效配置引起！`);
           return throwError(ev);
         }
         break;
@@ -127,6 +128,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     } else if (url.includes('timor')) {
       /** 排除假期查询*/
     } else if (url.includes('openai')) {
+      /** 排除openai*/
       const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
       let openAI = '';
       key.split('/').forEach((v) => {
