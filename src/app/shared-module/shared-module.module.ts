@@ -24,6 +24,7 @@ import {NzTagModule} from 'ng-zorro-antd/tag';
 import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 import {NzCommentModule} from 'ng-zorro-antd/comment';
 import {IconsProviderModule} from '../icons-provider.module';
+import {NzAlertModule } from 'ng-zorro-antd/alert';
 
 const MODULES = [
   CommonModule,
@@ -53,6 +54,7 @@ const NZMODULES = [
   NzTagModule,
   NzAutocompleteModule,
   NzCommentModule,
+  NzAlertModule,
 ];
 
 @NgModule({

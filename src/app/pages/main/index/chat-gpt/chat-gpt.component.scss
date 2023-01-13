@@ -7,8 +7,16 @@
 
 .chatGPT-content {
   height: 600px;
-  padding: 48px 12px;
+  padding: 32px 12px 48px;
   overflow-y: auto;
+
+  .openAiAlert {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    right: 120px;
+    z-index: 1;
+  }
 
   // 对话框
   .dialog-box {

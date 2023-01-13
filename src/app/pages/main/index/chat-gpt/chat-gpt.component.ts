@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -6,7 +6,7 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: './chat-gpt.component.html',
   styleUrls: ['./chat-gpt.component.scss']
 })
-export class ChatGPTComponent implements OnInit, OnDestroy {
+export class ChatGPTComponent implements OnInit {
 
   @ViewChild('chatGPT') chatGPT: ElementRef<Element>;
 
@@ -26,11 +26,15 @@ export class ChatGPTComponent implements OnInit, OnDestroy {
   synthModel = 'zh-CN';
   // 朗读功能的入参
   synthUtt: SpeechSynthesisUtterance;
+  // 展示openAiAlert
+  showOpenAiAlert = false;
 
   constructor(private $http: HttpClient) {
   }
 
   ngOnInit(): void {
+    // 展示openAiAlert
+    this.showOpenAiAlert = sessionStorage.getItem('openAiAlert') !== '1';
     try {
       // 读取本地记录
       const dialogBoxMessage = localStorage.getItem('dialogBoxMessage');
@@ -52,13 +56,6 @@ export class ChatGPTComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    // 退出保存记录
-    if (this.dialogBoxMessageList.length > 0) {
-      localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
-    }
-  }
-
   /*发送问题*/
   async send(): Promise<void> {
     if (this.sQuestion === '' || this.dialogLogin) {
@@ -74,6 +71,10 @@ export class ChatGPTComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
     }, 0);
+    // 保存记录
+    if (this.dialogBoxMessageList.length > 0) {
+      localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
+    }
     /*由于无效输入或其他问题，API请求可能会返回错误*/
     this.$http.post('https://api.openai.com/v1/completions', {
       model: this.sendModel, // 对话模型
@@ -93,6 +94,10 @@ export class ChatGPTComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
       }, 0);
+      // 保存记录
+      if (this.dialogBoxMessageList.length > 0) {
+        localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
+      }
       this.dialogLogin = false;
     }, () => {
       this.dialogLogin = false;
@@ -129,6 +134,11 @@ export class ChatGPTComponent implements OnInit, OnDestroy {
     this.synth.speak(this.synthUtt);
     // 朗读变量赋值
     this.dialogBoxMessageList[idx].speak = true;
+  }
+
+  /*关闭顶部公告*/
+  nzOnClose(): void {
+    sessionStorage.setItem('openAiAlert', '1');
   }
 
 }

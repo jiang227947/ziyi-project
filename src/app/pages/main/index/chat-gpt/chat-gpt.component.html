@@ -1,12 +1,15 @@
 <!--chatGPT人工智能AI对话-->
 <div class="chatGPT">
-  <nz-ribbon nzText="ChatGPT人工智能对话AI">
+  <nz-ribbon nzText="ChatGPT对话AI">
     <article>
       <div #chatGPT class="chatGPT-content">
+        <div class="openAiAlert" *ngIf="showOpenAiAlert">
+          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发者开发的OpenAI JavaScript SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>
+        </div>
         <!--对话框-->
         <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
           <!--对话框数据循环-->
-          <nz-comment class="{{message.create}}" [nzAuthor]="message.name"
+          <nz-comment class="{{message.create}}"
                       [nzDatetime]="message.time | date:'yyyy-MM-dd HH:mm:ss'">
             <nz-avatar nz-comment-avatar nzIcon="user" class="avatar"
                        *ngIf="message.create === 'me'"></nz-avatar>
@@ -27,15 +30,15 @@
         <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
         <!--输入框-->
         <div nz-row nzAlign="middle" nzJustify="space-around" class="send">
-          <div nz-col nzXs="24" nzSm="24" nzMd="15" nzXl="15" class="send-input">
+          <div nz-col nzXs="24" nzSm="24" nzMd="22" nzLg="10" nzXl="12" nzXXl="14" class="send-input">
             <input nz-input type="text" placeholder="输入想问的问题"
                    [(ngModel)]="sQuestion" (keyup.enter)="send()"/>
             <button nz-button nzType="primary" type="submit" class="send-button" [disabled]="dialogLogin"
                     (click)="send()">发送
             </button>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="4" nzXl="4" class="send-model">
-            <span>对话模型：</span>
+          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="7" nzXl="6" nzXXl="5" class="send-model">
+            <span>模型：</span>
             <nz-select [(ngModel)]="sendModel" class="send-sendModel">
               <nz-option-group nzLabel="理解生成自然语言">
                 <nz-option nzValue="text-davinci-003" nzLabel="davinci-003"></nz-option>
@@ -49,7 +52,7 @@
               </nz-option-group>
             </nz-select>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="3" nzXl="3" class="send-synth">
+          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4" class="send-synth">
             <span>朗读语言：</span>
             <nz-select [(ngModel)]="synthModel" class="send-synthModel">
               <nz-option nzValue="zh-CN" nzLabel="汉语"></nz-option>
