@@ -23,6 +23,7 @@ import {NzBreadCrumbModule} from 'ng-zorro-antd/breadcrumb';
 import {NzTagModule} from 'ng-zorro-antd/tag';
 import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 import {NzCommentModule} from 'ng-zorro-antd/comment';
+import {IconsProviderModule} from '../icons-provider.module';
 
 const MODULES = [
   CommonModule,
@@ -31,6 +32,7 @@ const MODULES = [
   RouterModule
 ];
 const NZMODULES = [
+  IconsProviderModule,
   NzInputModule,
   NzModalModule,
   NzSpinModule,

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -6,7 +6,7 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: './chat-gpt.component.html',
   styleUrls: ['./chat-gpt.component.scss']
 })
-export class ChatGPTComponent implements OnInit {
+export class ChatGPTComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatGPT') chatGPT: ElementRef<Element>;
 
@@ -17,7 +17,7 @@ export class ChatGPTComponent implements OnInit {
   // 对话loading
   dialogLogin = false;
   // 对话数据
-  dialogBoxMessageList = [];
+  dialogBoxMessageList: { create: string, time: number, value: string, speak: boolean }[] = [];
   // 浏览器是否有朗读功能
   isShowSynth = false;
   // 朗读功能
@@ -32,6 +32,11 @@ export class ChatGPTComponent implements OnInit {
 
   ngOnInit(): void {
     try {
+      // 读取本地记录
+      const dialogBoxMessage = localStorage.getItem('dialogBoxMessage');
+      if (dialogBoxMessage) {
+        this.dialogBoxMessageList = JSON.parse(dialogBoxMessage);
+      }
       this.synth = window.speechSynthesis;
       let count = 0;
       /*获取浏览器是否有朗读功能*/
@@ -47,8 +52,15 @@ export class ChatGPTComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    // 退出保存记录
+    if (this.dialogBoxMessageList.length > 0) {
+      localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
+    }
+  }
+
   /*发送问题*/
-  send(): void {
+  async send(): Promise<void> {
     if (this.sQuestion === '' || this.dialogLogin) {
       return;
     }
@@ -62,14 +74,15 @@ export class ChatGPTComponent implements OnInit {
     setTimeout(() => {
       this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
     }, 0);
+    /*由于无效输入或其他问题，API请求可能会返回错误*/
     this.$http.post('https://api.openai.com/v1/completions', {
       model: this.sendModel, // 对话模型
       prompt: this.sQuestion,
       max_tokens: 2048,
-      user: '1',
-      temperature: 0.5,
-      frequency_penalty: 0.0, // -2.0和2.0之间的数字正值降低了模型逐字重复同一行的可能性。
-      presence_penalty: 0.0,  // 介于-2.0和2.0之间的数字。 正值增加了模型谈论新话题的可能性。
+      user: 'jzy19981211@gmail.com',
+      temperature: 0,
+      // frequency_penalty: 0.0, // -2.0和2.0之间的数字正值降低了模型逐字重复同一行的可能性。
+      // presence_penalty: 1.0,  // 介于-2.0和2.0之间的数字。 正值增加了模型谈论新话题的可能性。
     }).subscribe((result: any) => {
       this.dialogBoxMessageList.push({
         create: 'ai',

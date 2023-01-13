@@ -95,6 +95,7 @@ export class MainComponent implements OnInit {
         localStorage.removeItem('app_menu');
         localStorage.removeItem('user_info');
         localStorage.removeItem('token');
+        localStorage.removeItem('dialogBoxMessage');
         this.router.navigate(['/login']);
       } else {
         this.$message.error(result.msg);
