@@ -22,7 +22,7 @@
     "@googlemaps/markerclusterer": "^2.0.6",
     "leaflet": "^1.9.3",
     "mapbox-gl": "^2.9.1",
-    "ng-zorro-antd": "^11.4.2",
+    "ng-zorro-antd": "^12.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
