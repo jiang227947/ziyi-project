@@ -2,13 +2,19 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.11.
 
+# 在线预览地址：
+[https://www.evziyi.top/](https://www.evziyi.top/)
 # 描述
 
 ## 使用Angular11框架+NG-ZORRO
-### 包含谷歌地图、高德地图、和风天气API、MxDraw CAD、MapBox等Demo代码示例
+### 包含openAi js sdk、假期查询、谷歌地图、高德地图、和风天气API、MxDraw CAD、MapBox等Demo代码示例
 
 ## 目前已知问题：
 ### 1.MapBox页面下，页面窗口大小变化会影响地图渲染
+
+## 未来：
+### 1. Angular版本准备升级至14
+### 2. 后续想到什么功能就加什么功能
 
 ## Development server
 
