@@ -1,17 +1,19 @@
 <div class="body">
   <div class="div1">
+    <nz-alert nzType="info" nzShowIcon
+              nzMessage="MxDraw5.2 ActiveX 是一个可在网页端预览使用CAD的JavaScript控件" nzCloseText="关闭"></nz-alert>
     <div class="dxf_show">
-      <div class="button-item">
-<!--        <button nz-button nzType="primary" (click)="openFile()">打开DWG文件</button>-->
-<!--        <button nz-button nzType="primary" (click)="getAllLayer()">获取图层</button>-->
-<!--        <button nz-button nzType="primary" (click)="getAllLayerId()">获取图层Id</button>-->
-        <div>
+      <div class="button-item" *ngIf="plugins !== null">
+        <button nz-button nzType="primary" (click)="openFile()">打开DWG文件</button>
+        <!--        <button nz-button nzType="primary" (click)="getAllLayer()">获取图层</button>-->
+        <!--        <button nz-button nzType="primary" (click)="getAllLayerId()">获取图层Id</button>-->
+        <div class="operation">
           <button nz-button nzType="primary" (click)="getAllEntity()">获取实体数量</button>
-<!--          <button nz-button nzType="primary" (click)="database()">获取块</button>-->
+          <!--          <button nz-button nzType="primary" (click)="database()">获取块</button>-->
           <button nz-button nzType="primary" (click)="getAllDimText()">获取标注文本</button>
           <button nz-button nzType="primary" (click)="getAllText()">获取文本</button>
           <button nz-button nzType="primary" (click)="drawText()">绘制一个文字</button>
-<!--          <button nz-button nzType="primary" (click)="hiddenToolBar()">隐藏工具栏</button>-->
+          <!--          <button nz-button nzType="primary" (click)="hiddenToolBar()">隐藏工具栏</button>-->
           <button nz-button nzType="primary" (click)="hiddenIcon()">隐藏图标</button>
         </div>
         <div>

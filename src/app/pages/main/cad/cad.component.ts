@@ -10,9 +10,10 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 export class CadComponent implements OnInit, AfterViewInit {
   mxOcx: any;
   mxinittime: any;
+  plugins: any = null;
 
-  public loading: boolean = false;
-  public searchTxt: string = '';
+  loading = false;
+  searchTxt = '';
   // 搜索文字输入框
   @ViewChild('searchTxtRef') searchTxtRef: TemplateRef<HTMLDocument>;
 
@@ -22,8 +23,8 @@ export class CadComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const plugins = navigator.plugins;
-    const pluginsItem = plugins.namedItem('MxDraw5.2 ActiveX  plugin for NPAPI');
-    if (pluginsItem === null) {
+    this.plugins = plugins.namedItem('MxDraw5.2 ActiveX  plugin for NPAPI');
+    if (this.plugins === null) {
       this.modal.error({
         nzTitle: '警告',
         nzContent: '请使用版本49.0.2623.112 Chromium内核浏览器打开，否则功能将无法使用！',
@@ -515,5 +516,5 @@ function DoCustomEventEventFun(sEventName) {
 // 模拟一个文件表单提交到服务器
 function TestSaveWebFile() {
   var filename = encodeURI('中文test.dwg');
-  this.mxOcx.SaveDwgToURLEx("http://127.0.0.1.", "/testuppfile?param=" + filename, "file", 80, filename);
+  this.mxOcx.SaveDwgToURLEx('http://127.0.0.1.', '/testuppfile?param=' + filename, 'file', 80, filename);
 }

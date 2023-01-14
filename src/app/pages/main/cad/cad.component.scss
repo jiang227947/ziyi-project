@@ -6,4 +6,14 @@
 .button-item {
   display: flex;
   justify-content: space-between;
+
+  button {
+    width: unset;
+  }
+
+  .operation {
+    button {
+      height: unset;
+    }
+  }
 }
