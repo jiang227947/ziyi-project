@@ -1,6 +1,6 @@
 # Angular Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.11.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.2.
 
 # 在线预览地址：
 [https://www.evziyi.top/](https://www.evziyi.top/)
