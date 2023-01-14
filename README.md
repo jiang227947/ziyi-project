@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 [https://www.evziyi.top/](https://www.evziyi.top/)
 # 描述
 
-## 使用Angular11框架+NG-ZORRO
+## 使用Angular12+NG-ZORRO
 ### 包含openAi js sdk、假期查询、谷歌地图、高德地图、和风天气API、MxDraw CAD、MapBox等Demo代码示例
 
 ## 目前已知问题：
