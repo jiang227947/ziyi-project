@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../../../shared-module/interface/user';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../../environments/environment.prod';
 import {Result} from '../../../../shared-module/interface/result';
 import {Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserManagementRequestService} from '../../../../core-module/api-service';
 
 @Component({
   selector: 'app-user-list',
@@ -19,13 +18,14 @@ export class UserListComponent implements OnInit {
   userList: User[] = [];
   role: string;
 
-  constructor(private $http: HttpClient, private router: Router, private $message: NzMessageService) {
+  constructor(private router: Router, private $message: NzMessageService,
+              private userManagementRequestService: UserManagementRequestService) {
   }
 
   ngOnInit(): void {
     this.role = JSON.parse(localStorage.getItem('user_info')).role;
     this.loading = true;
-    this.$http.get(`${environment.API_URL}/listUser`).subscribe((result: Result<User[]>) => {
+    this.userManagementRequestService.getUserList().subscribe((result: Result<User[]>) => {
       if (result.code === 200) {
         this.userList = result.data;
       } else {

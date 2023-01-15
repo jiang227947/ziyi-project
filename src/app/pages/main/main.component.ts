@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuModel} from '../../core-module/model/menu.model';
 import {Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
 import {Result} from '../../shared-module/interface/result';
 import {User} from '../../shared-module/interface/user';
-import {HttpClient} from '@angular/common/http';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {LoginRequestService} from '../../core-module/api-service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  providers: [LoginRequestService]
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   // 菜单展开变量
   isCollapsed = false;
@@ -24,8 +24,11 @@ export class MainComponent implements OnInit {
   searchMenuValue: string;
   // 搜索结果option
   menuOption: { url: string; text: string }[] = [];
+  // 登录超时定时器
+  loginOutInterval = null;
 
-  constructor(private router: Router, private $http: HttpClient, private $message: NzMessageService) {
+  constructor(private router: Router, private $message: NzMessageService,
+              private loginRequestService: LoginRequestService) {
   }
 
   ngOnInit(): void {
@@ -35,11 +38,23 @@ export class MainComponent implements OnInit {
       this.userName = JSON.parse(userInfo).userName;
       this.menuList = JSON.parse(menu);
     } else {
-      localStorage.removeItem('app_menu');
-      localStorage.removeItem('user_info');
-      localStorage.removeItem('token');
+      this.removeLocalStorage();
       this.router.navigate(['/login']);
     }
+
+    const tokenOut = localStorage.getItem('token_out');
+    this.loginOutInterval = setInterval(() => {
+      if (new Date().getTime() > +tokenOut) {
+        this.$message.warning('登录已过期，请重新登录');
+        this.removeLocalStorage();
+        this.router.navigate(['/login']);
+        clearInterval(this.loginOutInterval);
+      }
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.loginOutInterval);
   }
 
   menuitemClick(menuItem: MenuModel): void {
@@ -89,18 +104,25 @@ export class MainComponent implements OnInit {
   // 退出登录
   logout(): void {
     const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
-    this.$http.post(`${environment.API_URL}/loginOut`, {id: userInfo.id}).subscribe((result: Result<any>) => {
+    this.loginRequestService.logout(userInfo.id).subscribe((result: Result<any>) => {
       if (result.code === 200) {
         this.$message.success(result.msg, {nzDuration: 1000});
-        localStorage.removeItem('app_menu');
-        localStorage.removeItem('user_info');
-        localStorage.removeItem('token');
-        localStorage.removeItem('dialogBoxMessage');
+        this.removeLocalStorage();
         this.router.navigate(['/login']);
       } else {
         this.$message.error(result.msg);
       }
     });
+  }
+
+  // 删除本地存储
+  removeLocalStorage(): void {
+    localStorage.removeItem('app_menu');
+    localStorage.removeItem('user_info');
+    localStorage.removeItem('token');
+    localStorage.removeItem('token_out');
+    localStorage.removeItem('dialogBoxMessage');
+
   }
 
   /*前往github*/

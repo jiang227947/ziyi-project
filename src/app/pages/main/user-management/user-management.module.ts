@@ -5,6 +5,7 @@ import {UserListComponent} from './user-list/user-list.component';
 import {UserFormComponent} from './user-form/user-form.component';
 import {RouterModule} from '@angular/router';
 import {USER_ROUTER_CONFIG} from './user-management-routing.module';
+import {UserManagementRequestService} from '../../../core-module/api-service';
 
 const COMPONENTS = [
   UserManagementComponent,
@@ -14,6 +15,7 @@ const COMPONENTS = [
 
 @NgModule({
   declarations: [...COMPONENTS],
+  providers: [UserManagementRequestService],
   imports: [
     RouterModule.forChild(USER_ROUTER_CONFIG),
     SharedModuleModule

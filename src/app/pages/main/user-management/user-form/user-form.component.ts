@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../../../shared-module/interface/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {environment} from '../../../../../environments/environment.prod';
 import {Result} from '../../../../shared-module/interface/result';
-import {HttpClient} from '@angular/common/http';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {UserManagementRequestService} from '../../../../core-module/api-service';
 
 @Component({
   selector: 'app-user-form',
@@ -31,7 +29,8 @@ export class UserFormComponent implements OnInit {
   ];
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
-              private $http: HttpClient, private $message: NzMessageService) {
+              private $message: NzMessageService,
+              private userManagementRequestService: UserManagementRequestService) {
   }
 
   ngOnInit(): void {
@@ -65,7 +64,7 @@ export class UserFormComponent implements OnInit {
       return {confirm: true, error: true};
     }
     return {};
-  };
+  }
 
   // 提交
   submit(): void {
@@ -76,7 +75,7 @@ export class UserFormComponent implements OnInit {
     this.loading = true;
     if (this.userForm.valid) {
       delete this.userForm.value.password2;
-      this.$http.post(`${environment.API_URL}/addUser`, this.userForm.value).subscribe((result: Result<void>) => {
+      this.userManagementRequestService.addUser(this.userForm.value).subscribe((result: Result<void>) => {
         if (result.code === 200) {
           this.$message.success(result.msg);
           this.cancel();

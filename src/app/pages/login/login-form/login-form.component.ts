@@ -2,17 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AppMenuService} from '../../../shared-module/service/app-menu.service';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../../shared-module/interface/user';
 import {format} from 'date-fns';
+import {LoginRequestService} from '../../../core-module/api-service';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss']
+  styleUrls: ['./login-form.component.scss'],
+  providers: [LoginRequestService]
 })
 export class LoginFormComponent implements OnInit {
 
@@ -21,7 +21,7 @@ export class LoginFormComponent implements OnInit {
   loginLoading = false;
 
   constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
-              private $http: HttpClient, private $message: NzMessageService) {
+              private loginRequestService: LoginRequestService, private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
@@ -29,10 +29,11 @@ export class LoginFormComponent implements OnInit {
   }
 
   buildForm(): void {
+    const rememberMe: string = localStorage.getItem('rememberMe');
     this.loginForm = this.fb.group({
-      loginName: ['', [Validators.required, Validators.minLength(3)]],
+      loginName: [rememberMe ? rememberMe : '', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(3)]],
-      remember: [true],
+      remember: [!!rememberMe],
     });
   }
 
@@ -60,10 +61,10 @@ export class LoginFormComponent implements OnInit {
       password: this.password.value
     };
     // 用户登录
-    this.login(loginInfo, messageId).then((user: any) => {
+    this.login(loginInfo, messageId).then((user: User) => {
       if (user) {
         // 查询用户接口
-        this.$http.get(`${environment.API_URL}/queryUserById/${user.id}`).subscribe((result: Result<User>) => {
+        this.loginRequestService.queryUserById(user.id).subscribe((result: Result<User>) => {
           if (result.code === 200) {
             const userInfo: User = result.data;
             // 用户信息保存到浏览器
@@ -92,10 +93,12 @@ export class LoginFormComponent implements OnInit {
   // 登录接口
   login(loginInfo, messageId: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-      this.$http.post(`${environment.API_URL}/login`, loginInfo).subscribe((result: Result<User>) => {
+      this.loginRequestService.login(loginInfo).subscribe((result: Result<User>) => {
         if (result.code === 200) {
           const userInfo: User = result.data;
           localStorage.setItem('token', JSON.stringify(userInfo.saTokenInfo));
+          // 设置超时一天
+          localStorage.setItem('token_out', `${new Date().getTime() + (24 * 60 * 60 * 1000)}`);
           resolve(userInfo);
         } else {
           this.$message.remove(messageId);
