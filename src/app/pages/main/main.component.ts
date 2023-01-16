@@ -5,6 +5,7 @@ import {Result} from '../../shared-module/interface/result';
 import {User} from '../../shared-module/interface/user';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {LoginRequestService} from '../../core-module/api-service';
+import {SessionUtil} from "../../shared-module/util/session-util";
 
 @Component({
   selector: 'app-main',
@@ -31,12 +32,12 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     const menu = localStorage.getItem('app_menu');
-    const userInfo = localStorage.getItem('user_info');
+    const userInfo = SessionUtil.getUserInfo();
     if (userInfo) {
-      this.userName = JSON.parse(userInfo).userName;
+      this.userName = userInfo.userName;
       this.menuList = JSON.parse(menu);
     } else {
-      this.removeLocalStorage();
+      SessionUtil.clearUserLocal();
       this.router.navigate(['/login']);
     }
   }
@@ -87,25 +88,16 @@ export class MainComponent implements OnInit {
 
   // 退出登录
   logout(): void {
-    const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
+    const userInfo: User = SessionUtil.getUserInfo();
     this.loginRequestService.logout(userInfo.id).subscribe((result: Result<any>) => {
       if (result.code === 200) {
         this.$message.success(result.msg, {nzDuration: 1000});
-        this.removeLocalStorage();
+        SessionUtil.clearUserLocal();
         this.router.navigate(['/login']);
       } else {
         this.$message.error(result.msg);
       }
     });
-  }
-
-  // 删除本地存储
-  removeLocalStorage(): void {
-    localStorage.removeItem('app_menu');
-    localStorage.removeItem('user_info');
-    localStorage.removeItem('token');
-    localStorage.removeItem('token_out');
-    localStorage.removeItem('dialogBoxMessage');
   }
 
   /*前往github*/

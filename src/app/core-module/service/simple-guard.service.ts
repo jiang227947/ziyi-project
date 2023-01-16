@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {SessionUtil} from "../../shared-module/util/session-util";
 
 @Injectable()
 export class SimpleGuardService implements CanActivate, CanActivateChild {
@@ -56,7 +57,7 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
 
   // 是否登录
   private checkLogin(url: string): true | UrlTree {
-    const token = localStorage.getItem('token');
+    const token = SessionUtil.getToken();
     const tokenOut = localStorage.getItem('token_out');
     // 校验已登录并且token未超时
     if (token && new Date().getTime() <= +tokenOut) {
@@ -64,18 +65,10 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
       return true;
     } else {
       this.$message.warning('登录已过期，请重新登录');
-      this.removeLocalStorage();
+      SessionUtil.clearUserLocal();
       // 重定向到登录页面
       return this.router.parseUrl('/login');
     }
   }
 
-  // 删除本地存储
-  removeLocalStorage(): void {
-    localStorage.removeItem('app_menu');
-    localStorage.removeItem('user_info');
-    localStorage.removeItem('token');
-    localStorage.removeItem('token_out');
-    localStorage.removeItem('dialogBoxMessage');
-  }
 }

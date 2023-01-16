@@ -7,6 +7,8 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../../shared-module/interface/user';
 import {format} from 'date-fns';
 import {LoginRequestService} from '../../../core-module/api-service';
+import {CommonUtil} from "../../../shared-module/util/commonUtil";
+import {SessionUtil} from "../../../shared-module/util/session-util";
 
 @Component({
   selector: 'app-login-form',
@@ -96,9 +98,8 @@ export class LoginFormComponent implements OnInit {
       this.loginRequestService.login(loginInfo).subscribe((result: Result<User>) => {
         if (result.code === 200) {
           const userInfo: User = result.data;
-          localStorage.setItem('token', JSON.stringify(userInfo.saTokenInfo));
-          // 设置超时一天
-          localStorage.setItem('token_out', `${new Date().getTime() + (24 * 60 * 60 * 1000)}`);
+          // 设置token
+          SessionUtil.setToken(userInfo.saTokenInfo);
           resolve(userInfo);
         } else {
           this.$message.remove(messageId);

@@ -4,6 +4,7 @@ import {Result} from '../../../../shared-module/interface/result';
 import {Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {UserManagementRequestService} from '../../../../core-module/api-service';
+import {SessionUtil} from "../../../../shared-module/util/session-util";
 
 @Component({
   selector: 'app-user-list',
@@ -23,7 +24,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.role = JSON.parse(localStorage.getItem('user_info')).role;
+    this.role = SessionUtil.getRoleId();
     this.loading = true;
     this.userManagementRequestService.getUserList().subscribe((result: Result<User[]>) => {
       if (result.code === 200) {

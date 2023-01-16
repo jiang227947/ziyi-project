@@ -14,6 +14,7 @@ import {environment} from '../../../environments/environment';
 import {Token} from '../../shared-module/interface/token';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../shared-module/interface/user';
+import {SessionUtil} from "../../shared-module/util/session-util";
 
 const CODEMESSAGE = {
   200: '服务器成功返回请求的数据。',
@@ -86,9 +87,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         // }
         break;
       case 401:
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_info');
-        localStorage.removeItem('app_menu');
+        SessionUtil.clearUserLocal();
         this.$message.error('登录已过期！');
         this.$router.navigate(['/login']);
         break;
@@ -115,8 +114,8 @@ export class DefaultInterceptor implements HttpInterceptor {
     // 统一加上服务端前缀
     let url = req.url;
     let headers = new HttpHeaders();
-    const token: Token = JSON.parse(localStorage.getItem('token'));
-    const userInfo: User = JSON.parse(localStorage.getItem('user_info'));
+    const token: Token = SessionUtil.getToken();
+    const userInfo: User = SessionUtil.getUserInfo();
     if (!token) {
       this.$router.navigate(['/login']);
     }
@@ -187,10 +186,9 @@ export class DefaultInterceptor implements HttpInterceptor {
       if (err instanceof HttpErrorResponse) {
         switch ((err as HttpErrorResponse).status) {
           case 401:
-            this.$router.navigate(['/login']);
-            localStorage.removeItem('token');
-            localStorage.removeItem('user_info');
+            SessionUtil.clearUserLocal();
             this.$message.error('登录已过期！');
+            this.$router.navigate(['/login']);
             break;
           case 403:
             break;
