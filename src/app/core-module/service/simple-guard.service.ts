@@ -6,12 +6,13 @@ import {
   RouterStateSnapshot, UrlTree
 } from '@angular/router';
 import {Observable} from 'rxjs';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Injectable()
 export class SimpleGuardService implements CanActivate, CanActivateChild {
   token: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private $message: NzMessageService) {
   }
 
   // 是否允许进入该路由
@@ -56,11 +57,25 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
   // 是否登录
   private checkLogin(url: string): true | UrlTree {
     const token = localStorage.getItem('token');
-    // 已经登录，直接返回true
-    if (token) {
+    const tokenOut = localStorage.getItem('token_out');
+    // 校验已登录并且token未超时
+    if (token && new Date().getTime() <= +tokenOut) {
+      // 返回true
       return true;
+    } else {
+      this.$message.warning('登录已过期，请重新登录');
+      this.removeLocalStorage();
+      // 重定向到登录页面
+      return this.router.parseUrl('/login');
     }
-    // 重定向到登录页面
-    return this.router.parseUrl('/login');
+  }
+
+  // 删除本地存储
+  removeLocalStorage(): void {
+    localStorage.removeItem('app_menu');
+    localStorage.removeItem('user_info');
+    localStorage.removeItem('token');
+    localStorage.removeItem('token_out');
+    localStorage.removeItem('dialogBoxMessage');
   }
 }

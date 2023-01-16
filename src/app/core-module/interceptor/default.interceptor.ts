@@ -96,6 +96,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         break;
       case 404:
         this.$message.error('请求无效！');
+        this.goToRouter(`**/exception/${ev.status}`);
         break;
       case 500:
         this.$message.error('服务异常，请稍后重试！');
@@ -203,5 +204,9 @@ export class DefaultInterceptor implements HttpInterceptor {
       }
       return throwError(err);
     }));
+  }
+
+  goToRouter(url: string): void {
+    setTimeout(() => this.injector.get(Router).navigateByUrl(url));
   }
 }

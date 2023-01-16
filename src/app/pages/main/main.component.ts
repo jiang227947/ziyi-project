@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MenuModel} from '../../core-module/model/menu.model';
 import {Router} from '@angular/router';
 import {Result} from '../../shared-module/interface/result';
@@ -12,7 +12,7 @@ import {LoginRequestService} from '../../core-module/api-service';
   styleUrls: ['./main.component.scss'],
   providers: [LoginRequestService]
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit {
 
   // 菜单展开变量
   isCollapsed = false;
@@ -24,8 +24,6 @@ export class MainComponent implements OnInit, OnDestroy {
   searchMenuValue: string;
   // 搜索结果option
   menuOption: { url: string; text: string }[] = [];
-  // 登录超时定时器
-  loginOutInterval = null;
 
   constructor(private router: Router, private $message: NzMessageService,
               private loginRequestService: LoginRequestService) {
@@ -41,20 +39,6 @@ export class MainComponent implements OnInit, OnDestroy {
       this.removeLocalStorage();
       this.router.navigate(['/login']);
     }
-
-    const tokenOut = localStorage.getItem('token_out');
-    this.loginOutInterval = setInterval(() => {
-      if (new Date().getTime() > +tokenOut) {
-        this.$message.warning('登录已过期，请重新登录');
-        this.removeLocalStorage();
-        this.router.navigate(['/login']);
-        clearInterval(this.loginOutInterval);
-      }
-    }, 1000);
-  }
-
-  ngOnDestroy(): void {
-    clearInterval(this.loginOutInterval);
   }
 
   menuitemClick(menuItem: MenuModel): void {
@@ -122,11 +106,10 @@ export class MainComponent implements OnInit, OnDestroy {
     localStorage.removeItem('token');
     localStorage.removeItem('token_out');
     localStorage.removeItem('dialogBoxMessage');
-
   }
 
   /*前往github*/
   githubLink(): void {
-    window.open('https://github.com/jiang227947/Angular-Project', '_blank');
+    window.open('https://github.com/jiang227947/ziyi-project', '_blank');
   }
 }

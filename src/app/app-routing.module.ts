@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {SimpleGuardService} from './core-module/service/simple-guard.service';
+import {Exception404Component} from './pages/exception/404.component';
 
 const routes: Routes = [
   // 默认路由
@@ -19,7 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   },
   // 404页面
-  {path: '**', redirectTo: 'exception/404'},
+  {path: 'exception', component: Exception404Component},
+  {
+    path: '**', redirectTo: 'exception',
+  },
 ];
 
 @NgModule({

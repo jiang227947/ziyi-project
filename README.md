@@ -14,11 +14,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## 未来：
 ### 1. Angular版本准备升级至14
-### 2. 后续想到什么功能就加什么功能
+### 2. 等Java写完上传功能，新增图片上传等功能
+### 3. 后续想到什么功能就加什么功能
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4300/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
