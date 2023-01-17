@@ -1,0 +1,108 @@
+<div>
+  <form novalidate (submit)="handleSearch()">
+    <ng-container [ngSwitch]="config.searchConfig.type"
+    >
+      <div *ngSwitchCase="'input'">
+        <input name="{{config.key}}" type="text" [(ngModel)]="queryTerm.get(config.key).filterValue" nz-input
+               placeholder="{{language.form.inputPlaceholder}}">
+      </div>
+      <div *ngSwitchCase="'select'">
+        <nz-select *ngIf="config.searchConfig.selectType==='multiple'" name="{{config.key}}"
+                   class="nz-select-width"
+                   [nzMaxTagCount]="0"
+                   [nzMaxTagPlaceholder]="tagPlaceHolder"
+                   [(ngModel)]="queryTerm.get(config.key).filterValue"
+                   (ngModelChange)="selectChange.emit({value:$event,selectInfo:config.searchConfig.selectInfo})"
+                   [nzMode]="config.searchConfig.selectType||'default'"
+                   [nzAllowClear]="(!config.searchConfig.notAllowClear)"
+                   [nzPlaceHolder]="language.form.selectPlaceholder">
+          <ng-container *ngFor="let option of config.searchConfig.selectInfo">
+            <nz-option [nzValue]="option[config.searchConfig.value]||option.value"
+                       [nzLabel]="option[config.searchConfig.label]||option.label">
+            </nz-option>
+          </ng-container>
+        </nz-select>
+        <xc-nz-select *ngIf="config.searchConfig.selectType!=='multiple'" name="{{config.key}}" class="check-box-set-column"
+                      [(ngModel)]="queryTerm.get(config.key).filterValue"
+                      [nzMode]="config.searchConfig.selectType||'default'"
+                      [nzAllowClear]="(!config.searchConfig.notAllowClear)"
+                      [nzPlaceHolder]="language.form.selectPlaceholder">
+          <ng-container *ngFor="let option of config.searchConfig.selectInfo">
+            <xc-nz-option [nzValue]="option[config.searchConfig.value]||option.value"
+                          [nzLabel]="option[config.searchConfig.label]||option.label">
+            </xc-nz-option>
+          </ng-container>
+        </xc-nz-select>
+        <ng-template #tagPlaceHolder let-selectedList>
+        <span [title]="selectedList | selectValue:config.searchConfig">
+          {{selectedList | selectValue:config.searchConfig}}
+        </span>
+        </ng-template>
+      </div>
+      <div *ngSwitchCase="'date'"  class="date-filter" >
+        <div  class="table-top-button-flex">
+          <nz-date-picker [nzShowTime]="false" class="check-box-set-column"  [(ngModel)]="searchDate[config.key]"
+                          [ngModelOptions]="{standalone: true}"
+                          (ngModelChange)="onChange.emit({value:$event, key:config.key})"></nz-date-picker>
+        </div>
+        <div class="date-filter-operator">
+          <nz-select class="check-box-set-column"  [(ngModel)]="queryTerm.get(config.key).operator"
+                     [ngModelOptions]="{standalone: true}">
+            <nz-option nzValue="gt" nzLabel="{{language.table.gt}}"></nz-option>
+            <nz-option nzValue="lt" nzLabel="{{language.table.lt}}"></nz-option>
+            <nz-option nzValue="eq" nzLabel="{{language.table.eq}}"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div *ngSwitchCase="'dateRang'">
+        <nz-range-picker
+          [nzShowTime]="!config.searchConfig.notShowTime"
+          [name]="config.key"
+          [(ngModel)]="rangDateValue[config.key]"
+          (ngModelChange)="rangValueChange.emit({value:$event,key:config.key})"
+          (nzOnOpenChange)="onOpenChange.emit({value:$event,key:config.key})"
+        ></nz-range-picker>
+      </div>
+      <div *ngSwitchCase="'inputNumber'">
+        <div class="date-filter">
+          <input nz-input placeholder="Basic usage" [(ngModel)]="queryTerm.get(config.key).filterValue"
+                 [placeholder]="language.form.inputPlaceholder"
+                 oninput="value=value.replace(/\D/g,'')"
+                 [ngModelOptions]="{standalone: true}"
+                 (ngModelChange)="inputNumberValueChange.emit({value: $event, key: config.key})"
+                  />
+          <xc-nz-select
+
+            class="check-box-set-column"
+            [disabled]="!queryTerm.get(config.key).filterValue"
+            [(ngModel)]="queryTerm.get(config.key).operator"
+            [ngModelOptions]="{standalone: true}">
+            <xc-nz-option nzValue="gt" nzLabel="{{language.table.gt}}"></xc-nz-option>
+            <xc-nz-option nzValue="lt" nzLabel="{{language.table.lt}}"></xc-nz-option>
+            <xc-nz-option nzValue="eq" nzLabel="{{language.table.eq}}"></xc-nz-option>
+          </xc-nz-select>
+        </div>
+      </div>
+      <div *ngSwitchCase="'render'">
+        <ng-template [ngTemplateOutlet]="config.searchConfig.renderTemplate"
+                     [ngTemplateOutletContext]="{filterValue:queryTerm.get(config.key)}"
+        ></ng-template>
+      </div>
+      <div *ngSwitchCase="'operate'">
+      <span class="custom-top-btn" nz-tooltip [nzTitle]="language.table.search"
+            (click)="handleSearch()">
+        <i class="icon-fiLink iconfont fiLink-search"></i>
+      </span>
+        <span *ngIf="config.searchConfig.customSearchHandle" class="custom-top-btn"  nz-tooltip
+              [nzTitle]="language.table.searchTemp"
+              (click)="config.searchConfig.customSearchHandle()">
+        <i class="icon-fiLink iconfont fiLink-search-template"></i>
+      </span>
+        <span class="custom-top-btn"  (click)="handleRest()" nz-tooltip
+              [nzTitle]="language.table.reset">
+        <i class="icon-fiLink iconfont fiLink-reset"></i></span>
+      </div>
+    </ng-container>
+  </form>
+</div>
+

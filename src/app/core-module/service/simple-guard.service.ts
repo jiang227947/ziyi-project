@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {SessionUtil} from "../../shared-module/util/session-util";
+import {SessionUtil} from '../../shared-module/util/session-util';
 
 @Injectable()
 export class SimpleGuardService implements CanActivate, CanActivateChild {
@@ -20,7 +20,12 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): true | UrlTree {
     const url: string = state.url; // 将要跳转的路径
     // console.log('将要跳转的路径', url);
-    return this.checkLogin(url);
+    if (SessionUtil.menuSimpleGuard(url)) {
+      return this.checkLogin(url);
+    }
+    // 404页面
+    this.router.navigateByUrl('/exception');
+    return true;
     // 权限控制逻辑如 是否登录/拥有访问权限
     // if (!this.token) {
     //   this.router.navigateByUrl('/login');

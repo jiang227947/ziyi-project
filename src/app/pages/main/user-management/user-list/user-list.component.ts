@@ -4,7 +4,8 @@ import {Result} from '../../../../shared-module/interface/result';
 import {Router} from '@angular/router';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {UserManagementRequestService} from '../../../../core-module/api-service';
-import {SessionUtil} from "../../../../shared-module/util/session-util";
+import {SessionUtil} from '../../../../shared-module/util/session-util';
+import {PageParams} from '../../../../shared-module/interface/pageParms';
 
 @Component({
   selector: 'app-user-list',
@@ -15,6 +16,8 @@ export class UserListComponent implements OnInit {
 
   // 列表加载状态
   loading = false;
+  // 分页参数
+  pageParams = new PageParams();
   // 用户列表
   userList: User[] = [];
   role: string;
@@ -26,7 +29,7 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {
     this.role = SessionUtil.getRoleId();
     this.loading = true;
-    this.userManagementRequestService.getUserList().subscribe((result: Result<User[]>) => {
+    this.userManagementRequestService.getUserList(this.pageParams).subscribe((result: Result<User[]>) => {
       if (result.code === 200) {
         this.userList = result.data;
       } else {

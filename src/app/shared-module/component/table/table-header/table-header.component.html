@@ -1,0 +1,109 @@
+<!--头部按钮-->
+<div class="table-top-button" *ngIf="(tableConfig.topButtons && tableConfig.topButtons.length > 0)
+          ||configurableColumn.length>0
+          ||tableConfig.showSearchSwitch||tableConfig.showSearchExport">
+  <div  class="table-top-button-flex">
+    <button [class]="'left-button link-button '+item.className" nz-button
+            [nzType]="item.btnType || 'primary'"
+            *ngFor="let item of tableConfig.topButtons let index = index"
+            [disabled]="item|topButtonDisable: allUnChecked"
+            (click)="buttonClick(item)">
+      <i *ngIf="item.iconClassName" [class]="'iconfont '+item.iconClassName"></i>
+      {{item.text}}
+    </button>
+    <!-- 头部自动定义按钮-->
+    <span *ngIf="tableConfig.topCustomButton">
+      <ng-template [ngTemplateOutlet]="tableConfig.topCustomButton"
+      ></ng-template>
+    </span>
+    <nz-dropdown  [nzPlacement]="'bottomLeft'" *ngIf="tableConfig.moreButtons&&tableConfig.moreButtons.length">
+      <button [nzType]="'primary'"  nz-button nz-dropdown>
+        <i [class]="'iconfont fiLink-btn-more'"></i>
+        {{language.table.moreOperate}}
+        <i class="iconfont fiLink-down-arrow more-button-down"></i>
+      </button>
+      <ul nz-menu style="max-height: 300px;overflow-y: scroll">
+        <li nz-menu-item *ngFor="let item of tableConfig.moreButtons let index = index" [nzDisabled]="item.disabled || (item|topButtonDisable: allUnChecked)">
+          <div  [class]="'left-button link-button '+item.className"
+                 (click)="buttonClick(item)">
+            <i *ngIf="item.iconClassName" [class]="'iconfont '+item.iconClassName"></i>
+            {{item.text}}
+          </div>
+        </li>
+      </ul>
+    </nz-dropdown>
+    <!--头部区域下拉按钮-->
+    <xc-nz-select *ngIf="selectedOption&&selectedOption.length" class="top-btn-select" [ngStyle]="{width: widths + 'px'}"
+                  [nzPlaceHolder]="selectedPlaceHolder" [ngModel]="selectedValue"
+                  (ngModelChange)="openChildren.emit($event)">
+
+      <xc-nz-option *ngFor="let item of selectedOption;let index = index"
+                    [nzValue]="index" [nzLabel]="item.label"></xc-nz-option>
+    </xc-nz-select>
+  </div>
+
+  <!--过滤-->
+  <div class="top-right-button"  *ngIf="tableConfig.showSearchSwitch">
+    <span nz-tooltip [nzTitle]="language.table.filter"
+          (click)="openTableSearch.emit()">
+      <i class="icon-l iconfont fiLink-filter"></i></span>
+  </div>
+
+  <!--设置列-->
+  <div class="top-right-button"  *ngIf="configurableColumn&&configurableColumn.length">
+    <nz-dropdown [nzPlacement]="tableConfig.setColumnPlacement || 'bottomLeft'" [nzClickHide]="false" [nzVisible]="setColumnVisible" (nzVisibleChange)="nzVisibleChange($event)" nzTrigger="click"
+                 (nzVisibleChange)="dropDownChange.emit($event)">
+      <span nz-dropdown id="setColumn">
+        <i nz-tooltip [nzTitle]="language.table.setColumn" class="icon-l iconfont fiLink-columns-setting"></i></span>
+      <ul nz-menu class="column-setting-list" [style.maxHeight.px]="setColumnMaxHeight">
+        <ng-container *ngFor="let _item of configurableColumn">
+          <li nz-menu-item>
+            <label nz-checkbox
+                   class="check-box-set-column"
+
+                   [ngModel]="!_item.hidden"
+                   (ngModelChange)="configurableColumnChange.emit({value:$event,item:_item});">
+              <span>{{_item.title}}</span>
+            </label>
+          </li>
+        </ng-container>
+      </ul>
+      <button class="save-col" (click)="saveColumn.emit()" nz-button
+              [nzType]="'primary'">{{language.common.saveColumnSetting}}</button>
+    </nz-dropdown>
+  </div>
+
+  <!--导入-->
+  <div class="top-right-button" *ngIf="tableConfig.showImport">
+    <input type="file" #file
+           class="import-btn"
+           [attr.accept]="'.xlsx'"
+           [multiple]="false"
+           [ngModel]="filePath"
+           (ngModelChange)="importChange(file)">
+    <span nz-tooltip [nzTitle]="language.table.import">
+      <i  id="file" class="icon-l iconfont fiLink-import"></i>
+    </span>
+  </div>
+  <!--导出-->
+  <div class="top-right-button"  *ngIf="tableConfig.showSearchExport">
+    <span nz-tooltip [nzTitle]="language.table.export"  (click)="clickExport.emit()">
+      <i class="icon-l iconfont fiLink-export"></i></span>
+  </div>
+  <!--打印-->
+  <div class="top-right-button"  *ngIf="!tableConfig.notShowPrint">
+    <span nz-tooltip [(nzVisible)]="printVisible" [nzTitle]="language.table.print" (click)="printList.emit()">
+      <i class="icon-l iconfont fiLink-stamp"></i></span>
+  </div>
+  <!--表格右上区的按钮-->
+  <div *ngIf="tableConfig.rightTopButtons&&tableConfig.rightTopButtons.length>0">
+    <button [appAccessPermission]="button.permissionCode" class="operate-btn top-right-button top-right-button-pad-bottom"
+
+            *ngFor="let button of tableConfig.rightTopButtons"
+            nz-tooltip [nzTitle]="button.text"
+            (click)="topHandle.emit(button)"
+    >
+      <i *ngIf="button.iconClassName" class="icon-l iconfont " [ngClass]="button.iconClassName"></i>
+    </button>
+  </div>
+</div>

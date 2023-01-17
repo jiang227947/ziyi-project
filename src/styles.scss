@@ -23,9 +23,8 @@ body {
 
 /**按钮的样式*/
 .ant-btn {
-  height: 38px;
   border-radius: 5px;
-  width: 70px;
+  //width: 70px;
 }
 
 .ant-btn-block {
@@ -37,23 +36,11 @@ body {
   border-radius: 5px;
 }
 
-/**输入框的样式*/
-.ant-input {
-  height: 38px;
-  line-height: 40px;
-  border-radius: 5px;
-  padding: 4px 8px;
-}
-
-/**表单的label文字*/
-.ant-form-item-label > label {
-  height: 38px;
-}
-
 
 /** 滚动条样式*/
 ::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
   border-radius: 2px;
   background-color: #bae7ff;
 }

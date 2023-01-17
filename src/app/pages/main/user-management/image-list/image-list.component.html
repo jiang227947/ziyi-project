@@ -1,0 +1,64 @@
+<div class="table-content">
+  <button nz-button nzType="primary" (click)="this.showUpdate = true">
+    <i nz-icon nzType="upload" nzTheme="outline"></i>
+    <span>上传文件</span>
+  </button>
+  <nz-table #basicTable nzShowPagination nzShowSizeChanger
+            [nzData]="fileList"
+            [nzLoading]="loading"
+            [nzPageSize]="pageParams.pageSize"
+            (nzPageIndexChange)="pageIndexChange($event)"
+            (nzPageSizeChange)="pageSizeChange($event)"
+            [nzLoadingDelay]="300">
+    <thead>
+    <tr>
+      <th nzWidth="10px">序号</th>
+      <th nzWidth="100px">文件名</th>
+      <th nzWidth="40px">上传时间</th>
+      <th nzWidth="40px">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data;index as idx">
+      <td>{{ idx + 1 }}</td>
+      <td>{{ data.fileName }}</td>
+      <td>{{ data.updateTime |date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td>
+        <button nz-button nzType="link" (click)="downloadFile(data.fileName)">下载</button>
+        <button nz-button nzType="text" nzDanger nz-popconfirm
+                nzPopconfirmTitle="确定要删除吗？"
+                (nzOnConfirm)="deleteFile(data.id)">删除
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<!--上传文件弹框-->
+<nz-modal
+  nzTitle="上传文件"
+  [(nzVisible)]="showUpdate"
+  [nzContent]="modalContent"
+  [nzMaskClosable]="false"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="cancelModal()">
+  <ng-template #modalContent>
+    <nz-upload
+      nzListType="picture-card"
+      [nzBeforeUpload]="beforeUpload"
+      [(nzFileList)]="updateFileList"
+      [nzShowButton]="updateFileList.length < 2"
+    >
+      <div>
+        <span nz-icon nzType="plus"></span>
+        <div style="margin-top: 8px">Upload</div>
+      </div>
+    </nz-upload>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="uploadFile()">提交</button>
+    <button nz-button nzType="default" (click)="cancelModal()">取消</button>
+  </ng-template>
+</nz-modal>
+

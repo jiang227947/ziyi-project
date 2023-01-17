@@ -24,7 +24,9 @@ import {NzTagModule} from 'ng-zorro-antd/tag';
 import {NzAutocompleteModule} from 'ng-zorro-antd/auto-complete';
 import {NzCommentModule} from 'ng-zorro-antd/comment';
 import {IconsProviderModule} from '../icons-provider.module';
-import {NzAlertModule } from 'ng-zorro-antd/alert';
+import {NzAlertModule} from 'ng-zorro-antd/alert';
+import {NzUploadModule} from 'ng-zorro-antd/upload';
+import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 
 const MODULES = [
   CommonModule,
@@ -55,6 +57,8 @@ const NZMODULES = [
   NzAutocompleteModule,
   NzCommentModule,
   NzAlertModule,
+  NzUploadModule,
+  NzPopconfirmModule
 ];
 
 @NgModule({

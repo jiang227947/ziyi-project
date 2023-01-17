@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {AppMenuService} from './shared-module/service/app-menu.service';
 import {MenuModel} from './core-module/model/menu.model';
-import {NavigationEnd, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +13,7 @@ export class AppComponent {
   isCollapsed = false;
   menuList: MenuModel[];
 
-  constructor(private appMenuService: AppMenuService,
-              private $router: Router) {
-    this.$router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      console.log('$router.events', event);
-    });
+  constructor(private appMenuService: AppMenuService) {
   }
 
   menuitemClick(menuItem: MenuModel): void {

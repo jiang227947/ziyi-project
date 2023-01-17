@@ -1,5 +1,7 @@
 import {User} from '../interface/user';
 import {Token} from '../interface/token';
+import {SimpleGuardService} from '../../core-module/service/simple-guard.service';
+import {MenuModel} from '../../core-module/model/menu.model';
 
 /**
  * session工具类
@@ -75,5 +77,26 @@ export class SessionUtil {
     localStorage.removeItem('token');
     localStorage.removeItem('token_out');
     localStorage.removeItem('dialogBoxMessage');
+  }
+
+  /**
+   * 判断是否有这个路由
+   */
+  static menuSimpleGuard(url: string): boolean {
+    let isTrue = false;
+    const menu: MenuModel[] = JSON.parse(localStorage.getItem('app_menu'));
+    menu.forEach((item) => {
+      if (url === item.menuHref) {
+        isTrue = true;
+      }
+      if (item.children.length > 0) {
+        item.children.forEach((childrenItem) => {
+          if (url === childrenItem.menuHref) {
+            isTrue = true;
+          }
+        });
+      }
+    });
+    return isTrue;
   }
 }

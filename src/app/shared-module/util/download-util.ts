@@ -11,10 +11,10 @@ export class DownloadUtil {
    * param url
    * param fileName
    */
-  downloadFile(url: string, fileName?): void {
+  downloadFile(url: string, fileName: string): void {
     const strArr = url.split(/\//g);
     fileName = fileName || strArr[strArr.length - 1];
-    this.$http.get(url, {responseType: 'blob'}).subscribe(data => {
+    this.$http.post(url, fileName, {responseType: 'blob'}).subscribe(data => {
       const blob = new Blob([data], {type: 'application/octet-stream'});
       const download = document.createElement('a');
       download.id = 'download-file';

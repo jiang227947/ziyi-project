@@ -20,7 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   },
   // 404页面
-  {path: 'exception', component: Exception404Component},
+  {
+    path: 'exception', component: Exception404Component,
+    loadChildren: () => import('./pages/exception/exception.module').then(m => m.ExceptionModule)
+  },
   {
     path: '**', redirectTo: 'exception',
   },

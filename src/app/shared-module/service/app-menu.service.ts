@@ -147,6 +147,17 @@ export class AppMenuService {
             isSelected: false,
             children: []
           },
+          {
+            menuId: '5-2',
+            parentMenuId: '5',
+            menuName: '图片',
+            menuLevel: 2,
+            menuHref: '/main/user-management/image-list',
+            icon: 'picture',
+            isShow: true,
+            isSelected: false,
+            children: []
+          }
         ]
       }
     ];
