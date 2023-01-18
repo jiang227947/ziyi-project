@@ -27,6 +27,7 @@ import {IconsProviderModule} from '../icons-provider.module';
 import {NzAlertModule} from 'ng-zorro-antd/alert';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
+import {NzProgressModule} from 'ng-zorro-antd/progress';
 
 const MODULES = [
   CommonModule,
@@ -58,7 +59,8 @@ const NZMODULES = [
   NzCommentModule,
   NzAlertModule,
   NzUploadModule,
-  NzPopconfirmModule
+  NzPopconfirmModule,
+  NzProgressModule
 ];
 
 @NgModule({
@@ -66,11 +68,13 @@ const NZMODULES = [
     ...MODULES,
     ...NZMODULES
   ],
-  exports: [
-    ...MODULES,
-    ...NZMODULES
-  ],
-  providers: [NzMessageService]
+    exports: [
+        ...MODULES,
+        ...NZMODULES
+    ],
+  providers: [NzMessageService],
+  declarations: [
+  ]
 })
 export class SharedModuleModule {
 }

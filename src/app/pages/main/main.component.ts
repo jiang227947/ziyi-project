@@ -6,6 +6,7 @@ import {User} from '../../shared-module/interface/user';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {LoginRequestService} from '../../core-module/api-service';
 import {SessionUtil} from "../../shared-module/util/session-util";
+import {AppMenuService} from '../../shared-module/service/app-menu.service';
 
 @Component({
   selector: 'app-main',
@@ -31,11 +32,13 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const menu = localStorage.getItem('app_menu');
+    // 菜单
+    const menuList = AppMenuService.getAppMenu();
+    localStorage.setItem('app_menu', JSON.stringify(menuList));
     const userInfo = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
-      this.menuList = JSON.parse(menu);
+      this.menuList = menuList;
     } else {
       SessionUtil.clearUserLocal();
       this.router.navigate(['/login']);

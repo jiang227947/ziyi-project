@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {UserManagementComponent} from './user-management.component';
 import {UserListComponent} from './user-list/user-list.component';
 import {UserFormComponent} from './user-form/user-form.component';
-import {ImageListComponent} from './image-list/image-list.component';
+import {FileListComponent} from './file-list/file-list.component';
 
 export const USER_ROUTER_CONFIG: Routes = [
   {path: '', redirectTo: 'user-list', pathMatch: 'full'},
@@ -20,10 +20,10 @@ export const USER_ROUTER_CONFIG: Routes = [
         path: 'user-list/:type',
         component: UserFormComponent
       },
-      // 图片列表
+      // 文件列表
       {
-        path: 'image-list',
-        component: ImageListComponent
+        path: 'file-list',
+        component: FileListComponent
       },
     ]
   },

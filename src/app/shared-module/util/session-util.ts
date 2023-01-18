@@ -2,6 +2,7 @@ import {User} from '../interface/user';
 import {Token} from '../interface/token';
 import {SimpleGuardService} from '../../core-module/service/simple-guard.service';
 import {MenuModel} from '../../core-module/model/menu.model';
+import {AppMenuService} from '../service/app-menu.service';
 
 /**
  * session工具类
@@ -84,7 +85,7 @@ export class SessionUtil {
    */
   static menuSimpleGuard(url: string): boolean {
     let isTrue = false;
-    const menu: MenuModel[] = JSON.parse(localStorage.getItem('app_menu'));
+    const menu: MenuModel[] = AppMenuService.getAppMenu();
     menu.forEach((item) => {
       if (url === item.menuHref) {
         isTrue = true;

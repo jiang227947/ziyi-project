@@ -50,7 +50,6 @@ export class LoginFormComponent implements OnInit {
       return;
     }
     this.loginLoading = true;
-    const messageId = this.$message.loading('登陆中..', {nzDuration: 0}).messageId;
     // 判断记住用户
     const rememberMe: boolean = this.loginForm.controls.remember.value;
     if (rememberMe) {
@@ -63,7 +62,7 @@ export class LoginFormComponent implements OnInit {
       password: this.password.value
     };
     // 用户登录
-    this.login(loginInfo, messageId).then((user: User) => {
+    this.login(loginInfo).then((user: User) => {
       if (user) {
         // 查询用户接口
         this.loginRequestService.queryUserById(user.id).subscribe((result: Result<User>) => {
@@ -72,9 +71,8 @@ export class LoginFormComponent implements OnInit {
             // 用户信息保存到浏览器
             localStorage.setItem('user_info', JSON.stringify(userInfo));
             // 菜单
-            const menuList = this.appMenuService.getAppMenu();
-            localStorage.setItem('app_menu', JSON.stringify(menuList));
-            this.$message.remove(messageId);
+            // const menuList = this.appMenuService.getAppMenu();
+            // localStorage.setItem('app_menu', JSON.stringify(menuList));
             // 设置上次登录时间显示
             const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
             this.router.navigate(['/main/index']);
@@ -83,7 +81,6 @@ export class LoginFormComponent implements OnInit {
             this.$message.success(messageTitle, {nzDuration: 3000});
           } else {
             this.$message.error(result.msg);
-            this.$message.remove(messageId);
           }
           this.loginLoading = false;
         });
@@ -93,7 +90,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   // 登录接口
-  login(loginInfo, messageId: string): Promise<User> {
+  login(loginInfo): Promise<User> {
     return new Promise<User>((resolve, reject) => {
       this.loginRequestService.login(loginInfo).subscribe((result: Result<User>) => {
         if (result.code === 200) {
@@ -102,13 +99,11 @@ export class LoginFormComponent implements OnInit {
           SessionUtil.setToken(userInfo.saTokenInfo);
           resolve(userInfo);
         } else {
-          this.$message.remove(messageId);
           this.$message.error(result.msg);
           this.loginLoading = false;
           reject(null);
         }
       }, () => {
-        this.$message.remove(messageId);
         reject(null);
       });
     });

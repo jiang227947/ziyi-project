@@ -10,8 +10,8 @@ export class AppMenuService {
   /**
    * 返回主菜单
    * todo 后续可配合权限接口查询
-   * */
-  getAppMenu(): MenuModel[] {
+   */
+  static getAppMenu(): MenuModel[] {
     return [
       // 首页
       {
@@ -150,10 +150,10 @@ export class AppMenuService {
           {
             menuId: '5-2',
             parentMenuId: '5',
-            menuName: '图片',
+            menuName: '文件列表',
             menuLevel: 2,
-            menuHref: '/main/user-management/image-list',
-            icon: 'picture',
+            menuHref: '/main/user-management/file-list',
+            icon: 'file-image',
             isShow: true,
             isSelected: false,
             children: []

@@ -1,4 +1,5 @@
 import {parse, startOfWeek, startOfYear} from 'date-fns';
+import {IMAGE_TYPE_CONST, OFFICE_TYPE_CONST, OTHER_TYPE_CONST, TEXT_TYPE_CONST} from '../const/commou.const';
 
 /**
  * 工具类
@@ -145,5 +146,20 @@ export class CommonUtil {
       }
     }
     return newObj;
+  }
+
+  /**
+   * 支持的文件上传类型
+   * @param fileType:文件类型
+   */
+  static fileType(fileType: string): boolean {
+    // 可上传的类型
+    const FILE_TYPE_CONST = [
+      ...IMAGE_TYPE_CONST,
+      ...TEXT_TYPE_CONST,
+      ...OFFICE_TYPE_CONST,
+      ...OTHER_TYPE_CONST
+    ];
+    return FILE_TYPE_CONST.indexOf(fileType) === -1;
   }
 }

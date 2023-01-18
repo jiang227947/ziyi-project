@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageListComponent } from './image-list.component';
+import { FileListComponent } from './file-list.component';
 
 describe('ImageListComponent', () => {
-  let component: ImageListComponent;
-  let fixture: ComponentFixture<ImageListComponent>;
+  let component: FileListComponent;
+  let fixture: ComponentFixture<FileListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImageListComponent ]
+      declarations: [ FileListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageListComponent);
+    fixture = TestBed.createComponent(FileListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

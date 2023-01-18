@@ -9,12 +9,14 @@
             [nzPageSize]="pageParams.pageSize"
             (nzPageIndexChange)="pageIndexChange($event)"
             (nzPageSizeChange)="pageSizeChange($event)"
-            [nzLoadingDelay]="300">
+            [nzLoadingDelay]="300"
+            [nzScroll]="{ x: '600px' }">
     <thead>
     <tr>
-      <th nzWidth="10px">序号</th>
+      <th nzWidth="30px">序号</th>
       <th nzWidth="100px">文件名</th>
-      <th nzWidth="40px">上传时间</th>
+      <th nzWidth="40px">文件大小</th>
+      <th nzWidth="60px">上传时间</th>
       <th nzWidth="40px">操作</th>
     </tr>
     </thead>
@@ -22,13 +24,21 @@
     <tr *ngFor="let data of basicTable.data;index as idx">
       <td>{{ idx + 1 }}</td>
       <td>{{ data.fileName }}</td>
+      <td>{{ data.fileSize | fileSize }}</td>
       <td>{{ data.updateTime |date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td>
-        <button nz-button nzType="link" (click)="downloadFile(data.fileName)">下载</button>
-        <button nz-button nzType="text" nzDanger nz-popconfirm
-                nzPopconfirmTitle="确定要删除吗？"
-                (nzOnConfirm)="deleteFile(data.id)">删除
-        </button>
+        <div class="operation">
+          <div class="download">
+            <button nz-button nzType="link" (click)="downloadFile(data)">下载</button>
+            <nz-progress [nzPercent]="data.percent" [nzSteps]="5" nzStrokeColor="#1890ff" nzSize="small" *ngIf="data.percent"></nz-progress>
+          </div>
+          <div>
+            <button nz-button nzType="text" nzDanger nz-popconfirm
+                    nzPopconfirmTitle="确定要删除吗？"
+                    (nzOnConfirm)="deleteFile(data.id)">删除
+            </button>
+          </div>
+        </div>
       </td>
     </tr>
     </tbody>
@@ -41,6 +51,8 @@
   [(nzVisible)]="showUpdate"
   [nzContent]="modalContent"
   [nzMaskClosable]="false"
+  [nzKeyboard]="false"
+  [nzClosable]="filePercent === 0"
   [nzFooter]="modalFooter"
   (nzOnCancel)="cancelModal()">
   <ng-template #modalContent>
@@ -55,10 +67,11 @@
         <div style="margin-top: 8px">Upload</div>
       </div>
     </nz-upload>
+    <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzStrokeColor="#1890ff" *ngIf="filePercent > 0"></nz-progress>
   </ng-template>
   <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="uploadFile()">提交</button>
-    <button nz-button nzType="default" (click)="cancelModal()">取消</button>
+    <button nz-button nzType="primary" (click)="uploadFile()" [nzLoading]="filePercent > 0">提交</button>
+    <button nz-button nzType="default" (click)="cancelModal()" [disabled]="filePercent > 0">取消</button>
   </ng-template>
 </nz-modal>
 

@@ -6,18 +6,20 @@ import {UserFormComponent} from './user-form/user-form.component';
 import {RouterModule} from '@angular/router';
 import {USER_ROUTER_CONFIG} from './user-management-routing.module';
 import {UserManagementRequestService} from '../../../core-module/api-service';
-import {ImageListComponent} from './image-list/image-list.component';
+import {FileListComponent} from './file-list/file-list.component';
 import {DownloadUtil} from '../../../shared-module/util/download-util';
+import {FileSizePipe} from '../../../shared-module/pipe/file-size.pipe';
 
 const COMPONENTS = [
   UserManagementComponent,
   UserListComponent,
   UserFormComponent,
-  ImageListComponent
+  FileListComponent
 ];
+const PIPES = [FileSizePipe];
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, ...PIPES],
   providers: [UserManagementRequestService, DownloadUtil],
   imports: [
     RouterModule.forChild(USER_ROUTER_CONFIG),

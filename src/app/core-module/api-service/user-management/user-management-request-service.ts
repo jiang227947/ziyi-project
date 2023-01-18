@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Result} from '../../../shared-module/interface/result';
 import {User} from '../../../shared-module/interface/user';
@@ -36,8 +36,10 @@ export class UserManagementRequestService {
   /**
    * 上传文件
    */
-  uploadFile(formData: FormData): Observable<Result<any>> {
-    return this.$http.post<Result<any>>(`${environment.API_URL}/uploadFile`, formData);
+  uploadFile(formData: FormData): Observable<HttpEvent<Result<any>>> {
+    return this.$http.post<Result<any>>(`${environment.API_URL}/uploadFile`, formData, {
+      reportProgress: true, observe: 'events',
+    });
   }
 
   /**

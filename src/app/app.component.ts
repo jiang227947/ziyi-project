@@ -13,7 +13,7 @@ export class AppComponent {
   isCollapsed = false;
   menuList: MenuModel[];
 
-  constructor(private appMenuService: AppMenuService) {
+  constructor() {
   }
 
   menuitemClick(menuItem: MenuModel): void {
