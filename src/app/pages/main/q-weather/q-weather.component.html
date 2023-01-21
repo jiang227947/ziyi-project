@@ -6,7 +6,9 @@
                (keydown.enter)="queryCityLookupWeather()"/>
       </nz-input-group>
       <ng-template #suffixButton>
-        <button nz-button nzType="primary" nzSearch [disabled]="loading" (click)="queryCityLookupWeather()">查询</button>
+        <button nz-button nzType="primary" nzSearch [disabled]="loading"
+                (click)="queryCityLookupWeather()">查询
+        </button>
       </ng-template>
     </div>
     <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" class="tags">
@@ -20,7 +22,7 @@
     </div>
   </div>
   <!--实时天气-->
-  <nz-spin [nzSpinning]="loading" [nzDelay]="500">
+  <nz-spin [nzSpinning]="loading" [nzDelay]="300">
     <nz-card nzTitle="实时天气" class="card">
       <nz-descriptions nzBordered
                        [nzColumn]="{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }">
@@ -29,7 +31,8 @@
         </nz-descriptions-item>
         <nz-descriptions-item nzTitle="国家">{{city?.country}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="经纬度">{{city?.lat}}，{{city?.lon}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="数据观测时间">{{cityWeather?.obsTime | date:'yyyy-MM-dd hh:mm'}}</nz-descriptions-item>
+        <nz-descriptions-item
+          nzTitle="数据观测时间">{{cityWeather?.obsTime | date:'yyyy-MM-dd hh:mm'}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="天气">
           <img class="weather-icon" [src]="'./assets/icon/QWeather-Icons-1.1.1/' + cityWeather?.icon + '-fill.svg'"
                *ngIf="cityWeather?.icon">
@@ -48,9 +51,9 @@
     </nz-card>
   </nz-spin>
   <!--每日天气预报-->
-  <nz-spin [nzSpinning]="loading" [nzDelay]="500">
+  <nz-spin [nzSpinning]="loading" [nzDelay]="300">
     <nz-card [nzTitle]="weatherTitleTemp" [nzExtra]="dayWeatherTemp" class="card">
-      <nz-table #basicTable [nzData]="futureWeather" [nzLoading]="loading" [nzLoadingDelay]="500"
+      <nz-table #basicTable [nzData]="futureWeather" [nzLoading]="loading" [nzLoadingDelay]="300"
                 [nzScroll]="{ x: '1000px', y: '400px' }">
         <thead>
         <tr *ngIf="weatherType === 'day';else hourTr">

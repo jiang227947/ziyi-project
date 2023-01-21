@@ -23,7 +23,7 @@
     <tbody>
     <tr *ngFor="let data of basicTable.data;index as idx">
       <td>{{ idx + 1 }}</td>
-      <td>{{ data.fileName }}</td>
+      <td [title]="data.fileName">{{ data.fileName }}</td>
       <td>{{ data.fileSize | fileSize }}</td>
       <td>{{ data.updateTime |date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td>
@@ -70,7 +70,7 @@
     <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzStrokeColor="#1890ff" *ngIf="filePercent > 0"></nz-progress>
   </ng-template>
   <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="uploadFile()" [nzLoading]="filePercent > 0">提交</button>
+    <button nz-button nzType="primary" (click)="uploadFile()" [disabled]="updateFileList.length === 0" [nzLoading]="filePercent > 0">提交</button>
     <button nz-button nzType="default" (click)="cancelModal()" [disabled]="filePercent > 0">取消</button>
   </ng-template>
 </nz-modal>

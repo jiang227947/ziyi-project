@@ -20,6 +20,8 @@ export class IndexComponent implements OnInit {
   holidayTtsTomorrow = '';
   // 工资倒计时
   wagesCountdown = 0;
+  num1;
+  num2;
 
   constructor(private $IndexApiService: IndexApiService) {
   }

@@ -19,7 +19,7 @@ import {BMapLoaderService} from '../map/service/b-map-loader-service';
 export class QWeatherComponent implements OnInit {
 
   key = '17b72541b5214c85800d1cbe259ce6d2';
-  loading = true; // 查询状态
+  loading = false; // 查询状态
   cityName = ''; // 搜索的城市名称
   city: LocationInterface; // 查询的城市信息
   cityWeather: NowInterface; // 城市天气
@@ -100,14 +100,15 @@ export class QWeatherComponent implements OnInit {
     }).subscribe((result: WeatherNowInterface) => {
       if (result.code === '200') {
         this.cityWeather = result.now;
+        this.loading = false;
       } else {
         this.modal.info({
           nzTitle: result.code,
           nzContent: `查询${this.cityName}实时天气失败！`,
           nzCancelText: null
         });
+        this.loading = false;
       }
-      this.loading = false;
     });
   }
 
@@ -150,8 +151,8 @@ export class QWeatherComponent implements OnInit {
           nzContent: `查询${this.cityName}信息失败！`,
           nzCancelText: null
         });
+        this.loading = false;
       }
-      this.loading = false;
     });
   }
 
@@ -161,14 +162,15 @@ export class QWeatherComponent implements OnInit {
     this.weatherRequestService.queryHoursHWeather(params, this.hours).subscribe((result: FutureWeatherInterface) => {
       if (result.code === '200') {
         this.futureWeather = result.hourly;
+        this.loading = false;
       } else {
         this.modal.info({
           nzTitle: result.code,
           nzContent: `查询未来${this.hours}小时天气失败！`,
           nzCancelText: null
         });
+        this.loading = false;
       }
-      this.loading = false;
     });
   }
 

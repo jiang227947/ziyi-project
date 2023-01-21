@@ -76,14 +76,15 @@
               [nzSelected]="menu.isSelected"
               [routerLink]="menu.menuHref"
               (click)="menuitemClick(menu)"
-              *ngIf="menu.children.length === 0">
+              *ngIf="menu.children.length === 0"
+              [title]="menu.menuName">
             <span nz-icon [nzType]="menu.icon" *ngIf="!menu.imageUrl"></span>
             <span class="item-icon" [ngStyle]="{'background-image':'url('+ menu.imageUrl +')'}"
                   *ngIf="menu.imageUrl"></span>
             <span *ngIf="!isCollapsed">{{menu.menuName}}</span>
           </li>
           <!--有子级的菜单-->
-          <li nz-submenu [nzIcon]="menu.icon" [nzTitle]="menu.menuName"
+          <li nz-submenu [nzIcon]="menu.icon" [nzTitle]="menu.menuName" [title]="menu.menuName"
               *ngIf="menu.children.length > 0">
             <ul>
               <!--循环子级菜单-->
@@ -95,7 +96,8 @@
                       nzMatchRouterExact
                       [nzSelected]="menuChildren.isSelected"
                       [routerLink]="menuChildren.menuHref"
-                      (click)="menuitemClick(menu)">
+                      (click)="menuitemClick(menu)"
+                      [title]="menuChildren.menuName">
                     <span nz-icon [nzType]="menuChildren.icon" *ngIf="!menuChildren.imageUrl"></span>
                     <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}"
                           *ngIf="menuChildren.imageUrl"></span>
