@@ -40,6 +40,9 @@ export class ChatGPTComponent implements OnInit {
       const dialogBoxMessage = localStorage.getItem('dialogBoxMessage');
       if (dialogBoxMessage) {
         this.dialogBoxMessageList = JSON.parse(dialogBoxMessage);
+        setTimeout(() => {
+          this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
+        }, 0);
       }
       this.synth = window.speechSynthesis;
       let count = 0;

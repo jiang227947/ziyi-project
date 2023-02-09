@@ -1,6 +1,15 @@
 <div id="aMap" [ngClass]="{'aMap':mapLoadType === mapLoadTypeEnum.done}">
   <div #aMap></div>
 </div>
+<!--操作按钮-->
+<div class="operations">
+  <button nz-button nzType="link" (click)="trafficLayerChanges()">
+    <p class="operations-p" [ngClass]="{'trafficLayerShow':this.trafficLayer?.il}">
+      <span nz-icon nzType="car" nzTheme="outline"></span>
+      <span class="operations-span">路况</span>
+    </p>
+  </button>
+</div>
 <div class="example" *ngIf="mapLoadType === mapLoadTypeEnum.loading">
   <nz-spin nzSimple nzTip="加载高德地图API中..." class="spin"></nz-spin>
 </div>

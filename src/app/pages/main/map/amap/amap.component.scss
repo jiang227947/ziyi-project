@@ -12,6 +12,40 @@
   }
 }
 
+.operations {
+  position: absolute;
+  top: 10px;
+  right: 100px;
+  z-index: 10;
+  background-color: #fff;
+  border-radius: 2px;
+
+  button {
+    padding: 4px 8px;
+  }
+
+  .operations-p {
+    display: inline-block;
+    color: #888888;
+    padding: 0 8px 0 4px;
+    height: 15px;
+    line-height: 15px;
+    border-right: 1px dashed #888888;
+
+    &:hover {
+      color: #cccccc;
+    }
+
+    .operations-span {
+      padding-left: 4px;
+    }
+  }
+
+  .trafficLayerShow {
+    color: #4aa1eb;
+  }
+}
+
 .example {
   height: 100%;
   background: rgba(0, 0, 0, 0.05);

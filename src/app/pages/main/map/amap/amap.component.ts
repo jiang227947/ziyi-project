@@ -14,6 +14,7 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
 
   aMap: any; // 地图实体
   geolocation: any; // 地图控件实体
+  trafficLayer: any; // 实时路况实体
 
   constructor(private aMapLoader: AMapLoaderService,
               private modal: NzModalService) {
@@ -74,6 +75,23 @@ export class AmapComponent extends MapComponent implements AfterViewInit, OnDest
       this.mapLoadType = this.mapLoadTypeEnum.error;
       this.createModalRef('提示', '高德地图加载失败，请检查网络！');
     });
+  }
+
+  trafficLayerChanges(): void {
+    if (this.trafficLayer) {
+      // 切换显示
+      if (this.trafficLayer.il) {
+        this.trafficLayer.hide();
+      } else {
+        this.trafficLayer.show();
+      }
+    } else {
+      // 开启实时路况
+      this.trafficLayer = new AMap.TileLayer.Traffic({
+        zIndex: 10,
+      });
+      this.trafficLayer.setMap(this.aMap);
+    }
   }
 
   createModalRef(title: string, content: string): NzModalRef {

@@ -32,6 +32,15 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*document.addEventListener('visibilitychange', () => {
+      const isHidden = document.hidden;
+      console.log(isHidden);
+      if (isHidden) {
+        // 页面隐藏
+      } else {
+        // 页面聚焦
+      }
+    });*/
     // 菜单
     const menuList = AppMenuService.getAppMenu();
     localStorage.setItem('app_menu', JSON.stringify(menuList));
