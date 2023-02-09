@@ -1,8 +1,19 @@
 <div class="table-content">
-  <button nz-button nzType="primary" (click)="addUser()" *ngIf="role === '1001'">新增</button>
-  <nz-table #basicTable [nzData]="userList"
+  <button nz-button nzType="primary" (click)="addUser()" *ngIf="role === '1001'">
+    <span nz-icon nzType="plus" nzTheme="outline"></span>
+    <span>新增用户</span>
+  </button>
+  <nz-table #basicTable nzShowPagination nzShowSizeChanger
+            [nzData]="userList"
+            [nzTotal]="dataTotal"
+            [(nzPageIndex)]="pageParams.pageNum"
+            [(nzPageSize)]="pageParams.pageSize"
+            (nzPageIndexChange)="pageIndexChange($event)"
+            (nzPageSizeChange)="pageSizeChange($event)"
             [nzLoading]="loading"
             [nzLoadingDelay]="300"
+            [nzPageSizeOptions]="[5,10,20,50]"
+            [nzFrontPagination]="false"
             [nzScroll]="{ x: '500px' }">
     <thead>
     <tr>
@@ -11,6 +22,7 @@
       <th>用户名</th>
       <th>角色</th>
       <th>上次登录时间</th>
+      <th *ngIf="role === '1001'">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +32,14 @@
       <td>{{ data.userName }}</td>
       <td>{{ data.roleName }}</td>
       <td>{{ data.lastLoginTime }}</td>
+      <td *ngIf="role === '1001'">
+        <div>
+          <button nz-button nzType="text" nzDanger nz-popconfirm
+                  nzPopconfirmTitle="确定要删除吗？"
+                  (nzOnConfirm)="deleteUser(data.id)">删除
+          </button>
+        </div>
+      </td>
     </tr>
     </tbody>
   </nz-table>

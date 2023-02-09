@@ -14,5 +14,4 @@ export class FileSizePipe implements PipeTransform {
       return `${kb}KB`;
     }
   }
-
 }

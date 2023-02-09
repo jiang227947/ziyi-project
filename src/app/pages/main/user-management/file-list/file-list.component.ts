@@ -10,6 +10,7 @@ import {CommonUtil} from '../../../../shared-module/util/commonUtil';
 import {SIZE_30MB} from '../../../../shared-module/const/commou.const';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NzUploadFile, NzUploadXHRArgs} from 'ng-zorro-antd/upload/interface';
+import {FileType} from "../../../../shared-module/util/file-type";
 
 @Component({
   selector: 'app-file-list',
@@ -23,9 +24,10 @@ export class FileListComponent implements OnInit {
   // 上传文件的弹框
   showUpdate = false;
   // 分页参数
-  pageParams = new PageParams(0, 10);
+  pageParams = new PageParams(1, 5);
   // 文件列表
   fileList: File[] = [];
+  dataTotal = 0;
   // 上传的文件列表
   updateFileList = [];
 
@@ -99,6 +101,7 @@ export class FileListComponent implements OnInit {
     this.userManagementRequestService.queryImageList(this.pageParams).subscribe((result: Result<File[]>) => {
       if (result.code === 200) {
         this.fileList = result.data;
+        this.dataTotal = result.totalCount;
       } else {
         this.$message.error(result.msg);
       }
@@ -130,6 +133,10 @@ export class FileListComponent implements OnInit {
         this.updateFileList = [];
       }
     });
+  }
+
+  isImageFile(data: File): boolean {
+    return FileType.isImageFile(data);
   }
 
   /**

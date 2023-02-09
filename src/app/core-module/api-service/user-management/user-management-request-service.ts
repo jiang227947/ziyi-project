@@ -27,6 +27,13 @@ export class UserManagementRequestService {
   }
 
   /**
+   * 删除用户
+   */
+  deleteUser(id: number): Observable<Result<void>> {
+    return this.$http.get<Result<void>>(`${environment.API_URL}/deleteUser/${id}`);
+  }
+
+  /**
    * 查询文件列表
    */
   queryImageList(pageParams: PageParams): Observable<Result<File[]>> {

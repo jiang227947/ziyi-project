@@ -86,6 +86,7 @@ export class LoginFormComponent implements OnInit {
         });
       }
     }).catch(() => {
+      this.loginLoading = false;
     });
   }
 

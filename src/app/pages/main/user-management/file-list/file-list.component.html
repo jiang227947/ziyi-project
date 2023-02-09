@@ -5,11 +5,15 @@
   </button>
   <nz-table #basicTable nzShowPagination nzShowSizeChanger
             [nzData]="fileList"
+            [nzTotal]="dataTotal"
             [nzLoading]="loading"
-            [nzPageSize]="pageParams.pageSize"
+            [(nzPageIndex)]="pageParams.pageNum"
+            [(nzPageSize)]="pageParams.pageSize"
             (nzPageIndexChange)="pageIndexChange($event)"
             (nzPageSizeChange)="pageSizeChange($event)"
             [nzLoadingDelay]="300"
+            [nzPageSizeOptions]="[5,10,20,50]"
+            [nzFrontPagination]="false"
             [nzScroll]="{ x: '600px' }">
     <thead>
     <tr>
@@ -30,7 +34,8 @@
         <div class="operation">
           <div class="download">
             <button nz-button nzType="link" (click)="downloadFile(data)">下载</button>
-            <nz-progress [nzPercent]="data.percent" [nzSteps]="5" nzStrokeColor="#1890ff" nzSize="small" *ngIf="data.percent"></nz-progress>
+            <nz-progress [nzPercent]="data.percent" [nzSteps]="5" nzStrokeColor="#1890ff" nzSize="small"
+                         *ngIf="data.percent"></nz-progress>
           </div>
           <div>
             <button nz-button nzType="text" nzDanger nz-popconfirm
@@ -70,7 +75,9 @@
     <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzStrokeColor="#1890ff" *ngIf="filePercent > 0"></nz-progress>
   </ng-template>
   <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="uploadFile()" [disabled]="updateFileList.length === 0" [nzLoading]="filePercent > 0">提交</button>
+    <button nz-button nzType="primary" (click)="uploadFile()" [disabled]="updateFileList.length === 0"
+            [nzLoading]="filePercent > 0">提交
+    </button>
     <button nz-button nzType="default" (click)="cancelModal()" [disabled]="filePercent > 0">取消</button>
   </ng-template>
 </nz-modal>

@@ -68,13 +68,12 @@ const NZMODULES = [
     ...MODULES,
     ...NZMODULES
   ],
-    exports: [
-        ...MODULES,
-        ...NZMODULES
-    ],
+  exports: [
+    ...MODULES,
+    ...NZMODULES
+  ],
   providers: [NzMessageService],
-  declarations: [
-  ]
+  declarations: []
 })
 export class SharedModuleModule {
 }

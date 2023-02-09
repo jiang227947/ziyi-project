@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {
-  ActivatedRouteSnapshot,
-  CanActivate, CanActivateChild,
-  Router,
-  RouterStateSnapshot, UrlTree
+  ActivatedRoute,
+  ActivatedRouteSnapshot, ActivationEnd, ActivationStart,
+  CanActivate, CanActivateChild, ChildActivationEnd, ChildActivationStart, RouteConfigLoadEnd, RouteConfigLoadStart,
+  Router, RouterEvent,
+  RouterStateSnapshot, Scroll, UrlTree
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {NzMessageService} from 'ng-zorro-antd/message';
@@ -13,18 +14,22 @@ import {SessionUtil} from '../../shared-module/util/session-util';
 export class SimpleGuardService implements CanActivate, CanActivateChild {
   token: string;
 
-  constructor(private router: Router, private $message: NzMessageService) {
+  constructor(private router: Router, private route: ActivatedRoute, private $message: NzMessageService) {
   }
 
   // 是否允许进入该路由
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): true | UrlTree {
     const url: string = state.url; // 将要跳转的路径
+    // this.router.events.subscribe((evt) => {
+    //   if (evt instanceof ActivationStart) {
+    //   }
+    // });
     // console.log('将要跳转的路径', url);
     if (SessionUtil.menuSimpleGuard(url)) {
       return this.checkLogin(url);
     }
     // 404页面
-    this.router.navigateByUrl('/exception');
+    // this.router.navigateByUrl('/exception');
     return true;
     // 权限控制逻辑如 是否登录/拥有访问权限
     // if (!this.token) {

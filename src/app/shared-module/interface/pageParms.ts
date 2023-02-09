@@ -9,7 +9,7 @@ export class PageParams {
 
   constructor(pageNum?: number, pageSize?: number) {
     // 默认第一页
-    this.pageNum = pageNum || 0;
+    this.pageNum = pageNum || 1;
     // 默认一页十条数据
     this.pageSize = pageSize || 10;
   }

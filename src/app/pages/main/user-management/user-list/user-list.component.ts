@@ -20,6 +20,7 @@ export class UserListComponent implements OnInit {
   pageParams = new PageParams();
   // 用户列表
   userList: User[] = [];
+  dataTotal = 0;
   role: string;
 
   constructor(private router: Router, private $message: NzMessageService,
@@ -28,15 +29,43 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.role = SessionUtil.getRoleId();
+    this.queryUserList();
+  }
+
+  // 查询用户列表
+  queryUserList(): void {
     this.loading = true;
     this.userManagementRequestService.getUserList(this.pageParams).subscribe((result: Result<User[]>) => {
       if (result.code === 200) {
         this.userList = result.data;
+        this.dataTotal = result.totalCount;
       } else {
         this.$message.error(result.msg);
       }
       this.loading = false;
     });
+  }
+
+  // 删除用户
+  deleteUser(id: number): void {
+    this.userManagementRequestService.deleteUser(id).subscribe((result: Result<void>) => {
+      if (result.code === 200) {
+        this.$message.success(result.msg);
+        this.queryUserList();
+      } else {
+        this.$message.error(result.msg);
+      }
+    });
+  }
+
+  pageIndexChange(pageNum: number): void {
+    this.pageParams.pageNum = pageNum;
+    this.queryUserList();
+  }
+
+  pageSizeChange(pageSize: number): void {
+    this.pageParams.pageSize = pageSize;
+    this.queryUserList();
   }
 
   // 新增用户
