@@ -5,7 +5,12 @@ import {Exception404Component} from './pages/exception/404.component';
 
 const routes: Routes = [
   // 默认路由
-  {path: '', pathMatch: 'full', redirectTo: 'main/index'},
+  {path: '', pathMatch: 'full', redirectTo: 'resume'},
+  // 简历
+  {
+    path: 'resume',
+    loadChildren: () => import('./pages/resume/resume.module').then(m => m.ResumeModule)
+  },
   // 首页
   {
     path: 'main',

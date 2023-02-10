@@ -1,0 +1,44 @@
+{
+  "id": "3889418",
+  "name": "evziyi.top",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6151214",
+      "name": "position",
+      "font_class": "position",
+      "unicode": "e7f1",
+      "unicode_decimal": 59377
+    },
+    {
+      "icon_id": "77156",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "4936987",
+      "name": "weibo",
+      "font_class": "weibo",
+      "unicode": "e882",
+      "unicode_decimal": 59522
+    },
+    {
+      "icon_id": "7239484",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "4546550",
+      "name": "csdn",
+      "font_class": "csdn",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    }
+  ]
+}

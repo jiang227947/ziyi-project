@@ -10,7 +10,6 @@ import {CommonUtil} from '../../../../shared-module/util/commonUtil';
 import {SIZE_30MB} from '../../../../shared-module/const/commou.const';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NzUploadFile, NzUploadXHRArgs} from 'ng-zorro-antd/upload/interface';
-import {FileType} from "../../../../shared-module/util/file-type";
 
 @Component({
   selector: 'app-file-list',
@@ -133,10 +132,6 @@ export class FileListComponent implements OnInit {
         this.updateFileList = [];
       }
     });
-  }
-
-  isImageFile(data: File): boolean {
-    return FileType.isImageFile(data);
   }
 
   /**
