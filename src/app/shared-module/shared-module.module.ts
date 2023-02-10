@@ -28,6 +28,7 @@ import {NzAlertModule} from 'ng-zorro-antd/alert';
 import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
+import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 
 const MODULES = [
   CommonModule,
@@ -60,7 +61,8 @@ const NZMODULES = [
   NzAlertModule,
   NzUploadModule,
   NzPopconfirmModule,
-  NzProgressModule
+  NzProgressModule,
+  NzToolTipModule
 ];
 
 @NgModule({
