@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NavItemEnum} from "../../shared-module/enum/resume.enum";
+import {fromEvent} from 'rxjs';
 
 /**
  * 简历页面
@@ -12,8 +13,11 @@ import {NavItemEnum} from "../../shared-module/enum/resume.enum";
 })
 export class ResumeComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('resumeMain') resumeMain: ElementRef<Element>;
   @ViewChild('container') containerRef: ElementRef<Element>;
+  subscribeScroll: any;
+  scrollDis: any = {
+    _top: 0
+  }
   // 菜单
   selectNav: NavItemEnum = NavItemEnum.About;
   // 一个页面的高度
@@ -45,30 +49,18 @@ export class ResumeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    window.addEventListener('scroll', () => {
-      console.log('滚动条高度scrollHeight', this.resumeMain.nativeElement.scrollHeight);
-      console.log('滚动距离scrollTop', this.resumeMain.nativeElement.scrollTop);
-      console.log('可视区域clientHeight', this.resumeMain.nativeElement.clientHeight);
-    })
-    this.resumeMain.nativeElement.addEventListener('scroll', (e) => {
-      console.log(e);
-    });
-    this.containerRef.nativeElement.addEventListener('scroll', (e) => {
-      console.log(e);
-    });
-    console.log(this.containerRef.nativeElement);
+    this.subscribeScroll = fromEvent(this.containerRef.nativeElement, 'scroll')
+      .subscribe((event) => {
+        this.onWindowScroll();
+      });
     this.scrollHeight = this.containerRef.nativeElement.scrollHeight;
-    console.log('滚动条高度scrollHeight', this.scrollHeight);
-    console.log('滚动距离scrollTop', this.containerRef.nativeElement.scrollTop);
-    console.log('可视区域clientHeight', this.containerRef.nativeElement.clientHeight);
+    console.log('总共高度', this.scrollHeight);
+    console.log('当前滚动高度', this.containerRef.nativeElement.scrollTop);
+    console.log('可视区域', this.containerRef.nativeElement.clientHeight);
+  }
 
-    console.log('滚动条高度scrollHeight', this.resumeMain.nativeElement.scrollHeight);
-    console.log('滚动距离scrollTop', this.resumeMain.nativeElement.scrollTop);
-    console.log('可视区域clientHeight', this.resumeMain.nativeElement.clientHeight);
-
-    // setTimeout(() => {
-    //   this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
-    // }, 0);
+  onWindowScroll(): void {
+    console.log('页面滚动了')
   }
 
   navItemChang(select: NavItemEnum): void {
@@ -76,16 +68,22 @@ export class ResumeComponent implements OnInit, AfterViewInit {
     console.log('this.selectNav', this.selectNav);
     switch (select) {
       case NavItemEnum.About:
-        this.containerRef.nativeElement.scrollTop = 0;
-        break;
-      case NavItemEnum.Education:
-        this.containerRef.nativeElement.scrollTop = this.scrollHeight;
+        this.containerRef.nativeElement.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
         break;
       case NavItemEnum.Experience:
-        this.containerRef.nativeElement.scrollTop = this.scrollHeight * 2;
+        this.containerRef.nativeElement.scrollTo({
+          top: this.scrollHeight,
+          behavior: 'smooth'
+        });
+        break;
+      case NavItemEnum.Education:
+        this.containerRef.nativeElement.scrollTop = this.scrollHeight * 3;
         break;
       case NavItemEnum.Skills:
-        this.containerRef.nativeElement.scrollTop = this.scrollHeight * 3;
+        this.containerRef.nativeElement.scrollTop = this.scrollHeight * 4;
         break;
     }
   }

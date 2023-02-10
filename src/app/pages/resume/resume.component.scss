@@ -176,6 +176,10 @@
   color: #fff !important;
 }
 
+.container-fluid {
+  height: 100vh;
+  overflow: scroll;
+}
 
 .container,
 .container-fluid,
@@ -189,7 +193,6 @@
   padding-left: var(--bs-gutter-x, 0.75rem);
   margin-right: auto;
   margin-left: auto;
-  overflow-y: auto;
 }
 
 .navbar > .container,
