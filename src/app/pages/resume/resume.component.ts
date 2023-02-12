@@ -1,91 +1,134 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {NavItemEnum} from "../../shared-module/enum/resume.enum";
-import {fromEvent} from 'rxjs';
+import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {NavItemEnum} from '../../shared-module/enum/resume.enum';
+import {fromEvent, Subscription} from 'rxjs';
 
 /**
  * 简历页面
  * create_time 2023年2月10日11:08:59
- * */
+ */
 @Component({
   selector: 'app-resume',
   templateUrl: './resume.component.html',
   styleUrls: ['./resume.component.scss']
 })
-export class ResumeComponent implements OnInit, AfterViewInit {
+export class ResumeComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('container') containerRef: ElementRef<Element>;
-  subscribeScroll: any;
-  scrollDis: any = {
-    _top: 0
-  }
+  // 关于
+  @ViewChild('aboutRef') aboutRef: ElementRef<Element>;
+  // 工作经历
+  @ViewChild('experienceRef') experienceRef: ElementRef<Element>;
+  // 教育经历
+  @ViewChild('educationRef') educationRef: ElementRef<Element>;
+  // 掌握技能
+  @ViewChild('skillsRef') skillsRef: ElementRef<Element>;
+
   // 菜单
   selectNav: NavItemEnum = NavItemEnum.About;
-  // 一个页面的高度
-  scrollHeight: number;
+  // 菜单收缩
+  showNavbr = false;
+  // 订阅滚动
+  subscribeScroll: Subscription;
   // 菜单分类
-  navItem = [
+  navItem: { select: NavItemEnum, label: string }[] = [
     {
-      select: 'About',
+      select: NavItemEnum.About,
       label: '关于'
     },
     {
-      select: 'Experience',
-      label: 'Experience'
+      select: NavItemEnum.Experience,
+      label: '工作经历'
     },
     {
-      select: 'Education',
-      label: 'Education'
+      select: NavItemEnum.Education,
+      label: '教育经历'
     },
     {
-      select: 'Skills',
-      label: 'Skills'
+      select: NavItemEnum.Skills,
+      label: '掌握技能'
     },
   ];
 
   constructor() {
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    // 关闭订阅
+    this.subscribeScroll.unsubscribe();
   }
 
   ngAfterViewInit(): void {
-    this.subscribeScroll = fromEvent(this.containerRef.nativeElement, 'scroll')
-      .subscribe((event) => {
-        this.onWindowScroll();
-      });
-    this.scrollHeight = this.containerRef.nativeElement.scrollHeight;
-    console.log('总共高度', this.scrollHeight);
-    console.log('当前滚动高度', this.containerRef.nativeElement.scrollTop);
-    console.log('可视区域', this.containerRef.nativeElement.clientHeight);
+    // 可视高度的一半
+    const clientHeight = this.containerRef.nativeElement.clientHeight / 2;
+    // 关于高度
+    const aboutRef = this.aboutRef.nativeElement.scrollHeight;
+    // 工作经历高度
+    const experienceRef = this.experienceRef.nativeElement.scrollHeight;
+    // 教育经历高度
+    const educationRef = this.educationRef.nativeElement.scrollHeight;
+    // 掌握技能高度
+    const skillsRef = this.skillsRef.nativeElement.scrollHeight;
+    this.subscribeScroll = fromEvent(this.containerRef.nativeElement, 'scroll').subscribe(() => {
+      const scrollTop = this.containerRef.nativeElement.scrollTop;
+      if (scrollTop <= aboutRef - clientHeight) {
+        // 关于
+        this.selectNav = NavItemEnum.About;
+      } else if (scrollTop > aboutRef - clientHeight && scrollTop <= (aboutRef + experienceRef) - clientHeight) {
+        // 工作经历
+        this.selectNav = NavItemEnum.Experience;
+      } else if (scrollTop > (aboutRef + experienceRef) - clientHeight
+        && scrollTop <= ((aboutRef + experienceRef + educationRef) - clientHeight)) {
+        // 教育经历
+        this.selectNav = NavItemEnum.Education;
+      } else if (scrollTop > ((aboutRef + experienceRef + educationRef) - clientHeight)
+        && scrollTop <= ((aboutRef + experienceRef + educationRef + skillsRef) - clientHeight)) {
+        // 掌握技能
+        this.selectNav = NavItemEnum.Skills;
+      }
+    });
   }
 
-  onWindowScroll(): void {
-    console.log('页面滚动了')
-  }
-
+  // 菜单点击
   navItemChang(select: NavItemEnum): void {
     this.selectNav = select;
-    console.log('this.selectNav', this.selectNav);
     switch (select) {
       case NavItemEnum.About:
+        // 关于
         this.containerRef.nativeElement.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
         break;
       case NavItemEnum.Experience:
+        // 工作经历
         this.containerRef.nativeElement.scrollTo({
-          top: this.scrollHeight,
+          top: this.aboutRef.nativeElement.scrollHeight + 2,
           behavior: 'smooth'
         });
         break;
       case NavItemEnum.Education:
-        this.containerRef.nativeElement.scrollTop = this.scrollHeight * 3;
+        // 教育经历
+        this.containerRef.nativeElement.scrollTo({
+          top: this.aboutRef.nativeElement.scrollHeight
+            + this.experienceRef.nativeElement.scrollHeight + 4,
+          behavior: 'smooth'
+        });
         break;
       case NavItemEnum.Skills:
-        this.containerRef.nativeElement.scrollTop = this.scrollHeight * 4;
+        // 掌握技能
+        this.containerRef.nativeElement.scrollTo({
+          top: this.aboutRef.nativeElement.scrollHeight
+            + this.experienceRef.nativeElement.scrollHeight
+            + this.educationRef.nativeElement.scrollHeight
+            + this.skillsRef.nativeElement.scrollHeight + 8,
+          behavior: 'smooth'
+        });
         break;
     }
   }
 
+  // 菜单收缩
+  navbarToggler(): void {
+    this.showNavbr = !this.showNavbr;
+  }
 }

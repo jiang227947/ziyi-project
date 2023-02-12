@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-zorro-antd/ng-zorro-antd.min.css";
 /* 阿里icon*/
-@import "assets/icon/iconfont/iconfont.css";
+//@import "assets/icon/iconfont/iconfont.css";
 
 body, form, h1, h2, h3, img, li, p, ul {
   margin: 0;
@@ -14,6 +14,7 @@ body {
   height: 100%;
   max-height: 1440px;
   min-height: 600px;
+  overflow: hidden;
 }
 
 /**列表页面最外层*/
@@ -38,6 +39,14 @@ body {
   border-radius: 5px;
 }
 
+/** 阿里icon默认样式*/
+.aliicon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
 
 /** 滚动条样式*/
 ::-webkit-scrollbar {

@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "399839",
+      "name": "login",
+      "font_class": "login",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "3970670",
+      "name": "JavaScript",
+      "font_class": "JavaScript",
+      "unicode": "e704",
+      "unicode_decimal": 59140
+    },
+    {
+      "icon_id": "3970852",
+      "name": "CSS3",
+      "font_class": "CSS",
+      "unicode": "e705",
+      "unicode_decimal": 59141
+    },
+    {
+      "icon_id": "3970853",
+      "name": "HTML5",
+      "font_class": "HTML",
+      "unicode": "e706",
+      "unicode_decimal": 59142
+    },
+    {
+      "icon_id": "6496024",
+      "name": "Angular",
+      "font_class": "Angular",
+      "unicode": "e798",
+      "unicode_decimal": 59288
+    },
+    {
+      "icon_id": "13304114",
+      "name": "typescript",
+      "font_class": "typescript1",
+      "unicode": "e6a3",
+      "unicode_decimal": 59043
+    },
+    {
+      "icon_id": "3876104",
+      "name": "npm",
+      "font_class": "npm",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "6496026",
+      "name": "Vue",
+      "font_class": "Vue",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "12600894",
+      "name": "scss",
+      "font_class": "scss",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
       "icon_id": "6151214",
       "name": "position",
       "font_class": "position",

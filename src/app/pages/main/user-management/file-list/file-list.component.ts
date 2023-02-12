@@ -23,7 +23,7 @@ export class FileListComponent implements OnInit {
   // 上传文件的弹框
   showUpdate = false;
   // 分页参数
-  pageParams = new PageParams(1, 5);
+  pageParams = new PageParams(1, 10);
   // 文件列表
   fileList: File[] = [];
   dataTotal = 0;
