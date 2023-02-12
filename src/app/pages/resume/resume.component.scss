@@ -42,13 +42,12 @@
 }
 
 .collapse:not(.show) {
-  height: 0 !important;
+  display: none !important;
 }
 
 .show-navbr:not(.show) {
-  height: auto !important;
+  display: block !important;
 }
-
 
 #sideNav {
   padding-left: 1rem;
