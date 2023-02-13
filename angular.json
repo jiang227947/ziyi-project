@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "MxDraw": {
+    "ziyi-project": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -31,7 +31,10 @@
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "src/assets/js/qunee/qunee-module.js",
+              "src/assets/js/qunee/PopupMenu.js"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -73,18 +76,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "MxDraw:build"
+            "browserTarget": "ziyi-project:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "MxDraw:build:production"
+              "browserTarget": "ziyi-project:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "MxDraw:build"
+            "browserTarget": "ziyi-project:build"
           }
         },
         "test": {
@@ -122,16 +125,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "MxDraw:serve"
+            "devServerTarget": "ziyi-project:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "MxDraw:serve:production"
+              "devServerTarget": "ziyi-project:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "MxDraw"
+  "defaultProject": "ziyi-project"
 }

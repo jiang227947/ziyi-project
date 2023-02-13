@@ -38,6 +38,12 @@ export const MAIN_ROUTER_CONFIG: Routes = [
         path: 'user-management',
         canActivateChild: [SimpleGuardService],
         loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule)
+      },
+      // webgl
+      {
+        path: 'webgl',
+        canActivateChild: [SimpleGuardService],
+        loadChildren: () => import('./webgl/webgl.module').then(m => m.WebglModule)
       }
     ]
   }

@@ -159,6 +159,40 @@ export class AppMenuService {
             children: []
           }
         ]
+      },
+      // WebGl学习
+      {
+        menuId: '6',
+        menuName: 'Webgl学习',
+        menuLevel: 1,
+        menuHref: '/main/webgl',
+        icon: 'codepen',
+        isShow: true,
+        isSelected: false,
+        children: [
+          {
+            menuId: '6-1',
+            parentMenuId: '6',
+            menuName: 'Webgl',
+            menuLevel: 2,
+            menuHref: '/main/webgl/webgl',
+            imageUrl: '../../../assets/icon/ico/webgl.png',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
+          {
+            menuId: '6-2',
+            parentMenuId: '6',
+            menuName: 'Qunee',
+            menuLevel: 2,
+            menuHref: '/main/webgl/qunee',
+            icon: 'apartment',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
+        ]
       }
     ];
   }

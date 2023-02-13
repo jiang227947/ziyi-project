@@ -98,7 +98,7 @@
                       [routerLink]="menuChildren.menuHref"
                       (click)="menuitemClick(menu)"
                       [title]="menuChildren.menuName">
-                    <span nz-icon [nzType]="menuChildren.icon" *ngIf="!menuChildren.imageUrl"></span>
+                    <span class="nz-icon" nz-icon [nzType]="menuChildren.icon" *ngIf="!menuChildren.imageUrl"></span>
                     <span class="item-icon" [ngStyle]="{'background-image':'url('+ menuChildren.imageUrl +')'}"
                           *ngIf="menuChildren.imageUrl"></span>
                     <a [routerLink]="menuChildren.menuHref">{{menuChildren.menuName}}</a>

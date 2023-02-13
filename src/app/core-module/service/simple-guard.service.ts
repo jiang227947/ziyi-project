@@ -24,7 +24,7 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
     //   if (evt instanceof ActivationStart) {
     //   }
     // });
-    console.log('将要跳转的路径', url);
+    // console.log('将要跳转的路径', url);
     if (SessionUtil.menuSimpleGuard(url)) {
       return this.checkLogin(url);
     }
