@@ -46,8 +46,8 @@
         </div>
         <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
           <div nz-menu style="width:160px;">
-            <div nz-menu-item>
-              <a (click)="logout()">
+            <div nz-menu-item (click)="logout()">
+              <a>
                 <i nz-icon nzType="logout"></i>
                 退出登录
               </a>
