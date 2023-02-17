@@ -29,6 +29,7 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {EchartColumnComponent} from "./component/echart-column/echart-column.component";
 
 const MODULES = [
   CommonModule,
@@ -65,6 +66,8 @@ const NZMODULES = [
   NzToolTipModule
 ];
 
+const COMPONENT = [EchartColumnComponent];
+
 @NgModule({
   imports: [
     ...MODULES,
@@ -72,10 +75,11 @@ const NZMODULES = [
   ],
   exports: [
     ...MODULES,
-    ...NZMODULES
+    ...NZMODULES,
+    ...COMPONENT
   ],
   providers: [NzMessageService],
-  declarations: []
+  declarations: [...COMPONENT]
 })
 export class SharedModuleModule {
 }

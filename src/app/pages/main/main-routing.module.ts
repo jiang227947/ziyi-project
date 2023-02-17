@@ -44,6 +44,12 @@ export const MAIN_ROUTER_CONFIG: Routes = [
         path: 'webgl',
         canActivateChild: [SimpleGuardService],
         loadChildren: () => import('./webgl/webgl.module').then(m => m.WebglModule)
+      },
+      // tool工具
+      {
+        path: 'tool',
+        canActivateChild: [SimpleGuardService],
+        loadChildren: () => import('./convenient-tool/convenient-tool.module').then(m => m.ConvenientToolModule)
       }
     ]
   }

@@ -193,6 +193,29 @@ export class AppMenuService {
             children: []
           },
         ]
+      },
+      // Tool快捷工具
+      {
+        menuId: '7',
+        menuName: '快捷工具',
+        menuLevel: 1,
+        menuHref: '/main/tool',
+        icon: 'tool',
+        isShow: true,
+        isSelected: false,
+        children: [
+          {
+            menuId: '7-1',
+            parentMenuId: '7',
+            menuName: '数据转换',
+            menuLevel: 2,
+            menuHref: '/main/tool/conversion',
+            icon: 'percentage',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
+        ]
       }
     ];
   }

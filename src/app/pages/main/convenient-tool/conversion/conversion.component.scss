@@ -1,0 +1,27 @@
+.conversion {
+  .card {
+    //min-height: 300px;
+    border: solid 1px #1890ff;
+    border-radius: 6px;
+    padding: 8px;
+
+    .card-p {
+      font-size: 20px;
+      border-bottom: solid 1px #1890ff;
+      padding-bottom: 4px;
+    }
+
+    .card-content {
+      padding: 4px 0;
+    }
+  }
+
+  .select {
+    max-width: 200px;
+    margin: 5px 0;
+  }
+
+  .radixConversion {
+    margin: 5px 0;
+  }
+}

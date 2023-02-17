@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-webgl',
@@ -11,7 +11,7 @@ export class WebglComponent implements OnInit, AfterViewInit {
   // webgl
   gl: WebGLRenderingContextBase;
 
-  constructor(private _renderer2: Renderer2) {
+  constructor() {
   }
 
   ngOnInit(): void {

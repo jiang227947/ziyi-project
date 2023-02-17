@@ -1,0 +1,23 @@
+<div class="conversion">
+  <div nz-row [nzGutter]="8">
+    <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="8" nzXXl="8">
+      <div class="card">
+        <p class="card-p">进制转换</p>
+        <div class="card-content">
+          <div class="select">
+            <nz-select [(ngModel)]="radixConversionType">
+              <nz-option *ngFor="let item of radixConversionOption" [nzLabel]="item.label"
+                         [nzValue]="item.value"></nz-option>
+            </nz-select>
+          </div>
+          <input nz-input type="text" placeholder="被转换的值" class="radixConversion" [(ngModel)]="_buffer">
+          <div class="radixConversion">
+            <button nz-button (click)="radixConversion()">转换</button>
+          </div>
+          <input nz-input type="text" placeholder="结果" readonly class="radixConversion" [(ngModel)]="radixValue">
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-echart-column  (chartInstance)="getLineChartInstance($event)"></app-echart-column>
+</div>
