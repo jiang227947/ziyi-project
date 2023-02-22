@@ -2,7 +2,6 @@ import {Routes} from '@angular/router';
 import {UserManagementComponent} from './user-management.component';
 import {UserListComponent} from './user-list/user-list.component';
 import {UserFormComponent} from './user-form/user-form.component';
-import {FileListComponent} from './file-list/file-list.component';
 
 export const USER_ROUTER_CONFIG: Routes = [
   {path: '', redirectTo: 'user-list', pathMatch: 'full'},
@@ -19,11 +18,6 @@ export const USER_ROUTER_CONFIG: Routes = [
       {
         path: 'user-list/:type',
         component: UserFormComponent
-      },
-      // 文件列表
-      {
-        path: 'file-list',
-        component: FileListComponent
       },
     ]
   },

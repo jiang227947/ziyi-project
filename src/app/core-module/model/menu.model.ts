@@ -1,3 +1,5 @@
+import {UserRoleEnum} from '../../shared-module/enum/user.enum';
+
 /**
  * 菜单模型
  */
@@ -26,6 +28,10 @@ export class MenuModel {
    * 菜单跳转路径
    */
   public menuHref: string;
+  /**
+   * 菜单角色权限
+   */
+  public menuRole?: UserRoleEnum[];
   /**
    * 图片路径
    */

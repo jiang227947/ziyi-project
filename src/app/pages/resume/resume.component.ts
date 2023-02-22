@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
-import {NavItemEnum} from '../../shared-module/enum/resume.enum';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NavItemChineseEnum, NavItemEnum} from '../../shared-module/enum/resume.enum';
 import {fromEvent, Subscription} from 'rxjs';
 
 /**
@@ -11,7 +11,7 @@ import {fromEvent, Subscription} from 'rxjs';
   templateUrl: './resume.component.html',
   styleUrls: ['./resume.component.scss']
 })
-export class ResumeComponent implements AfterViewInit, OnDestroy {
+export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('container') containerRef: ElementRef<Element>;
   // 关于
@@ -33,23 +33,28 @@ export class ResumeComponent implements AfterViewInit, OnDestroy {
   navItem: { select: NavItemEnum, label: string }[] = [
     {
       select: NavItemEnum.About,
-      label: '关于'
+      label: NavItemChineseEnum.About
     },
     {
       select: NavItemEnum.Experience,
-      label: '工作经历'
+      label: NavItemChineseEnum.Experience
     },
     {
       select: NavItemEnum.Education,
-      label: '教育经历'
+      label: NavItemChineseEnum.Education
     },
     {
       select: NavItemEnum.Skills,
-      label: '掌握技能'
+      label: NavItemChineseEnum.Skills
     },
   ];
+  // 掌握技能icons
+  skillsAliIconList: string[];
 
   constructor() {
+  }
+
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
@@ -131,4 +136,5 @@ export class ResumeComponent implements AfterViewInit, OnDestroy {
   navbarToggler(): void {
     this.showNavbr = !this.showNavbr;
   }
+
 }

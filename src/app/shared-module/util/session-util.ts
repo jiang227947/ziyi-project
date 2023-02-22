@@ -3,6 +3,7 @@ import {Token} from '../interface/token';
 import {SimpleGuardService} from '../../core-module/service/simple-guard.service';
 import {MenuModel} from '../../core-module/model/menu.model';
 import {AppMenuService} from '../service/app-menu.service';
+import {UserRoleEnum} from '../enum/user.enum';
 
 /**
  * session工具类
@@ -30,7 +31,7 @@ export class SessionUtil {
   /**
    * 获取权限ID
    */
-  static getRoleId(): string {
+  static getRoleId(): UserRoleEnum {
     const userInfo = this.getUserInfo();
     if (userInfo.role) {
       return userInfo.role;
@@ -85,13 +86,13 @@ export class SessionUtil {
    */
   static menuSimpleGuard(url: string): boolean {
     let isTrue = false;
-    const menu: MenuModel[] = AppMenuService.getAppMenu();
-    menu.forEach((item) => {
-      if (url === item.menuHref) {
+    const menu: MenuModel[] = JSON.parse(localStorage.getItem('app_menu'));
+    menu.forEach((item: MenuModel) => {
+      if (url === item.menuHref || url.includes(item.menuHref)) {
         isTrue = true;
       }
       if (item.children.length > 0) {
-        item.children.forEach((childrenItem) => {
+        item.children.forEach((childrenItem: MenuModel) => {
           if (url === childrenItem.menuHref) {
             isTrue = true;
           }

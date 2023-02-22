@@ -14,7 +14,7 @@ import {environment} from '../../../environments/environment';
 import {Token} from '../../shared-module/interface/token';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../shared-module/interface/user';
-import {SessionUtil} from "../../shared-module/util/session-util";
+import {SessionUtil} from '../../shared-module/util/session-util';
 
 const CODEMESSAGE = {
   200: '服务器成功返回请求的数据。',

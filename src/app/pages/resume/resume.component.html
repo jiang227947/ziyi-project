@@ -12,14 +12,13 @@
     </button>
     <div class="collapse navbar-collapse" [ngClass]="{'show-navbr':showNavbr}">
       <ul class="navbar-nav">
-        <li class="nav-item" *ngFor="let item of navItem;">
+        <li class="nav-item" (click)="navItemChang(item.select)" *ngFor="let item of navItem;">
           <a class="nav-link js-scroll-trigger"
              [ngClass]="{'selectNav':selectNav === item.select}"
-             (click)="navItemChang(item.select)"
           >{{item.label}}</a>
         </li>
-        <li class="nav-item d-lg-none d-lg-block">
-          <a class="nav-link js-scroll-trigger" routerLink="../login/auth">前往登录</a>
+        <li class="nav-item d-lg-none d-lg-block" routerLink="../login/auth">
+          <a class="nav-link js-scroll-trigger">前往登录</a>
         </li>
       </ul>
     </div>
@@ -63,11 +62,11 @@
               <use xlink:href="#icon-csdn"></use>
             </svg>
           </a>
-          <a class="social-icon" title="微博" href="https://weibo.com/u/6033416895" target="_blank">
+          <!--<a class="social-icon" title="微博" href="https://weibo.com/u/6033416895" target="_blank">
             <svg class="aliicon" aria-hidden="true">
               <use xlink:href="#icon-weibo"></use>
             </svg>
-          </a>
+          </a>-->
           <a class="social-icon" title="微信" nz-tooltip [nzTooltipTitle]="weixin">
             <svg class="aliicon" aria-hidden="true">
               <use xlink:href="#icon-weixin"></use>
@@ -86,28 +85,31 @@
         <h2 class="mb-5">工作经历</h2>
         <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="flex-grow-1">
-            <h3 class="mb-0">WEB前端开发</h3>
+            <h3 class="mb-0">前端开发</h3>
             <div class="subheading mb-3">纬创软件(武汉)有限公司</div>
             <p class="details">
-              1. 主要负责烽火通信科技股份有限公司的filink、fipole项目（IOT物联管理平台）的开发，其次做公司需求流程审批功能等公司内部平台的开发。
-              2. filink、fipole项目主要部署在海外，例如菲律宾、巴西等，经过迭代已经有几个完整的版本产出。项目主要对接公司物联设备做物联管理平台，设备分为网关、单灯控制器、集中控制器、摄像头等十几种，
-              3.使用到的技术栈有Angular、VUE、TS、Three.js、Ant-Design、瓦片地图等。
+              <span
+                class="details-sp">A. 主要负责烽火通信科技股份有限公司的filink、fipole项目（IOT物联管理平台）的开发。</span>
+              <span class="details-sp">B. 主要负责公司内部需求流程审批功能等公司内部平台的开发。</span>
+              <span class="details-sp">C. 负责地图设计封装开发。</span>
+              <span class="details-sp">D. filink、fipole项目主要部署在海外，例如菲律宾、巴西等，经过迭代已经有几个完整的版本产出。项目主要对接公司物联设备做物联管理平台，设备分为网关、单灯控制器、集中控制器、摄像头等十几种。</span>
+              <span
+                class="details-sp">E. 技术栈：Angular、TS、VUE、uni-app、Three.js、Ant-Design、Echarts、Qunee、Mapbox瓦片地图等。</span>
             </p>
           </div>
-          <div class="flex-shrink-0"><span class="text-primary">2021.5 - 至今</span></div>
+          <div class="flex-shrink-0"><span class="text-primary">2021/5 - 至今</span></div>
         </div>
         <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="flex-grow-1">
             <h3 class="mb-0">WEB前端开发</h3>
             <div class="subheading mb-3">艾欧创想智能科技(武汉)有限公司</div>
             <p class="details">
-              1.
-              负责智慧城市路灯控制器的智能管理平台（IOT智慧城市综合监管平台），基于低功耗无线物联网系统的智能路灯控制系统，主要分为路灯平台，广告屏平台，气象站平台，广播平台。路灯平台是主要平台，其余平台依附在该平台，目前做了平台1.0和平台2.0，目前十几家企业使用，已经上线控制器设备十几万。
-              2. 和研发团队配合公司开发一些辅助硬件功能的项目。
-              3. 使用到的技术栈有Angular、TS、Ant-Design、Google地图相关等技术。
+              <span class="details-sp">A. 负责智慧城市路灯控制器的智能管理平台（IOT智慧城市综合监管平台），基于低功耗无线物联网系统的智能路灯控制系统，主要分为路灯平台，广告屏平台，气象站平台，广播平台。路灯平台是主要平台，其余平台依附在该平台，目前十几个国内外城市使用，已经上线控制器设备十几万台。</span>
+              <span class="details-sp">B. 和研发团队配合公司开发一些辅助硬件功能的项目。</span>
+              <span class="details-sp">C. 技术栈：Angular、TS、Ant-Design、Echarts、Google地图等。</span>
             </p>
           </div>
-          <div class="flex-shrink-0"><span class="text-primary">2019.9 - 2021.4</span></div>
+          <div class="flex-shrink-0"><span class="text-primary">2019/9 - 2021/4</span></div>
         </div>
       </div>
     </section>
@@ -178,7 +180,27 @@
           </li>
           <li class="list-inline-item">
             <svg class="aliicon" aria-hidden="true">
+              <use xlink:href="#icon-xiaochengxu"></use>
+            </svg>
+          </li>
+          <li class="list-inline-item">
+            <svg class="aliicon" aria-hidden="true">
               <use xlink:href="#icon-npm"></use>
+            </svg>
+          </li>
+          <li class="list-inline-item">
+            <svg class="aliicon" aria-hidden="true">
+              <use xlink:href="#icon-webstorm1"></use>
+            </svg>
+          </li>
+          <li class="list-inline-item">
+            <svg class="aliicon" aria-hidden="true">
+              <use xlink:href="#icon-nginx"></use>
+            </svg>
+          </li>
+          <li class="list-inline-item">
+            <svg class="aliicon" aria-hidden="true">
+              <use xlink:href="#icon-java"></use>
             </svg>
           </li>
         </ul>

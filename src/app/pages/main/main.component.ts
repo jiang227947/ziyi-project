@@ -5,7 +5,7 @@ import {Result} from '../../shared-module/interface/result';
 import {User} from '../../shared-module/interface/user';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {LoginRequestService} from '../../core-module/api-service';
-import {SessionUtil} from "../../shared-module/util/session-util";
+import {SessionUtil} from '../../shared-module/util/session-util';
 import {AppMenuService} from '../../shared-module/service/app-menu.service';
 
 @Component({
@@ -43,6 +43,16 @@ export class MainComponent implements OnInit {
     });*/
     // 菜单
     const menuList = AppMenuService.getAppMenu();
+    const userRoleId = SessionUtil.getRoleId();
+    for (let i = 0; i < menuList.length; i++) {
+      if (menuList[i].menuRole) {
+        // 判断是否有这个菜单权限
+        if (menuList[i].menuRole.indexOf(userRoleId) === -1) {
+          // 删除
+          menuList.splice(i, 1);
+        }
+      }
+    }
     localStorage.setItem('app_menu', JSON.stringify(menuList));
     const userInfo = SessionUtil.getUserInfo();
     if (userInfo) {
@@ -110,10 +120,5 @@ export class MainComponent implements OnInit {
         this.$message.error(result.msg);
       }
     });
-  }
-
-  /*前往github*/
-  githubLink(): void {
-    window.open('https://github.com/jiang227947/ziyi-project', '_blank');
   }
 }

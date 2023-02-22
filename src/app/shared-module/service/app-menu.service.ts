@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MenuModel} from '../../core-module/model/menu.model';
+import {UserRoleEnum} from '../enum/user.enum';
 
 @Injectable()
 export class AppMenuService {
@@ -126,43 +127,9 @@ export class AppMenuService {
         isSelected: false,
         children: []
       },
-      // 用户管理
-      {
-        menuId: '5',
-        menuName: '用户管理',
-        menuLevel: 1,
-        menuHref: '/main/user-management',
-        icon: 'solution',
-        isShow: true,
-        isSelected: false,
-        children: [
-          {
-            menuId: '5-1',
-            parentMenuId: '5',
-            menuName: '用户列表',
-            menuLevel: 2,
-            menuHref: '/main/user-management/user-list',
-            icon: 'team',
-            isShow: true,
-            isSelected: false,
-            children: []
-          },
-          {
-            menuId: '5-2',
-            parentMenuId: '5',
-            menuName: '文件列表',
-            menuLevel: 2,
-            menuHref: '/main/user-management/file-list',
-            icon: 'file-image',
-            isShow: true,
-            isSelected: false,
-            children: []
-          }
-        ]
-      },
       // WebGl学习
       {
-        menuId: '6',
+        menuId: '5',
         menuName: 'Webgl学习',
         menuLevel: 1,
         menuHref: '/main/webgl',
@@ -171,8 +138,8 @@ export class AppMenuService {
         isSelected: false,
         children: [
           {
-            menuId: '6-1',
-            parentMenuId: '6',
+            menuId: '5-1',
+            parentMenuId: '5',
             menuName: 'Webgl',
             menuLevel: 2,
             menuHref: '/main/webgl/webgl',
@@ -182,8 +149,8 @@ export class AppMenuService {
             children: []
           },
           {
-            menuId: '6-2',
-            parentMenuId: '6',
+            menuId: '5-2',
+            parentMenuId: '5',
             menuName: 'Qunee',
             menuLevel: 2,
             menuHref: '/main/webgl/qunee',
@@ -196,7 +163,7 @@ export class AppMenuService {
       },
       // Tool快捷工具
       {
-        menuId: '7',
+        menuId: '6',
         menuName: '快捷工具',
         menuLevel: 1,
         menuHref: '/main/tool',
@@ -205,8 +172,8 @@ export class AppMenuService {
         isSelected: false,
         children: [
           {
-            menuId: '7-1',
-            parentMenuId: '7',
+            menuId: '6-1',
+            parentMenuId: '6',
             menuName: '数据转换',
             menuLevel: 2,
             menuHref: '/main/tool/conversion',
@@ -215,6 +182,53 @@ export class AppMenuService {
             isSelected: false,
             children: []
           },
+        ]
+      },
+      // 用户管理
+      {
+        menuId: '7',
+        menuName: '用户管理',
+        menuLevel: 1,
+        menuHref: '/main/user-management',
+        menuRole: [UserRoleEnum.admin],
+        icon: 'solution',
+        isShow: true,
+        isSelected: false,
+        children: [
+          {
+            menuId: '7-1',
+            parentMenuId: '7',
+            menuName: '用户列表',
+            menuLevel: 2,
+            menuHref: '/main/user-management/user-list',
+            icon: 'team',
+            isShow: true,
+            isSelected: false,
+            children: []
+          }
+        ]
+      },
+      // 资源管理
+      {
+        menuId: '8',
+        menuName: '资源管理',
+        menuLevel: 1,
+        menuHref: '/main/resource-management',
+        icon: 'database',
+        isShow: true,
+        isSelected: false,
+        children: [
+          {
+            menuId: '8-1',
+            parentMenuId: '8',
+            menuName: '文件列表',
+            menuLevel: 2,
+            menuHref: '/main/resource-management/file-list',
+            icon: 'file-image',
+            isShow: true,
+            isSelected: false,
+            children: []
+          }
         ]
       }
     ];

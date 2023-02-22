@@ -1,5 +1,6 @@
 import {parse, startOfWeek, startOfYear} from 'date-fns';
 import {IMAGE_TYPE_CONST, OFFICE_TYPE_CONST, OTHER_TYPE_CONST, TEXT_TYPE_CONST} from '../const/commou.const';
+import {SkillsAliIconEnum} from '../enum/resume.enum';
 
 /**
  * 工具类
@@ -161,5 +162,36 @@ export class CommonUtil {
       ...OTHER_TYPE_CONST
     ];
     return FILE_TYPE_CONST.indexOf(fileType) === -1;
+  }
+
+  /**
+   * 枚举获取
+   * param codeEnum 枚举
+   * param {any} code 枚举值
+   * returns {any} 返回 string 或者 {label:string,code:any}[]
+   */
+  static codeEnum(codeEnum: any): string | { label: string, code: any }[] {
+    // 因为翻译不需要、过滤枚举中数字key
+    const keys = Object.keys(codeEnum).filter(item => Number.isNaN(Number(item)));
+    if (codeEnum !== null) {
+      // for (const i of keys) {
+      //   if (codeEnum[i] === codeEnum) {
+      //     return i18n.translate(`${prefix}.${i}`);
+      //   }
+      // }
+      return keys.map(key => codeEnum[key]);
+    } else {
+      return keys.map(key => codeEnum[key]);
+    }
+  }
+
+  /**
+   * 获取掌握技能的icon
+   */
+  static getSkillsAliIconClass(): string[] {
+    const codeEnum: string | { label: string, code: any }[] = this.codeEnum(SkillsAliIconEnum);
+    if (typeof codeEnum !== 'string') {
+      return codeEnum.map(item => `#icon-${item}`);
+    }
   }
 }
