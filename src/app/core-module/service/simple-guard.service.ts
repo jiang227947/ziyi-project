@@ -29,7 +29,7 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
       return this.checkLogin(url);
     }
     // 404页面
-    // this.router.navigateByUrl('/exception');
+    this.router.navigateByUrl('/exception');
     return true;
     // 权限控制逻辑如 是否登录/拥有访问权限
     // if (!this.token) {

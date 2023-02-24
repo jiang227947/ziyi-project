@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PageParams} from '../../../../shared-module/interface/pageParms';
 import {File} from '../../../../shared-module/interface/file';
 import {DownloadUtil} from '../../../../shared-module/util/download-util';
-import {UserManagementRequestService} from '../../../../core-module/api-service';
+import {ResourceManagementRequestService} from '../../../../core-module/api-service';
 import {Result} from '../../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {environment} from '../../../../../environments/environment';
@@ -35,7 +35,7 @@ export class FileListComponent implements OnInit {
 
   constructor(private $message: NzMessageService,
               private downloadUtil: DownloadUtil,
-              private userManagementRequestService: UserManagementRequestService) {
+              private resourceManagementRequestService: ResourceManagementRequestService) {
   }
 
   uploadFileRequest = ((item: NzUploadXHRArgs) => {
@@ -44,7 +44,7 @@ export class FileListComponent implements OnInit {
     this.updateFileList.forEach(file => {
       formData.append('file', file);
     });
-    this.userManagementRequestService.uploadFile(formData).subscribe((event: HttpEvent<Result<any>>) => {
+    this.resourceManagementRequestService.uploadFile(formData).subscribe((event: HttpEvent<Result<any>>) => {
       console.log(event);
       if (event.type === HttpEventType.UploadProgress) {
         // if (!this.cancelingFiles.hasOwnProperty(item.file.uid)) {
@@ -97,7 +97,7 @@ export class FileListComponent implements OnInit {
   // 查询文件列表
   queryImageList(): void {
     this.loading = true;
-    this.userManagementRequestService.queryImageList(this.pageParams).subscribe((result: Result<File[]>) => {
+    this.resourceManagementRequestService.queryImageList(this.pageParams).subscribe((result: Result<File[]>) => {
       if (result.code === 200) {
         this.fileList = result.data;
         this.dataTotal = result.totalCount;
@@ -116,7 +116,7 @@ export class FileListComponent implements OnInit {
     this.updateFileList.forEach(file => {
       formData.append('file', file);
     });
-    this.userManagementRequestService.uploadFile(formData).subscribe((event: HttpEvent<Result<any>>) => {
+    this.resourceManagementRequestService.uploadFile(formData).subscribe((event: HttpEvent<Result<any>>) => {
       if (event.type === HttpEventType.UploadProgress) {
         this.filePercent = +((event.loaded / event.total) * 100).toFixed(1);
       } else if (event.type === HttpEventType.Response) {
@@ -157,7 +157,7 @@ export class FileListComponent implements OnInit {
 
   // 删除文件
   deleteFile(id: number): void {
-    this.userManagementRequestService.deleteFile(id).subscribe((result: Result<File[]>) => {
+    this.resourceManagementRequestService.deleteFile(id).subscribe((result: Result<File[]>) => {
       if (result.code === 200) {
         this.$message.success(result.msg);
         this.queryImageList();

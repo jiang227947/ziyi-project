@@ -33,10 +33,6 @@
           </nz-autocomplete>
         </div>
       </div>
-      <!--github链接-->
-      <div class="github">
-        <img src="assets/image/github.png" title="GitHub" (click)="githubLink()" class="github-img">
-      </div>
       <div class="alain-default__nav-item" nz-dropdown [nzDropdownMenu]="settingsMenu"
            nzTrigger="click"
            nzPlacement="bottomRight">
@@ -46,8 +42,8 @@
         </div>
         <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
           <div nz-menu style="width:160px;">
-            <div nz-menu-item>
-              <a (click)="logout()">
+            <div nz-menu-item (click)="logout()">
+              <a>
                 <i nz-icon nzType="logout"></i>
                 退出登录
               </a>

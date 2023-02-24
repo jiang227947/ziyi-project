@@ -29,7 +29,7 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
-import {EchartColumnComponent} from "./component/echart-column/echart-column.component";
+import {EchartColumnComponent} from './component/echart-column/echart-column.component';
 
 const MODULES = [
   CommonModule,

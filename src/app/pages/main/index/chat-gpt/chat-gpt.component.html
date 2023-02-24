@@ -4,7 +4,7 @@
     <article>
       <div #chatGPT class="chatGPT-content">
         <div class="openAiAlert" *ngIf="showOpenAiAlert">
-          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发者开发的OpenAI JavaScript SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>
+          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发的OpenAI JS SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>
         </div>
         <!--对话框-->
         <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
@@ -52,7 +52,7 @@
               </nz-option-group>
             </nz-select>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4" class="send-synth">
+          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4" class="send-synth" *ngIf="isShowSynth">
             <span>朗读语言：</span>
             <nz-select [(ngModel)]="synthModel" class="send-synthModel">
               <nz-option nzValue="zh-CN" nzLabel="汉语"></nz-option>

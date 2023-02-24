@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Result} from '../../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {UserManagementRequestService} from '../../../../core-module/api-service';
+import {UserRoleEnum} from '../../../../shared-module/enum/user.enum';
 
 @Component({
   selector: 'app-user-form',
@@ -17,14 +18,14 @@ export class UserFormComponent implements OnInit {
   // loading
   loading = false;
   // 角色集合
-  roleNameOption = [
+  roleOption = [
     {
       label: '管理员',
-      value: '1001'
+      value: UserRoleEnum.admin
     },
     {
       label: '普通用户',
-      value: '1002'
+      value: UserRoleEnum.general
     }
   ];
 
@@ -52,7 +53,7 @@ export class UserFormComponent implements OnInit {
 
   // 角色选择切换
   roleChange(roleName: string): void {
-    const role = this.roleNameOption.find(item => item.label === roleName);
+    const role = this.roleOption.find(item => item.label === roleName);
     this.userForm.patchValue({role: role.value});
   }
 
@@ -64,7 +65,7 @@ export class UserFormComponent implements OnInit {
       return {confirm: true, error: true};
     }
     return {};
-  }
+  };
 
   // 提交
   submit(): void {

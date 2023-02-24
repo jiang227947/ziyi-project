@@ -10,7 +10,7 @@
                          [nzValue]="item.value"></nz-option>
             </nz-select>
           </div>
-          <input nz-input type="text" placeholder="被转换的值" class="radixConversion" [(ngModel)]="_buffer">
+          <input nz-input type="text" placeholder="被转换的值" class="radixConversion" [(ngModel)]="buffer">
           <div class="radixConversion">
             <button nz-button (click)="radixConversion()">转换</button>
           </div>
@@ -19,5 +19,5 @@
       </div>
     </div>
   </div>
-  <app-echart-column  (chartInstance)="getLineChartInstance($event)"></app-echart-column>
+  <!--  <app-echart-column  (chartInstance)="getLineChartInstance($event)"></app-echart-column>-->
 </div>

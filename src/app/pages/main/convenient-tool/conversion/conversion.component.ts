@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {BUFFER_CONST, traceDat} from "../../../../shared-module/const/commou.const";
-import {RadixEnum} from "../share/enum/tool";
-import {_radixConversionOption, _radixConversionType} from "../share/const/radixConversion.const";
-import {Charts} from "../../../../shared-module/util/echarts";
+import {BUFFER_CONST, traceDat} from '../../../../shared-module/const/commou.const';
+import {RadixEnum} from '../share/enum/tool';
+import {_radixConversionOption, _radixConversionType} from '../share/const/radixConversion.const';
+import {Charts} from '../../../../shared-module/util/echarts';
 
 @Component({
   selector: 'app-conversion',
@@ -16,7 +16,7 @@ export class ConversionComponent implements OnInit {
   // 进制转换选项
   radixConversionOption: { label: string, value: RadixEnum }[] = _radixConversionOption;
   // 被转换的值
-  _buffer: string = BUFFER_CONST;
+  buffer: string;
   // 转换后的值
   radixValue: string | number;
   // 折线图实例
@@ -33,55 +33,54 @@ export class ConversionComponent implements OnInit {
     let result: string | number;
     switch (this.radixConversionType) {
       case RadixEnum._HEXtoDec:
-        const buffer = this._buffer.slice(8, this._buffer.length);
-        const bufferList = buffer.replace(/(.{4})/g, '$1,').split(',');
-        console.log('bufferList', bufferList);
-        const bufferResult = [];
-        console.time('花费时间');
-        for (let i = 0; i < bufferList.length; i++) {
-          bufferResult.push(this.hexadecimalToDecimalConverter(bufferList[i]));
-        }
-        console.error('结果', bufferResult);
-        console.error('数量', bufferResult.length);
-        // 左侧的饼图
-        setTimeout(() => this.lineChartInstance.setOption(Charts.basicsLineChart(traceDat)));
-        console.timeEnd('花费时间');
+        // const buffer = this.buffer.slice(8, this.buffer.length);
+        // const bufferList = buffer.replace(/(.{4})/g, '$1,').split(',');
+        // console.log('bufferList', bufferList);
+        // const bufferResult = [];
+        // console.time('花费时间');
+        // for (let i = 0; i < bufferList.length; i++) {
+        //   bufferResult.push(this.hexadecimalToDecimalConverter(bufferList[i]));
+        // }
+        // console.error('结果', bufferResult);
+        // setTimeout(() => this.lineChartInstance.setOption(Charts.basicsLineChart(traceDat)));
+        // console.timeEnd('花费时间');
+        result = this.hexadecimalToDecimalConverter(this.buffer);
         break;
       case RadixEnum.HEXtoDec:
-        result = parseInt(this._buffer, 16);
+        result = parseInt(this.buffer, 16);
         break;
       case RadixEnum.HEXtoOct:
-        result = parseInt(this._buffer, 16).toString(8);
+        result = parseInt(this.buffer, 16).toString(8);
         break;
       case RadixEnum.HEXtoBin:
-        result = parseInt(this._buffer, 16).toString(2);
+        result = parseInt(this.buffer, 16).toString(2);
         break;
       case RadixEnum.DECtoHex:
-        result = parseInt(this._buffer, 16);
+        result = parseInt(this.buffer, 16);
         break;
       case RadixEnum.DECtoOct:
-        result = parseInt(this._buffer).toString(8);
+        result = parseInt(this.buffer).toString(8);
         break;
       case RadixEnum.DECtoBin:
-        result = parseInt(this._buffer).toString(2);
+        result = parseInt(this.buffer).toString(2);
         break;
       case RadixEnum.OCTtoHex:
-        result = parseInt(this._buffer, 8).toString(16);
+        result = parseInt(this.buffer, 8).toString(16);
         break;
       case RadixEnum.OCTtoDec:
-        result = parseInt(this._buffer, 8);
+        result = parseInt(this.buffer, 8);
         break;
       case RadixEnum.OCTtoBin:
-        result = parseInt(this._buffer).toString(2);
+        result = parseInt(this.buffer).toString(2);
         break;
       case RadixEnum.BINtoHex:
-        result = parseInt(this._buffer, 2).toString(16);
+        result = parseInt(this.buffer, 2).toString(16);
         break;
       case RadixEnum.BINtoDec:
-        result = parseInt(this._buffer, 2);
+        result = parseInt(this.buffer, 2);
         break;
       case RadixEnum.BINtoOct:
-        result = parseInt(this._buffer, 2).toString(8);
+        result = parseInt(this.buffer, 2).toString(8);
         break;
       default:
         break;

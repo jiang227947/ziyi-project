@@ -33,12 +33,6 @@ export const MAIN_ROUTER_CONFIG: Routes = [
         canActivateChild: [SimpleGuardService],
         loadChildren: () => import('./q-weather/q-weather.module').then(m => m.QWeatherModule)
       },
-      // 用户管理
-      {
-        path: 'user-management',
-        canActivateChild: [SimpleGuardService],
-        loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule)
-      },
       // webgl
       {
         path: 'webgl',
@@ -50,6 +44,18 @@ export const MAIN_ROUTER_CONFIG: Routes = [
         path: 'tool',
         canActivateChild: [SimpleGuardService],
         loadChildren: () => import('./convenient-tool/convenient-tool.module').then(m => m.ConvenientToolModule)
+      },
+      // 资源管理
+      {
+        path: 'resource-management',
+        canActivateChild: [SimpleGuardService],
+        loadChildren: () => import('./resource-management/resource-management.module').then(m => m.ResourceManagementModule)
+      },
+      // 用户管理
+      {
+        path: 'user-management',
+        canActivateChild: [SimpleGuardService],
+        loadChildren: () => import('./user-management/user-management.module').then(m => m.UserManagementModule)
       }
     ]
   }
