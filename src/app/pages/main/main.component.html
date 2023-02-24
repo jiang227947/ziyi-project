@@ -13,8 +13,9 @@
       <div class="header-nav-wrap">
         <div class="header-trigger" (click)="isCollapsed = !isCollapsed">
           <span>
-            <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
-        </span>
+            <i class="trigger" nz-icon [nzType]="'menu-unfold'" *ngIf="isCollapsed"></i>
+            <i class="trigger" nz-icon [nzType]="'menu-fold'" *ngIf="!isCollapsed"></i>
+          </span>
         </div>
         <!--搜索路由-->
         <div class="search-menu">

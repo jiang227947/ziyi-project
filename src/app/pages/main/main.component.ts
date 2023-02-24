@@ -41,23 +41,10 @@ export class MainComponent implements OnInit {
         // 页面聚焦
       }
     });*/
-    // 菜单
-    const menuList = AppMenuService.getAppMenu();
-    const userRoleId = SessionUtil.getRoleId();
-    for (let i = 0; i < menuList.length; i++) {
-      if (menuList[i].menuRole) {
-        // 判断是否有这个菜单权限
-        if (menuList[i].menuRole.indexOf(userRoleId) === -1) {
-          // 删除
-          menuList.splice(i, 1);
-        }
-      }
-    }
-    localStorage.setItem('app_menu', JSON.stringify(menuList));
-    const userInfo = SessionUtil.getUserInfo();
+    const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
-      this.menuList = menuList;
+      this.menuList = SessionUtil.getMenuList();
     } else {
       SessionUtil.clearUserLocal();
       this.router.navigate(['/login']);

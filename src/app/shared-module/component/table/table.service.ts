@@ -1,5 +1,5 @@
 /**
- * Created by xiaoconghu on 2018/12/13.
+ * Created by jzy
  */
 import {Inject, Injectable} from '@angular/core';
 import {ColumnConfig, TableConfigModel} from '../../model/table-config.model';

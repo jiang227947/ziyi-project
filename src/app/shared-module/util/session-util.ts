@@ -53,6 +53,35 @@ export class SessionUtil {
   }
 
   /**
+   * 设置菜单
+   */
+  static setMenuList(): Promise<void> {
+    return new Promise<void>(resolve => {
+      // 菜单
+      const menuList = AppMenuService.getAppMenu();
+      const userRoleId = this.getRoleId();
+      for (let i = 0; i < menuList.length; i++) {
+        if (menuList[i].menuRole) {
+          // 判断是否有这个菜单权限
+          if (menuList[i].menuRole.indexOf(userRoleId) === -1) {
+            // 删除
+            menuList.splice(i, 1);
+          }
+        }
+      }
+      localStorage.setItem('app_menu', JSON.stringify(menuList));
+      resolve();
+    });
+  }
+
+  /**
+   * 获取菜单
+   */
+  static getMenuList(): MenuModel[] {
+    return JSON.parse(localStorage.getItem('app_menu'));
+  }
+
+  /**
    * 获取token信息
    */
   static getToken(): Token {
@@ -68,6 +97,15 @@ export class SessionUtil {
     localStorage.setItem('token', JSON.stringify(value));
     // 设置超时一天
     localStorage.setItem('token_out', `${new Date().getTime() + (24 * 60 * 60 * 1000)}`);
+  }
+
+  /**
+   * 获取token是否超时
+   */
+  static getTokenOut(): boolean {
+    const tokenOut: string = localStorage.getItem('token_out');
+    // 判断时间是否超过24小时
+    return new Date().getTime() < new Date(+tokenOut).getTime();
   }
 
   /**

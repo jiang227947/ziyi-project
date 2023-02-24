@@ -1,7 +1,7 @@
 import {ColumnConfig, Operation} from '../../model/table-config.model';
 
 /**
- * Created by xiaoconghu on 2018/12/12.
+ * Created by jzy
  */
 export interface TableComponentInterface {
   /**

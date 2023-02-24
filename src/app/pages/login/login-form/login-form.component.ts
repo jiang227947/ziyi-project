@@ -7,8 +7,8 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../../shared-module/interface/user';
 import {format} from 'date-fns';
 import {LoginRequestService} from '../../../core-module/api-service';
-import {CommonUtil} from "../../../shared-module/util/commonUtil";
-import {SessionUtil} from "../../../shared-module/util/session-util";
+import {CommonUtil} from '../../../shared-module/util/commonUtil';
+import {SessionUtil} from '../../../shared-module/util/session-util';
 
 @Component({
   selector: 'app-login-form',
@@ -27,6 +27,12 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (SessionUtil.getTokenOut()) {
+      this.router.navigate(['/main/index']);
+    } else {
+      SessionUtil.clearUserLocal();
+      this.router.navigate(['/login']);
+    }
     this.buildForm();
   }
 
@@ -70,15 +76,15 @@ export class LoginFormComponent implements OnInit {
             const userInfo: User = result.data;
             // 用户信息保存到浏览器
             localStorage.setItem('user_info', JSON.stringify(userInfo));
-            // 菜单
-            // const menuList = this.appMenuService.getAppMenu();
-            // localStorage.setItem('app_menu', JSON.stringify(menuList));
-            // 设置上次登录时间显示
-            const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
-            this.router.navigate(['/main/index']);
-            // 设置message提示文字
-            const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
-            this.$message.success(messageTitle, {nzDuration: 3000});
+            // 设置菜单
+            SessionUtil.setMenuList().then(() => {
+              // 设置上次登录时间显示
+              const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
+              this.router.navigate(['/main/index']);
+              // 设置message提示文字
+              const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
+              this.$message.success(messageTitle, {nzDuration: 3000});
+            });
           } else {
             this.$message.error(result.msg);
           }
