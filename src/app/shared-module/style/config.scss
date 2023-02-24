@@ -1,0 +1,433 @@
+// -------- 主题色样式变量 -----------
+// 主体颜色 明青色
+$color: #36cfc9;
+// 顶部logo背景
+$top-logo-color: #002041;
+// 侧边导航菜单背景
+$menu-bg-color: #00142a;
+// 二级菜单背景
+$menu-second-color: #000c18;
+// 菜单hover下背景色
+$menu-hover-color: #13c2c2;
+// 导航选择状态背景色
+$menu-select-color: #0dc2c2;
+// 错误颜色
+$error-color: #ff3217;
+// 错误提示框、删除操作按钮颜色
+$deleteBtn-color: #fb7257;
+// 页面背景色
+$bg-c: #f0f2f5;
+// 外层白色背景
+$bg-c-w: #fff;
+// 线条、边框颜色
+$border-color: #e8e8e8;
+// 分割线颜色
+$cutting-line: #ccc;
+// eCharts背景颜色
+$eCharts-bg-color: #f7f7f7;
+
+// -------- 文字颜色样式变量 -----------
+// 菜单文字颜色
+$menu-font-color: #fff;
+// 标题文字
+$title-color: #333;
+// 首页地图悬浮信息标题文字
+$index-map-title: #505050;
+// 页面常规文字
+$page-font-color: #626262;
+// 详情页面基本信息、首页地图设施浮窗数量默认颜色
+$detail-text-color: #a6a6a6;
+// 提示、无效或者不可选择文字颜色
+$disabled-font-color: #bbb;
+// 浅色文字颜色
+$prompt-font-color: #959595;
+// 导航可以点击文字或者选中状态文字颜色
+$menu-active-font-color: #13c2c2;
+// 页面可点击文字或者选择状态文字默认颜色
+$page-active-font-color: $color;
+// 错误提示文字颜色和删除按钮文字颜色
+$error-font-color: $error-color;
+// 首页设施设备工单选择分项标题颜色
+$index-item-title: #ff6027;
+// 首页左侧悬浮框左边菜单字体颜色
+$index-left-menu: #ff9100;
+// 首页左侧悬浮框方框未选中
+$index-left-unselected: #999999;
+// 日历的日期格子被选中时文字的颜色
+$calendar-date-selected: #bdf9ed;
+
+// -------- 文字大小样式变量 -----------
+// 页面一级标题
+$primary-title-size: 16px;
+// 页面主要文字 和菜单文字
+$page-font-size: 14px;
+// 表格文字大小 $table-font-size
+// eCharts-font
+$eCharts-font-size: 12px;
+// 页面字体
+$page-font-family: "Microsoft YaHei", Arial, "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, sans-serif;
+
+// -------- form 表单样式变量 -----------
+// input 悬浮色
+$input-hover-color: $color;
+// switch开关背景色
+$switch-bg-color: #bbbbbb;
+// form表单检验失败颜色
+$form-error-color: #fb7257;
+// 按钮样式变量
+$button-color: $color;
+// 按钮hover 颜色
+$button-hover-color: #08979c;
+// 按钮禁用背景颜色 (用于保存 下一步 取消 重置 返回 按钮)
+$button-disable-bg-color: #ccc;
+// danger类型按钮文字颜色（用于 取消 重置 返回 按钮）
+$button-danger-color: #fff;
+// danger类型按钮文字颜色
+$button-danger-hover-color: #d9d9d9;
+// danger类型按钮文字颜色
+$button-danger-font-color: #626262;
+// 删除按钮文字颜色
+$button-delete-font-color: $error-color;
+// 删除按钮边框颜色
+$button-delete-border-color: #e8e8e8;
+// 删除按钮hover 边框颜色
+$button-delete-border-hover-color: $color;
+// 删除按钮的禁用背景色
+$button-delete-disable-color: #f5f5f5;
+// 删除按钮的禁用border色
+$button-delete-disable-border-color: #d9d9d9;
+
+// -------- table 表格样式变量 -----------
+// 表格边框样式变量
+$table-border-color: #ecf2f8;
+// 表格行悬浮背景色
+$table-row-hover-bg: #ecf2f8;
+// 表头行高
+$table-header-height: 40px;
+// 表格背景色
+$table-bg-color: #eaedf1;
+// 表格行高
+$table-tr-height: 40px;
+// 表格字体大小
+$table-font-size: 13px;
+// 表格字体颜色
+$table-font-color: #333333;
+// 表格行边框颜色
+$table-tr-border-bottom-color: #cae4e3;
+
+// 以下面的色码为和业务相关的 请使用前确认是否符合 各业务模块负责人请排查 如果不需要可以删除
+
+
+// -------- 登录模块  样式变量 -----------
+// 登录背景色
+$login-bg: #293055;
+// 登录form背景色
+$login-form-bg: #333a64;
+// 登录底部背景
+$login-footer-bg: #1d203b;
+// 登录切换文字颜色
+$login-toggle-color: #fca16b;
+// 登录切换文字边框颜色
+$login-toggle-borer: #ffb88f;
+
+// -------- 单位区域级别颜色 -----------
+// 一级单位、区域
+$level-one: #72ddd9;
+// 二级单位、区域
+$level-two: #78e3af;
+// 三级单位、区域
+$level-three: #56c2ea;
+// 四级单位、区域
+$level-four: #ffc878;
+// 五级单位、区域
+$level-five: #ff8a73;
+
+
+// -------- 系统设置  样式变量 -----------
+// 日志管理危险级别图标颜色
+// 危险
+$status-danger: #e71f19;
+// 一般
+$status-common: #5297d2;
+// 提示
+$status-prompt: #ee761b;
+// license验证弹窗计时器背景颜色
+$license-count-bg: #f8f8f8;
+// license验证弹窗计时器和提示语文字颜色
+$license-font-color: #959595;
+// license验证弹窗计时器边框颜色
+$license-border-color: #eee;
+
+
+// 告警
+$status-alarm: #FB7356;
+// 未配置
+$status-unknown: #35AACE;
+// 失联
+$status-lost: #F8C032;
+// 离线
+$status-offline: #959595;
+// 正常
+$status-normal: #36D1C9;
+
+// -------- index首页  样式变量 -----------
+// 首页地图右下侧按钮默认边框颜色
+$operational-button-frame-color: #efeaea;
+// 首页地图右下侧按钮默认悬浮颜色
+$operational-button-background-color: #dbf6f5;
+// 首页地图鼠标移入阴影颜色以及背景颜色
+$index-operational-background-color: #36cfc9;
+// eChart背景颜色
+$index-eChart-background-color: #f7f7f7;
+// 设施展示icon图标背景颜色
+$index-icon-color: #1ec5ff;
+// 搜索栏输入框字体颜色
+$map-search-placeholder-color: #959595;
+// 详情卡背景阴影颜色
+$index-facility-card-shadow: #888888;
+// 首页卡片title颜色
+$index-card-title-color: #bdddeb;
+// 首页title颜色
+$index-title-color: #bbb;
+// 首页浮窗阴影颜色
+$index-window-background-color: #000;
+// 首页浮窗title颜色
+$index-window-color: #333333;
+// 首页浮窗字体颜色
+$index-window-font-color: #959595;
+// 首页title更多
+$index-alarm-title: #b3b3b3;
+// 首页详情卡更多
+$index-card-more: #36cfca;
+// 首页工单列表hover
+$index-order-hover: #ebf9f9;
+// 首页工单选中颜色
+$index-order-select: #000000;
+// 首页设施
+$index-facility-normal: #36cfc9;
+// 首页列表搜索框
+$index-facility-input: #37d0cb;
+// 首页区域搜索hover背景色
+$index-select-area: #e6f6ff;
+// 首页设施设备列表title分割线
+$index-facility-segmentation: #bcbaba;
+
+
+// -------- 应用系统 样式变量 -----------
+$left-top-color: #f1c746;
+$communication-model-color: #248cca;
+$collection-color: #fb7257;
+$tilt-color: #fb7275;
+$index-facility-selected: #8588e7;
+$facility-edit-color: #0985fd;
+// prompt
+$prompt-prompting: #f39800;
+
+
+//-------- 设施图标 样式变量 -----------
+// 设施图标
+// 显示所有
+$statistics-facility-all: #78c446;
+// 光交箱
+$statistics-opticalBox: #5ed8a9;
+// 配线架
+$statistics-patchPanel: #4fc5ea;
+// 室外柜 在用
+$statistics-fiberBox: #fa6308;
+// 人井
+$statistics-manWell: #f39705;
+// 接头盒
+$statistics-jointClosure: #f7d205;
+// 室外柜
+$statistics-outdoorCabinet: #fc7369;
+// 智慧杆
+$statistics-wisdom: #5ed7d8;
+// 配电箱
+$statistics-distributionPanel: #e858ba;
+// 氛围灯
+$statistics-atmosphere: #FDCA4A;
+// 照明灯
+$statistics-lighting: #8DE159;
+// 智慧电源
+$statistics-Power: #5ED8A9;
+
+// 站点/设备图标颜色
+// 正常 #00b050
+$facility-status-normal: #22ac38;
+// 告警 #ff0000
+$facility-status-alarm: #FF0000;
+// 离线 #7f7f7f #979797
+$facility-status-offline: #ff6000;
+// 未知 #ffc000
+$facility-status-unKnow: #ffc000;
+// 失联
+$facility-status-outOfContact: #5c86e8;
+
+//-------- 工单状态图标 样式变量 -----------
+// 工单显示所有
+$statistics-all: #8265ff;
+// 待指派
+$statistics-assigned: #29d9a5;
+// 新增
+$statistics-add: #fb5005;
+// 待处理
+$statistics-pending: #8de056;
+// 处理中
+$statistics-processing: #ffc63d;
+// 已完成
+$statistics-completed: #3279f0;
+// 已退单
+// $statistics-singleBack: #e70f05;
+$statistics-singleBack: #ff4901;
+// 已转派
+$statistics-turnProcessing: #1296db;
+//建议背景色
+$suggest-bg: #f2fafc;
+// 运维建议左侧背景
+$suggest-left-bg: #f9f9f9;
+// 已完工巡检工单状态占比
+$completed-color: #fea44d;
+// 已退单占比颜色
+$return-back-color: #ff7b7b;
+// 巡检工单详情设备背景
+$inspection-equipment-bg: #1ec5ff;
+// 工单部分标题栏文字颜色
+$order-title-color: #bbbbbb;
+// 选择模板，标题背景
+$inspect-template-bg: #eaedf1;
+// 自动派单
+$dispatch: #ff6600;
+// 详情时间
+$detail-time: #67a9f7;
+
+//-------- 告警等级默认颜色 样式变量 -----------
+// 紧急
+$statistics-alarm-urgent: #e61017;
+// 主要
+$statistics-alarm-serious: #ff6600;
+// 次要
+$statistics-alarm-secondary: #fbd418;
+// 提示
+$statistics-alarm-prompt: #009dda;
+// -------- 设备 样式变量 -----------
+// 网关
+$gateway-color: #fa6308;
+// 单灯
+$singlelightcon-color: #f7d205;
+// 信息屏
+$informationboard-color: #4fc5ea;
+// 摄像头
+$camera-color: #64daac;
+// 集中控制器
+$centralwlancon-color: #c760e9;
+// 电子锁
+$accesslock-color: #66b9ff;
+// 广播
+$broadcast-color: #f39705;
+// 智慧电源
+$power-color: #5ED8A9;
+// 照明灯
+$Lightinglamp-color: #8DE159;
+// 氛围灯
+$Atmospherelamp-color: #FDCA4A;
+// 无线Ap
+$wirelessAp-color: #f39705;
+// 一键报警器
+$alarm-fast-color: #FC7369;
+//  微气象仪
+$weatherInstrument-color: #5884e8;
+$statistics-broadcast: #F39705;
+$statistics-calling: #FC7369;
+$statistics-smartpower: #FC7369;
+$statistics-environmentalMonitoring: #F39705;
+// 设备状态图标颜色
+// 可拆除
+$equipment-status-dismantled: #5B86E8;
+// 失联
+$equipment-status-lost: #CCCDCD;
+// 未设置
+$equipment-status-unset: #248cca;
+// 下线
+$equipment-status-offline: #898989;
+// 正常在线
+$equipment-normal: #36cfc9;
+// 故障
+$equipment-status-break: #ff6000;
+// 告警
+$equipment-status-alarm: #FF0000;
+
+// 业务状态背景色
+// 锁定
+$equipment-business-lock-bg: #dc4f4f;
+// 释放
+$equipment-business-free-bg: #67a8f7;
+
+// -------- 故障 样式变量 -----------
+// 未提交
+$handle-uncommit-color: #8fdd5e;
+// 已提交
+$handle-commit-color: #36cfc9;
+// 处理中
+$handle-processing-color: #f1c620;
+// 已完成
+$handle-done-color: #01c6a9;
+// 已打回
+$handle-undone-color: #e61017;
+//  特殊图标颜色
+$sp-icon-color-1: #efc136;
+$sp-icon-color-2: #4f8cdf;
+$sp-icon-color-3: #67a8f7;
+$sp-icon-color-4: #ffffff;
+$sp-icon-color-5: #fad707;
+$sp-icon-color-6: #90de5e;
+$sp-icon-color-7: #a6a6a6;
+$sp-icon-color-8: #bddafa;
+$sp-icon-color-9: #71d9b3;
+$sp-icon-color-10: #f77b7b;
+$sp-icon-color-11: #f7ce93;
+$sp-icon-color-12: #add0f6;
+// 详情标题
+$detail-title-color: #7cb0dd;
+// 设备详情类型背景
+$equipment-detail-type-bg: #34cce2;
+// 上传文件里面的文字颜色
+$upload-color: #999999;
+$frequency-color: #a7cdf8;
+// 批量操作灯控样式
+$brightness-icon-bg: #ffc328;
+// 音控样式
+$volume-icon-bg: #a99af6;
+// 分割线颜色
+$separation-color: #e8e8e8;
+
+// -------- 产品管理功能特有颜色变量 -----------
+// 上传文件
+$upload-template: #1ec5ff;
+// 产品点位类型固有
+$product-fixed-position-bg: #fad707;
+// 可扩展
+$product-expand-position-bg: #67a8f7;
+// 虚线颜色
+$product-dashed-color: #fff;
+// 一键上传字体颜色
+$upload-all-color: #66b6f2;
+// 端口详情浮窗背景
+$port-detail-bg: #909090;
+
+// -------- 规划&项目管理功能特有颜色变量 -----------
+// 智慧杆总数
+$wisdomSum: #8265ff;
+// 待建
+$toBeBuilt: #cccccc;
+// 在建
+$underConstruction: #8ecaf7;
+// 已建
+$hasBeenBuilt: #91e15b;
+// 项目未启动
+$notStarted: #2dd9a7;
+// 项目进行中
+$working: #90e15b;
+// 项目延期
+$delayed: #fb7257;
+// 项目已结束
+$finished: #ffc63d;

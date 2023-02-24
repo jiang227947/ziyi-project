@@ -1,0 +1,104 @@
+/**
+ * Created by jzy
+ */
+@import "../config";
+// input 输入框
+.ant-input:focus {
+  //border-color: $input-hover-color;
+  outline: 0;
+  //box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  box-shadow: none;
+}
+
+.ant-input:hover {
+  //border-color: $input-hover-color;
+}
+// 当输入框置灰时，鼠标悬浮无绿色边框
+.ant-input-disabled:hover {
+  border-color: #e6d8d8 !important;
+  border-right-width: 1px !important;
+}
+.ant-select-focused .ant-select-selection, .ant-select-selection:focus, .ant-select-selection:active {
+  //border-color: $input-hover-color;
+  outline: 0;
+  //box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  box-shadow: none;
+
+}
+
+// 下拉选择
+.ant-select-selection:hover {
+  border-color: $input-hover-color;
+  border-right-width: 1px !important;
+}
+
+//  switch 开关
+.ant-switch {
+  background-color: $switch-bg-color;
+}
+
+.ant-switch-checked {
+  //background-color: $input-hover-color;
+}
+
+// checkbox 样式
+.ant-checkbox-input:focus + .ant-checkbox-inner, .ant-checkbox-wrapper:hover .ant-checkbox-inner, .ant-checkbox:hover .ant-checkbox-inner {
+  //border-color: $input-hover-color;
+}
+
+.ant-checkbox-indeterminate .ant-checkbox-inner:after {
+  content: ' ';
+  -webkit-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  border: 0;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  //background-color: $input-hover-color;
+  opacity: 1;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  //background-color: $input-hover-color;
+  //border-color: $input-hover-color;
+}
+
+.ant-radio-checked .ant-radio-inner {
+  //border-color: $input-hover-color;
+}
+.ant-radio-inner:after {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: 3px;
+  top: 3px;
+  border-radius: 8px;
+  display: table;
+  border-top: 0;
+  border-left: 0;
+  content: ' ';
+  //background-color: $color;
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+}
+.ant-radio-wrapper:hover .ant-radio .ant-radio-inner, .ant-radio:hover .ant-radio-inner, .ant-radio-focused .ant-radio-inner {
+  //border-color: $color;
+}
+
+.ant-input-affix-wrapper:hover .ant-input:not(.ant-input-disabled) {
+  //border-color: $color;
+  border-right-width: 1px !important;
+}
+
+// 去掉ipnut[type=number]的默认样式
+input.inputClearNumberStyle[type=number] {
+  -moz-appearance:textfield;
+}
+input.inputClearNumberStyle[type=number]::-webkit-inner-spin-button,
+input.inputClearNumberStyle[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
