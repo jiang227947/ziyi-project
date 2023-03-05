@@ -46,7 +46,7 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       select: NavItemEnum.Skills,
       label: NavItemChineseEnum.Skills
-    },
+    }
   ];
   // 掌握技能icons
   skillsAliIconList: string[];

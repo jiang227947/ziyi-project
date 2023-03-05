@@ -9,7 +9,8 @@ export enum NavItemEnum {
   About = 'About',
   Experience = 'Experience',
   Education = 'Education',
-  Skills = 'Skills'
+  Skills = 'Skills',
+  Blog = 'Blog'
 }
 
 /**
@@ -19,7 +20,8 @@ export enum NavItemChineseEnum {
   About = '关于',
   Experience = '工作经历',
   Education = '教育经历',
-  Skills = '掌握技能'
+  Skills = '掌握技能',
+  Blog = '个人博客'
 }
 
 /**
