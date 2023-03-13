@@ -23,8 +23,11 @@
     "crypto-js": "^4.1.1",
     "echarts": "^5.4.1",
     "leaflet": "^1.9.3",
+    "luckyexcel": "^1.0.1",
+    "luckysheet": "^2.1.13",
     "mapbox-gl": "^2.9.1",
     "ng-zorro-antd": "^12.1.1",
+    "openai": "^3.2.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

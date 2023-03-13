@@ -139,7 +139,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       /*openai请求头*/
       headers = headers.append('Accept', 'application/json');
       headers = headers.append('Content-Type', 'application/json');
-      headers = headers.append('Authorization', 'Bearer ' + openAI);
+      headers = headers.append('Authorization', 'Bearer ' + String(openAI));
     } else {
       // 添加token信息
       if (token) {

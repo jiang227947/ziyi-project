@@ -182,6 +182,17 @@ export class AppMenuService {
             isSelected: false,
             children: []
           },
+          {
+            menuId: '6-2',
+            parentMenuId: '6',
+            menuName: '在线Excel',
+            menuLevel: 2,
+            menuHref: '/main/tool/luckysheet',
+            icon: 'file-excel',
+            isShow: true,
+            isSelected: false,
+            children: []
+          },
         ]
       },
       // 用户管理

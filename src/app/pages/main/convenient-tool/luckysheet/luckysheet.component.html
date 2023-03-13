@@ -1,0 +1,15 @@
+<div class="buttons">
+  <nz-upload
+    [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [nzShowUploadList]="false"
+  >
+    <button nz-button nzType="primary">
+      <span nz-icon nzType="upload" nzTheme="outline"></span>
+      上传
+    </button>
+  </nz-upload>
+  <button nz-button nzType="primary" (click)="downloadExcel()">
+    <span nz-icon nzType="download" nzTheme="outline"></span>
+    下载
+  </button>
+</div>
+<div id="luckysheet"></div>

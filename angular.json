@@ -29,11 +29,16 @@
             ],
             "styles": [
               "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/luckysheet/dist/plugins/css/pluginsCss.css",
+              "node_modules/luckysheet/dist/plugins/plugins.css",
+              "node_modules/luckysheet/dist/css/luckysheet.css",
+              "node_modules/luckysheet/dist/assets/iconfont/iconfont.css"
             ],
             "scripts": [
               "src/assets/js/qunee/qunee-module.js",
-              "src/assets/js/qunee/PopupMenu.js"
+              "src/assets/js/qunee/PopupMenu.js",
+              "node_modules/luckysheet/dist/plugins/js/plugin.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

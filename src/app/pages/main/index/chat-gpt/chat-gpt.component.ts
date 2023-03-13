@@ -28,11 +28,20 @@ export class ChatGPTComponent implements OnInit {
   synthUtt: SpeechSynthesisUtterance;
   // 展示openAiAlert
   showOpenAiAlert = false;
+  configuration: any;
+  openai: any;
 
   constructor(private $http: HttpClient) {
   }
 
   ngOnInit(): void {
+    const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
+    let openAI = '';
+    key.split('/').forEach((v) => {
+      if (v !== '') {
+        openAI = openAI + v;
+      }
+    });
     // 展示openAiAlert
     this.showOpenAiAlert = sessionStorage.getItem('openAiAlert') !== '1';
     try {
@@ -81,13 +90,12 @@ export class ChatGPTComponent implements OnInit {
     /*由于无效输入或其他问题，API请求可能会返回错误*/
     this.$http.post('https://api.openai.com/v1/completions', {
       model: this.sendModel, // 对话模型
-      prompt: this.sQuestion,
+      prompt: this.sQuestion, // user entered input text will store here.
       max_tokens: 2048,
       user: 'jzy19981211@gmail.com',
       temperature: 0,
-      // frequency_penalty: 0.0, // -2.0和2.0之间的数字正值降低了模型逐字重复同一行的可能性。
-      // presence_penalty: 1.0,  // 介于-2.0和2.0之间的数字。 正值增加了模型谈论新话题的可能性。
     }).subscribe((result: any) => {
+      console.log('result: ', result);
       this.dialogBoxMessageList.push({
         create: 'ai',
         time: new Date().getTime(),
@@ -101,8 +109,6 @@ export class ChatGPTComponent implements OnInit {
       if (this.dialogBoxMessageList.length > 0) {
         localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
       }
-      this.dialogLogin = false;
-    }, () => {
       this.dialogLogin = false;
     });
     this.sQuestion = '';

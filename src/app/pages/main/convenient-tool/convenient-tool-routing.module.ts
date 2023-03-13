@@ -1,7 +1,8 @@
-import {Routes} from "@angular/router";
-import {ConversionComponent} from "./conversion/conversion.component";
-import {SimpleGuardService} from "../../../core-module/service/simple-guard.service";
-import {ConvenientToolComponent} from "./convenient-tool.component";
+import {Routes} from '@angular/router';
+import {ConversionComponent} from './conversion/conversion.component';
+import {SimpleGuardService} from '../../../core-module/service/simple-guard.service';
+import {ConvenientToolComponent} from './convenient-tool.component';
+import {LuckysheetComponent} from './luckysheet/luckysheet.component';
 
 export const TOOL_ROUTER_CONFIG: Routes = [
   {
@@ -13,6 +14,10 @@ export const TOOL_ROUTER_CONFIG: Routes = [
       // 数据转换
       {
         path: 'conversion', component: ConversionComponent
+      },
+      // 在线Excel
+      {
+        path: 'luckysheet', component: LuckysheetComponent
       }
     ]
   },
