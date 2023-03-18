@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {OpenAIApi, Configuration} from 'openai';
 import {OpenaiRequestService} from '../../../../core-module/api-service/openai';
 import {GTPMessageInterface} from '../../../../shared-module/interface';
 import {NzMessageService} from 'ng-zorro-antd/message';
@@ -36,25 +35,12 @@ export class ChatGPTComponent implements OnInit {
   synthUtt: SpeechSynthesisUtterance;
   // 展示openAiAlert
   showOpenAiAlert = false;
-  configuration: any;
-  openai: any;
 
   constructor(private $http: HttpClient, private $openaiRequestService: OpenaiRequestService,
               private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
-    const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
-    let openAI = '';
-    key.split('/').forEach((v) => {
-      if (v !== '') {
-        openAI = openAI + v;
-      }
-    });
-    this.configuration = new Configuration({
-      apiKey: openAI,
-    });
-    this.openai = new OpenAIApi(this.configuration);
     // 展示openAiAlert
     this.showOpenAiAlert = sessionStorage.getItem('openAiAlert') !== '1';
     try {
