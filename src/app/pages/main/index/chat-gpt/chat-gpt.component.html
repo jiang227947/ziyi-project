@@ -36,15 +36,15 @@
         <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
         <!--输入框-->
         <div nz-row nzAlign="middle" nzJustify="space-around" class="send">
-          <div nz-col nzXs="24" nzSm="24" nzMd="22" nzLg="10" nzXl="12" nzXXl="12" class="send-input">
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="12" nzXXl="12" class="send-input">
             <input nz-input type="text" placeholder="输入想问的问题"
                    [(ngModel)]="sQuestion" (keyup.enter)="send()"/>
             <button nz-button nzType="primary" type="submit" class="send-button" [disabled]="dialogLogin"
                     (click)="send()">发送
             </button>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="7" nzXl="6" nzXXl="8" class="send-model">
-            <span>模型：</span>
+          <div nz-col nzXs="24" nzSm="12" nzMd="14" nzLg="14" nzXl="7" nzXXl="8" class="send-model">
+            <span>对话模型：</span>
             <nz-select [(ngModel)]="sendModel" class="send-sendModel" nzDropdownClassName="send-ant-select-dropdown">
               <nz-option-group nzLabel="经典版本chatGPT">
                 <nz-option nzValue="gpt-3.5-turbo-0301" nzLabel="GTP-3.5-turbo-0301"></nz-option>
@@ -58,7 +58,7 @@
               </nz-option-group>
             </nz-select>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4">
+          <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="10" nzXl="4" nzXXl="4">
             <button nz-button nzType="primary" (click)="getBalance()">查询剩余对话次数</button>
           </div>
           <!--<div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4" class="send-synth" *ngIf="isShowSynth">
