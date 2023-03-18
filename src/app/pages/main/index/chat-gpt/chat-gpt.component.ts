@@ -25,6 +25,8 @@ export class ChatGPTComponent implements OnInit {
   dialogLogin = false;
   // 对话数据
   dialogBoxMessageList: { create: string, time: number, value: string, speak: boolean }[] = [];
+  // 对话上下文记录
+  messagesList: { role: string, content: string }[] = [];
   // 浏览器是否有朗读功能
   isShowSynth = false;
   // 朗读功能
@@ -49,14 +51,17 @@ export class ChatGPTComponent implements OnInit {
       if (dialogBoxMessage) {
         this.dialogBoxMessageList = JSON.parse(dialogBoxMessage);
         setTimeout(() => {
-          console.log('scrollTop', this.chatGPT.nativeElement.scrollTop);
-          console.log('scrollHeight', this.chatGPT.nativeElement.scrollHeight);
           this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
         }, 0);
       }
+      // 读取上下文记录
+      const messagesList = localStorage.getItem('messagesList');
+      if (messagesList) {
+        this.messagesList = JSON.parse(messagesList);
+      }
+      /*获取浏览器是否有朗读功能*/
       this.synth = window.speechSynthesis;
       let count = 0;
-      /*获取浏览器是否有朗读功能*/
       const getVoices = setInterval(() => {
         this.isShowSynth = this.synth.getVoices().length > 0;
         if (count === 3 || this.isShowSynth) {
@@ -74,11 +79,17 @@ export class ChatGPTComponent implements OnInit {
     if (this.sQuestion === '' || this.dialogLogin) {
       return;
     }
+    // 记录对话
     this.dialogBoxMessageList.push({
       create: 'user',
       time: new Date().getTime(),
       value: this.sQuestion,
       speak: false
+    });
+    // 记录上下文
+    this.messagesList.push({
+      role: 'user',
+      content: this.sQuestion
     });
     this.dialogLogin = true;
     setTimeout(() => {
@@ -88,18 +99,14 @@ export class ChatGPTComponent implements OnInit {
     if (this.dialogBoxMessageList.length > 0) {
       localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
     }
-    /*由于无效输入或其他问题，API请求可能会返回错误*/
-    await this.$openaiRequestService.completions({
+    // 发送的参数
+    const messagesParam: { model: string, messages: { role: string, content: string }[] } = {
       model: this.sendModel,
-      messages: [
-        {
-          role: 'user',
-          content: this.sQuestion
-        }
-      ]
-    }).subscribe((result: GTPMessageInterface) => {
+      messages: this.messagesList
+    };
+    await this.$openaiRequestService.completions(messagesParam).subscribe((result: GTPMessageInterface) => {
       const choices = result.choices;
-      const content = choices[choices.length - 1].message.content;
+      const content: string = choices[choices.length - 1].message.content;
       const sp = content.split('```javascript');
       const value = sp.join(`<pre style="
           background: #2d2d2d;
@@ -122,12 +129,21 @@ export class ChatGPTComponent implements OnInit {
         time: new Date().getTime(),
         speak: false
       });
+      // 保存参数
+      this.messagesList.push({
+        role: choices[choices.length - 1].message.role,
+        content
+      });
       setTimeout(() => {
         this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
       }, 0);
-      // 保存记录
+      // 保存对话记录
       if (this.dialogBoxMessageList.length > 0) {
         localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
+      }
+      // 保存上下文记录
+      if (this.messagesList.length > 0) {
+        localStorage.setItem('messagesList', JSON.stringify(this.messagesList));
       }
       this.dialogLogin = false;
     }, () => {

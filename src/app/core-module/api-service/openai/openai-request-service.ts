@@ -18,8 +18,14 @@ export class OpenaiRequestService {
    * completions
    * https://stream.api2d.net/v1/chat/completions
    */
-  completions(info: any): Observable<GTPMessageInterface> {
-    return this.$http.post<GTPMessageInterface>(`${environment.API2D_OTHER}/chat/completions`, info);
+  completions(messagesParam: {
+    model: string,
+    messages: {
+      role: string, // 模型身份
+      content: string // 模型返回给你的信息
+    }[]
+  }): Observable<GTPMessageInterface> {
+    return this.$http.post<GTPMessageInterface>(`${environment.API2D_OTHER}/chat/completions`, messagesParam);
   }
 
   /**
