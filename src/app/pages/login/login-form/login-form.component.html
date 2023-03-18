@@ -1,8 +1,9 @@
-<form nz-form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" role="form">
+<!--登录-->
+<form nz-form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" role="form" *ngIf="!register">
   <nz-form-item>
     <nz-form-control [nzErrorTip]="loginNameInfo">
       <nz-input-group nzPrefixIcon="user">
-        <input type="text" nz-input formControlName="loginName" placeholder="请输入用户名" />
+        <input type="text" nz-input formControlName="loginName" placeholder="请输入用户名"/>
       </nz-input-group>
       <ng-template #loginNameInfo>
         <ng-container *ngIf="loginName.dirty && loginName.errors">
@@ -17,7 +18,7 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="passwordInfo">
       <nz-input-group nzPrefixIcon="lock">
-        <input type="password" nz-input formControlName="password" placeholder="请输入密码" />
+        <input type="password" nz-input formControlName="password" placeholder="请输入密码"/>
       </nz-input-group>
       <ng-template #passwordInfo>
         <ng-container *ngIf="password.dirty && password.errors">
@@ -29,13 +30,84 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
-<!--  <a class="test-user" (click)="testUser()">使用测试账户</a>-->
+  <!--  <a class="test-user" (click)="testUser()">使用测试账户</a>-->
   <nz-form-item>
-    <label nz-checkbox formControlName="remember">记住用户名</label>
+    <div class="optiona">
+      <label nz-checkbox formControlName="remember">记住用户名</label>
+<!--      <button nz-button nzType="link" type="button" (click)="register = true">注册</button>-->
+    </div>
   </nz-form-item>
   <nz-form-item>
     <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="loginLoading" nzBlock>
       登录
     </button>
+  </nz-form-item>
+</form>
+<!--注册-->
+<form nz-form [formGroup]="registerForm" (ngSubmit)="registerSubmit()" role="form" *ngIf="register">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
+      登录名
+    </nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerNameInfo">
+      <input type="text" nz-input formControlName="registerName" [placeholder]="'请填写登录名'"/>
+      <ng-template #registerNameInfo let-control>
+        <ng-container *ngIf="control.hasError('required')">请填写登录名!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
+      姓名
+    </nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="userNameTpl">
+      <input type="text" nz-input formControlName="userName" [placeholder]="'请填写姓名'"/>
+      <ng-template #userNameTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请填写姓名!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
+      密码
+    </nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerPasswordTpl">
+      <input type="password" nz-input formControlName="registerPassword" [placeholder]="'请填写密码'"/>
+      <ng-template #registerPasswordTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请填写密码!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
+      密码二次确认
+    </nz-form-label>
+    <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerPassword2Tpl">
+      <input type="password" nz-input formControlName="registerPassword2" [placeholder]="'请再次输入密码'"/>
+      <ng-template #registerPassword2Tpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请再次输入密码!</ng-container>
+        <ng-container *ngIf="control.hasError('confirm')">
+          两次密码不一致！
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <div nz-row nzAlign="middle" nzJustify="space-around" class="register-back">
+      <div nz-col nzSm="6">
+        <button nz-button nzType="primary" nzSize="large" nzBlock (click)="register = false">
+          返回
+        </button>
+      </div>
+      <div nz-col nzSm="16">
+        <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="registerLoading" nzBlock>
+          注册
+        </button>
+      </div>
+    </div>
   </nz-form-item>
 </form>

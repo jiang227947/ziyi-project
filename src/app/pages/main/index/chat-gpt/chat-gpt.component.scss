@@ -7,7 +7,7 @@
 
 .chatGPT-content {
   height: 600px;
-  padding: 30px 12px;
+  padding: 30px 12px 160px 12px;
   overflow-y: auto;
 
   .openAiAlert {
@@ -24,11 +24,11 @@
 
     ::ng-deep {
       .ant-comment-content-author-time {
-        font-size: 16px;
+        font-size: 1rem;
       }
 
       .ant-comment-actions > li > span {
-        font-size: 16px;
+        font-size: 1rem;
       }
 
       /*我的对话框*/
@@ -66,8 +66,8 @@
       .ant-comment-content {
         border: 1px solid #ffffff;
         border-radius: 8px;
-        padding: 6px;
-        font-size: 20px;
+        padding: 0.5rem;
+        font-size: 1.1rem;
       }
     }
 

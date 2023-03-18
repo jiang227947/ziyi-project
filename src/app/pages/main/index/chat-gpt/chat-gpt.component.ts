@@ -49,6 +49,8 @@ export class ChatGPTComponent implements OnInit {
       if (dialogBoxMessage) {
         this.dialogBoxMessageList = JSON.parse(dialogBoxMessage);
         setTimeout(() => {
+          console.log('scrollTop', this.chatGPT.nativeElement.scrollTop);
+          console.log('scrollHeight', this.chatGPT.nativeElement.scrollHeight);
           this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
         }, 0);
       }
@@ -199,6 +201,19 @@ export class ChatGPTComponent implements OnInit {
         this.$message.error('查询失败');
       }
     });
+  }
+
+  /**
+   * 一键复制
+   */
+  copy(value: string): void {
+    const input = document.createElement('input'); // 创建input对象
+    input.value = value; // 设置复制内容
+    document.body.appendChild(input); // 添加临时实例
+    input.select(); // 选择实例内容
+    document.execCommand('Copy'); // 执行复制
+    document.body.removeChild(input); // 删除临时实例
+    this.$message.success('复制成功！');
   }
 
   /*关闭顶部公告*/

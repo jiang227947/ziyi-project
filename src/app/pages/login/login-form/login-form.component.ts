@@ -6,9 +6,10 @@ import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../../shared-module/interface/user';
 import {format} from 'date-fns';
-import {LoginRequestService} from '../../../core-module/api-service';
+import {LoginRequestService, UserManagementRequestService} from '../../../core-module/api-service';
 import {CommonUtil} from '../../../shared-module/util/commonUtil';
 import {SessionUtil} from '../../../shared-module/util/session-util';
+import {UserRoleEnum} from '../../../shared-module/enum/user.enum';
 
 @Component({
   selector: 'app-login-form',
@@ -18,13 +19,32 @@ import {SessionUtil} from '../../../shared-module/util/session-util';
 })
 export class LoginFormComponent implements OnInit {
 
+  // 登录表单
   loginForm: FormGroup;
   // 登录的loading
   loginLoading = false;
+  // 注册表单
+  registerForm: FormGroup;
+  // 注册的loading
+  registerLoading = false;
+
+  // 是否为注册
+  register = false;
 
   constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
-              private loginRequestService: LoginRequestService, private $message: NzMessageService) {
+              private loginRequestService: LoginRequestService, private $message: NzMessageService,
+              private userManagementRequestService: UserManagementRequestService) {
   }
+
+  // 密码一致校验
+  confirmationValidator = (control): { [s: string]: boolean } => {
+    if (!control.value) {
+      return {required: true};
+    } else if (control.value !== this.registerForm.controls.registerPassword.value) {
+      return {confirm: true, error: true};
+    }
+    return {};
+  };
 
   ngOnInit(): void {
     if (SessionUtil.getTokenOut()) {
@@ -42,6 +62,12 @@ export class LoginFormComponent implements OnInit {
       loginName: [rememberMe ? rememberMe : '', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(3)]],
       remember: [!!rememberMe],
+    });
+    this.registerForm = this.fb.group({
+      registerName: [rememberMe ? rememberMe : '', [Validators.required, Validators.minLength(3)]],
+      userName: ['', [Validators.required, Validators.minLength(1)]],
+      registerPassword: ['', [Validators.required, Validators.minLength(3)]],
+      registerPassword2: ['', [Validators.required, Validators.minLength(3), this.confirmationValidator]]
     });
   }
 
@@ -94,6 +120,28 @@ export class LoginFormComponent implements OnInit {
     }).catch(() => {
       this.loginLoading = false;
     });
+  }
+
+  /**
+   * 注册
+   */
+  registerSubmit(): void {
+    this.registerLoading = true;
+    if (this.registerForm.valid) {
+      delete this.registerForm.value.password2;
+      this.registerForm.value.role = UserRoleEnum.general;
+      this.registerForm.value.roleName = '普通用户';
+      this.userManagementRequestService.addUser(this.registerForm.value).subscribe((result: Result<void>) => {
+        if (result.code === 200) {
+          this.$message.success(result.msg);
+        } else {
+          this.$message.error(result.msg);
+        }
+        this.registerLoading = false;
+      });
+    } else {
+      this.registerLoading = false;
+    }
   }
 
   // 登录接口

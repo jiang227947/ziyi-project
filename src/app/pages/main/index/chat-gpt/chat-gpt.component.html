@@ -1,6 +1,6 @@
 <!--chatGPT人工智能AI对话-->
 <div class="chatGPT">
-  <nz-ribbon nzText="ChatGPT对话AI">
+  <nz-ribbon nzText="chatGPT">
     <article>
       <div #chatGPT class="chatGPT-content">
 <!--        <div class="openAiAlert" *ngIf="showOpenAiAlert">-->
@@ -30,6 +30,10 @@
                 <span class="count like" (click)="speak(idx, message)">朗读</span>
               </span>
             </nz-comment-action>-->
+            <!--一键复制-->
+            <nz-comment-action>
+              <span (click)="copy(message.value)">复制</span>
+            </nz-comment-action>
           </nz-comment>
         </div>
         <nz-spin nzSimple [nzIndicator]="indicatorTemplate" *ngIf="dialogLogin"></nz-spin>
