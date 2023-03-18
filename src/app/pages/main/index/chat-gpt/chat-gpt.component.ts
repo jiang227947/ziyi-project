@@ -1,5 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {OpenAIApi, Configuration} from 'openai';
+import {OpenaiRequestService} from '../../../../core-module/api-service/openai';
+import {GTPMessageInterface} from '../../../../shared-module/interface';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-chat-gpt',
@@ -10,8 +14,12 @@ export class ChatGPTComponent implements OnInit {
 
   @ViewChild('chatGPT') chatGPT: ElementRef<Element>;
 
-  // 对话模型
-  sendModel = 'text-davinci-003';
+  // 支持的对话模型
+  // gpt-3.5-turbo-0301
+  // gpt-3.5-turbo
+  // gpt-4
+  // text-embedding-ada-002
+  sendModel = 'gpt-3.5-turbo-0301';
   // 输入的问题文字
   sQuestion = '';
   // 对话loading
@@ -31,7 +39,8 @@ export class ChatGPTComponent implements OnInit {
   configuration: any;
   openai: any;
 
-  constructor(private $http: HttpClient) {
+  constructor(private $http: HttpClient, private $openaiRequestService: OpenaiRequestService,
+              private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
@@ -42,6 +51,10 @@ export class ChatGPTComponent implements OnInit {
         openAI = openAI + v;
       }
     });
+    this.configuration = new Configuration({
+      apiKey: openAI,
+    });
+    this.openai = new OpenAIApi(this.configuration);
     // 展示openAiAlert
     this.showOpenAiAlert = sessionStorage.getItem('openAiAlert') !== '1';
     try {
@@ -74,7 +87,7 @@ export class ChatGPTComponent implements OnInit {
       return;
     }
     this.dialogBoxMessageList.push({
-      create: 'me',
+      create: 'user',
       time: new Date().getTime(),
       value: this.sQuestion,
       speak: false
@@ -88,7 +101,51 @@ export class ChatGPTComponent implements OnInit {
       localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
     }
     /*由于无效输入或其他问题，API请求可能会返回错误*/
-    this.$http.post('https://api.openai.com/v1/completions', {
+    await this.$openaiRequestService.completions({
+      model: this.sendModel,
+      messages: [
+        {
+          role: 'user',
+          content: this.sQuestion
+        }
+      ]
+    }).subscribe((result: GTPMessageInterface) => {
+      const choices = result.choices;
+      const content = choices[choices.length - 1].message.content;
+      const sp = content.split('```javascript');
+      const value = sp.join(`<pre style="
+          background: #2d2d2d;
+          color: rgb(201, 209, 217);
+          font-family: Consolas;
+          text-align: left;
+          padding: 1em;
+          padding-left: 0.8em;
+          margin: 1em;
+          border-radius: 5px;
+          counter-reset: line;
+          white-space: pre;
+          word-spacing: normal;
+          word-break: normal;
+          word-wrap: normal;
+          line-height: 1.5;">`).split('```').join(`</pre>`);
+      this.dialogBoxMessageList.push({
+        value,
+        create: 'ai',
+        time: new Date().getTime(),
+        speak: false
+      });
+      setTimeout(() => {
+        this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
+      }, 0);
+      // 保存记录
+      if (this.dialogBoxMessageList.length > 0) {
+        localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
+      }
+      this.dialogLogin = false;
+    }, () => {
+      this.dialogLogin = false;
+    });
+    /*await this.$http.post(, {
       model: this.sendModel, // 对话模型
       prompt: this.sQuestion, // user entered input text will store here.
       max_tokens: 2048,
@@ -110,7 +167,7 @@ export class ChatGPTComponent implements OnInit {
         localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
       }
       this.dialogLogin = false;
-    });
+    });*/
     this.sQuestion = '';
   }
 
@@ -143,6 +200,19 @@ export class ChatGPTComponent implements OnInit {
     this.synth.speak(this.synthUtt);
     // 朗读变量赋值
     this.dialogBoxMessageList[idx].speak = true;
+  }
+
+  /**
+   * 查询对话余额
+   */
+  getBalance(): void {
+    this.$openaiRequestService.getBalance().subscribe((result: any) => {
+      if (result.code === 0) {
+        this.$message.success(`剩余次数为${result.data.profile.point}，每次对话至少消耗1点次数`);
+      } else {
+        this.$message.error('查询失败');
+      }
+    });
   }
 
   /*关闭顶部公告*/

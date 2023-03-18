@@ -7,7 +7,7 @@
 
 .chatGPT-content {
   height: 600px;
-  padding: 48px 12px;
+  padding: 30px 12px;
   overflow-y: auto;
 
   .openAiAlert {
@@ -32,7 +32,7 @@
       }
 
       /*我的对话框*/
-      .me {
+      .user {
         .ant-comment-content-author-time {
           color: #000000;
         }
@@ -95,6 +95,8 @@
     left: 0;
     right: 0;
     background-color: #fff;
+    text-align: center;
+    padding: 0 1rem;
 
     > div {
       margin: 10px 0;
@@ -104,7 +106,7 @@
       font-size: 14px;
 
       .send-sendModel {
-        width: 120px;
+        min-width: 120px;
       }
     }
 

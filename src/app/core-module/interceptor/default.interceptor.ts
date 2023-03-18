@@ -129,17 +129,29 @@ export class DefaultInterceptor implements HttpInterceptor {
       /** 排除假期查询*/
     } else if (url.includes('openai')) {
       /** 排除openai*/
-      const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
-      let openAI = '';
-      key.split('/').forEach((v) => {
-        if (v !== '') {
-          openAI = openAI + v;
-        }
-      });
-      /*openai请求头*/
-      headers = headers.append('Accept', 'application/json');
-      headers = headers.append('Content-Type', 'application/json');
-      headers = headers.append('Authorization', 'Bearer ' + String(openAI));
+      // const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
+      // let openAI = '';
+      // key.split('/').forEach((v) => {
+      //   if (v !== '') {
+      //     openAI = openAI + v;
+      //   }
+      // });
+      // /*openai请求头*/
+      // headers = headers.append('Accept', 'application/json');
+      // headers = headers.append('Content-Type', 'application/json');
+      // headers = headers.append('Authorization', 'Bearer ' + String(openAI));
+    } else if (url.includes('api2d')) {
+      // 查询余额
+      if (url.includes('profile')) {
+        const API2D_TOKEN = '1148|sPsDncYL2iY0yNnrpqaB34dUvUIHKsqQGWaH4woy';
+        headers = headers.append('Accept', 'application/json');
+        headers = headers.append('Authorization', `Bearer ${API2D_TOKEN}`);
+      } else {
+        // 对话
+        const API2D_KEY = 'fk186791-RToqs3gWFqVMVivKBFd2fdJlU0o9rUsc';
+        headers = headers.append('Content-Type', 'application/json');
+        headers = headers.append('Authorization', `Bearer ${API2D_KEY}`);
+      }
     } else {
       // 添加token信息
       if (token) {

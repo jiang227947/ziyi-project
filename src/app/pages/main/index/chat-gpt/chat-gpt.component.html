@@ -3,56 +3,65 @@
   <nz-ribbon nzText="ChatGPT对话AI">
     <article>
       <div #chatGPT class="chatGPT-content">
-        <div class="openAiAlert" *ngIf="showOpenAiAlert">
-          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发的OpenAI JS SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>
-        </div>
+<!--        <div class="openAiAlert" *ngIf="showOpenAiAlert">-->
+<!--          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发的OpenAI JS SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>-->
+<!--        </div>-->
         <!--对话框-->
         <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
           <!--对话框数据循环-->
           <nz-comment class="{{message.create}}"
                       [nzDatetime]="message.time | date:'yyyy-MM-dd HH:mm:ss'">
             <nz-avatar nz-comment-avatar nzIcon="user" class="avatar"
-                       *ngIf="message.create === 'me'"></nz-avatar>
+                       *ngIf="message.create === 'user'"></nz-avatar>
             <nz-avatar nz-comment-avatar nzIcon="user"
                        nzSrc="https://openaiapi-site.azureedge.net/public-assets/d/9e50936dfb/favicon.svg"
                        *ngIf="message.create === 'ai'"></nz-avatar>
             <nz-comment-content>
-              <p>{{message.value}}</p>
+              <div [innerHTML]="message.value | safeHtml"></div>
             </nz-comment-content>
             <!--文字朗读-->
-            <nz-comment-action *ngIf="isShowSynth">
-              <i nz-icon [nzType]="message.speak ? 'audio-muted':'audio'" nzTheme="outline"></i>
-              <span class="count like" (click)="speak(idx, message)">{{message.speak ? '结束朗读' : '朗读'}}</span>
-            </nz-comment-action>
+            <!--<nz-comment-action *ngIf="isShowSynth">
+              <span *ngIf="message.speak">
+                <i nz-icon [nzType]="'audio-muted'" nzTheme="outline" *ngIf="message.speak"></i>
+                <span class="count like" (click)="speak(idx, message)">结束朗读</span>
+              </span>
+              <span *ngIf="!message.speak">
+              <i nz-icon [nzType]="'audio'" nzTheme="outline" *ngIf="!message.speak"></i>
+                <span class="count like" (click)="speak(idx, message)">朗读</span>
+              </span>
+            </nz-comment-action>-->
           </nz-comment>
         </div>
         <nz-spin nzSimple [nzIndicator]="indicatorTemplate" *ngIf="dialogLogin"></nz-spin>
         <ng-template #indicatorTemplate><i nz-icon nzType="loading" class="loading"></i></ng-template>
         <!--输入框-->
         <div nz-row nzAlign="middle" nzJustify="space-around" class="send">
-          <div nz-col nzXs="24" nzSm="24" nzMd="22" nzLg="10" nzXl="12" nzXXl="14" class="send-input">
+          <div nz-col nzXs="24" nzSm="24" nzMd="22" nzLg="10" nzXl="12" nzXXl="12" class="send-input">
             <input nz-input type="text" placeholder="输入想问的问题"
                    [(ngModel)]="sQuestion" (keyup.enter)="send()"/>
             <button nz-button nzType="primary" type="submit" class="send-button" [disabled]="dialogLogin"
                     (click)="send()">发送
             </button>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="7" nzXl="6" nzXXl="5" class="send-model">
+          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="7" nzXl="6" nzXXl="8" class="send-model">
             <span>模型：</span>
-            <nz-select [(ngModel)]="sendModel" class="send-sendModel">
-              <nz-option-group nzLabel="理解生成自然语言">
-                <nz-option nzValue="text-davinci-003" nzLabel="davinci-003"></nz-option>
-                <nz-option nzValue="text-curie-001" nzLabel="curie-001"></nz-option>
-                <nz-option nzValue="text-babbage-001" nzLabel="babbage-001"></nz-option>
-                <nz-option nzValue="text-ada-001" nzLabel="ada-001"></nz-option>
+            <nz-select [(ngModel)]="sendModel" class="send-sendModel" nzDropdownClassName="send-ant-select-dropdown">
+              <nz-option-group nzLabel="经典版本chatGPT">
+                <nz-option nzValue="gpt-3.5-turbo-0301" nzLabel="GTP-3.5-turbo-0301"></nz-option>
+                <nz-option nzValue="gpt-3.5-turbo" nzLabel="GTP-3.5-turbo"></nz-option>
               </nz-option-group>
-              <nz-option-group nzLabel="理解生成代码">
-                <nz-option nzValue="code-davinci-002" nzLabel="davinci-002"></nz-option>
-                <nz-option nzValue="code-cushman-001" nzLabel="cushman-001"></nz-option>
+              <nz-option-group nzLabel="可以将任意文本转换成一个向量">
+                <nz-option nzValue="text-embedding-ada-002" nzLabel="text-embedding-ada-002"></nz-option>
+              </nz-option-group>
+              <nz-option-group nzLabel="最新版GTP">
+                <nz-option nzValue="gpt-4" nzLabel="GTP-4"></nz-option>
               </nz-option-group>
             </nz-select>
           </div>
-          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4" class="send-synth" *ngIf="isShowSynth">
+          <div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4">
+            <button nz-button nzType="primary" (click)="getBalance()">查询剩余对话次数</button>
+          </div>
+          <!--<div nz-col nzXs="12" nzSm="12" nzMd="10" nzLg="6" nzXl="5" nzXXl="4" class="send-synth" *ngIf="isShowSynth">
             <span>朗读语言：</span>
             <nz-select [(ngModel)]="synthModel" class="send-synthModel">
               <nz-option nzValue="zh-CN" nzLabel="汉语"></nz-option>
@@ -61,7 +70,7 @@
               <nz-option nzValue="es-ES" nzLabel="西班牙语"></nz-option>
               <nz-option nzValue="de-DE" nzLabel="德语"></nz-option>
             </nz-select>
-          </div>
+          </div>-->
         </div>
       </div>
     </article>
