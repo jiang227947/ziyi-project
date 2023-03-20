@@ -1,7 +1,7 @@
 /**
  * GTP返回的消息接口
  */
-export interface GTPMessageInterface {
+export interface GPTMessageInterface {
   choices: {
     message: {
       role: string, // 模型身份

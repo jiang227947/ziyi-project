@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OpenaiRequestService} from '../../../../core-module/api-service/openai';
-import {GTPMessageInterface} from '../../../../shared-module/interface';
+import {GPTMessageInterface} from '../../../../shared-module/interface';
 import {NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
@@ -104,7 +104,7 @@ export class ChatGPTComponent implements OnInit {
       model: this.sendModel,
       messages: this.messagesList
     };
-    await this.$openaiRequestService.completions(messagesParam).subscribe((result: GTPMessageInterface) => {
+    await this.$openaiRequestService.completions(messagesParam).subscribe((result: GPTMessageInterface) => {
       const choices = result.choices;
       const content: string = choices[choices.length - 1].message.content;
       const sp = content.split('```javascript');
