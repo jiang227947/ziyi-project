@@ -1,5 +1,5 @@
 /**
- * GTP返回的消息接口
+ * GPT返回的消息接口
  */
 export interface GPTMessageInterface {
   choices: {

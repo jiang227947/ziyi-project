@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Result} from '../../../shared-module/interface/result';
 import {environment} from '../../../../environments/environment';
-import {GTPMessageInterface} from '../../../shared-module/interface';
+import {GPTMessageInterface} from '../../../shared-module/interface';
 
 /*
 * openai服务
@@ -24,8 +23,8 @@ export class OpenaiRequestService {
       role: string, // 模型身份
       content: string // 模型返回给你的信息
     }[]
-  }): Observable<GTPMessageInterface> {
-    return this.$http.post<GTPMessageInterface>(`${environment.API2D_OTHER}/chat/completions`, messagesParam);
+  }): Observable<GPTMessageInterface> {
+    return this.$http.post<GPTMessageInterface>(`${environment.API2D_OTHER}/chat/completions`, messagesParam);
   }
 
   /**
