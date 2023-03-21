@@ -30,7 +30,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/exception/exception.module').then(m => m.ExceptionModule)
   },
   {
-    path: '**', redirectTo: 'exception',
+    path: '**', redirectTo: 'exception', pathMatch: 'full'
   },
 ];
 

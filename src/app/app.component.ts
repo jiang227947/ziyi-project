@@ -1,19 +1,23 @@
 import {Component} from '@angular/core';
 import {AppMenuService} from './shared-module/service/app-menu.service';
 import {MenuModel} from './core-module/model/menu.model';
+import {UserService} from './shared-module/service/node-services/user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [AppMenuService]
+  providers: [AppMenuService, UserService]
 })
 export class AppComponent {
 
   isCollapsed = false;
   menuList: MenuModel[];
 
-  constructor() {
+  constructor(private userService: UserService) {
+    this.userService.getProducts().subscribe((result) => {
+      console.log(result);
+    });
   }
 
   menuitemClick(menuItem: MenuModel): void {
