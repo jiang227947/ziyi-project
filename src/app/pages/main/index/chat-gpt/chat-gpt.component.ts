@@ -100,13 +100,18 @@ export class ChatGPTComponent implements OnInit {
       localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
     }
     // 发送的参数
-    const messagesParam: { model: string, messages: { role: string, content: string }[] } = {
+    const messagesParam: { model: string, messages: { role: string, content: string }[], max_tokens?: number } = {
       model: this.sendModel,
       messages: this.messagesList
     };
+    // 设置gpt-4的最大回复数 因消耗的token较多，回答有字数限制
+    if (this.sendModel === 'gpt-4') {
+      messagesParam.max_tokens = 100;
+    }
     await this.$openaiRequestService.completions(messagesParam).subscribe((result: GPTMessageInterface) => {
       const choices = result.choices;
       const content: string = choices[choices.length - 1].message.content;
+      // 设置javascript代码块样式
       const sp = content.split('```javascript');
       const value = sp.join(`<pre style="
           background: #2d2d2d;
