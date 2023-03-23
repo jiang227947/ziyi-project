@@ -1,8 +1,7 @@
-import {Subject} from 'rxjs';
-import {Observable} from 'rxjs/src/internal/Observable';
 import {Injectable} from '@angular/core';
-import {environment} from "../../../../environments/environment";
-import {SessionUtil} from "../../../shared-module/util/session-util";
+import {environment} from '../../../../environments/environment';
+import {SessionUtil} from '../../../shared-module/util/session-util';
+import {Observable, Subject} from 'rxjs';
 
 declare var WEBSOCKET_PROTOCOL;
 const RECONNECT_COUNT = 4;
@@ -10,15 +9,13 @@ const RECONNECT_COUNT = 4;
 /**
  * Websocket服务
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class WebsocketImplService {
   // 通过订阅的方式拿到消息
   subscibeMessage: Observable<any>;
   // 重连次数
   private reconnectCount = RECONNECT_COUNT;
-  socket;
+  socket: WebSocket;
   // 心跳检测时间 默认半分钟发起一次心跳检测
   private heartCheckTime = 30000;
   // 心跳定时器
@@ -49,10 +46,12 @@ export class WebsocketImplService {
     }
     if (environment.production) {
       // 部署服务器地址
-      this.socket = new WebSocket(`${WEBSOCKET_PROTOCOL}://${location.host}/websocket/${SessionUtil.getToken()}`);
+      // this.socket = new WebSocket(`${WEBSOCKET_PROTOCOL}://${location.host}/websocket/${SessionUtil.getToken()}`);
+      this.socket = new WebSocket(`ws://127.0.0.1:3011/`);
     } else {
       // this.socket = new WebSocket(`ws://localhost:4200/websocket/${SessionUtil.getToken()}`);
-      this.socket = new WebSocket(`${WEBSOCKET_PROTOCOL}://${location.host}/websocket/${SessionUtil.getToken()}`);
+      this.socket = new WebSocket(`ws://127.0.0.1:3011/websocket`);
+      // this.socket = new WebSocket(`${WEBSOCKET_PROTOCOL}://${location.host}/websocket/${SessionUtil.getToken()}`);
     }
     // 连接成功
     this.socket.onopen = () => {
@@ -62,7 +61,7 @@ export class WebsocketImplService {
       this.reconnectCount = RECONNECT_COUNT;
     };
     this.socket.onmessage = (event) => {
-      this.heartCheckStart();
+      // this.heartCheckStart();
       if (event.data === 'alive') {
         console.log('websocket has alive');
       } else {
@@ -71,11 +70,11 @@ export class WebsocketImplService {
     };
     this.socket.onclose = () => {
       console.log('连接关闭');
-      this.reconnect();
+      // this.reconnect();
     };
     this.socket.onerror = () => {
       console.log('连接失败, 发生异常了');
-      this.reconnect();
+      // this.reconnect();
     };
   }
 
@@ -161,10 +160,10 @@ export class WebsocketImplService {
     this.heartCheckTimer = setTimeout(() => {
       this.socket.send('ping');
       console.log('正在ping服务器.....');
-      this.closeTimer = setTimeout(() => {
-        console.log('关闭服务');
-        this.socket.close();
-      }, 5000);
+      // this.closeTimer = setTimeout(() => {
+      //   console.log('关闭服务');
+      //   this.socket.close();
+      // }, 5000);
     }, this.heartCheckTime);
 
   }
