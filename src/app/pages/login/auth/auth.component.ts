@@ -130,6 +130,15 @@ export class AuthComponent implements OnInit {
    * 注册
    */
   registerSubmit(): void {
+    // 验证表单
+    this.registerName.markAsDirty();
+    this.registerName.updateValueAndValidity();
+    this.userName.markAsDirty();
+    this.userName.updateValueAndValidity();
+    this.registerPassword.markAsDirty();
+    this.registerPassword.updateValueAndValidity();
+    this.registerPassword2.markAsDirty();
+    this.registerPassword2.updateValueAndValidity();
     this.registerLoading = true;
     if (this.registerForm.valid) {
       const registerInfo = {
@@ -235,5 +244,17 @@ export class AuthComponent implements OnInit {
 
   get password(): AbstractControl {
     return this.loginForm.controls.password;
+  }
+  get registerName(): AbstractControl {
+    return this.registerForm.controls.registerName;
+  }
+  get userName(): AbstractControl {
+    return this.registerForm.controls.userName;
+  }
+  get registerPassword(): AbstractControl {
+    return this.registerForm.controls.registerPassword;
+  }
+  get registerPassword2(): AbstractControl {
+    return this.registerForm.controls.registerPassword2;
   }
 }
