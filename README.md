@@ -7,12 +7,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # 中文描述
 
 ## 使用Angular12 + Ant-Design
-### 包含个人简历、openAi js sdk、假期查询、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
-### 接口服务Java使用个人项目 [https://github.com/jiang227947/MySpingBoot](https://github.com/jiang227947/MySpingBoot)
+### 包含个人简历、gpt、假期查询、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
+### 接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)
+### 后续待我的[Node服务](https://github.com/jiang227947/node-server)完成，替代Java后端
 
 ## 目前已知问题：
 ### 1. MapBox页面下，页面窗口大小变化会影响地图渲染
-### 2.小米手机在手机预览标识状态时，首页假期查询接口会查询失败
+### 2.小米手机在手机预览标识状态时，首页假期查询接口会查询失败，切换成电脑版后正常
 
 ## 未来：
 ### 1. Angular版本准备升级至14
