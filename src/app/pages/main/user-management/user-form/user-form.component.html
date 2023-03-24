@@ -23,12 +23,12 @@
 
         <nz-form-item>
           <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
-            姓名
+            昵称
           </nz-form-label>
           <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="userNameTpl">
-            <input type="text" nz-input formControlName="userName" [placeholder]="'请填写姓名'"/>
+            <input type="text" nz-input formControlName="userName" [placeholder]="'请填写昵称'"/>
             <ng-template #userNameTpl let-control>
-              <ng-container *ngIf="control.hasError('required')">请填写姓名!</ng-container>
+              <ng-container *ngIf="control.hasError('required')">请填写昵称!</ng-container>
             </ng-template>
           </nz-form-control>
         </nz-form-item>

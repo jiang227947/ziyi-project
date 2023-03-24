@@ -58,7 +58,10 @@
         <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerNameInfo">
           <input type="text" nz-input formControlName="registerName" [placeholder]="'请填写用户名'"/>
           <ng-template #registerNameInfo let-control>
-            <ng-container *ngIf="control.hasError('required')">请填写用户名!</ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              请填写用户名!
+            </ng-container>
           </ng-template>
         </nz-form-control>
       </nz-form-item>
@@ -68,9 +71,12 @@
           昵称
         </nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="userNameTpl">
-          <input type="text" nz-input formControlName="userName" [placeholder]="'请填写姓名'"/>
+          <input type="text" nz-input formControlName="userName" [placeholder]="'请填写昵称'"/>
           <ng-template #userNameTpl let-control>
-            <ng-container *ngIf="control.hasError('required')">请填写姓名!</ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              请填写昵称!
+            </ng-container>
           </ng-template>
         </nz-form-control>
       </nz-form-item>
@@ -82,7 +88,10 @@
         <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerPasswordTpl">
           <input type="password" nz-input formControlName="registerPassword" [placeholder]="'请填写密码'"/>
           <ng-template #registerPasswordTpl let-control>
-            <ng-container *ngIf="control.hasError('required')">请填写密码!</ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              请填写密码!
+            </ng-container>
           </ng-template>
         </nz-form-control>
       </nz-form-item>
@@ -94,8 +103,12 @@
         <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerPassword2Tpl">
           <input type="password" nz-input formControlName="registerPassword2" [placeholder]="'请再次输入密码'"/>
           <ng-template #registerPassword2Tpl let-control>
-            <ng-container *ngIf="control.hasError('required')">请再次输入密码!</ng-container>
+            <ng-container *ngIf="control.hasError('required')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              请再次输入密码!
+            </ng-container>
             <ng-container *ngIf="control.hasError('confirm')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
               两次密码不一致！
             </ng-container>
           </ng-template>
