@@ -25,19 +25,19 @@ export class AuthComponent implements OnInit {
   @ViewChild('leaveMessageBox') leaveMessageBoxTemp: ElementRef;
   @ViewChild('messageContent') messageContentTemp: ElementRef<Element>;
   // 模式
-  private signStats = 'signUp';
+  public signStats = 'signUp';
   // 标题
-  private title = '登录';
+  public title = '登录';
   // 登录表单
-  private loginForm: FormGroup;
+  public loginForm: FormGroup;
   // 登录的loading
-  private loginLoading = false;
+  public loginLoading = false;
   // 注册表单
-  private registerForm: FormGroup;
+  public registerForm: FormGroup;
   // 注册的loading
-  private registerLoading = false;
+  public registerLoading = false;
   // 注册成功模板
-  private registerSuccess = false;
+  public registerSuccess = false;
   // 所有留言
   messageList: LeaveMessage[] = [];
   // 留言

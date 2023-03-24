@@ -1,6 +1,6 @@
-<!--<div #active class="container" [ngClass]="{'right-panel-active':signStats === 'signUp'}">
-  &lt;!&ndash;登录&ndash;&gt;
-  <div class="container__form container&#45;&#45;signup">
+<div #active class="container" [ngClass]="{'right-panel-active':signStats === 'signUp'}">
+  <!--登录-->
+  <div class="container__form container--signup">
     <form nz-form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" role="form" class="form">
       <h2 class="form__title">{{title}}</h2>
       <nz-form-item>
@@ -33,7 +33,7 @@
           </ng-template>
         </nz-form-control>
       </nz-form-item>
-      &lt;!&ndash;  <a class="test-user" (click)="testUser()">使用测试账户</a>&ndash;&gt;
+      <!--  <a class="test-user" (click)="testUser()">使用测试账户</a>-->
       <nz-form-item>
         <div class="optiona">
           <label nz-checkbox formControlName="remember">记住用户名</label>
@@ -47,8 +47,8 @@
       </nz-form-item>
     </form>
   </div>
-  &lt;!&ndash;注册&ndash;&gt;
-  <div class="container__form container&#45;&#45;signin">
+  <!--注册-->
+  <div class="container__form container--signin">
     <form nz-form [formGroup]="registerForm" (ngSubmit)="registerSubmit()" role="form" class="form" *ngIf="!registerSuccess">
       <h2 class="form__title">{{title}}</h2>
       <nz-form-item>
@@ -129,20 +129,20 @@
     </nz-result>
   </div>
 
-  &lt;!&ndash; 切换 &ndash;&gt;
+  <!-- 切换 -->
   <div class="container__overlay">
     <div class="overlay">
-      <div class="overlay__panel overlay&#45;&#45;left">
+      <div class="overlay__panel overlay--left">
         <button class="btn" (click)="signChange('signIn')">注册</button>
         <button class="btn resume" (click)="signChange('resume')">简历</button>
       </div>
-      <div class="overlay__panel overlay&#45;&#45;right">
+      <div class="overlay__panel overlay--right">
         <button class="btn" (click)="signChange('signUp')">登录</button>
         <button class="btn resume" (click)="signChange('resume')">简历</button>
       </div>
     </div>
   </div>
-</div>-->
+</div>
 
 <!--留言图标-->
 <div class="leave-message" title="留言" (click)="showLeaveMessageModal()">
@@ -192,7 +192,7 @@
   </div>
 </div>
 <!--ICP备案信息-->
-<!--<div class="IPC">
+<div class="IPC">
   Copyright ©2022-2023 ICP备案
   <a href="https://beian.miit.gov.cn" target="_blank">鄂ICP备2022017495号-1 </a>
-</div>-->
+</div>
