@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AppMenuService} from '../../../shared-module/service/app-menu.service';
@@ -9,6 +9,9 @@ import {User} from '../../../shared-module/interface/user';
 import {Result} from '../../../shared-module/interface/result';
 import {format} from 'date-fns';
 import {UserRoleEnum} from '../../../shared-module/enum/user.enum';
+import {CommonUtil} from '../../../shared-module/util/commonUtil';
+import {getJSONLocalStorage, setLocalStorage} from '../../../shared-module/util/localStorage';
+import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
 
 @Component({
   selector: 'app-auth',
@@ -19,20 +22,30 @@ import {UserRoleEnum} from '../../../shared-module/enum/user.enum';
 export class AuthComponent implements OnInit {
 
   @ViewChild('active') activeTemp: ElementRef;
+  @ViewChild('leaveMessageBox') leaveMessageBoxTemp: ElementRef;
+  @ViewChild('messageContent') messageContentTemp: ElementRef<Element>;
   // 模式
-  signStats = 'signUp';
+  private signStats = 'signUp';
   // 标题
-  title = '登录';
+  private title = '登录';
   // 登录表单
-  loginForm: FormGroup;
+  private loginForm: FormGroup;
   // 登录的loading
-  loginLoading = false;
+  private loginLoading = false;
   // 注册表单
-  registerForm: FormGroup;
+  private registerForm: FormGroup;
   // 注册的loading
-  registerLoading = false;
+  private registerLoading = false;
   // 注册成功模板
-  registerSuccess = false;
+  private registerSuccess = false;
+  // 所有留言
+  messageList: LeaveMessage[] = [];
+  // 留言
+  public leaveMessage: LeaveMessage;
+  // 留言弹框
+  public showLeaveMessage: boolean = false;
+  // 留言load
+  public leaveMessageLoading: boolean = false;
 
   constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
               private loginRequestService: LoginRequestService, private $message: NzMessageService,
@@ -57,6 +70,12 @@ export class AuthComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.buildForm();
+    this.leaveMessage = {
+      name: getJSONLocalStorage('leave') || '匿名',
+      message: '',
+      browser: null
+    };
+    this.getLeaveMessage();
   }
 
 
@@ -203,6 +222,64 @@ export class AuthComponent implements OnInit {
         reject(null);
       });
     });
+  }
+
+  /**
+   * 查询留言
+   */
+  getLeaveMessage(): void {
+    this.loginRequestService.getLeaveMessage().subscribe((result: Result<LeaveMessage[]>) => {
+      if (result.code === 200) {
+        // 留言列表
+        this.messageList = result.data.map(item => {
+          // 系统标识转换
+          const browser = JSON.parse(item.browser);
+          item.browser = `${browser.system}`;
+          return item;
+        });
+        setTimeout(() => this.messageContentTemp.nativeElement.scrollTo(0, this.messageContentTemp.nativeElement.scrollHeight));
+      } else {
+        this.$message.success(result.msg);
+      }
+    });
+  }
+
+  /**
+   * 添加留言
+   */
+  addLeaveMessage(): void {
+    this.leaveMessage.browser = JSON.stringify(CommonUtil.getBrowserIdentity());
+    console.log(this.leaveMessage);
+    // 保存留言昵称
+    setLocalStorage('leaveName', this.leaveMessage.name);
+    this.loginRequestService.addLeaveMessage(this.leaveMessage).subscribe((result: Result<void>) => {
+      if (result.code === 200) {
+        this.getLeaveMessage();
+        this.$message.success(result.msg, {nzDuration: 1000});
+        this.leaveMessage.message = '';
+        setTimeout(() => this.messageContentTemp.nativeElement.scrollTo(0, this.messageContentTemp.nativeElement.scrollHeight));
+      } else {
+        this.$message.success(result.msg);
+      }
+    });
+  }
+
+  /**
+   * 浏览弹框
+   */
+  showLeaveMessageModal(): void {
+    console.log(this.showLeaveMessage);
+    if (!this.showLeaveMessage) {
+      this.renderer.addClass(this.leaveMessageBoxTemp.nativeElement, 'show-active');
+      this.leaveMessage = {
+        name: '',
+        message: '',
+        browser: null
+      };
+    } else {
+      this.renderer.removeClass(this.leaveMessageBoxTemp.nativeElement, 'show-active');
+    }
+    this.showLeaveMessage = !this.showLeaveMessage;
   }
 
   // 使用测试账户

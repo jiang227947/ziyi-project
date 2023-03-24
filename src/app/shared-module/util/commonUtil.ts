@@ -194,4 +194,49 @@ export class CommonUtil {
       return codeEnum.map(item => `#icon-${item}`);
     }
   }
+
+  /**
+   * 获取浏览器标识
+   */
+  static getBrowserIdentity(): { system: string, browser: string } {
+    let system: string = '';
+    let browser: string = '';
+    const ua = navigator.userAgent;
+    const uaLower = navigator.userAgent.toLocaleLowerCase();
+    // 浏览器系统
+    if (uaLower.indexOf('micromessenger') !== -1) {
+      system = 'weixin';
+    } else if (uaLower.indexOf(' qq') !== -1 && uaLower.indexOf('mqqbrowser') !== -1) {
+      system = 'QQ';
+    } else if (uaLower.indexOf('alipay') !== -1) {
+      system = 'alipay';
+    } else if (/iphone/i.test(uaLower)) {
+      system = 'iphone';
+    } else if (/ipad/i.test(uaLower)) {
+      system = 'ipad';
+    } else if (/ipod/i.test(uaLower)) {
+      system = 'ipod';
+    } else if (/android/i.test(uaLower)) {
+      system = 'android';
+    } else if (/mobile/i.test(uaLower)) {
+      system = 'mobile';
+    } else if (/windows/i.test(uaLower)) {
+      system = 'windows';
+    }
+    // 浏览器型号
+    if (ua.indexOf('Trident') > -1) {
+      browser = 'IE';
+    } else if (ua.indexOf('Presto') > -1) {
+      browser = 'Opera';
+    } else if (ua.indexOf('Chrome') > -1) {
+      browser = 'Chrome';
+    } else if (ua.indexOf('AppleWebKit') > -1) {
+      browser = 'Apple/Chrome';
+    } else if (ua.indexOf('Gecko') > -1 && ua.indexOf('KHTML') === -1) {
+      browser = 'Firofox';
+    } else {
+      browser = 'Other';
+    }
+    return {system, browser};
+  }
 }

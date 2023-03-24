@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Result} from '../../../shared-module/interface/result';
 import {User} from '../../../shared-module/interface/user';
 import {environment} from '../../../../environments/environment';
+import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
 
 /*
 * 登录接口服务
@@ -35,5 +36,19 @@ export class LoginRequestService {
    */
   logout(userId: number): Observable<Result<User>> {
     return this.$http.post<Result<User>>(`${environment.API_URL}/loginOut`, {id: userId});
+  }
+
+  /**
+   * 添加留言
+   */
+  addLeaveMessage(body: { name: string, message: string, browser: string }): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.NODE_API_URL}/api/addLeaveMessage`, body);
+  }
+
+  /**
+   * 查询留言
+   */
+  getLeaveMessage(): Observable<Result<LeaveMessage[]>> {
+    return this.$http.get<Result<LeaveMessage[]>>(`${environment.NODE_API_URL}/api/getLeaveMessage`);
   }
 }

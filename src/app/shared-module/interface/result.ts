@@ -6,7 +6,7 @@ export interface Result<T> {
   /**
    * 返回的数据 T 可能是数组、对象
    */
-  data: T;
+  data?: T;
   /**
    * 如果是列表 返回有分页页码
    */

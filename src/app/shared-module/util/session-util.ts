@@ -125,18 +125,21 @@ export class SessionUtil {
   static menuSimpleGuard(url: string): boolean {
     let isTrue = false;
     const menu: MenuModel[] = JSON.parse(localStorage.getItem('app_menu'));
-    menu.forEach((item: MenuModel) => {
-      if (url === item.menuHref || url.includes(item.menuHref)) {
-        isTrue = true;
+    if (menu) {
+      for (let i = 0; i < menu.length; i++) {
+        const item: MenuModel = menu[i];
+        if (url === item.menuHref || url.includes(item.menuHref)) {
+          isTrue = true;
+        }
+        if (item.children.length > 0) {
+          item.children.forEach((childrenItem: MenuModel) => {
+            if (url === childrenItem.menuHref) {
+              isTrue = true;
+            }
+          });
+        }
       }
-      if (item.children.length > 0) {
-        item.children.forEach((childrenItem: MenuModel) => {
-          if (url === childrenItem.menuHref) {
-            isTrue = true;
-          }
-        });
-      }
-    });
+    }
     return isTrue;
   }
 }
