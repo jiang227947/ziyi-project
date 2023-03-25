@@ -2,43 +2,25 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.2.
 
-# 在线预览地址：
+# 在线地址：
 [https://www.evziyi.top/](https://www.evziyi.top/)
-# 中文描述
+
 
 ## 使用Angular12 + Ant-Design
-### 包含个人简历、gpt、假期查询、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
-### 接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)
-### 后续待我的[Node服务](https://github.com/jiang227947/node-server)完成，替代Java后端
+### 1. 包含简历、gpt、假期查询、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
+### 2. jwt、aes加解密、crud等功能。
+### ~~接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)~~
+### 3. 后台服务Node用个人项目 [Node、JWT、sequelize、mysql](https://github.com/jiang227947/node-server)
 
 ## 目前已知问题：
 ### 1. MapBox页面下，页面窗口大小变化会影响地图渲染
 ### 2.小米手机在手机预览标识状态时，首页假期查询接口会查询失败，切换成电脑版后正常
 
 ## 未来：
-### 1. Angular版本准备升级至14
+### 1. Angular版本准备升级至15
 ### 2. 新增JS工具插件
 ### 3. 新增Webgl Demo
 ### 4. 后续想到什么功能就加什么功能
-
-# Online preview address:
-[https://www.evziyi.top/](https://www.evziyi.top/)
-# English Description
-
-## Use Angular12 + Ant-Design
-### Contains personal resume, openAi js sdk, holiday query, Google Maps, Amap, MapBox, Zefeng weather API, MxDraw CAD, Qunee and other Demo code samples.
-### interface service Java USES personal project [https://github.com/jiang227947/MySpingBoot](https://github.com/jiang227947/MySpingBoot)
-
-## So far known problems:
-### 1. In the MapBox page, the change of the page window size will affect the map rendering
-### 2. The holiday query interface on the home page will fail to query when Xiaomi phone previews the identity status
-
-
-## Future:
-### 1. Angular is ready to upgrade to 14
-### 2. Add the JS tool plug-in
-### 3. Add Webgl Demo
-### 4. Add any features that come to mind later
 
 ## Development server
 
