@@ -7,7 +7,7 @@
   align-items: center;
   /* 决定背景图像的位置是在视口内固定，或者随着包含它的区块滚动。 */
   /* https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-attachment */
-  background: #e9e9e9 url("https://res.cloudinary.com/dbhnlktrv/image/upload/v1599997626/background_oeuhe7.jpg") no-repeat center;
+  background: #e9e9e9 url("https://res.cloudinary.com/dbhnlktrv/image/upload/v1599997626/background_oeuhe7.jpg") no-repeat fixed center;
   background-size: cover;
   display: grid;
   place-items: center;
@@ -212,6 +212,7 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
+  z-index: 999;
 
   .aliicon {
     font-size: 2.5rem;
@@ -231,7 +232,7 @@
 }
 
 .leave-message-box {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 13rem;
   width: 0;
