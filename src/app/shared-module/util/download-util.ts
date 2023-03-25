@@ -43,7 +43,7 @@ export class DownloadUtil {
    * @param fileSize:文件大小
    */
   downloadPercentDone(url: string, fileName: string, fileSize: number): Observable<{ progress: any; response: HttpEvent<Blob>; }> {
-    return this.$http.post(url, fileName, {
+    return this.$http.post(url, {filename: fileName}, {
       reportProgress: true,
       observe: 'events',
       responseType: 'blob'

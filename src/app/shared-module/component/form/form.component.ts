@@ -13,7 +13,7 @@ import {
 import {FormControl, FormGroup} from '@angular/forms';
 import {FormItem} from './form-config';
 import {FormOperate} from './form-operate.service';
-import * as lodash from 'lodash';
+import lodash from 'lodash-es';
 import {NzInputNumberComponent} from 'ng-zorro-antd/input-number';
 import {NzI18nService} from 'ng-zorro-antd/i18n';
 

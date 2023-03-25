@@ -9,5 +9,6 @@ export interface User {
   role: UserRoleEnum;    // 角色
   roleName: string;    // 角色名称
   lastLoginTime: string;    // 上次登录时间
-  saTokenInfo: Token;   // token数据
+  token: Token;   // token数据
+  saTokenInfo?: Token;   // token数据
 }

@@ -1,3 +1,5 @@
+<nz-alert nzType="info" nzShowIcon
+          nzMessage="由于后端服务由Java更换为Node，用户信息清空，烦请重新注册登录。" nzCloseText="关闭"></nz-alert>
 <div #active class="container" [ngClass]="{'right-panel-active':signStats === 'signUp'}">
   <!--登录-->
   <div class="container__form container--signup">
@@ -49,7 +51,8 @@
   </div>
   <!--注册-->
   <div class="container__form container--signin">
-    <form nz-form [formGroup]="registerForm" (ngSubmit)="registerSubmit()" role="form" class="form" *ngIf="!registerSuccess">
+    <form nz-form [formGroup]="registerForm" (ngSubmit)="registerSubmit()" role="form" class="form"
+          *ngIf="!registerSuccess">
       <h2 class="form__title">{{title}}</h2>
       <nz-form-item>
         <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
@@ -60,7 +63,11 @@
           <ng-template #registerNameInfo let-control>
             <ng-container *ngIf="control.hasError('required')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
-              请填写用户名!
+              请填写用户名
+            </ng-container>
+            <ng-container *ngIf="control.hasError('minlength')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              用户名太短
             </ng-container>
           </ng-template>
         </nz-form-control>
@@ -75,7 +82,7 @@
           <ng-template #userNameTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
-              请填写昵称!
+              请填写昵称
             </ng-container>
           </ng-template>
         </nz-form-control>
@@ -90,7 +97,15 @@
           <ng-template #registerPasswordTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
-              请填写密码!
+              请填写密码
+            </ng-container>
+            <ng-container *ngIf="control.hasError('confirm')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              两次密码不一致
+            </ng-container>
+            <ng-container *ngIf="control.hasError('minlength')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              密码太短
             </ng-container>
           </ng-template>
         </nz-form-control>
@@ -105,11 +120,15 @@
           <ng-template #registerPassword2Tpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
-              请再次输入密码!
+              请再次输入密码
             </ng-container>
             <ng-container *ngIf="control.hasError('confirm')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
-              两次密码不一致！
+              两次密码不一致
+            </ng-container>
+            <ng-container *ngIf="control.hasError('minlength')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              密码太短
             </ng-container>
           </ng-template>
         </nz-form-control>

@@ -11,7 +11,7 @@ export class UserService {
   private myApi: string = '';
 
   constructor(private http: HttpClient) {
-    this.myAppurl = environment.NODE_API_URL;
+    this.myAppurl = environment.API_URL;
     this.myApi = 'api/products';
   }
 

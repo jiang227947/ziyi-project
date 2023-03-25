@@ -95,8 +95,8 @@ export class SessionUtil {
    */
   static setToken(value: Token): void {
     localStorage.setItem('token', JSON.stringify(value));
-    // 设置超时一天
-    localStorage.setItem('token_out', `${new Date().getTime() + (24 * 60 * 60 * 1000)}`);
+    // 设置超时6小时
+    localStorage.setItem('token_out', `${new Date().getTime() + value.tokenTimeout}`);
   }
 
   /**

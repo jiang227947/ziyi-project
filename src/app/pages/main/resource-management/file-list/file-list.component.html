@@ -20,16 +20,16 @@
       <th nzWidth="30px">序号</th>
       <th nzWidth="100px">文件名</th>
       <th nzWidth="40px">文件大小</th>
-      <th nzWidth="60px">上传时间</th>
+      <th nzWidth="90px">上传时间</th>
       <th nzWidth="40px">操作</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of basicTable.data;index as idx">
       <td>{{ idx + 1 }}</td>
-      <td [title]="data.fileName">{{ data.fileName }}</td>
-      <td>{{ data.fileSize | fileSize }}</td>
-      <td>{{ data.updateTime |date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td [title]="data.filename">{{ data.filename }}</td>
+      <td>{{ data.filesize | fileSize }}</td>
+      <td nzWidth="90px">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
       <td>
         <div class="operation">
           <div class="download">

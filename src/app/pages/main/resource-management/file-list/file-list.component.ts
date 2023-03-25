@@ -113,9 +113,9 @@ export class FileListComponent implements OnInit {
   // 上传文件
   uploadFile(): void {
     const formData = new FormData();
-    this.updateFileList.forEach(file => {
-      formData.append('file', file);
-    });
+    for (let i = 0; i < this.updateFileList.length; i++) {
+      formData.append('file', this.updateFileList[i]);
+    }
     this.resourceManagementRequestService.uploadFile(formData).subscribe((event: HttpEvent<Result<any>>) => {
       if (event.type === HttpEventType.UploadProgress) {
         this.filePercent = +((event.loaded / event.total) * 100).toFixed(1);
@@ -139,14 +139,14 @@ export class FileListComponent implements OnInit {
    * @param data:文件
    */
   downloadFile(data: File): void {
-    this.downloadUtil.downloadPercentDone(`${environment.API_URL}/download`, data.fileName, data.fileSize).subscribe({
+    this.downloadUtil.downloadPercentDone(`${environment.API_URL}/download`, data.filename, data.filesize).subscribe({
       next: ({progress, response}) => {
         // 进度显示
         data.percent = progress;
         // 下载进度100
         if (progress === 100 && response.type === 4) {
           // 文件元数据下载
-          this.downloadUtil.fileBlobDownload(response, data.fileName);
+          this.downloadUtil.fileBlobDownload(response, data.filename);
         }
       },
       error: (error: any) => {

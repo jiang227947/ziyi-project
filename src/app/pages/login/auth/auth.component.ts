@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AppMenuService} from '../../../shared-module/service/app-menu.service';
-import {LoginRequestService, UserManagementRequestService} from '../../../core-module/api-service';
+import {LoginRequestService} from '../../../core-module/api-service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {SessionUtil} from '../../../shared-module/util/session-util';
 import {User} from '../../../shared-module/interface/user';
@@ -16,8 +16,7 @@ import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
-  providers: [LoginRequestService]
+  styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
 
@@ -41,7 +40,11 @@ export class AuthComponent implements OnInit {
   // 所有留言
   messageList: LeaveMessage[] = [];
   // 留言
-  public leaveMessage: LeaveMessage;
+  public leaveMessage: LeaveMessage = {
+    name: getJSONLocalStorage('leave') || '匿名',
+    message: '',
+    browser: null
+  };
   // 留言弹框
   public showLeaveMessage: boolean = false;
   // 留言load
@@ -49,7 +52,7 @@ export class AuthComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
               private loginRequestService: LoginRequestService, private $message: NzMessageService,
-              private userManagementRequestService: UserManagementRequestService, private renderer: Renderer2) {
+              private renderer: Renderer2) {
   }
 
   // 密码一致校验
@@ -70,12 +73,6 @@ export class AuthComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.buildForm();
-    this.leaveMessage = {
-      name: getJSONLocalStorage('leave') || '匿名',
-      message: '',
-      browser: null
-    };
-    this.getLeaveMessage();
   }
 
 
@@ -88,7 +85,7 @@ export class AuthComponent implements OnInit {
     });
     this.registerForm = this.fb.group({
       registerName: ['', [Validators.required, Validators.minLength(3)]],
-      userName: ['', [Validators.required, Validators.minLength(1)]],
+      userName: ['', [Validators.required]],
       registerPassword: ['', [Validators.required, Validators.minLength(3)]],
       registerPassword2: ['', [Validators.required, Validators.minLength(3), this.confirmationValidator]]
     });
@@ -113,31 +110,22 @@ export class AuthComponent implements OnInit {
       localStorage.removeItem('rememberMe');
     }
     const loginInfo = {
-      name: this.loginName.value,
+      username: this.loginName.value,
       password: this.password.value
     };
     // 用户登录
     this.login(loginInfo).then((user: User) => {
       if (user) {
-        // 查询用户接口
-        this.loginRequestService.queryUserById(user.id).subscribe((result: Result<User>) => {
-          if (result.code === 200) {
-            const userInfo: User = result.data;
-            // 用户信息保存到浏览器
-            localStorage.setItem('user_info', JSON.stringify(userInfo));
-            // 设置菜单
-            SessionUtil.setMenuList().then(() => {
-              // 设置上次登录时间显示
-              const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
-              this.router.navigate(['/main/index']);
-              // 设置message提示文字
-              const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
-              this.$message.success(messageTitle, {nzDuration: 3000});
-            });
-          } else {
-            this.$message.error(result.msg);
-          }
-          this.loginLoading = false;
+        // 用户信息保存到浏览器
+        localStorage.setItem('user_info', JSON.stringify(user));
+        // 设置菜单
+        SessionUtil.setMenuList().then(() => {
+          // 设置上次登录时间显示
+          const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
+          this.router.navigate(['/main/index']);
+          // 设置message提示文字
+          const messageTitle: string = lastLoginTime ? `欢迎 ${user.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${user.userName}`;
+          this.$message.success(messageTitle, {nzDuration: 3000});
         });
       }
     }).catch(() => {
@@ -162,40 +150,31 @@ export class AuthComponent implements OnInit {
     if (this.registerForm.valid) {
       const registerInfo = {
         name: this.registerForm.value.registerName,
-        userName: this.registerForm.value.userName,
+        username: this.registerForm.value.userName,
         password: this.registerForm.value.registerPassword,
         role: UserRoleEnum.general,
         roleName: '普通用户',
       };
-      this.userManagementRequestService.addUser(registerInfo).subscribe((registerResult: Result<void>) => {
+      this.loginRequestService.register(registerInfo).subscribe((registerResult: Result<void>) => {
         if (registerResult.code === 200) {
           setTimeout(() => {
             const loginInfo = {
-              name: registerInfo.name,
+              username: registerInfo.name,
               password: registerInfo.password
             };
             // 用户登录
             this.login(loginInfo).then((user: User) => {
               if (user) {
-                // 查询用户接口
-                this.loginRequestService.queryUserById(user.id).subscribe((result: Result<User>) => {
-                  if (result.code === 200) {
-                    const userInfo: User = result.data;
-                    // 用户信息保存到浏览器
-                    localStorage.setItem('user_info', JSON.stringify(userInfo));
-                    // 设置菜单
-                    SessionUtil.setMenuList().then(() => {
-                      // 设置上次登录时间显示
-                      const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
-                      this.router.navigate(['/main/index']);
-                      // 设置message提示文字
-                      const messageTitle: string = lastLoginTime ? `欢迎 ${userInfo.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${userInfo.userName}`;
-                      this.$message.success(messageTitle, {nzDuration: 3000});
-                    });
-                  } else {
-                    this.$message.error(result.msg);
-                  }
-                  this.loginLoading = false;
+                // 用户信息保存到浏览器
+                localStorage.setItem('user_info', JSON.stringify(user));
+                // 设置菜单
+                SessionUtil.setMenuList().then(() => {
+                  // 设置上次登录时间显示
+                  const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
+                  this.router.navigate(['/main/index']);
+                  // 设置message提示文字
+                  const messageTitle: string = lastLoginTime ? `欢迎 ${user.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${user.userName}`;
+                  this.$message.success(messageTitle, {nzDuration: 3000});
                 });
               }
             }).catch(() => {
@@ -206,6 +185,8 @@ export class AuthComponent implements OnInit {
         } else {
           this.$message.error(registerResult.msg);
         }
+        this.registerLoading = false;
+      }, () => {
         this.registerLoading = false;
       });
     } else {
@@ -220,7 +201,7 @@ export class AuthComponent implements OnInit {
         if (result.code === 200) {
           const userInfo: User = result.data;
           // 设置token
-          SessionUtil.setToken(userInfo.saTokenInfo);
+          SessionUtil.setToken(userInfo.token);
           resolve(userInfo);
         } else {
           this.$message.error(result.msg);
@@ -258,7 +239,6 @@ export class AuthComponent implements OnInit {
    */
   addLeaveMessage(): void {
     this.leaveMessage.browser = JSON.stringify(CommonUtil.getBrowserIdentity());
-    console.log(this.leaveMessage);
     // 保存留言昵称
     setLocalStorage('leaveName', this.leaveMessage.name);
     this.loginRequestService.addLeaveMessage(this.leaveMessage).subscribe((result: Result<void>) => {
@@ -277,8 +257,8 @@ export class AuthComponent implements OnInit {
    * 浏览弹框
    */
   showLeaveMessageModal(): void {
-    console.log(this.showLeaveMessage);
     if (!this.showLeaveMessage) {
+      this.getLeaveMessage();
       this.renderer.addClass(this.leaveMessageBoxTemp.nativeElement, 'show-active');
       this.leaveMessage = {
         name: '',
@@ -322,15 +302,19 @@ export class AuthComponent implements OnInit {
   get password(): AbstractControl {
     return this.loginForm.controls.password;
   }
+
   get registerName(): AbstractControl {
     return this.registerForm.controls.registerName;
   }
+
   get userName(): AbstractControl {
     return this.registerForm.controls.userName;
   }
+
   get registerPassword(): AbstractControl {
     return this.registerForm.controls.registerPassword;
   }
+
   get registerPassword2(): AbstractControl {
     return this.registerForm.controls.registerPassword2;
   }

@@ -6,6 +6,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {UserManagementRequestService} from '../../../../core-module/api-service';
 import {SessionUtil} from '../../../../shared-module/util/session-util';
 import {PageParams} from '../../../../shared-module/interface/pageParms';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-user-list',
@@ -15,12 +16,12 @@ import {PageParams} from '../../../../shared-module/interface/pageParms';
 export class UserListComponent implements OnInit {
 
   // 列表加载状态
-  loading = false;
+  loading: boolean = false;
   // 分页参数
   pageParams = new PageParams();
   // 用户列表
   userList: User[] = [];
-  dataTotal = 0;
+  dataTotal: number = 0;
   role: string;
 
   constructor(private router: Router, private $message: NzMessageService,
@@ -43,6 +44,9 @@ export class UserListComponent implements OnInit {
         this.$message.error(result.msg);
       }
       this.loading = false;
+    }, (error: HttpErrorResponse) => {
+      this.loading = false;
+      this.$message.error(error.message);
     });
   }
 
@@ -55,6 +59,8 @@ export class UserListComponent implements OnInit {
       } else {
         this.$message.error(result.msg);
       }
+    }, (error: HttpErrorResponse) => {
+      this.$message.error(error.message);
     });
   }
 

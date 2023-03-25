@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {NzI18nService} from 'ng-zorro-antd';
 import {Operation, TableConfigModel} from '../../../model/table-config.model';
-import * as lodash from 'lodash';
+import lodash from 'lodash-es';
 import {SessionUtil} from '../../../util/session-util';
 import {LanguageTypeEnum} from '../../../../core-module/enum/language-type.enum';
 

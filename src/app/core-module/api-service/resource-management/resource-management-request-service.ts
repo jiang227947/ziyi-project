@@ -32,6 +32,6 @@ export class ResourceManagementRequestService {
    * 删除文件
    */
   deleteFile(id: number): Observable<Result<any>> {
-    return this.$http.post<Result<any>>(`${environment.API_URL}/deleteFile/${id}`, null);
+    return this.$http.post<Result<any>>(`${environment.API_URL}/deleteFile`, {id});
   }
 }

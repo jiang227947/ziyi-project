@@ -97,15 +97,18 @@ export class MainComponent implements OnInit {
 
   // 退出登录
   logout(): void {
-    const userInfo: User = SessionUtil.getUserInfo();
-    this.loginRequestService.logout(userInfo.id).subscribe((result: Result<any>) => {
-      if (result.code === 200) {
-        this.$message.success(result.msg, {nzDuration: 1000});
-        SessionUtil.clearUserLocal();
-        this.router.navigate(['/login']);
-      } else {
-        this.$message.error(result.msg);
-      }
-    });
+    this.$message.success('退出成功', {nzDuration: 1000});
+    SessionUtil.clearUserLocal();
+    this.router.navigate(['/login']);
+    // const userInfo: User = SessionUtil.getUserInfo();
+    // this.loginRequestService.logout(userInfo.id).subscribe((result: Result<any>) => {
+    //   if (result.code === 200) {
+    //     this.$message.success(result.msg, {nzDuration: 1000});
+    //     SessionUtil.clearUserLocal();
+    //     this.router.navigate(['/login']);
+    //   } else {
+    //     this.$message.error(result.msg);
+    //   }
+    // });
   }
 }

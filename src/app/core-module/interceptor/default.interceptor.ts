@@ -155,7 +155,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     } else {
       // 添加token信息
       if (token) {
-        headers = headers.append(token.tokenName, token.tokenValue);
+        headers = headers.append(token.tokenName, `Bearer ${token.tokenValue}`);
       }
       // 添加用户id
       if (userInfo) {

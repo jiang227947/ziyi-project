@@ -4,11 +4,11 @@ import {LoginComponent} from './login.component';
 import {LOGIN_ROUTER_CONFIG} from './login-routing.module';
 import {AuthComponent} from './auth/auth.component';
 import {RouterModule} from '@angular/router';
-import {UserManagementRequestService} from '../../core-module/api-service';
+import {LoginRequestService} from '../../core-module/api-service';
 
 @NgModule({
   declarations: [LoginComponent, AuthComponent],
-  providers: [UserManagementRequestService],
+  providers: [LoginRequestService],
   imports: [
     SharedModuleModule,
     RouterModule.forChild(LOGIN_ROUTER_CONFIG)

@@ -16,6 +16,13 @@ export class LoginRequestService {
   }
 
   /**
+   * 注册接口
+   */
+  register(loginInfo: { name: string, password: number }): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/register`, loginInfo);
+  }
+
+  /**
    * 登录接口
    */
   login(loginInfo: { name: string, password: number }): Observable<Result<User>> {
@@ -23,7 +30,6 @@ export class LoginRequestService {
   }
 
   /**
-   *
    * 查询用户
    */
   queryUserById(userId: number): Observable<Result<User>> {
@@ -31,7 +37,6 @@ export class LoginRequestService {
   }
 
   /**
-   *
    * 退出登录
    */
   logout(userId: number): Observable<Result<User>> {
@@ -42,13 +47,13 @@ export class LoginRequestService {
    * 添加留言
    */
   addLeaveMessage(body: { name: string, message: string, browser: string }): Observable<Result<void>> {
-    return this.$http.post<Result<void>>(`${environment.NODE_API_URL}/api/addLeaveMessage`, body);
+    return this.$http.post<Result<void>>(`${environment.API_URL}/addLeaveMessage`, body);
   }
 
   /**
    * 查询留言
    */
   getLeaveMessage(): Observable<Result<LeaveMessage[]>> {
-    return this.$http.get<Result<LeaveMessage[]>>(`${environment.NODE_API_URL}/api/getLeaveMessage`);
+    return this.$http.get<Result<LeaveMessage[]>>(`${environment.API_URL}/getLeaveMessage`);
   }
 }
