@@ -1,0 +1,35 @@
+<!--个人中心-->
+<div nz-row nzAlign="middle" nzJustify="space-around" class="account-center">
+  <!--头像-->
+  <div class="avatar">
+    <nz-upload nzName="avatar"
+               nzListType="picture-card"
+               [nzShowUploadList]="false"
+               [nzBeforeUpload]="beforeUpload"
+               [nzCustomRequest]='uploadAvatar'
+               (nzChange)="handleChange($event)"
+    >
+      <ng-container *ngIf="!avatarUrl">
+        <span class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></span>
+        <div class="ant-upload-text">Upload</div>
+      </ng-container>
+      <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%"/>
+    </nz-upload>
+    <!--用户昵称-->
+    <div class="username">
+      <nz-input-group [nzSuffix]="suffixIcon" class="input">
+        <input type="text" maxlength="8" nz-input placeholder="昵称" [(ngModel)]="user.userName"/>
+      </nz-input-group>
+      <ng-template #suffixIcon>
+        <i nz-icon nzType="edit" nzTheme="outline"></i>
+      </ng-template>
+    </div>
+  </div>
+
+  <div>
+    <!--表单-->
+    <zy-form [column]="formColumn" (formInstance)="codingFormInstance($event)"></zy-form>
+    <button nz-button nzType="primary" (click)="submit()" [disabled]="!formInstance.group.valid">保存</button>
+  </div>
+</div>
+

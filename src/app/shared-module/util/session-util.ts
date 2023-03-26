@@ -70,6 +70,18 @@ export class SessionUtil {
         }
       }
       localStorage.setItem('app_menu', JSON.stringify(menuList));
+      // 隐藏菜单
+      const hiddenMenuList = AppMenuService.hiddenMenu();
+      for (let i = 0; i < hiddenMenuList.length; i++) {
+        if (hiddenMenuList[i].menuRole) {
+          // 判断是否有这个菜单权限
+          if (hiddenMenuList[i].menuRole.indexOf(userRoleId) === -1) {
+            // 删除
+            hiddenMenuList.splice(i, 1);
+          }
+        }
+      }
+      localStorage.setItem('hidden_menu', JSON.stringify(hiddenMenuList));
       resolve();
     });
   }
@@ -123,8 +135,9 @@ export class SessionUtil {
    * 判断是否有这个路由
    */
   static menuSimpleGuard(url: string): boolean {
-    let isTrue = false;
+    let isTrue: boolean = false;
     const menu: MenuModel[] = JSON.parse(localStorage.getItem('app_menu'));
+    const hiddenMenu: MenuModel[] = JSON.parse(localStorage.getItem('hidden_menu'));
     if (menu) {
       for (let i = 0; i < menu.length; i++) {
         const item: MenuModel = menu[i];
@@ -132,11 +145,26 @@ export class SessionUtil {
           isTrue = true;
         }
         if (item.children.length > 0) {
-          item.children.forEach((childrenItem: MenuModel) => {
-            if (url === childrenItem.menuHref) {
+          for (let o = 0; o < item.children.length; o++) {
+            if (url === item.children[o].menuHref) {
               isTrue = true;
             }
-          });
+          }
+        }
+      }
+    }
+    if (hiddenMenu) {
+      for (let i = 0; i < hiddenMenu.length; i++) {
+        const item: MenuModel = hiddenMenu[i];
+        if (url === item.menuHref || url.includes(item.menuHref)) {
+          isTrue = true;
+        }
+        if (item.children.length > 0) {
+          for (let o = 0; o < item.children.length; o++) {
+            if (url === item.children[o].menuHref) {
+              isTrue = true;
+            }
+          }
         }
       }
     }

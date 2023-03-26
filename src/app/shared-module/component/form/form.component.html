@@ -20,18 +20,18 @@
                    [attr.id]="col.inputType?col.key:col.inputType"
                    [style.width.px]="col?.width"
                    (input)="inputDebounce($event,formGroup,col)"
-                   placeholder="{{col.placeholder||language.inputPlaceholder}}"
+                   placeholder="{{col.placeholder||'请输入'}}"
                    [class.xc-form-error]="formGroup.controls[col.key].dirty&&formGroup.controls[col.key].invalid"
                    (ngModelChange)="modelChange(formGroup.controls, $event, col)"
             />
             <nz-select *ngSwitchCase="'select'" class="form-item-select"
-                          [nzMode]="col.selectType||'default'"
-                          [nzAllowClear]="col.allowClear"
-                          [nzPlaceHolder]="col.placeholder||language.selectPlaceholder"
-                          [class.xc-form-error]="formGroup.controls[col.key].dirty&&formGroup.controls[col.key].invalid"
-                          (ngModelChange)="modelChange(formGroup.controls, $event, col)"
-                          (nzOpenChange)="openChange(formGroup.controls,$event,col)"
-                          formControlName="{{col.key}}">
+                       [nzMode]="col.selectType||'default'"
+                       [nzAllowClear]="col.allowClear"
+                       [nzPlaceHolder]="col.placeholder||'请选择'"
+                       [class.xc-form-error]="formGroup.controls[col.key].dirty&&formGroup.controls[col.key].invalid"
+                       (ngModelChange)="modelChange(formGroup.controls, $event, col)"
+                       (nzOpenChange)="openChange(formGroup.controls,$event,col)"
+                       formControlName="{{col.key}}">
               <nz-option
                 *ngFor="let select of col.selectInfo.data"
                 [nzLabel]="select[col.selectInfo.label]"
@@ -43,7 +43,7 @@
                             [nzDefaultExpandedKeys]="col.defaultExpandKeys"
                             [nzNodes]="col.treeSelectNodes"
                             nzShowSearch
-                            nzPlaceHolder="{{language.inputPlaceholder}}"
+                            nzPlaceHolder="请选择"
                             formControlName="{{col.key}}"
                             (ngModelChange)="modelChange(formGroup.controls, $event,col)">
             </nz-tree-select>
@@ -51,7 +51,7 @@
                             class="form-item-time-picker"
                             [nzShowTime]="col.showTime"
                             formControlName="{{col.key}}"
-                            [nzPlaceHolder]="col.placeholder||language.selectPlaceholder"
+                            [nzPlaceHolder]="col.placeholder||'请选择'"
                             [nzStyle]="{width: col.timePickerWidth}"
                             (ngModelChange)="modelChange(formGroup.controls, $event,col)">
             </nz-date-picker>
@@ -80,7 +80,7 @@
                       [class.xc-form-error]="formGroup.controls[col.key].dirty&&formGroup.controls[col.key].invalid"
                       (blur)="inputDebounce($event,formGroup,col)"
                       (ngModelChange)="modelChange(formGroup, $event, col)"
-                      [placeholder]="language.inputPlaceholder"></textarea>
+                      [placeholder]="'请输入'"></textarea>
             <ng-container *ngSwitchCase="'number'">
               <nz-input-number
                 class="form-item-num"

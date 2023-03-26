@@ -245,4 +245,23 @@ export class AppMenuService {
     ];
   }
 
+  /**
+   * 隐藏路由
+   * todo 后续可配合权限接口查询
+   */
+  static hiddenMenu(): MenuModel[] {
+    return [
+      {
+        menuId: '0',
+        menuName: '个人中心',
+        menuLevel: 1,
+        menuHref: '/main/account-center',
+        imageUrl: '',
+        icon: 'user',
+        isShow: false,
+        isSelected: false,
+        children: []
+      }
+    ];
+  }
 }

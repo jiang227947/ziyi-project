@@ -1,10 +1,12 @@
 /**
  * index请求接口
- * */
+ */
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IndexUrl} from '../const/IndexUrl';
 import {Injectable} from '@angular/core';
+import {Result} from '../../../../shared-module/interface/result';
+import {environment} from '../../../../../environments/environment';
 
 @Injectable()
 export class IndexApiService {
@@ -34,5 +36,19 @@ export class IndexApiService {
   // 返回文字。回答明天放假吗
   getHolidayTtsTomorrow(): Observable<any> {
     return this.$http.get<any>(IndexUrl.holidayTtsTomorrow);
+  }
+
+  /**
+   * 修改用户
+   */
+  updateUser(userInfo: { id: number, avatar: string, userName: string, remarks: string, password: string }): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/updateUser`, userInfo);
+  }
+
+  /**
+   * 上传头像
+   */
+  uploadAvatar(formData: FormData): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/uploadAvatar`, formData);
   }
 }

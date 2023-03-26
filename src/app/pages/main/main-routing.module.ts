@@ -8,10 +8,10 @@ export const MAIN_ROUTER_CONFIG: Routes = [
     component: MainComponent,
     canActivate: [SimpleGuardService],
     children: [
-      {path: '', redirectTo: 'index', pathMatch: 'full'},
+      {path: '', redirectTo: '', pathMatch: 'full'},
       // 首页
       {
-        path: 'index',
+        path: '',
         canActivateChild: [SimpleGuardService],
         loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
       },

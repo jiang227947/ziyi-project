@@ -6,7 +6,6 @@ import {User} from '../../shared-module/interface/user';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {LoginRequestService} from '../../core-module/api-service';
 import {SessionUtil} from '../../shared-module/util/session-util';
-import {AppMenuService} from '../../shared-module/service/app-menu.service';
 
 @Component({
   selector: 'app-main',
@@ -22,6 +21,8 @@ export class MainComponent implements OnInit {
   menuList: MenuModel[];
   // 用户名称
   userName: string;
+  // 头像
+  avatar: string;
   // 搜索路由值
   searchMenuValue: string;
   // 搜索结果option
@@ -44,6 +45,7 @@ export class MainComponent implements OnInit {
     const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
+      this.avatar = userInfo.avatar;
       this.menuList = SessionUtil.getMenuList();
     } else {
       SessionUtil.clearUserLocal();
@@ -93,6 +95,13 @@ export class MainComponent implements OnInit {
   optionChange(url: string): void {
     this.menuOption = [];
     this.router.navigate([url]);
+  }
+
+  /**
+   * 个人中心
+   */
+  updateUser(): void {
+    this.router.navigate(['/main/account-center']);
   }
 
   // 退出登录

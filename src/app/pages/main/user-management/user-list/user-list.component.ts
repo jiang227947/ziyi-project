@@ -52,6 +52,10 @@ export class UserListComponent implements OnInit {
 
   // 删除用户
   deleteUser(id: number): void {
+    if (id === SessionUtil.getUserId()) {
+      this.$message.error('无法删除自己');
+      return;
+    }
     this.userManagementRequestService.deleteUser(id).subscribe((result: Result<void>) => {
       if (result.code === 200) {
         this.$message.success(result.msg);

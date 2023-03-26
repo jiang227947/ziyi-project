@@ -152,15 +152,24 @@ export class CommonUtil {
   /**
    * 支持的文件上传类型
    * @param fileType:文件类型
+   * @param type:限制的文件类型
    */
-  static fileType(fileType: string): boolean {
+  static fileType(fileType: string, type?: string): boolean {
     // 可上传的类型
-    const FILE_TYPE_CONST = [
+    let FILE_TYPE_CONST = [
       ...IMAGE_TYPE_CONST,
       ...TEXT_TYPE_CONST,
       ...OFFICE_TYPE_CONST,
       ...OTHER_TYPE_CONST
     ];
+    if (type) {
+      switch (type) {
+        case 'image':
+          // 限制图片类型
+          FILE_TYPE_CONST = IMAGE_TYPE_CONST;
+          break;
+      }
+    }
     return FILE_TYPE_CONST.indexOf(fileType) === -1;
   }
 

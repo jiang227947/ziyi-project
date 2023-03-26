@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+// ng-zorro-antd
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzModalModule} from 'ng-zorro-antd/modal';
 import {NzSpinModule} from 'ng-zorro-antd/spin';
@@ -29,7 +30,10 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+
+// component
 import {EchartColumnComponent} from './component/echart-column/echart-column.component';
+import {FormComponent} from './component/form/form.component';
 
 const MODULES = [
   CommonModule,
@@ -66,7 +70,7 @@ const NZMODULES = [
   NzToolTipModule
 ];
 
-const COMPONENT = [EchartColumnComponent];
+const COMPONENT = [EchartColumnComponent, FormComponent];
 
 @NgModule({
   imports: [

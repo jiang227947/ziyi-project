@@ -38,14 +38,21 @@
            nzTrigger="click"
            nzPlacement="bottomRight">
         <div class="d-flex align-items-center px-sm">
-          <nz-avatar nzIcon="user" class="avatar"></nz-avatar>
+          <img alt="头像" src="{{avatar}}" class="avatar" *ngIf="avatar">
+          <nz-avatar nzIcon="user" class="avatar" *ngIf="!avatar"></nz-avatar>
           {{ userName }}
         </div>
         <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
           <div nz-menu style="width:160px;">
+            <div nz-menu-item (click)="updateUser()">
+              <a>
+                <span nz-icon nzType="user" nzTheme="outline"></span>
+                个人中心
+              </a>
+            </div>
             <div nz-menu-item (click)="logout()">
               <a>
-                <i nz-icon nzType="logout"></i>
+                <span nz-icon nzType="logout" nzTheme="outline"></span>
                 退出登录
               </a>
             </div>
