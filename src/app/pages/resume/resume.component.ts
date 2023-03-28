@@ -26,7 +26,7 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
   // 菜单
   selectNav: NavItemEnum = NavItemEnum.About;
   // 菜单收缩
-  showNavbr = false;
+  showNavbr: boolean = false;
   // 订阅滚动
   subscribeScroll: Subscription;
   // 菜单分类
@@ -48,8 +48,6 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
       label: NavItemChineseEnum.Skills
     }
   ];
-  // 掌握技能icons
-  skillsAliIconList: string[];
 
   constructor() {
   }

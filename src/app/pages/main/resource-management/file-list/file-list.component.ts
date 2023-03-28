@@ -10,6 +10,8 @@ import {CommonUtil} from '../../../../shared-module/util/commonUtil';
 import {SIZE_30MB} from '../../../../shared-module/const/commou.const';
 import {HttpEvent, HttpEventType} from '@angular/common/http';
 import {NzUploadFile, NzUploadXHRArgs} from 'ng-zorro-antd/upload/interface';
+import {UserRoleEnum} from '../../../../shared-module/enum/user.enum';
+import {SessionUtil} from '../../../../shared-module/util/session-util';
 
 @Component({
   selector: 'app-file-list',
@@ -29,9 +31,10 @@ export class FileListComponent implements OnInit {
   dataTotal = 0;
   // 上传的文件列表
   updateFileList = [];
-
   // 上传的进度
   filePercent = 0;
+  // 角色
+  userRole: UserRoleEnum;
 
   constructor(private $message: NzMessageService,
               private downloadUtil: DownloadUtil,
@@ -92,6 +95,7 @@ export class FileListComponent implements OnInit {
 
   ngOnInit(): void {
     this.queryImageList();
+    this.userRole = SessionUtil.getRoleId();
   }
 
   // 查询文件列表
@@ -143,6 +147,8 @@ export class FileListComponent implements OnInit {
       this.$message.error('文件正在下载！');
       return;
     }
+    // 次数加一
+    data.downloadCount += 1;
     this.downloadUtil.downloadPercentDone(`${environment.API_URL}/download`, data.filename, data.filesize).subscribe({
       next: ({progress, response}) => {
         // 进度显示

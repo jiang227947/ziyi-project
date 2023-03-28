@@ -14,14 +14,15 @@
             [nzLoadingDelay]="300"
             [nzPageSizeOptions]="[5,10,20,50]"
             [nzFrontPagination]="false"
-            [nzScroll]="{ x: '600px' }">
+            [nzScroll]="{ x: '800px' }">
     <thead>
     <tr>
-      <th nzWidth="30px">序号</th>
+      <th nzWidth="40px">序号</th>
       <th nzWidth="100px">文件名</th>
-      <th nzWidth="50px">文件大小</th>
-      <th nzWidth="90px">上传时间</th>
-      <th nzWidth="40px">操作</th>
+      <th nzWidth="60px">文件大小</th>
+      <th nzWidth="60px">下载次数</th>
+      <th nzWidth="120px">上传时间</th>
+      <th nzWidth="60px">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -29,15 +30,16 @@
       <td>{{ idx + 1 }}</td>
       <td [title]="data.filename">{{ data.filename }}</td>
       <td>{{ data.filesize | fileSize }}</td>
-      <td nzWidth="90px">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
-      <td>
+      <td>{{ data.downloadCount }}</td>
+      <td nzWidth="120px">{{ data.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      <td nzWidth="60px">
         <div class="operation">
           <div class="download">
             <button nz-button nzType="link" (click)="downloadFile(data)">下载</button>
             <nz-progress [nzPercent]="data.percent" [nzSteps]="5" nzStrokeColor="#1890ff" nzSize="small"
                          *ngIf="data.percent"></nz-progress>
           </div>
-          <div>
+          <div *ngIf="userRole === '1001'">
             <button nz-button nzType="text" nzDanger nz-popconfirm
                     nzPopconfirmTitle="确定要删除吗？"
                     (nzOnConfirm)="deleteFile(data.id)">删除

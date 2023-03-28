@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6496056",
+      "name": "Nodejs",
+      "font_class": "Nodejs",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
       "icon_id": "1037673",
       "name": "留言",
       "font_class": "liuyan",
