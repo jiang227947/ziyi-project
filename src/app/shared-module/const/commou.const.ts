@@ -21,7 +21,7 @@ export const TEXT_TYPE_CONST = ['text/plain', 'text/html'];
 /**
  * 文档文件格式
  */
-export const OFFICE_TYPE_CONST = ['application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+export const OFFICE_TYPE_CONST = ['application/pdf', 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 /**
  * 其他类型
  */
@@ -7916,4 +7916,4 @@ export const traceDat = ['39.17844',
   '10.91034',
   '9.13164',
   '0',
-  '0']
+  '0'];

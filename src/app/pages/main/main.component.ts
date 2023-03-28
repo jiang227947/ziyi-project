@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuModel} from '../../core-module/model/menu.model';
 import {Router} from '@angular/router';
-import {Result} from '../../shared-module/interface/result';
 import {User} from '../../shared-module/interface/user';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {LoginRequestService} from '../../core-module/api-service';
@@ -45,7 +44,7 @@ export class MainComponent implements OnInit {
     const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
-      this.avatar = userInfo.avatar;
+      this.avatar = `https://www.evziyi.top${userInfo.avatar}`;
       this.menuList = SessionUtil.getMenuList();
     } else {
       SessionUtil.clearUserLocal();
@@ -76,12 +75,12 @@ export class MainComponent implements OnInit {
     }
     this.menuOption = [];
     this.menuList.forEach((item: MenuModel) => {
-      if (item.menuName.includes(value)) {
+      if (item.menuName.includes(value.toUpperCase() || value.toLowerCase())) {
         this.menuOption.push({url: item.menuHref, text: item.menuName});
       }
       if (item.children.length > 0) {
         item.children.forEach((itemChildren: MenuModel) => {
-          if (itemChildren.menuName.includes(value)) {
+          if (itemChildren.menuName.includes(value.toUpperCase() || value.toLowerCase())) {
             this.menuOption.push({url: itemChildren.menuHref, text: itemChildren.menuName});
           }
         });

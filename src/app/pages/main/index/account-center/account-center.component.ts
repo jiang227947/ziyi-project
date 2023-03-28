@@ -36,6 +36,7 @@ export class AccountCenterComponent implements OnInit {
   avatarUrl: string;
   // loading
   loading: boolean = false;
+
   uploadAvatar = ((item: NzUploadXHRArgs) => {
     const formData = new FormData();
     formData.append('id', `${this.user.id}`);
@@ -56,6 +57,7 @@ export class AccountCenterComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = SessionUtil.getUserInfo();
+    this.avatarUrl = `https://www.evziyi.top${this.user.avatar}`;
     this.formInit();
   }
 
@@ -115,8 +117,8 @@ export class AccountCenterComponent implements OnInit {
         key: 'password',
         type: 'input',
         inputType: 'password',
-        require: true,
         col: 24,
+        require: true,
         rule: [{required: true}, {minLength: 3, msg: '长度最小为3'}],
       },
       {
@@ -167,8 +169,8 @@ export class AccountCenterComponent implements OnInit {
     this.formInstance = event.instance;
     this.formInstance.group.patchValue(this.user);
     // 获取用户输入的值
-    this.formInstance.group.valueChanges.subscribe((e) => {
-    });
+    // this.formInstance.group.valueChanges.subscribe((e) => {
+    // });
   }
 
   /**

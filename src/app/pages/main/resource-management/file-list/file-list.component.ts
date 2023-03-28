@@ -139,6 +139,10 @@ export class FileListComponent implements OnInit {
    * @param data:文件
    */
   downloadFile(data: File): void {
+    if (data.percent && data.percent > 0 && data.percent < 100) {
+      this.$message.error('文件正在下载！');
+      return;
+    }
     this.downloadUtil.downloadPercentDone(`${environment.API_URL}/download`, data.filename, data.filesize).subscribe({
       next: ({progress, response}) => {
         // 进度显示

@@ -50,9 +50,7 @@ export class ChatGPTComponent implements OnInit {
       const dialogBoxMessage = localStorage.getItem('dialogBoxMessage');
       if (dialogBoxMessage) {
         this.dialogBoxMessageList = JSON.parse(dialogBoxMessage);
-        setTimeout(() => {
-          this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
-        }, 0);
+        setTimeout(() => this.chatGPT.nativeElement.scrollTo(0, this.chatGPT.nativeElement.scrollHeight));
       }
       // 读取上下文记录
       const messagesList = localStorage.getItem('messagesList');
@@ -92,9 +90,7 @@ export class ChatGPTComponent implements OnInit {
       content: this.sQuestion
     });
     this.dialogLogin = true;
-    setTimeout(() => {
-      this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
-    }, 0);
+    setTimeout(() => this.chatGPT.nativeElement.scrollTo(0, this.chatGPT.nativeElement.scrollHeight));
     // 保存记录
     if (this.dialogBoxMessageList.length > 0) {
       localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));
@@ -139,9 +135,7 @@ export class ChatGPTComponent implements OnInit {
         role: choices[choices.length - 1].message.role,
         content
       });
-      setTimeout(() => {
-        this.chatGPT.nativeElement.scrollTop = this.chatGPT.nativeElement.scrollHeight;
-      }, 0);
+      setTimeout(() => this.chatGPT.nativeElement.scrollTo(0, this.chatGPT.nativeElement.scrollHeight));
       // 保存对话记录
       if (this.dialogBoxMessageList.length > 0) {
         localStorage.setItem('dialogBoxMessage', JSON.stringify(this.dialogBoxMessageList));

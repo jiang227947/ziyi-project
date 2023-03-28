@@ -65,6 +65,7 @@
       nzListType="picture-card"
       [nzBeforeUpload]="beforeUpload"
       [(nzFileList)]="updateFileList"
+      [nzDisabled]="filePercent > 0"
       [nzShowButton]="updateFileList.length < 2"
     >
       <div>
@@ -73,10 +74,11 @@
       </div>
     </nz-upload>
     <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzStrokeColor="#1890ff" *ngIf="filePercent > 0"></nz-progress>
+    <span class="upload-msg" *ngIf="filePercent === 100">上传成功，正在保存...</span>
   </ng-template>
   <ng-template #modalFooter>
     <button nz-button nzType="primary" (click)="uploadFile()" [disabled]="updateFileList.length === 0"
-            [nzLoading]="filePercent > 0">提交
+            [nzLoading]="filePercent > 0">上传
     </button>
     <button nz-button nzType="default" (click)="cancelModal()" [disabled]="filePercent > 0">取消</button>
   </ng-template>

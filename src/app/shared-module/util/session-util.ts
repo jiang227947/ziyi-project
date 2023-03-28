@@ -116,7 +116,7 @@ export class SessionUtil {
    */
   static getTokenOut(): boolean {
     const tokenOut: string = localStorage.getItem('token_out');
-    // 判断时间是否超过24小时
+    // 判断时间是否超过6小时
     return new Date().getTime() < new Date(+tokenOut).getTime();
   }
 
