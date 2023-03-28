@@ -125,6 +125,7 @@ export class SessionUtil {
    */
   static clearUserLocal(): void {
     localStorage.removeItem('app_menu');
+    localStorage.removeItem('hidden_menu');
     localStorage.removeItem('user_info');
     localStorage.removeItem('token');
     localStorage.removeItem('token_out');

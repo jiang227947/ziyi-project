@@ -2,16 +2,18 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {NZ_I18N} from 'ng-zorro-antd/i18n';
-import {zh_CN} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {DefaultInterceptor} from './core-module/interceptor/default.interceptor';
 import {SharedModuleModule} from './shared-module/shared-module.module';
 import {SimpleGuardService} from './core-module/service/simple-guard.service';
+
+// ng-zorro-antd
+import {NZ_I18N} from 'ng-zorro-antd/i18n';
+import {zh_CN} from 'ng-zorro-antd/i18n';
 
 registerLocaleData(zh);
 
@@ -23,6 +25,9 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'Set-Cookie',
+    }),
     AppRoutingModule,
     SharedModuleModule
   ],
