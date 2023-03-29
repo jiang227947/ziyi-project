@@ -3,6 +3,10 @@
  */
 export const SIZE_1MB = 1048576;
 /**
+ * 2MB文件大小 字节单位
+ */
+export const SIZE_2MB = 2097152;
+/**
  * 10MB文件大小 字节单位
  */
 export const SIZE_10MB = 10485760;

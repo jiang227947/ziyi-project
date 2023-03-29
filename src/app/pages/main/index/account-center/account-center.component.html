@@ -5,6 +5,7 @@
     <nz-upload nzName="avatar"
                nzListType="picture-card"
                [nzShowUploadList]="false"
+               [nzDisabled]="loading"
                [nzBeforeUpload]="beforeUpload"
                [nzCustomRequest]='uploadAvatar'
                (nzChange)="handleChange($event)"

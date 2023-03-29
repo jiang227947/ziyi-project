@@ -2,7 +2,7 @@ import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormItem} from '../../../../shared-module/component/form/form-config';
 import {FormOperate} from '../../../../shared-module/component/form/form-operate.service';
 import {NzUploadFile, NzUploadXHRArgs} from 'ng-zorro-antd/upload/interface';
-import {SIZE_10MB} from '../../../../shared-module/const/commou.const';
+import {SIZE_2MB} from '../../../../shared-module/const/commou.const';
 import {CommonUtil} from '../../../../shared-module/util/commonUtil';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Observable, Observer} from 'rxjs';
@@ -41,9 +41,12 @@ export class AccountCenterComponent implements OnInit {
     const formData = new FormData();
     formData.append('id', `${this.user.id}`);
     formData.append('avatar', this.avatarFile);
-    return this.$IndexApiService.uploadAvatar(formData).subscribe((result: Result<void>) => {
+    return this.$IndexApiService.uploadAvatar(formData).subscribe((result: Result<any>) => {
       if (result.code === 200) {
         this.$message.success(result.msg);
+        this.user.avatar = result.data;
+        // 重新保存信息
+        localStorage.setItem('user_info', JSON.stringify(this.user));
         item.onSuccess(result.msg, item.file, result.msg);
       } else {
         this.$message.error(result.msg);
@@ -64,8 +67,8 @@ export class AccountCenterComponent implements OnInit {
   // 文件上传之前处理
   beforeUpload = (file: NzUploadFile): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
-      if (file.size > SIZE_10MB) {
-        this.$message.error('文件大小不能超过10MB！');
+      if (file.size > SIZE_2MB) {
+        this.$message.error('文件大小不能超过2MB！');
         observer.complete();
         return;
       }
@@ -143,7 +146,6 @@ export class AccountCenterComponent implements OnInit {
       remarks: this.formInstance.getData().remarks,
       password: this.formInstance.getData().password
     };
-    this.user = SessionUtil.getUserInfo();
     this.$IndexApiService.updateUser(data).subscribe((result: Result<void>) => {
       if (result.code === 200) {
         this.$message.success(result.msg);

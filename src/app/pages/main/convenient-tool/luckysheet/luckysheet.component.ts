@@ -2,6 +2,7 @@ import {AfterViewInit, Component} from '@angular/core';
 import * as luckysheet from 'luckysheet';
 import {ExcelFileUploadService} from '../../../../shared-module/service/ExcelFileUpload.service';
 import {NzUploadFile} from 'ng-zorro-antd/upload/interface';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 /**
  * Luckysheet ，一款纯前端类似excel的在线表格，功能强大、配置简单、完全开源。
@@ -20,7 +21,7 @@ export class LuckysheetComponent implements AfterViewInit {
   uploading = false;
   fileList: NzUploadFile[] = [];
 
-  constructor(private fileUploadService: ExcelFileUploadService) {
+  constructor(private fileUploadService: ExcelFileUploadService, private $message: NzMessageService) {
   }
 
   /**
@@ -31,7 +32,7 @@ export class LuckysheetComponent implements AfterViewInit {
     const suffixArr = name.split('.');
     const suffix = suffixArr[suffixArr.length - 1];
     if (suffix !== 'xlsx') {
-      alert('只能上传xlsx类型的文件');
+      this.$message.info('只能上传xlsx类型的文件');
       return;
     }
     this.fileList = [];
@@ -53,6 +54,7 @@ export class LuckysheetComponent implements AfterViewInit {
    * 下载
    */
   downloadExcel(): void {
+    this.$message.info('下载功能暂未完善');
     console.log(luckysheet.getLuckysheetfile());
   }
 
