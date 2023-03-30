@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import {MapBoxLoaderService} from '../service/map-box-loader.service';
 
@@ -10,6 +10,7 @@ import {MapBoxLoaderService} from '../service/map-box-loader.service';
 })
 export class MapBoxComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('mapBox') mapBoxTemp: ElementRef;
   private map: any;
   private draw: any; // 绘制多边形函数
   private measureDistancesFunc: any; // 测距函数
@@ -19,6 +20,13 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    const observer = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        // 监听宽高变化处理
+        this.map.resize();
+      });
+    });
+    observer.observe(this.mapBoxTemp.nativeElement);
     /*** 中文文档地址：http://www.mapbox.cn/mapbox-gl-js/api/#map* */
     mapboxgl.accessToken = 'pk.eyJ1Ijoienp5aSIsImEiOiJjbDU4dzZ4d28xbzJoM2lvNTZtOTlxOHFhIn0.CKo_wchkEXfJ1YE9rC1Ckw';
     this.map = new mapboxgl.Map({
