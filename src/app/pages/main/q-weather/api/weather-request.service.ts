@@ -17,35 +17,50 @@ export class WeatherRequestService {
   // 实时天气
   queryNowWeather(params): Observable<any> {
     return this.http.get<WeatherNowInterface>(`${environment.weather + weatherURl.now}`, {
-      params
+      params,
+      headers: {
+        skip: 'true'
+      }
     });
   }
 
   // 逐小时预报（未来time小时）
   queryHoursHWeather(params, time: string): Observable<any> {
     return this.http.get<WeatherNowInterface>(`${environment.weather}${weatherURl.weather}/${time}h`, {
-      params
+      params,
+      headers: {
+        skip: 'true'
+      }
     });
   }
 
   // 每日天气预报（未来day天）
   queryDaysWeather(params, day: string): Observable<any> {
     return this.http.get<WeatherNowInterface>(`${environment.weather}${weatherURl.weather}/${day}d`, {
-      params
+      params,
+      headers: {
+        skip: 'true'
+      }
     });
   }
 
   // 城市搜索
   queryCityLookupWeather(params): Observable<any> {
     return this.http.get(`${environment.city + weatherURl.cityLookup}`, {
-      params
+      params,
+      headers: {
+        skip: 'true'
+      }
     });
   }
 
   // 热门城市实时天气
   queryCityTopWeather(params): Observable<any> {
     return this.http.get(`${environment.city + weatherURl.cityTop}`, {
-      params
+      params,
+      headers: {
+        skip: 'true'
+      }
     });
   }
 }

@@ -10,7 +10,6 @@ import {
 } from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
 import {Token} from '../../shared-module/interface/token';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../shared-module/interface/user';
@@ -112,34 +111,36 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // 统一加上服务端前缀
-    let url = req.url;
+    const url = req.url;
     let headers = new HttpHeaders();
     const token: Token = SessionUtil.getToken();
     const userInfo: User = SessionUtil.getUserInfo();
-    if (!token) {
+    /**
+     * headers添加skip字段则认为是不需要校验的请求
+     */
+    // 请求跳过白名单
+    const skipIntercept = req.headers.has('skip');
+    if (skipIntercept) {
+      // 删除跳过请求头
+      req = req.clone({
+        headers: req.headers.delete('skip')
+      });
+    }
+    if (!token && !skipIntercept) {
       this.$router.navigate(['/login']);
     }
-    // 判断第三方API的接口
-    if (url.includes('qweather')) {
-      /** 排除天气查询*/
-      if (!url.startsWith('https://') && !url.startsWith('http://')) {
-        url = environment.SERVER_URL + url;
+    /**
+     * 请求添加header信息
+     */
+    if (url.includes('evziyi.top')) {
+      // 添加token信息
+      if (userInfo) {
+        headers = headers.append('userId', `${userInfo.id}`);
       }
-    } else if (url.includes('timor')) {
-      /** 排除假期查询*/
-    } else if (url.includes('openai')) {
-      /** 排除openai*/
-      // const key = '/s/k/-/mEF/tX/c49/dd/Na//ao/FV/E/V5F/T3B/lbkF/J/zpIFm/hb/J0u/igX/IuZ/F/J/OR/';
-      // let openAI = '';
-      // key.split('/').forEach((v) => {
-      //   if (v !== '') {
-      //     openAI = openAI + v;
-      //   }
-      // });
-      // /*openai请求头*/
-      // headers = headers.append('Accept', 'application/json');
-      // headers = headers.append('Content-Type', 'application/json');
-      // headers = headers.append('Authorization', 'Bearer ' + String(openAI));
+      // 添加用户id
+      if (token) {
+        headers = headers.append(token.tokenName, `Bearer ${token.tokenValue}`);
+      }
     } else if (url.includes('api2d')) {
       // 查询余额
       if (url.includes('profile')) {
@@ -151,15 +152,6 @@ export class DefaultInterceptor implements HttpInterceptor {
         const API2D_KEY = 'fk186791-RToqs3gWFqVMVivKBFd2fdJlU0o9rUsc';
         headers = headers.append('Content-Type', 'application/json');
         headers = headers.append('Authorization', `Bearer ${API2D_KEY}`);
-      }
-    } else {
-      // 添加token信息
-      if (token) {
-        headers = headers.append(token.tokenName, `Bearer ${token.tokenValue}`);
-      }
-      // 添加用户id
-      if (userInfo) {
-        headers = headers.append('userId', `${userInfo.id}`);
       }
     }
     // 统一添加国际化的头部处理    并携带WEB标识

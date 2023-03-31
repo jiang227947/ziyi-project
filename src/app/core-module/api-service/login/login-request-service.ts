@@ -5,6 +5,7 @@ import {Result} from '../../../shared-module/interface/result';
 import {User} from '../../../shared-module/interface/user';
 import {environment} from '../../../../environments/environment';
 import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
+import {Visitor} from '../../../shared-module/interface/visitor';
 
 /*
 * 登录接口服务
@@ -55,5 +56,27 @@ export class LoginRequestService {
    */
   getLeaveMessage(): Observable<Result<LeaveMessage[]>> {
     return this.$http.get<Result<LeaveMessage[]>>(`${environment.API_URL}/getLeaveMessage`);
+  }
+
+  /**
+   * 获取访客数据
+   */
+  getVisitor(): Observable<Visitor> {
+    return this.$http.get<Visitor>(`https://ipinfo.io/?token=5be098be56e294`, {
+      headers: {
+        skip: 'true'
+      }
+    });
+  }
+
+  /**
+   * 保存访客
+   */
+  saveVisitor(visitorData: Visitor): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/visitor`, visitorData, {
+      headers: {
+        skip: 'true'
+      }
+    });
   }
 }

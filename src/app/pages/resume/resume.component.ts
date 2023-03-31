@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavItemChineseEnum, NavItemEnum} from '../../shared-module/enum/resume.enum';
 import {fromEvent, Subscription} from 'rxjs';
+import {Visitor} from '../../shared-module/interface/visitor';
+import {LoginRequestService} from '../../core-module/api-service/login';
 
 /**
  * 简历页面
@@ -9,7 +11,8 @@ import {fromEvent, Subscription} from 'rxjs';
 @Component({
   selector: 'app-resume',
   templateUrl: './resume.component.html',
-  styleUrls: ['./resume.component.scss']
+  styleUrls: ['./resume.component.scss'],
+  providers: [LoginRequestService]
 })
 export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -22,6 +25,8 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('educationRef') educationRef: ElementRef<Element>;
   // 掌握技能
   @ViewChild('skillsRef') skillsRef: ElementRef<Element>;
+  // canvas3d
+  // @ViewChild('canvas3d') canvas3d: ElementRef<HTMLCanvasElement>;
 
   // 菜单
   selectNav: NavItemEnum = NavItemEnum.About;
@@ -48,8 +53,10 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
       label: NavItemChineseEnum.Skills
     }
   ];
+  // 访客定时器
+  visitorTimer: any;
 
-  constructor() {
+  constructor(private loginRequestService: LoginRequestService) {
   }
 
   ngOnInit(): void {
@@ -58,9 +65,17 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     // 关闭订阅
     this.subscribeScroll.unsubscribe();
+    clearTimeout(this.visitorTimer);
   }
 
   ngAfterViewInit(): void {
+    // const app = new Application(this.canvas3d.nativeElement);
+    // app.load('https://prod.spline.design/1uSkSs7c04LuBhXY/scene.splinecode');
+    // 3秒后保存访客数据
+    this.visitorTimer = setTimeout(() => {
+      this.saveVisitor();
+      clearTimeout(this.visitorTimer);
+    }, 3000);
     // 可视高度的一半
     const clientHeight = this.containerRef.nativeElement.clientHeight / 2;
     // 关于高度
@@ -135,4 +150,12 @@ export class ResumeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showNavbr = !this.showNavbr;
   }
 
+  /**
+   * 保存访客数据
+   */
+  async saveVisitor(): Promise<void> {
+    await this.loginRequestService.getVisitor().subscribe((result: Visitor) => {
+      this.loginRequestService.saveVisitor(result).subscribe();
+    });
+  }
 }

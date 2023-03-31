@@ -24,7 +24,11 @@ export class OpenaiRequestService {
       content: string // 模型返回给你的信息
     }[]
   }): Observable<GPTMessageInterface> {
-    return this.$http.post<GPTMessageInterface>(`${environment.API2D_OTHER}/chat/completions`, messagesParam);
+    return this.$http.post<GPTMessageInterface>(`${environment.API2D_OTHER}/chat/completions`, messagesParam, {
+      headers: {
+        skip: 'true'
+      }
+    });
   }
 
   /**
@@ -32,6 +36,10 @@ export class OpenaiRequestService {
    * https://api.api2d.com/user/profile
    */
   getBalance(): Observable<any> {
-    return this.$http.post<any>(`https://api.api2d.com/user/profile`, null);
+    return this.$http.post<any>(`https://api.api2d.com/user/profile`, null, {
+      headers: {
+        skip: 'true'
+      }
+    });
   }
 }

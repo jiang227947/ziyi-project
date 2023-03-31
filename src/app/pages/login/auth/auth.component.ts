@@ -76,6 +76,9 @@ export class AuthComponent implements OnInit {
   }
 
 
+  /**
+   * 初始化表单
+   */
   buildForm(): void {
     const rememberMe: string = localStorage.getItem('rememberMe');
     this.loginForm = this.fb.group({
@@ -91,7 +94,9 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  // 登录
+  /**
+   * 登录
+   */
   loginSubmit(): void {
     // 验证表单
     this.loginName.markAsDirty();
@@ -218,6 +223,7 @@ export class AuthComponent implements OnInit {
    * 查询留言
    */
   getLeaveMessage(): void {
+    this.leaveMessageLoading = true;
     this.loginRequestService.getLeaveMessage().subscribe((result: Result<LeaveMessage[]>) => {
       if (result.code === 200) {
         // 留言列表
@@ -227,8 +233,10 @@ export class AuthComponent implements OnInit {
           item.browser = `${browser.system}`;
           return item;
         });
+        this.leaveMessageLoading = false;
         setTimeout(() => this.messageContentTemp.nativeElement.scrollTo(0, this.messageContentTemp.nativeElement.scrollHeight));
       } else {
+        this.leaveMessageLoading = false;
         this.$message.success(result.msg);
       }
     });

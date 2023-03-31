@@ -175,13 +175,15 @@
 <div #leaveMessageBox class="leave-message-box">
   <!--历史留言-->
   <div #messageContent class="message">
-    <div *ngFor="let msg of messageList;index as idx" class="message-box">
-      <span class="user-title">
-        <span class="name">{{msg.name}}</span>
-        <span class="browser">（来自{{msg.browser}}）{{msg.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-      </span>
-      <span class="message-conent">{{msg.message}}</span>
-    </div>
+    <nz-spin [nzSpinning]="leaveMessageLoading">
+      <div *ngFor="let msg of messageList;" class="message-box">
+        <span class="user-title">
+          <span class="name">{{msg.name}}</span>
+          <span class="browser">（来自{{msg.browser}}）{{msg.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+        </span>
+        <span class="message-conent">{{msg.message}}</span>
+      </div>
+    </nz-spin>
   </div>
   <!--输入框-->
   <div nz-row nzAlign="middle" class="message-send">

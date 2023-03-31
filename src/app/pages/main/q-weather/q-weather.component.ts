@@ -75,14 +75,14 @@ export class QWeatherComponent implements OnInit {
               private modal: NzModalService, private bMapLoader: BMapLoaderService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const cityRecord: string[] = JSON.parse(localStorage.getItem('city_record'));
     if (cityRecord) {
       // 读取历史记录
       this.cityTags = cityRecord;
     }
     // 使用百度地图ip定位
-    this.bMapLoader.load().then(() => {
+    await this.bMapLoader.load().then(() => {
       const myFun = (city) => {
         const cityName = city.name || '武汉';
         this.queryCityLookupWeather(cityName);
@@ -113,7 +113,7 @@ export class QWeatherComponent implements OnInit {
   }
 
   // 根据城市名称查询城市信息
-  queryCityLookupWeather(city?: string): void {
+  async queryCityLookupWeather(city?: string): Promise<void> {
     if (!city && this.cityName === '') {
       this.modal.info({
         nzTitle: '提示',
@@ -123,10 +123,10 @@ export class QWeatherComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.weatherRequestService.queryCityLookupWeather({
+    await this.weatherRequestService.queryCityLookupWeather({
       key: this.key,
       location: city || this.cityName
-    }).subscribe((result: CityInterface) => {
+    }).subscribe(async (result: CityInterface) => {
       if (result.code === '200') {
         this.city = result.location[0] || undefined;
         if (!city) {
@@ -142,9 +142,9 @@ export class QWeatherComponent implements OnInit {
           }
         }
         // 查询实时天气
-        this.queryNowWeather(this.city.id);
+        await this.queryNowWeather(this.city.id);
         // 查询未来天气
-        this.weatherTitleChange(this.weatherType);
+        await this.weatherTitleChange(this.weatherType);
       } else {
         this.modal.info({
           nzTitle: result.code,
@@ -162,15 +162,14 @@ export class QWeatherComponent implements OnInit {
     this.weatherRequestService.queryHoursHWeather(params, this.hours).subscribe((result: FutureWeatherInterface) => {
       if (result.code === '200') {
         this.futureWeather = result.hourly;
-        this.loading = false;
       } else {
         this.modal.info({
           nzTitle: result.code,
           nzContent: `查询未来${this.hours}小时天气失败！`,
           nzCancelText: null
         });
-        this.loading = false;
       }
+      this.loading = false;
     });
   }
 
@@ -191,15 +190,15 @@ export class QWeatherComponent implements OnInit {
   }
 
   // 卡片标题类型切换
-  weatherTitleChange(weatherType: string): void {
+  async weatherTitleChange(weatherType: string): Promise<void> {
     switch (weatherType) {
       case 'hour':
         // 查询逐小时预报
-        this.queryHoursHWeather();
+        await this.queryHoursHWeather();
         break;
       case 'day':
         // 查询逐天预报
-        this.queryDaysWeather();
+        await this.queryDaysWeather();
         break;
     }
   }
