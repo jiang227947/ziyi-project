@@ -13,8 +13,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### 3. 后台服务Node用个人项目 [Node、JWT、sequelize、mysql](https://github.com/jiang227947/node-server)
 
 ## 目前已知问题：
-### 1. MapBox页面下，页面窗口大小变化会影响地图渲染
-### 2.小米手机在手机预览标识状态时，首页假期查询接口会查询失败，切换成电脑版后正常
+### 1. 和风地图请求数据Loading异常，数据已返回，但还是在loading
+### 2. 小米手机在手机预览标识状态时，首页假期查询接口会查询失败，切换成电脑版后正常
 
 ## 未来：
 ### 1. Angular版本准备升级至15
