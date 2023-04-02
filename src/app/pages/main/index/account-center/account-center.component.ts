@@ -96,7 +96,7 @@ export class AccountCenterComponent implements OnInit {
         });
         break;
       case 'error':
-        this.$message.error('Network error');
+        this.$message.error('上传失败');
         this.loading = false;
         break;
     }
@@ -139,9 +139,8 @@ export class AccountCenterComponent implements OnInit {
    * 保存
    */
   submit(): void {
-    const data: { id: number, avatar: string, userName: string, remarks: string, password: string } = {
+    const data: { id: number, userName: string, remarks: string, password: string } = {
       id: this.user.id,
-      avatar: this.avatarUrl,
       userName: this.user.userName,
       remarks: this.formInstance.getData().remarks,
       password: this.formInstance.getData().password
@@ -149,7 +148,6 @@ export class AccountCenterComponent implements OnInit {
     this.$IndexApiService.updateUser(data).subscribe((result: Result<void>) => {
       if (result.code === 200) {
         this.$message.success(result.msg);
-        this.user.avatar = data.avatar;
         this.user.userName = data.userName;
         this.user.remarks = data.remarks;
         this.user.password = data.password;

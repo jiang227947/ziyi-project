@@ -27,10 +27,10 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getWagesCountdown();
-    this.getHolidayWorkdayNext();
-    this.getHolidayTts();
-    this.getHolidayInfo();
+    // this.getWagesCountdown();
+    // this.getHolidayWorkdayNext();
+    // this.getHolidayTts();
+    // this.getHolidayInfo();
   }
 
   getHolidayInfo(): void {
