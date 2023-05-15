@@ -16,11 +16,11 @@ export const MAIN_ROUTER_CONFIG: Routes = [
         loadChildren: () => import('./index/index.module').then(m => m.IndexModule)
       },
       // CAD
-      {
-        path: 'cad',
-        canActivateChild: [SimpleGuardService],
-        loadChildren: () => import('./cad/cad.module').then(m => m.CadModule)
-      },
+      // {
+      //   path: 'cad',
+      //   canActivateChild: [SimpleGuardService],
+      //   loadChildren: () => import('./cad/cad.module').then(m => m.CadModule)
+      // },
       // 地图
       {
         path: 'map',

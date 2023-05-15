@@ -11,11 +11,11 @@ export class MenuModel {
   /**
    * 父级菜单id
    */
-  parentMenuId?: string;
+  public parentMenuId?: string;
   /**
    * 子菜单集合
    */
-  children: MenuModel[];
+  public children: MenuModel[];
   /**
    * 菜单名称
    */

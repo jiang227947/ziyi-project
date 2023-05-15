@@ -106,16 +106,16 @@ export class AppMenuService {
         ]
       },
       // MxDraw CAD
-      {
-        menuId: '3',
-        menuName: 'MxDraw CAD',
-        menuLevel: 1,
-        menuHref: '/main/cad',
-        imageUrl: '../../../assets/icon/ico/mxcad.ico',
-        isShow: true,
-        isSelected: false,
-        children: []
-      },
+      // {
+      //   menuId: '3',
+      //   menuName: 'MxDraw CAD',
+      //   menuLevel: 1,
+      //   menuHref: '/main/cad',
+      //   imageUrl: '../../../assets/icon/ico/mxcad.ico',
+      //   isShow: true,
+      //   isSelected: false,
+      //   children: []
+      // },
       // 和风天气
       {
         menuId: '4',

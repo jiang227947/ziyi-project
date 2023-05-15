@@ -7,7 +7,7 @@
   align-items: center;
   /* 决定背景图像的位置是在视口内固定，或者随着包含它的区块滚动。 */
   /* https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-attachment */
-  background: #e9e9e9 url("https://res.cloudinary.com/dbhnlktrv/image/upload/v1599997626/background_oeuhe7.jpg") no-repeat fixed center;
+  background: #e9e9e9 url("../../../../assets/image/background_oeuhe7.jpg") no-repeat fixed center;
   background-size: cover;
   display: grid;
   place-items: center;
@@ -51,8 +51,33 @@
   z-index: 2;
 }
 
-.container.right-panel-active .container--signin {
-  transform: translateX(100%);
+.container.right-panel-active {
+  .container--signin {
+    transform: translateX(100%);
+  }
+
+  .container--signup {
+    animation: show 0.5s;
+    opacity: 1;
+    transform: translateX(100%);
+    z-index: 5;
+  }
+
+  .container__overlay {
+    transform: translateX(-100%);
+  }
+
+  .overlay {
+    transform: translateX(50%);
+  }
+
+  .overlay--right {
+    transform: translateX(20%);
+  }
+
+  .overlay--left {
+    transform: translateX(0);
+  }
 }
 
 .container--signup {
@@ -60,13 +85,6 @@
   opacity: 0;
   width: 50%;
   z-index: 1;
-}
-
-.container.right-panel-active .container--signup {
-  animation: show 0.5s;
-  opacity: 1;
-  transform: translateX(100%);
-  z-index: 5;
 }
 
 .container__overlay {
@@ -80,10 +98,6 @@
   z-index: 100;
 }
 
-.container.right-panel-active .container__overlay {
-  transform: translateX(-100%);
-}
-
 .overlay {
   background: #008997 url("https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547_1280.jpg") no-repeat fixed center;
   background-size: cover;
@@ -93,10 +107,6 @@
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
   width: 200%;
-}
-
-.container.right-panel-active .overlay {
-  transform: translateX(50%);
 }
 
 .overlay__panel {
@@ -121,17 +131,9 @@
   transform: translateX(-20%);
 }
 
-.container.right-panel-active .overlay--left {
-  transform: translateX(0);
-}
-
 .overlay--right {
   right: 0;
   transform: translateX(0);
-}
-
-.container.right-panel-active .overlay--right {
-  transform: translateX(20%);
 }
 
 .btn {
