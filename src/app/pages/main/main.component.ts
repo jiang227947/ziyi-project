@@ -44,7 +44,7 @@ export class MainComponent implements OnInit {
     const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
-      this.avatar = `https://www.evziyi.top${userInfo.avatar}`;
+      this.avatar = userInfo.avatar !== null ? `https://www.evziyi.top${userInfo.avatar}` : null;
       this.menuList = SessionUtil.getMenuList();
     } else {
       SessionUtil.clearUserLocal();

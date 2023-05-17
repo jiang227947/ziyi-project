@@ -132,7 +132,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     /**
      * 请求添加header信息
      */
-    if (url.includes('evziyi.top')) {
+    if (url.includes('evziyi.top') || url.includes('http://localhost:3001')) {
       // 添加token信息
       if (userInfo) {
         headers = headers.append('userId', `${userInfo.id}`);

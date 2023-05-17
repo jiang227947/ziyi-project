@@ -227,9 +227,10 @@ export class AuthComponent implements OnInit {
   oauthLogin(param: Oauth2Enum): void {
     switch (param) {
       case Oauth2Enum.github:
-        this.loginRequestService.githubLogin().subscribe((result: any) => {
-          console.log(result);
-        });
+        // this.loginRequestService.githubLogin().subscribe((result: any) => {
+        //   console.log(result);
+        // });
+        window.open('https://github.com/login/oauth/authorize?client_id=c18cfa87805929090ede&scope=user:email', '_self');
         break;
     }
   }
