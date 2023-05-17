@@ -8,7 +8,7 @@ import {SessionUtil} from '../../../shared-module/util/session-util';
 import {User} from '../../../shared-module/interface/user';
 import {Result} from '../../../shared-module/interface/result';
 import {format} from 'date-fns';
-import {UserRoleEnum} from '../../../shared-module/enum/user.enum';
+import {Oauth2Enum, UserRoleEnum} from '../../../shared-module/enum/user.enum';
 import {CommonUtil} from '../../../shared-module/util/commonUtil';
 import {getJSONLocalStorage, setLocalStorage} from '../../../shared-module/util/localStorage';
 import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
@@ -49,6 +49,8 @@ export class AuthComponent implements OnInit {
   public showLeaveMessage: boolean = false;
   // 留言load
   public leaveMessageLoading: boolean = false;
+  // 第三方登录枚举
+  public oauth2Enum = Oauth2Enum;
 
   constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
               private loginRequestService: LoginRequestService, private $message: NzMessageService,
@@ -217,6 +219,19 @@ export class AuthComponent implements OnInit {
         reject(null);
       });
     });
+  }
+
+  /**
+   * 第三方登录
+   */
+  oauthLogin(param: Oauth2Enum): void {
+    switch (param) {
+      case Oauth2Enum.github:
+        this.loginRequestService.githubLogin().subscribe((result: any) => {
+          console.log(result);
+        });
+        break;
+    }
   }
 
   /**

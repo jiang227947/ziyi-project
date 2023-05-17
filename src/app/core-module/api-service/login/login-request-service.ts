@@ -31,6 +31,13 @@ export class LoginRequestService {
   }
 
   /**
+   * github登录接口
+   */
+  githubLogin(): Observable<any> {
+    return this.$http.get<any>(`${environment.API_URL}/githubLogin`);
+  }
+
+  /**
    * 查询用户
    */
   queryUserById(userId: number): Observable<Result<User>> {

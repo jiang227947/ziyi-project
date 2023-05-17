@@ -7,3 +7,10 @@ export enum UserRoleEnum {
   // 普通用户
   general = '1002',
 }
+
+/**
+ * 第三方登录枚举
+ */
+export enum Oauth2Enum {
+  github = 'github',
+}

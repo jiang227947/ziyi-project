@@ -47,6 +47,17 @@
           登录
         </button>
       </nz-form-item>
+
+      <!--第三方登录-->
+      <div class="more-sign">
+        <ul>
+          <li class="github" title="Github登录" (click)="oauthLogin(oauth2Enum.github)">
+            <svg class="aliicon" aria-hidden="true">
+              <use xlink:href="#icon-github"></use>
+            </svg>
+          </li>
+        </ul>
+      </div>
     </form>
   </div>
   <!--注册-->
