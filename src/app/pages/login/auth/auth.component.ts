@@ -41,7 +41,7 @@ export class AuthComponent implements OnInit {
   messageList: LeaveMessage[] = [];
   // 留言
   public leaveMessage: LeaveMessage = {
-    name: getJSONLocalStorage('leave') || '匿名',
+    name: '',
     message: '',
     browser: null
   };
@@ -285,7 +285,7 @@ export class AuthComponent implements OnInit {
       this.getLeaveMessage();
       this.renderer.addClass(this.leaveMessageBoxTemp.nativeElement, 'show-active');
       this.leaveMessage = {
-        name: '',
+        name: getJSONLocalStorage('leaveName'),
         message: '',
         browser: null
       };

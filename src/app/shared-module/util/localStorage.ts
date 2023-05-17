@@ -32,7 +32,11 @@ export function getLocalStorage(key): string {
  * returns {*}
  */
 export function getJSONLocalStorage(key): string {
-  return JSON.parse(getLocalStorage(key));
+  if (getLocalStorage(key) !== null) {
+    return getLocalStorage(key);
+  } else {
+    return '匿名';
+  }
 }
 
 
