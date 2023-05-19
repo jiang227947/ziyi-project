@@ -21,7 +21,7 @@ export class MainComponent implements OnInit {
   // 用户名称
   userName: string;
   // 头像
-  avatar: string;
+  avatar: string = null;
   // 搜索路由值
   searchMenuValue: string;
   // 搜索结果option
@@ -44,7 +44,11 @@ export class MainComponent implements OnInit {
     const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
-      this.avatar = userInfo.avatar !== null ? `https://www.evziyi.top${userInfo.avatar}` : null;
+      if (userInfo.avatar.indexOf('https') !== -1) {
+        this.avatar = userInfo.avatar;
+      } else if (userInfo.avatar !== null) {
+        this.avatar = `https://www.evziyi.top${userInfo.avatar}`;
+      }
       this.menuList = SessionUtil.getMenuList();
     } else {
       SessionUtil.clearUserLocal();

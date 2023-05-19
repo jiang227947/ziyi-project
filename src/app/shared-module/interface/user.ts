@@ -14,3 +14,12 @@ export interface User {
   token?: Token;   // token数据
   saTokenInfo?: Token;   // token数据
 }
+
+/**
+ * 第三方登录返回数据接口
+ */
+export interface OauthInterface {
+  login_type: string; // 类型
+  date: number; // 时间
+  userInfo: User; // 用户信息
+}

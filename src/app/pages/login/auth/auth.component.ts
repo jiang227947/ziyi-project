@@ -1,24 +1,25 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {AppMenuService} from '../../../shared-module/service/app-menu.service';
 import {LoginRequestService} from '../../../core-module/api-service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {SessionUtil} from '../../../shared-module/util/session-util';
-import {User} from '../../../shared-module/interface/user';
+import {OauthInterface, User} from '../../../shared-module/interface/user';
 import {Result} from '../../../shared-module/interface/result';
 import {format} from 'date-fns';
 import {Oauth2Enum, UserRoleEnum} from '../../../shared-module/enum/user.enum';
 import {CommonUtil} from '../../../shared-module/util/commonUtil';
 import {getJSONLocalStorage, setLocalStorage} from '../../../shared-module/util/localStorage';
 import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
+import {decipher, encipher} from '../../../shared-module/util/encipher';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, AfterViewInit {
 
   @ViewChild('active') activeTemp: ElementRef;
   @ViewChild('leaveMessageBox') leaveMessageBoxTemp: ElementRef;
@@ -54,7 +55,7 @@ export class AuthComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
               private loginRequestService: LoginRequestService, private $message: NzMessageService,
-              private renderer: Renderer2) {
+              private renderer: Renderer2, private route: ActivatedRoute) {
   }
 
   // 密码一致校验
@@ -77,6 +78,25 @@ export class AuthComponent implements OnInit {
     this.buildForm();
   }
 
+  ngAfterViewInit(): void {
+    this.route.queryParamMap.subscribe((params: ParamMap) => {
+      if (params.keys.length === 1) {
+        try {
+          const decryptedStr = decipher(params.keys[0]);
+          const oauthParam: OauthInterface = JSON.parse(decryptedStr);
+          console.log(oauthParam);
+          const userInfo: User = oauthParam.userInfo;
+          // 设置token
+          SessionUtil.setToken(userInfo.token);
+          if (userInfo) {
+            this.setInfoOperate(userInfo);
+          }
+        } catch (e) {
+          // 解密错误，非登录数据
+        }
+      }
+    });
+  }
 
   /**
    * 初始化表单
@@ -123,17 +143,7 @@ export class AuthComponent implements OnInit {
     // 用户登录
     this.login(loginInfo).then((user: User) => {
       if (user) {
-        // 用户信息保存到浏览器
-        localStorage.setItem('user_info', JSON.stringify(user));
-        // 设置菜单
-        SessionUtil.setMenuList().then(() => {
-          // 设置上次登录时间显示
-          const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
-          this.router.navigate(['/main/index']);
-          // 设置message提示文字
-          const messageTitle: string = lastLoginTime ? `欢迎 ${user.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${user.userName}`;
-          this.$message.success(messageTitle, {nzDuration: 3000});
-        });
+        this.setInfoOperate(user);
       }
     }).catch(() => {
       this.loginLoading = false;
@@ -172,17 +182,7 @@ export class AuthComponent implements OnInit {
             // 用户登录
             this.login(loginInfo).then((user: User) => {
               if (user) {
-                // 用户信息保存到浏览器
-                localStorage.setItem('user_info', JSON.stringify(user));
-                // 设置菜单
-                SessionUtil.setMenuList().then(() => {
-                  // 设置上次登录时间显示
-                  const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
-                  this.router.navigate(['/main/index']);
-                  // 设置message提示文字
-                  const messageTitle: string = lastLoginTime ? `欢迎 ${user.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${user.userName}`;
-                  this.$message.success(messageTitle, {nzDuration: 3000});
-                });
+                this.setInfoOperate(user);
               }
             }).catch(() => {
               this.loginLoading = false;
@@ -199,6 +199,23 @@ export class AuthComponent implements OnInit {
     } else {
       this.registerLoading = false;
     }
+  }
+
+  /**
+   * 保存数据等操作
+   */
+  setInfoOperate(user: User): void {
+    // 用户信息保存到浏览器
+    localStorage.setItem('user_info', JSON.stringify(user));
+    // 设置菜单
+    SessionUtil.setMenuList().then(() => {
+      // 设置上次登录时间显示
+      const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
+      this.router.navigate(['/main/index']);
+      // 设置message提示文字
+      const messageTitle: string = lastLoginTime ? `欢迎 ${user.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${user.userName}`;
+      this.$message.success(messageTitle, {nzDuration: 3000});
+    });
   }
 
   // 登录接口
