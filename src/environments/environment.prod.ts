@@ -1,7 +1,6 @@
 export const environment = {
   SERVER_URL: './',
   API_URL: 'https://www.evziyi.top/api',
-  // API_URL: 'http://localhost:3001/api',
   NODE_API_URL: 'http://localhost:3001/api', // node后端本地地址
   LOCAL: 'http://47.104.31.66:8080',
   weather: 'https://devapi.qweather.com/v7', // 实时天气

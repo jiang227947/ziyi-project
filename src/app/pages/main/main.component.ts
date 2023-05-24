@@ -27,8 +27,7 @@ export class MainComponent implements OnInit {
   // 搜索结果option
   menuOption: { url: string; text: string }[] = [];
 
-  constructor(private router: Router, private $message: NzMessageService,
-              private loginRequestService: LoginRequestService) {
+  constructor(private router: Router, private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
@@ -44,7 +43,7 @@ export class MainComponent implements OnInit {
     const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
       this.userName = userInfo.userName;
-      if (userInfo.avatar.indexOf('https') !== -1) {
+      if (userInfo.avatar && userInfo.avatar.indexOf('https') !== -1) {
         this.avatar = userInfo.avatar;
       } else if (userInfo.avatar !== null) {
         this.avatar = `https://www.evziyi.top${userInfo.avatar}`;
@@ -71,7 +70,8 @@ export class MainComponent implements OnInit {
 
   /**
    * 搜索路由
-   * */
+   * @param value string
+   */
   searchMenuValueChange(value: string): void {
     if (value === '') {
       this.menuOption = [];
@@ -94,7 +94,8 @@ export class MainComponent implements OnInit {
 
   /**
    * 选择路由
-   * */
+   * @param url string
+   */
   optionChange(url: string): void {
     this.menuOption = [];
     this.router.navigate([url]);

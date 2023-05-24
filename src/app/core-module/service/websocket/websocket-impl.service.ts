@@ -66,6 +66,7 @@ export class WebsocketImplService {
         console.log('websocket has alive');
       } else {
         this.messageTopic.next(event);
+        this.messageTopic.complete();
       }
     };
     this.socket.onclose = () => {
