@@ -1,0 +1,17 @@
+@import "../../chat-channels/config/chat.scss";
+
+.base {
+  position: relative;
+  width: 100vw;
+  flex-shrink: 0;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: $--jjext-color-base;
+}

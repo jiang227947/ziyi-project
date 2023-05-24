@@ -11,6 +11,11 @@ const routes: Routes = [
     path: 'resume',
     loadChildren: () => import('./pages/resume/resume.module').then(m => m.ResumeModule)
   },
+  // 聊天频道
+  {
+    path: 'chat-channels',
+    loadChildren: () => import('./pages/chat-channels/chat-channels.module').then(m => m.ChatChannelsModule)
+  },
   // 首页
   {
     path: 'main',
