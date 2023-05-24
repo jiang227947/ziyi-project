@@ -20,7 +20,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### 1. Angular版本准备升级至15
 ### 2. 新增JS工具插件
 ### 3. 新增Webgl Demo
-### 4. 后续想到什么功能就加什么功能
+### 4. Web端的聊天室功能完善，增加手机端微信小程序聊天室
 
 ## Development server
 
