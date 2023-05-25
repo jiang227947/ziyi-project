@@ -1,17 +1,281 @@
 @import "../../chat-channels/config/chat.scss";
 
-.base {
-  position: relative;
-  width: 100vw;
-  flex-shrink: 0;
-  height: 100%;
-  overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
+.container {
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  background-color: $--jjext-color-base;
+  overflow: hidden;
+  position: absolute;
+  left: 70px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  .sidebar {
+    flex-direction: column;
+    min-height: 0;
+    width: 240px;
+    height: 100%;
+    flex: 0 0 auto;
+    display: flex;
+    overflow: hidden;
+    background-color: $--jjext-color-base;
+  }
+
+  .chat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    flex: 1 1 auto;
+    background-color: $--jjext-color-secondary-app;
+
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: none !important;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .messagesWrapper {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+      z-index: 0;
+      display: flex;
+
+      .scrollerBase {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        overflow-anchor: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        &::-webkit-scrollbar {
+          border: 4px solid #00000000;
+          background-clip: padding-box;
+          border-radius: 8px;
+        }
+
+        .scrollerInner {
+          min-height: 0;
+          overflow: hidden;
+          list-style: none;
+
+          /*每一条消息*/
+          .messageListItem {
+            outline: none;
+            position: relative;
+
+            &:hover {
+              background-color: $--li-hover;
+              transition: background-color 0.15s;
+            }
+
+            .message {
+              margin-top: 1.0625rem;
+              padding: 0 16px 0 72px;
+              position: relative;
+              word-wrap: break-word;
+              -webkit-user-select: text;
+              -moz-user-select: text;
+              -ms-user-select: text;
+              user-select: text;
+              -webkit-box-flex: 0;
+              -ms-flex: 0 0 auto;
+              flex: 0 0 auto;
+              min-height: 1.375rem;
+
+              /*消息主体*/
+              .contents {
+                position: static;
+                margin-left: 0;
+                padding-left: 0;
+                text-indent: 0;
+
+                /*头像*/
+                .avatar {
+                  position: absolute;
+                  left: 16px;
+                  margin-top: calc(4px - 0.125rem);
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  overflow: hidden;
+                  cursor: pointer;
+                  -webkit-user-select: none;
+                  -moz-user-select: none;
+                  -ms-user-select: none;
+                  user-select: none;
+                  -webkit-box-flex: 0;
+                  -ms-flex: 0 0 auto;
+                  flex: 0 0 auto;
+                  z-index: 1;
+                  text-indent: -9999px;
+                  pointer-events: auto;
+                }
+
+                /*消息头*/
+                .header {
+                  display: block;
+                  position: relative;
+                  line-height: 1.375rem;
+                  min-height: 1.375rem;
+                  color: #ffffff;
+                  white-space: break-spaces;
+                  word-wrap: pre-wrap;
+                  overflow: hidden;
+
+                  .headerText {
+                    margin-right: 0;
+
+                    /*用户名*/
+                    .username {
+                      font-size: 1rem;
+                      font-weight: 500;
+                      line-height: 1.375rem;
+                      color: $--header-primary;
+                      display: inline;
+                      vertical-align: baseline;
+                      position: relative;
+                      overflow: hidden;
+                      flex-shrink: 0;
+                      white-space: break-spaces;
+                      word-wrap: break-word;
+                    }
+
+                    /*时间*/
+                    .timestamp {
+                      font-size: 0.75rem;
+                      line-height: 1.375rem;
+                      color: $--text-muted;
+                      vertical-align: baseline;
+                      display: inline-block;
+                      height: 1.25rem;
+                      cursor: default;
+                      pointer-events: none;
+                      font-weight: 500;
+                    }
+                  }
+                }
+
+                /*文字消息*/
+                .markupMessage {
+                  -webkit-user-select: text;
+                  -moz-user-select: text;
+                  -ms-user-select: text;
+                  user-select: text;
+                  margin-left: -72px;
+                  padding-left: 72px;
+                  overflow: hidden;
+                  font-size: 1rem;
+                  line-height: 1.375rem;
+                  white-space: pre-wrap;
+                  white-space: break-spaces;
+                  word-wrap: break-word;
+                  color: #fff;
+                  position: relative;
+                  text-indent: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .channelTextArea {
+      position: relative;
+      flex-shrink: 0;
+      padding-left: 16px;
+      padding-right: 16px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      max-height: 50vh;
+      -ms-overflow-style: none;
+
+      /*隐藏滚动条*/
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &::-webkit-scrollbar {
+        width: 0 !important
+      }
+
+      &::-webkit-scrollbar-track {
+        border-width: initial;
+      }
+
+      .formArea {
+        display: flex;
+        margin-bottom: 24px;
+        position: relative;
+        width: 100%;
+        text-indent: 0;
+        border-radius: 8px;
+        padding: 4px 10px;
+        background-color: $--jjext-color-base0;
+
+        .textArea {
+          flex: 1 1 auto;
+          display: flex;
+
+          .placeholder {
+            padding-top: 11px;
+            position: absolute;
+            left: 22px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            color: $--jjext-color-thirdly;
+          }
+
+          .markup {
+            position: relative;
+            outline: none;
+            overflow-wrap: break-word;
+            text-align: left;
+            word-break: break-word;
+            white-space: break-spaces !important;
+            left: 0;
+            right: 10px;
+            resize: none;
+            width: 100%;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            caret-color: #ffffff;
+            user-select: text;
+            font-size: 1rem;
+            line-height: 1.375rem;
+            background-color: $--jjext-color-base0;
+          }
+
+          .buttonArea {
+            margin-left: 6px;
+
+            .send-button {
+              padding: 10px;
+              height: unset;
+              border: unset;
+              border-radius: 8px;
+              background-color: $--jjext-color-base1;
+            }
+          }
+        }
+      }
+    }
+  }
 }

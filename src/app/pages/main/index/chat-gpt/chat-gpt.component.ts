@@ -1,27 +1,15 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {OpenaiRequestService} from '../../../../core-module/api-service/openai';
 import {GPTMessageInterface} from '../../../../shared-module/interface';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {SessionUtil} from '../../../../shared-module/util/session-util';
-import {SocketIoService} from '../../../../core-module/service/websocket/socket-io.service';
-import {Socket} from 'socket.io-client/build/esm/socket';
-import {
-  ChatChannelsCallbackEnum,
-  ChatChannelsMessageTypeEnum
-} from '../../../../shared-module/enum/chat-channels.enum';
-import {
-  PrivateChatChannelsInterface,
-  RoomChatChannelsInterface
-} from '../../../../shared-module/interface/chat-channels';
-import {MessageService} from '../../../../shared-module/service/MessageService';
 
 @Component({
   selector: 'app-chat-gpt',
   templateUrl: './chat-gpt.component.html',
   styleUrls: ['./chat-gpt.component.scss']
 })
-export class ChatGPTComponent implements OnInit, AfterViewInit {
+export class ChatGPTComponent implements OnInit {
 
   @ViewChild('chatGPT') chatGPT: ElementRef<Element>;
 
@@ -49,18 +37,12 @@ export class ChatGPTComponent implements OnInit, AfterViewInit {
   synthUtt: SpeechSynthesisUtterance;
   // 展示openAiAlert
   showOpenAiAlert = false;
-  // socket
-  socket: Socket;
-  // 房间
-  room: any;
 
   constructor(private $http: HttpClient, private $openaiRequestService: OpenaiRequestService,
-              private $message: NzMessageService, private messages: MessageService,
-              private $socketIoService: SocketIoService) {
+              private $message: NzMessageService) {
   }
 
   ngOnInit(): void {
-    // this.$socketIoService.connect();
     // 展示openAiAlert
     this.showOpenAiAlert = sessionStorage.getItem('openAiAlert') !== '1';
     try {
@@ -90,40 +72,8 @@ export class ChatGPTComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    /*if (!this.socket) {
-      this.socket = this.$socketIoService.socketIo;
-    }
-    this.messages.close();
-    this.messages.messages.subscribe((msg) => {
-      if (msg.type === 'roomInfo') {
-        this.room = msg;
-      }
-      console.log('订阅消息', msg);
-    });*/
-  }
-
   /*发送问题*/
   async send(): Promise<void> {
-    /*const message: RoomChatChannelsInterface = {
-      from: {
-        userName: SessionUtil.getUserName(),
-        id: SessionUtil.getUserId() + ''
-      },
-      to: this.room,
-      content: this.sQuestion,
-      type: ChatChannelsMessageTypeEnum.roomMessage,
-      time: new Date().getTime()
-    };
-    this.socket.emit(ChatChannelsMessageTypeEnum.roomMessage, message, (response) => {
-      if (response.status === ChatChannelsCallbackEnum.ok) {
-        console.log('消息发送成功');
-      } else {
-        console.log('消息发送失败');
-      }
-    });
-    this.sQuestion = '';
-    return;*/
     if (this.sQuestion === '' || this.dialogLogin) {
       return;
     }
