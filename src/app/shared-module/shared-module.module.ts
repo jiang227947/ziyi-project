@@ -35,7 +35,7 @@ import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {EchartColumnComponent} from './component/echart-column/echart-column.component';
 import {FormComponent} from './component/form/form.component';
 import {SocketIoService} from '../core-module/service/websocket/socket-io.service';
-import {MessageService} from './service/MessageService';
+import {MessageService} from './service/Message.service';
 
 const MODULES = [
   CommonModule,

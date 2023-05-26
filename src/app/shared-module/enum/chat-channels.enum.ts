@@ -21,3 +21,16 @@ export enum ChatChannelsCallbackEnum {
   // 失败
   error = 'error'
 }
+
+
+/**
+ * 消息类型枚举
+ */
+export enum ChatMessagesTypeEnum {
+  // 一般消息
+  general = 0,
+  // 连续消息
+  continuous = 1,
+  // 系统消息
+  system = 2
+}

@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {CHAT_CHANNELS_ROUTER_CONFIG} from './chat-channels-routing.module';
 import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
 import {ChatBaseComponent} from './chat-base/chat-base.component';
+import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/date.pipe';
 
 const COMPONENTS = [
   ChatChannelsComponent,
@@ -12,9 +13,12 @@ const COMPONENTS = [
   ChatBaseComponent
 ];
 
+const PIPES = [DateConversionPipe, TimeConversionPipe];
+
 @NgModule({
   declarations: [
-    ...COMPONENTS
+    ...COMPONENTS,
+    ...PIPES
   ],
   imports: [
     SharedModuleModule,

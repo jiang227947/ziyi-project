@@ -12,30 +12,51 @@
           <!--消息列-->
           <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
             <!--每一条消息-->
-            <li class="messageListItem" aria-setsize="-1">
-              <div class="message" role="article"
-                   tabindex="-1" aria-setsize="-1" aria-roledescription="消息"
-                   aria-labelledby="message-username">
-                <div class="contents">
-                  <!--头像-->
-                  <img src="#" aria-hidden="true" class="avatar" alt="头像">
-                  <!--消息头-->
-                  <h3 class="header" aria-labelledby="message-username">
+            <li class="messageListItem" aria-setsize="-1" *ngFor="let item of messagesList;index as idx">
+              <ng-container [ngSwitch]="item.type">
+                <!--一般消息-->
+                <ng-container *ngSwitchCase="chatMessagesType.general">
+                  <div class="message" role="article" tabindex="-1" aria-setsize="-1" aria-roledescription="消息"
+                       aria-labelledby="message-username">
+                    <div class="contents">
+                      <!--头像-->
+                      <img [src]="item.author.avatar" aria-hidden="true" class="avatar" alt="头像">
+                      <!--消息头-->
+                      <h3 class="header" aria-labelledby="message-username">
                     <span class="headerText">
                       <!--用户名-->
-                      <span class="username" aria-expanded="false" role="button" tabindex="0">用户名</span>
+                      <span class="username" aria-expanded="false" role="button"
+                            tabindex="0">{{item.author.username}}</span>
                       <span class="timestamp" role="button" tabindex="0">
                         <!--时间-->
-                        <time aria-label="今天13:03" datetime="2023-05-25T05:03:18.233Z">
-                          今天13:03
+                        <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
+                              datetime="{{item.timestamp}}">
+                          {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}
                         </time>
                       </span>
                     </span>
-                  </h3>
-                  <!--文字消息-->
-                  <div class="markupMessage">Nope</div>
-                </div>
-              </div>
+                      </h3>
+                      <!--文字消息-->
+                      <div class="markupMessage">{{item.content}}</div>
+                    </div>
+                  </div>
+                </ng-container>
+                <!--连续发言-->
+                <ng-container *ngSwitchCase="chatMessagesType.continuous">
+                  <div class="message continuous">
+                    <div class="timestamp timeHidden">
+                      <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}"
+                            datetime="{{item.timestamp}}">
+                        {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}
+                      </time>
+                    </div>
+                    <!--文字消息-->
+                    <div class="markupMessage">{{item.content}}</div>
+                  </div>
+                </ng-container>
+                <!--系统消息-->
+                <some-element *ngSwitchCase="chatMessagesType.system">系统消息</some-element>
+              </ng-container>
             </li>
           </ol>
         </div>
@@ -47,12 +68,12 @@
             <!--placeholder-->
             <div class="placeholder" aria-hidden="true" *ngIf="textValue === ''">开始聊天</div>
             <!--输入框-->
-            <div role="textbox" class="markup" spellcheck="true" aria-haspopup="listbox" aria-invalid="false"
-                 aria-autocomplete="list" contenteditable="true" (input)="textBoxChange($event.target.innerHTML)">
+            <div #textBox role="textbox" class="markup" spellcheck="true" aria-haspopup="listbox" aria-invalid="false"
+                 aria-autocomplete="list" contenteditable="true" (keydown)="textBoxKeydown($event)" (input)="textBoxChange($event.target.innerHTML)">
             </div>
             <!--发送按钮-->
             <div class="buttonArea">
-              <button type="submit" nz-button nzType="primary" class="send-button">发送</button>
+              <button type="submit" nz-button nzType="primary" class="send-button" (click)="send()">发送</button>
             </div>
           </div>
         </div>
