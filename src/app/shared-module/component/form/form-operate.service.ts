@@ -1,7 +1,7 @@
 /**
  * Created by jzy
  */
-import {AsyncValidatorFn, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {AsyncValidatorFn, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FormItem, Rule} from './form-config';
 import {FormOperateInterface} from './form-operate.interface';
 
@@ -10,7 +10,7 @@ import {FormOperateInterface} from './form-operate.interface';
  */
 export class FormOperate implements FormOperateInterface {
 
-  group: FormGroup;
+  group: UntypedFormGroup;
   column: FormItem[];
   language;
 
@@ -69,7 +69,7 @@ export class FormOperate implements FormOperateInterface {
     if (index === -1) {
       const validator = this.addRule(formItem.rule);
       const asyncValidator = this.addAsyncRule(formItem.asyncRules);
-      const formControl = new FormControl(formItem.initialValue || '', validator, asyncValidator);
+      const formControl = new UntypedFormControl(formItem.initialValue || '', validator, asyncValidator);
       this.group.registerControl(formItem.key, formControl);
       if (_index && _index !== 0) {
         this.column.splice(_index, 0, formItem);

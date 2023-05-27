@@ -10,7 +10,7 @@ import {
   ViewChild,
   OnDestroy
 } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import {FormItem} from './form-config';
 import {FormOperate} from './form-operate.service';
 import lodash from 'lodash-es';
@@ -32,7 +32,7 @@ export class FormComponent implements OnInit, OnChanges, AfterViewInit, OnDestro
   // 表单配置
   @Input() column: FormItem[];
   // formGroup
-  public formGroup = new FormGroup({});
+  public formGroup = new UntypedFormGroup({});
   // 是否禁用
   @Input() isDisabled: boolean;
   // 表单实例
@@ -113,11 +113,11 @@ export class FormComponent implements OnInit, OnChanges, AfterViewInit, OnDestro
    * 初始化表单配置
    */
   private initForm(): void {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.formOperate = new FormOperate(this.formGroup, this.column, this.language);
     this.column.forEach((item: FormItem) => {
       const value = item.initialValue;
-      const formControl = new FormControl({value: value, disabled: this.isDisabled || item.disabled},
+      const formControl = new UntypedFormControl({value: value, disabled: this.isDisabled || item.disabled},
         this.formOperate.addRule(item.rule, item.customRules),
         this.formOperate.addAsyncRule(item.asyncRules));
       this.formGroup.addControl(item.key, formControl);

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Result} from '../../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
@@ -14,7 +14,7 @@ import {UserRoleEnum} from '../../../../shared-module/enum/user.enum';
 export class UserFormComponent implements OnInit {
 
   // 表单
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   // loading
   loading = false;
   // 角色集合
@@ -29,7 +29,7 @@ export class UserFormComponent implements OnInit {
     }
   ];
 
-  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute,
+  constructor(private fb: UntypedFormBuilder, private router: Router, private route: ActivatedRoute,
               private $message: NzMessageService,
               private userManagementRequestService: UserManagementRequestService) {
   }

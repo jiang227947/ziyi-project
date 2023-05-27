@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {AppMenuService} from '../../../shared-module/service/app-menu.service';
 import {LoginRequestService} from '../../../core-module/api-service';
@@ -29,11 +29,11 @@ export class AuthComponent implements OnInit, AfterViewInit {
   // 标题
   public title = '登录';
   // 登录表单
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
   // 登录的loading
   public loginLoading = false;
   // 注册表单
-  public registerForm: FormGroup;
+  public registerForm: UntypedFormGroup;
   // 注册的loading
   public registerLoading = false;
   // 注册成功模板
@@ -53,7 +53,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
   // 第三方登录枚举
   public oauth2Enum = Oauth2Enum;
 
-  constructor(private fb: FormBuilder, private router: Router, private appMenuService: AppMenuService,
+  constructor(private fb: UntypedFormBuilder, private router: Router, private appMenuService: AppMenuService,
               private loginRequestService: LoginRequestService, private $message: NzMessageService,
               private renderer: Renderer2, private route: ActivatedRoute) {
   }
