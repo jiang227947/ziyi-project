@@ -31,10 +31,28 @@ export class LoginRequestService {
   }
 
   /**
-   * github登录接口
+   * 后台获取uuid
    */
-  githubLogin(): Observable<any> {
-    return this.$http.get<any>(`${environment.API_URL}/githubLogin`);
+  gitUuidState(random: string): Observable<Result<string>> {
+    return this.$http.get<Result<string>>(`${environment.API_URL}/gitUuidState`, {
+      params: {
+        random
+      }
+    });
+  }
+
+  /**
+   * github登录跳转地址
+   */
+  githubLogin(): string {
+    return `https://github.com/login/oauth/authorize?client_id=c18cfa87805929090ede&scope=user:email`;
+  }
+
+  /**
+   * qq登录跳转地址
+   */
+  qqLogin(result: { aesString: string, client_id: number }): string {
+    return `https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=${result.client_id}&redirect_uri=https%3A%2F%2Fwww.evziyi.top%2Fapi%2Fauth-callback%0A&state=${result.aesString}`;
   }
 
   /**

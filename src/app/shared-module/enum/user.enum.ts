@@ -15,4 +15,5 @@ export enum UserRoleEnum {
  */
 export enum Oauth2Enum {
   github = 'github',
+  qq = 'qq',
 }

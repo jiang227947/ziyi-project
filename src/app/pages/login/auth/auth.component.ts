@@ -12,7 +12,7 @@ import {Oauth2Enum, UserRoleEnum} from '../../../shared-module/enum/user.enum';
 import {CommonUtil} from '../../../shared-module/util/commonUtil';
 import {getJSONLocalStorage, setLocalStorage} from '../../../shared-module/util/localStorage';
 import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
-import {decipher, encipher} from '../../../shared-module/util/encipher';
+import {decipher} from '../../../shared-module/util/encipher';
 
 @Component({
   selector: 'app-auth',
@@ -239,17 +239,44 @@ export class AuthComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * 第三方登录
+   * 第三方登录跳转
    */
   oauthLogin(param: Oauth2Enum): void {
     switch (param) {
       case Oauth2Enum.github:
-        // this.loginRequestService.githubLogin().subscribe((result: any) => {
-        //   console.log(result);
-        // });
-        window.open('https://github.com/login/oauth/authorize?client_id=c18cfa87805929090ede&scope=user:email', '_self');
+        window.open(this.loginRequestService.githubLogin(), '_self');
+        break;
+      case Oauth2Enum.qq:
+        // 获取uuid
+        this.gitUuidState().then((result: string) => {
+          const decrypted = decipher(result).split('/');
+          const params = {
+            aesString: result,
+            client_id: +decrypted[3]
+          };
+          window.open(this.loginRequestService.qqLogin(params), '_self');
+        });
         break;
     }
+  }
+
+  /**
+   * 后台获取uuid
+   */
+  gitUuidState(): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const random = (Math.random() * 10000).toFixed(0);
+      this.loginRequestService.gitUuidState(random).subscribe((result: Result<string>) => {
+        if (result.code === 200) {
+          resolve(result.data);
+        } else {
+          this.$message.error(result.msg);
+          reject(result.msg);
+        }
+      }, () => {
+        reject(undefined);
+      });
+    });
   }
 
   /**

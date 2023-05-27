@@ -52,9 +52,16 @@
       <div class="more-sign">
         <span class="oauth2">第三方登录</span>
         <ul>
+          <!--Github登录-->
           <li class="github" title="Github登录" (click)="oauthLogin(oauth2Enum.github)">
             <svg class="aliicon" aria-hidden="true">
               <use xlink:href="#icon-github-login"></use>
+            </svg>
+          </li>
+          <!--QQ登录-->
+          <li class="qq" title="QQ登录" (click)="oauthLogin(oauth2Enum.qq)">
+            <svg class="aliicon" aria-hidden="true">
+              <use xlink:href="#icon-QQ"></use>
             </svg>
           </li>
         </ul>
