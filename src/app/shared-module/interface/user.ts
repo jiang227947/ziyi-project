@@ -22,4 +22,5 @@ export interface OauthInterface {
   login_type: string; // 类型
   date: number; // 时间
   userInfo: User; // 用户信息
+  state?: any; // 前端传递的参数，防止CSRF攻击，成功授权后回调时会原样带回
 }

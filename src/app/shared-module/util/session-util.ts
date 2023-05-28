@@ -103,7 +103,6 @@ export class SessionUtil {
   /**
    * 设置token
    * param value
-   * param time
    */
   static setToken(value: Token): void {
     localStorage.setItem('token', JSON.stringify(value));

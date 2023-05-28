@@ -52,6 +52,8 @@ export class AuthComponent implements OnInit, AfterViewInit {
   public leaveMessageLoading: boolean = false;
   // 第三方登录枚举
   public oauth2Enum = Oauth2Enum;
+  // uuidState用来校验
+  public uuidState: string;
 
   constructor(private fb: UntypedFormBuilder, private router: Router, private appMenuService: AppMenuService,
               private loginRequestService: LoginRequestService, private $message: NzMessageService,
@@ -69,9 +71,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
-    if (SessionUtil.getTokenOut()) {
-      this.router.navigate(['/main/index']);
-    } else {
+    if (!SessionUtil.getTokenOut()) {
       SessionUtil.clearUserLocal();
       this.router.navigate(['/login']);
     }
@@ -82,10 +82,24 @@ export class AuthComponent implements OnInit, AfterViewInit {
     this.route.queryParamMap.subscribe((params: ParamMap) => {
       if (params.keys.length === 1) {
         try {
+          // 解密
           const decryptedStr = decipher(params.keys[0]);
           const oauthParam: OauthInterface = JSON.parse(decryptedStr);
-          console.log(oauthParam);
+          // 读取用户信息
           const userInfo: User = oauthParam.userInfo;
+          // 如果是QQ登录则需要校验，防止CSRF攻击
+          if (oauthParam.login_type === 'qq_oauth') {
+            // 读取请求之前的uuidState
+            this.uuidState = localStorage.getItem('UuidState') || undefined;
+            // 判断参数是否一致
+            if (this.uuidState && this.uuidState === decryptedStr) {
+              // 删除参数
+              localStorage.removeItem('UuidState');
+            } else {
+              this.$message.error('参数匹配失败');
+              return;
+            }
+          }
           // 设置token
           SessionUtil.setToken(userInfo.token);
           if (userInfo) {
@@ -93,6 +107,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
           }
         } catch (e) {
           // 解密错误，非登录数据
+          console.log('路由参数错误');
         }
       }
     });
@@ -268,6 +283,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
       const random = (Math.random() * 10000).toFixed(0);
       this.loginRequestService.gitUuidState(random).subscribe((result: Result<string>) => {
         if (result.code === 200) {
+          localStorage.setItem('UuidState', result.data);
           resolve(result.data);
         } else {
           this.$message.error(result.msg);

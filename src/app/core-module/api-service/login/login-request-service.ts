@@ -52,7 +52,8 @@ export class LoginRequestService {
    * qq登录跳转地址
    */
   qqLogin(result: { aesString: string, client_id: number }): string {
-    return `https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=${result.client_id}&redirect_uri=https%3A%2F%2Fwww.evziyi.top%2Fapi%2Fauth-callback%0A&state=${result.aesString}`;
+    const redirectUrl = encodeURIComponent('https://www.evziyi.top/api/qqAuth-callback');
+    return `https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=${result.client_id}&redirect_uri=${redirectUrl}&state=${result.aesString}`;
   }
 
   /**
