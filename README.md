@@ -1,12 +1,12 @@
 # Angular Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.2.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.3.0.
 
 # 在线地址：
 [https://www.evziyi.top/](https://www.evziyi.top/)
 
 
-## 使用Angular12 + Ant-Design
+## 使用Angular14 + Ant-Design
 ### 1. 包含简历、gpt、假期查询、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
 ### 2. jwt、aes加解密、crud等功能。
 ### ~~接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)~~
