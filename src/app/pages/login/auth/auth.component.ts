@@ -74,6 +74,10 @@ export class AuthComponent implements OnInit, AfterViewInit {
     if (!SessionUtil.getTokenOut()) {
       SessionUtil.clearUserLocal();
       this.router.navigate(['/login']);
+    } else {
+      if (window.history.length === 1) {
+        this.router.navigate(['/main/index']);
+      }
     }
     this.buildForm();
   }
@@ -90,9 +94,9 @@ export class AuthComponent implements OnInit, AfterViewInit {
           // 如果是QQ登录则需要校验，防止CSRF攻击
           if (oauthParam.login_type === 'qq_oauth') {
             // 读取请求之前的uuidState
-            this.uuidState = localStorage.getItem('UuidState') || undefined;
+            this.uuidState = localStorage.getItem('UuidState');
             // 判断参数是否一致
-            if (this.uuidState && this.uuidState === decryptedStr) {
+            if (this.uuidState && this.uuidState === oauthParam.state) {
               // 删除参数
               localStorage.removeItem('UuidState');
             } else {

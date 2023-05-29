@@ -74,6 +74,7 @@ export class ChatGPTComponent implements OnInit {
 
   /*发送问题*/
   async send(): Promise<void> {
+    return;
     if (this.sQuestion === '' || this.dialogLogin) {
       return;
     }

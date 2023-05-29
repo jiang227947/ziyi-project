@@ -3,9 +3,23 @@
   <nz-ribbon nzText="chatGPT">
     <article>
       <div #chatGPT class="chatGPT-content">
-<!--        <div class="openAiAlert" *ngIf="showOpenAiAlert">-->
-<!--          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发的OpenAI JS SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>-->
-<!--        </div>-->
+        <nz-alert nzType="info" nzShowIcon
+                  [nzMessage]="alert"></nz-alert>
+        <ng-template #alert>
+          <div style="text-align: center">
+            <p>ChatGPT功能正在逐步添加至
+              <button nz-button nzType="link">
+                <a href="https://www.evziyi.top/chat-channels">聊天频道</a>
+              </button>，在此期间暂停使用</p>
+            <p>The ChatGPT feature is being gradually added to the <button nz-button nzType="link">
+              <a href="https://www.evziyi.top/chat-channels">chat channel</a>
+            </button>and will be suspended during this
+              time</p>
+          </div>
+        </ng-template>
+        <!--        <div class="openAiAlert" *ngIf="showOpenAiAlert">-->
+        <!--          <nz-alert nzType="info" nzShowIcon nzMessage="当前使用的是由第三方开发的OpenAI JS SDK，因此它可能与OpenAI回答的信息不同。" nzCloseText="关闭" (nzOnClose)="nzOnClose()"></nz-alert>-->
+        <!--        </div>-->
         <!--对话框-->
         <div class="dialog-box" *ngFor="let message of dialogBoxMessageList;index as idx">
           <!--对话框数据循环-->
@@ -43,7 +57,7 @@
           <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="10" nzXl="12" nzXXl="12" class="send-input">
             <input nz-input type="text" placeholder="输入想问的问题"
                    [(ngModel)]="sQuestion" (keyup.enter)="send()"/>
-            <button nz-button nzType="primary" type="submit" class="send-button" [disabled]="dialogLogin"
+            <button nz-button nzType="primary" type="submit" class="send-button" [disabled]="true"
                     (click)="send()">发送
             </button>
           </div>
