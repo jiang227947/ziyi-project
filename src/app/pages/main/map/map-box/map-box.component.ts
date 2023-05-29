@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import {MapBoxLoaderService} from '../service/map-box-loader.service';
+import {LoadScriptService} from '../../../../shared-module/service/load-script.service';
 
 @Component({
   selector: 'app-map-box',
@@ -15,8 +16,13 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
   private draw: any; // 绘制多边形函数
   private measureDistancesFunc: any; // 测距函数
 
-  constructor(private $mapBoxLoaderService: MapBoxLoaderService) {
+  constructor(private $mapBoxLoaderService: MapBoxLoaderService,
+              private loadScriptService: LoadScriptService,
+              private renderer: Renderer2) {
     /*** 本地化语言包 https://github.com/mapbox/mapbox-gl-language/* */
+  }
+
+  ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
@@ -27,44 +33,52 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
       });
     });
     observer.observe(this.mapBoxTemp.nativeElement);
-    /*** 中文文档地址：http://www.mapbox.cn/mapbox-gl-js/api/#map* */
-    mapboxgl.accessToken = 'pk.eyJ1Ijoienp5aSIsImEiOiJjbDU4dzZ4d28xbzJoM2lvNTZtOTlxOHFhIn0.CKo_wchkEXfJ1YE9rC1Ckw';
-    this.map = new mapboxgl.Map({
-      container: 'mapBox', // 地图ID
-      style: 'mapbox://styles/mapbox/streets-v11', // 样式类型
-      center: [114.314191, 30.596339], // [lng, lat]
-      zoom: 12, // 缩放大小
-      projection: 'globe', // display the map as a 3D globe
-      attributionControl: false, // 控制展示地图的属性信息。
-    });
+    this.loadJsScript(this.renderer, 'measure-distances', 'https://unpkg.com/@turf/turf@6/turf.min.js').then(() => {
+      /*** 中文文档地址：http://www.mapbox.cn/mapbox-gl-js/api/#map* */
+      mapboxgl.accessToken = 'pk.eyJ1Ijoienp5aSIsImEiOiJjbDU4dzZ4d28xbzJoM2lvNTZtOTlxOHFhIn0.CKo_wchkEXfJ1YE9rC1Ckw';
+      this.map = new mapboxgl.Map({
+        container: 'mapBox', // 地图ID
+        style: 'mapbox://styles/mapbox/streets-v11', // 样式类型
+        center: [114.314191, 30.596339], // [lng, lat]
+        zoom: 12, // 缩放大小
+        projection: 'globe', // display the map as a 3D globe
+        attributionControl: false, // 控制展示地图的属性信息。
+      });
 
-    this.map.on('style.load', () => {
-      // 监听样式加载完毕
-      this.map.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true
-          },
-          trackUserLocation: true
-        }));
-      this.addControl();
-      // this.addMarker();
-    });
-    this.map.on('dragend', (event) => {
-      // 监听拖拽
-      // const center = event.target.getCenter();
-      // console.log('center', center);
-    });
-    this.map.on('click', (e) => {
-      /*new mapboxgl.Popup({className: 'my-class'})
-        .setLngLat(e.lngLat)
-        .setHTML("<h1>Hello World!</h1>")
-        .setMaxWidth("300px")
-        .addTo(this.map);*/
-    });
+      this.map.on('style.load', () => {
+        // 监听样式加载完毕
+        this.map.addControl(
+          new mapboxgl.GeolocateControl({
+            positionOptions: {
+              enableHighAccuracy: true
+            },
+            trackUserLocation: true
+          }));
+        this.addControl();
+        // this.addMarker();
+      });
+      this.map.on('dragend', (event) => {
+        // 监听拖拽
+        // const center = event.target.getCenter();
+        // console.log('center', center);
+      });
+      this.map.on('click', (e) => {
+        /*new mapboxgl.Popup({className: 'my-class'})
+          .setLngLat(e.lngLat)
+          .setHTML("<h1>Hello World!</h1>")
+          .setMaxWidth("300px")
+          .addTo(this.map);*/
+      });
+    }).then(() => this.loadJsScript(this.renderer, 'draw-js', 'https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl-draw/1.4.1/mapbox-gl-draw.js').then(() => {
+
+    }).then(() => this.loadJsScript(this.renderer, 'draw-css', 'https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl-draw/1.4.1/mapbox-gl-draw.css', 'text/css').then(() => {
+
+    })).then(() => {
+    }));
   }
 
-  ngOnInit(): void {
+  loadJsScript(renderer: Renderer2, id: string, src: string, type: string = 'text/javascript'): Promise<any> {
+    return this.loadScriptService.loadJsScript(renderer, id, src, type);
   }
 
   /*** 添加控制组件* */
@@ -124,101 +138,99 @@ export class MapBoxComponent implements OnInit, AfterViewInit {
    * 测量距离 https://docs.mapbox.com/mapbox-gl-js/example/measure/
    * */
   measureDistances(): void {
-    this.$mapBoxLoaderService.loadDistances().then(() => {
-      const distanceContainer = document.getElementById('distance');
-      const geojson = {
-        type: 'FeatureCollection',
-        features: []
-      };
+    const distanceContainer = document.getElementById('distance');
+    const geojson = {
+      type: 'FeatureCollection',
+      features: []
+    };
 
-      // Used to draw a line between points
-      const linestring = {
-        type: 'Feature',
-        geometry: {
-          type: 'LineString',
-          coordinates: []
-        }
-      };
-      this.map.addSource('geojson', {
-        type: 'geojson',
-        data: geojson
-      });
-
-      // Add styles to the map
-      this.map.addLayer({
-        id: 'measure-points',
-        type: 'circle',
-        source: 'geojson',
-        paint: {
-          'circle-radius': 5,
-          'circle-color': '#000'
-        },
-        filter: ['in', '$type', 'Point']
-      });
-      this.map.addLayer({
-        id: 'measure-lines',
-        type: 'line',
-        source: 'geojson',
-        layout: {
-          'line-cap': 'round',
-          'line-join': 'round'
-        },
-        paint: {
-          'line-color': '#000',
-          'line-width': 2.5
-        },
-        filter: ['in', '$type', 'LineString']
-      });
-      // 给测距函数添加事件
-      this.measureDistancesFunc = (e) => {
-        const features = this.map.queryRenderedFeatures(e.point, {
-          layers: ['measure-points']
-        });
-
-        // Remove the linestring from the group
-        // so we can redraw it based on the points collection.
-        if (geojson.features.length > 1) {
-          geojson.features.pop();
-        }
-
-        // Clear the distance container to populate it with a new value.
-        distanceContainer.innerHTML = '';
-
-        // If a feature was clicked, remove it from the map.
-        if (features.length) {
-          const id = features[0].properties.id;
-          geojson.features = geojson.features.filter(
-            (point) => point.properties.id !== id
-          );
-        } else {
-          const point = {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [e.lngLat.lng, e.lngLat.lat]
-            },
-            properties: {
-              id: String(new Date().getTime())
-            }
-          };
-          geojson.features.push(point);
-        }
-
-        if (geojson.features.length > 1) {
-          linestring.geometry.coordinates = geojson.features.map(
-            (point) => point.geometry.coordinates
-          );
-          geojson.features.push(linestring);
-          // Populate the distanceContainer with total distance
-          const value = document.createElement('pre');
-          const distance = turf.length(linestring);
-          value.textContent = `距离: ${distance.toLocaleString()}km`;
-          distanceContainer.appendChild(value);
-        }
-        this.map.getSource('geojson').setData(geojson);
-      };
-      this.map.on('click', this.measureDistancesFunc);
+    // Used to draw a line between points
+    const linestring = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: []
+      }
+    };
+    this.map.addSource('geojson', {
+      type: 'geojson',
+      data: geojson
     });
+
+    // Add styles to the map
+    this.map.addLayer({
+      id: 'measure-points',
+      type: 'circle',
+      source: 'geojson',
+      paint: {
+        'circle-radius': 5,
+        'circle-color': '#000'
+      },
+      filter: ['in', '$type', 'Point']
+    });
+    this.map.addLayer({
+      id: 'measure-lines',
+      type: 'line',
+      source: 'geojson',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round'
+      },
+      paint: {
+        'line-color': '#000',
+        'line-width': 2.5
+      },
+      filter: ['in', '$type', 'LineString']
+    });
+    // 给测距函数添加事件
+    this.measureDistancesFunc = (e) => {
+      const features = this.map.queryRenderedFeatures(e.point, {
+        layers: ['measure-points']
+      });
+
+      // Remove the linestring from the group
+      // so we can redraw it based on the points collection.
+      if (geojson.features.length > 1) {
+        geojson.features.pop();
+      }
+
+      // Clear the distance container to populate it with a new value.
+      distanceContainer.innerHTML = '';
+
+      // If a feature was clicked, remove it from the map.
+      if (features.length) {
+        const id = features[0].properties.id;
+        geojson.features = geojson.features.filter(
+          (point) => point.properties.id !== id
+        );
+      } else {
+        const point = {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [e.lngLat.lng, e.lngLat.lat]
+          },
+          properties: {
+            id: String(new Date().getTime())
+          }
+        };
+        geojson.features.push(point);
+      }
+
+      if (geojson.features.length > 1) {
+        linestring.geometry.coordinates = geojson.features.map(
+          (point) => point.geometry.coordinates
+        );
+        geojson.features.push(linestring);
+        // Populate the distanceContainer with total distance
+        const value = document.createElement('pre');
+        const distance = turf.length(linestring);
+        value.textContent = `距离: ${distance.toLocaleString()}km`;
+        distanceContainer.appendChild(value);
+      }
+      this.map.getSource('geojson').setData(geojson);
+    };
+    this.map.on('click', this.measureDistancesFunc);
   }
 
   removeDistances(): void {

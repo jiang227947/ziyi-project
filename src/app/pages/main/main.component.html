@@ -40,7 +40,9 @@
         <div class="d-flex align-items-center px-sm">
           <img alt="头像" src="{{avatar}}" class="avatar" *ngIf="avatar !== null">
           <nz-avatar nzIcon="user" class="avatar" *ngIf="avatar === null"></nz-avatar>
-          {{ userName }}
+          <span class="username-p">
+            {{ userName }}
+          </span>
         </div>
         <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
           <div nz-menu style="width:160px;">

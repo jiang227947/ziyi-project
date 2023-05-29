@@ -30,12 +30,13 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
-
 // component
 import {EchartColumnComponent} from './component/echart-column/echart-column.component';
 import {FormComponent} from './component/form/form.component';
+// service
 import {SocketIoService} from '../core-module/service/websocket/socket-io.service';
 import {MessageService} from './service/Message.service';
+import {LoadScriptService} from './service/load-script.service';
 
 const MODULES = [
   CommonModule,
@@ -74,6 +75,8 @@ const NZMODULES = [
 
 const COMPONENT = [EchartColumnComponent, FormComponent];
 
+const SERVICES = [NzMessageService, LoadScriptService, SocketIoService, MessageService];
+
 @NgModule({
   imports: [
     ...MODULES,
@@ -84,7 +87,7 @@ const COMPONENT = [EchartColumnComponent, FormComponent];
     ...NZMODULES,
     ...COMPONENT
   ],
-  providers: [NzMessageService, SocketIoService, MessageService],
+  providers: [...SERVICES],
   declarations: [...COMPONENT]
 })
 export class SharedModuleModule {

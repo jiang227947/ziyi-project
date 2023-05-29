@@ -184,6 +184,7 @@
 .alain-default__nav-item {
   display: block;
   min-width: 50px;
+  max-width: 10rem;
   padding: 8px 2px;
   line-height: 100%;
   text-align: center;
@@ -192,9 +193,16 @@
   cursor: pointer;
   color: #ffffff;
   transition: background-color .3s;
+  overflow: hidden;
 
   .align-items-center {
     align-items: center;
+  }
+
+  .username-p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .d-flex {

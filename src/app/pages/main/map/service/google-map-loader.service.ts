@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, Renderer2} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 
 /**
@@ -15,7 +15,7 @@ export class GoogleMapLoaderService {
   constructor(private _global: AppGlobalRef, @Inject(DOCUMENT) private _document) {
   }
 
-  load(): Promise<void> {
+  load(renderer: Renderer2): Promise<void> {
     const winRef = this._global.nativeGlobal as any;
     if (winRef.google && winRef.google.maps) {
       return Promise.resolve();
@@ -32,7 +32,7 @@ export class GoogleMapLoaderService {
       return this._scriptLoadingPromise;
     }
 
-    const script = this._document.createElement('script');
+    const script: HTMLScriptElement = renderer.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.defer = true;
@@ -44,7 +44,7 @@ export class GoogleMapLoaderService {
     return this._scriptLoadingPromise;
   }
 
-  private _assignScriptLoadingPromise(scriptElem: HTMLElement) {
+  private _assignScriptLoadingPromise(scriptElem: HTMLScriptElement) {
     this._scriptLoadingPromise = new Promise<void>((resolve: Function, reject: Function) => {
 
       (this._global.nativeGlobal as any).initGoogleMap = () => {

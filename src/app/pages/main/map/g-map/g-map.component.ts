@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {GoogleMapLoaderService} from '../service/google-map-loader.service';
+import {AfterViewInit, Component, OnInit, Renderer2} from '@angular/core';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {MarkerClusterer, MarkerClustererOptions} from '@googlemaps/markerclusterer';
 import Marker = google.maps.Marker;
 import {MapComponent} from '../map/map.component';
 import {EMapType} from '../../../../shared-module/enum/map-enum';
+import {GoogleMapLoaderService} from '../service/google-map-loader.service';
 
 @Component({
   selector: 'app-g-map',
@@ -17,6 +17,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
   googleMap: google.maps.Map; // 谷歌地图实体
 
   constructor(private googleMapLoader: GoogleMapLoaderService,
+              private renderer: Renderer2,
               private modal: NzModalService) {
     super();
   }
@@ -495,7 +496,7 @@ export class GMapComponent extends MapComponent implements OnInit, AfterViewInit
    * */
   loadGoogleMap(): void {
     this.mapLoadType = this.mapLoadTypeEnum.loading;
-    this.googleMapLoader.load().then(() => {
+    this.googleMapLoader.load(this.renderer).then(() => {
       this.googleMap = new google.maps.Map(this.googleMapElement.nativeElement, {
         center: {lat: +this.mapLat, lng: +this.mapLng},
         zoom: this.mapZoom,
