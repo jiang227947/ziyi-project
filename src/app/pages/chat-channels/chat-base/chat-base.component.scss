@@ -233,6 +233,22 @@
                 display: none;
               }
             }
+
+            /*系统消息*/
+            .system {
+              height: 2rem;
+              overflow: hidden;
+              text-align: center;
+              color: $--text-muted;
+              font-size: 1rem;
+              line-height: 2rem;
+              margin: 1rem 0;
+
+              .user-join {
+                color: $--user-int;
+                margin: 0 0.2rem;
+              }
+            }
           }
         }
       }

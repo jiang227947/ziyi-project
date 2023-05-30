@@ -42,7 +42,7 @@ export class MainComponent implements OnInit {
     });*/
     const userInfo: User = SessionUtil.getUserInfo();
     if (userInfo) {
-      this.userName = `${userInfo.userName}${userInfo.userName}`;
+      this.userName = `${userInfo.userName}`;
       if (userInfo.avatar && userInfo.avatar.indexOf('http' || 'https') !== -1) {
         this.avatar = userInfo.avatar;
       } else if (userInfo.avatar !== null) {

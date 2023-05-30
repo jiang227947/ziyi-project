@@ -31,6 +31,10 @@ export class DateConversionPipe implements PipeTransform {
 @Pipe({name: 'timeConversion'})
 export class TimeConversionPipe implements PipeTransform {
   transform(date: string): string {
-    return `${new Date(date).getHours()}:${new Date(date).getMinutes()}`;
+    let minutes: number | string = new Date(date).getMinutes();
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+    return `${new Date(date).getHours()}:${minutes}`;
   }
 }

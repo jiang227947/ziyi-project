@@ -3,9 +3,15 @@ import {io} from 'socket.io-client';
 import {environment} from '../../../../environments/environment';
 import {Socket} from 'socket.io-client/build/esm/socket';
 import {SessionUtil} from '../../../shared-module/util/session-util';
-import {ChatChannelsMessageTypeEnum} from '../../../shared-module/enum/chat-channels.enum';
-import {PrivateChatChannelsInterface} from '../../../shared-module/interface/chat-channels';
-import {Observable, Subject} from 'rxjs';
+import {
+  ChatChannelsCallbackEnum,
+  ChatChannelsMessageStatesEnum,
+  ChatChannelsMessageTypeEnum
+} from '../../../shared-module/enum/chat-channels.enum';
+import {
+  ChatChannelSubscribeInterface,
+  ChatMessagesInterface,
+} from '../../../shared-module/interface/chat-channels';
 import {MessageService} from '../../../shared-module/service/Message.service';
 
 /**
@@ -40,7 +46,8 @@ export class SocketIoService {
     }
     // 连接成功
     this.socketIo.on('connect', () => {
-      console.log('socket.recovered', this.socketIo.recovered);
+      // console.log('socket.recovered', this.socketIo.recovered);
+      // 是否为紧急重连
       if (this.socketIo.recovered) {
         // any missed packets will be received
       } else {
@@ -55,25 +62,41 @@ export class SocketIoService {
       // this.heartCheckStart();
       // this.reconnectCount = RECONNECT_COUNT;
       // this.socketIo.emit('onmessage', this.socketIo.id);
-      // 一般消息
-      this.socketIo.on(ChatChannelsMessageTypeEnum.generalMessage, (msg: PrivateChatChannelsInterface) => {
-        // console.log('一般消息', msg);
-        this.messages.sendMessage(msg);
+      // 公共频道消息
+      this.socketIo.on(ChatChannelsMessageTypeEnum.publicMessage, (msg: ChatMessagesInterface) => {
+        // console.log('公共频道消息', msg);
+        const message: ChatChannelSubscribeInterface = {
+          type: ChatChannelsMessageTypeEnum.publicMessage,
+          msg
+        };
+        this.messages.sendMessage(message);
       });
       // 房间消息
-      this.socketIo.on(ChatChannelsMessageTypeEnum.roomMessage, (msg: PrivateChatChannelsInterface) => {
+      this.socketIo.on(ChatChannelsMessageTypeEnum.roomMessage, (msg: ChatMessagesInterface) => {
         // console.log('房间消息', msg);
-        this.messages.sendMessage(msg);
-      });
-      // 全体消息
-      this.socketIo.on(ChatChannelsMessageTypeEnum.allMessage, (msg) => {
-        // console.log('全体消息', msg);
-        this.messages.sendMessage(msg);
+        const message: ChatChannelSubscribeInterface = {
+          type: ChatChannelsMessageTypeEnum.roomMessage,
+          msg
+        };
+        this.messages.sendMessage(message);
       });
       // 系统消息
       this.socketIo.on(ChatChannelsMessageTypeEnum.systemMessage, (msg) => {
         // console.log('系统消息', msg);
-        this.messages.sendMessage(msg);
+        const message: ChatChannelSubscribeInterface = {
+          type: ChatChannelsMessageTypeEnum.systemMessage,
+          msg
+        };
+        this.messages.sendMessage(message);
+      });
+      // 全体消息
+      this.socketIo.on(ChatChannelsMessageTypeEnum.allMessage, (msg) => {
+        // console.log('全体消息', msg);
+        const message: ChatChannelSubscribeInterface = {
+          type: ChatChannelsMessageTypeEnum.allMessage,
+          msg
+        };
+        this.messages.sendMessage(message);
       });
       // 连接断开
       this.socketIo.on('disconnect', (reason) => {

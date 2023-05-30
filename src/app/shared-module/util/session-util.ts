@@ -45,8 +45,8 @@ export class SessionUtil {
    */
   static getUserName(): string {
     const userInfo = this.getUserInfo();
-    if (userInfo.name) {
-      return userInfo.name;
+    if (userInfo.userName) {
+      return userInfo.userName;
     } else {
       return '';
     }

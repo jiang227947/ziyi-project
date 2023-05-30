@@ -8,7 +8,7 @@
     <div class="content">
       <!--主体框-->
       <div class="messagesWrapper">
-        <div class="scrollerBase">
+        <div #scrollerBase class="scrollerBase">
           <!--消息列-->
           <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
             <!--每一条消息-->
@@ -55,7 +55,16 @@
                   </div>
                 </ng-container>
                 <!--系统消息-->
-                <some-element *ngSwitchCase="chatMessagesType.system">系统消息</some-element>
+                <ng-container *ngSwitchCase="chatMessagesType.system">
+                  <div class="system" *ngIf="item.systemStates === 'userJoin'">
+                    <span class="user-join">{{item.userName}}</span>
+                    <span>进入频道</span>
+                  </div>
+                  <div class="system" *ngIf="item.systemStates === 'userlLeft'">
+                    <span class="user-join">{{item.userName}}</span>
+                    <span>离开频道</span>
+                  </div>
+                </ng-container>
               </ng-container>
             </li>
           </ol>

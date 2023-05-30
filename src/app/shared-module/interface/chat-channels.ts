@@ -1,73 +1,23 @@
-import {ChatChannelsMessageTypeEnum, ChatMessagesTypeEnum} from '../enum/chat-channels.enum';
+import {
+  ChatChannelsMessageStatesEnum, ChatChannelsMessageTypeEnum,
+  ChatMessagesTypeEnum, SystemMessagesEnum
+} from '../enum/chat-channels.enum';
+
 
 /**
- * 单独聊天频道接口
+ * 聊天频道订阅接口
  */
-export interface PrivateChatChannelsInterface {
-  // 消息发起人信息
-  from: ChatFromInterface;
-  // 消息接收人信息
-  to: ChatToInterface;
-  // 内容
-  content: string;
-  // 消息类型
-  type: string;
-  // 发送时间
-  time: number;
-}
-
-/**
- * 群体聊天频道接口
- */
-export interface RoomChatChannelsInterface {
-  // 消息发起人信息
-  from: ChatFromInterface;
-  // 消息接收信息
-  to: ChatToRoomInterface;
-  // 内容
-  content: string;
-  // 消息类型
+export interface ChatChannelSubscribeInterface {
   type: ChatChannelsMessageTypeEnum;
-  // 发送时间
-  time: number;
-}
-
-/**
- * 消息发起人信息
- */
-export interface ChatFromInterface {
-  // 发起人名称
-  userName: string;
-  // 发起人ID
-  id: string;
-}
-
-/**
- * 消息接收人信息
- */
-export interface ChatToInterface {
-  // 接收人名称
-  userName: string;
-  // 接收人ID
-  id: string;
-  // 接收人socketId
-  socketId: string;
-}
-
-/**
- * 消息接收群信息
- */
-export interface ChatToRoomInterface {
-  // roomId
-  roomId: string;
-  // 房间名
-  roomName: string;
+  msg: ChatChannelRoomInterface | ChatChannelSystemStatesUserInterface | any;
 }
 
 /**
  * 聊天频道聊天频道房间接口
  */
 export interface ChatChannelRoomInterface {
+  // 消息类型
+  systemStates: SystemMessagesEnum;
   // 房间ID
   roomId: string;
   // 房间名称
@@ -79,10 +29,20 @@ export interface ChatChannelRoomInterface {
     // socketId
     socketId: string;
     // 名称
-    name: string;
+    userName: string;
     // 头像
     avatar?: string;
   }[];
+}
+
+/**
+ * 系统消息用户状态
+ */
+export interface ChatChannelSystemStatesUserInterface {
+  // 消息类型
+  systemStates: SystemMessagesEnum;
+  // 用户名称
+  userName: string;
 }
 
 /**
@@ -102,7 +62,7 @@ export interface ChatMessagesInterface {
     // 全局名称
     global_name: string;
     // id
-    id: string;
+    id: number;
     // 公共标签
     public_flags: number;
     // 用户名
@@ -121,7 +81,7 @@ export interface ChatMessagesInterface {
   // 标志
   flags: number;
   // id
-  id: string;
+  id: number;
   // 提及的人
   mention_everyone: boolean;
   // 提及的角色
@@ -138,6 +98,10 @@ export interface ChatMessagesInterface {
   timestamp: string;
   // 文本转语音
   tts: boolean;
-  // 类型
+  // 消息类型 用于前端展示判断
   type: ChatMessagesTypeEnum;
+  // 系统消息类型枚举
+  systemStates?: SystemMessagesEnum;
+  // 消息发送状态
+  states?: ChatChannelsMessageStatesEnum;
 }
