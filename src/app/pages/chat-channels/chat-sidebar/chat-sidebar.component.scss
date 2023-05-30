@@ -18,6 +18,37 @@
   position: relative;
 
   .avatar {
+    position: relative;
+    margin: 0 0 8px;
+    padding: 12px 0 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 72px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 16px;
+      left: 0;
+      width: 4px;
+      height: 40px;
+      background-color: #fff;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    img {
+      box-sizing: border-box;
+      position: relative;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
   }
 
   .tree-ul {

@@ -46,6 +46,7 @@ export class SocketIoService {
     }
     // 连接成功
     this.socketIo.on('connect', () => {
+      // todo 需要让服务器保存新进来的用户资料
       // console.log('socket.recovered', this.socketIo.recovered);
       // 是否为紧急重连
       if (this.socketIo.recovered) {
@@ -100,6 +101,7 @@ export class SocketIoService {
       });
       // 连接断开
       this.socketIo.on('disconnect', (reason) => {
+        // todo 需要处理断开的用户
         console.log('websocket 连接断开');
         // 重新连接
         /*let reconnectCount: number = 5;
@@ -114,11 +116,13 @@ export class SocketIoService {
       });
       // 连接关闭
       this.socketIo.on('close', (msg) => {
+        // todo 需要处理断开的用户
         console.log('websocket 连接关闭');
         this.close();
       });
       // 连接错误
       this.socketIo.on('connect_error', (msg) => {
+        // todo 需要处理断开的用户
         console.log('websocket 连接错误');
         this.close();
       });

@@ -41,6 +41,8 @@ export class ChatBaseComponent implements OnInit {
   userInfo: User;
   // 当前房间频道信息
   roomChannel: ChatChannelSystemStatesUserInterface;
+  // 在线用户
+  olineUserList = [];
 
   constructor(private messages: MessageService) {
   }
@@ -48,10 +50,13 @@ export class ChatBaseComponent implements OnInit {
   ngOnInit(): void {
     this.userInfo = SessionUtil.getUserInfo();
     console.log('this.userInfo', this.userInfo);
+    // todo 需要获取当前存在的用户
+    this.olineUserList.push({
+      userName: this.userInfo.userName
+    });
     // this.messages.close();
     this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
       console.log('订阅消息', message);
-      const date = new Date().toISOString();
       switch (message.type) {
         case ChatChannelsMessageTypeEnum.publicMessage:
           this.messagesList.push(this.isContinuous(message.msg));
@@ -77,6 +82,14 @@ export class ChatBaseComponent implements OnInit {
                   userName: message.msg.userName
                 };
                 this.messagesList.push(join);
+                // todo 同名处理
+                if (this.olineUserList.indexOf(message.msg.userName) === -1) {
+                  this.olineUserList.push(
+                    {
+                      userName: message.msg.userName
+                    }
+                  );
+                }
               }
               break;
             case SystemMessagesEnum.left:

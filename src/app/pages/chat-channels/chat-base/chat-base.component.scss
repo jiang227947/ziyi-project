@@ -12,19 +12,49 @@
   .sidebar {
     flex-direction: column;
     min-height: 0;
-    width: 240px;
+    width: 12rem;
     height: 100%;
     flex: 0 0 auto;
     display: flex;
     overflow: hidden;
     background-color: $--jjext-color-base;
+
+    .scrollerInner {
+      min-height: 0;
+      overflow: hidden;
+      list-style: none;
+
+      .olineUserList {
+        position: relative;
+        height: 40px;
+        line-height: 40px;
+        background-color: $--jjext-color-base;
+
+        &:hover {
+          background-color: $--li-hover;
+          border-radius: 8px;
+          transition: all 0.15s;
+        }
+
+        .user-item {
+          color: $--user-name1;
+          padding: 2px 1rem;
+          width: 10rem;
+          cursor: pointer;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 0.9rem;
+        }
+      }
+    }
   }
 
   .chat {
     position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    min-width: 200px;
     min-height: 0;
     flex: 1 1 auto;
     background-color: $--jjext-color-secondary-app;
