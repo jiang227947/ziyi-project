@@ -7,20 +7,17 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 ## 使用Angular14 + Ant-Design
-### 1. 包含简历、gpt、假期查询、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
+### 1. 包含简历、gpt、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
 ### 2. jwt、aes加解密、crud等功能。
 ### ~~接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)~~
 ### 3. 后台服务Node用个人项目 [Node、JWT、sequelize、mysql](https://github.com/jiang227947/node-server)
 
 ## 目前已知问题：
 ### 1. 和风地图请求数据Loading异常，数据已返回，但还是在loading
-### 2. 小米手机在手机预览标识状态时，首页假期查询接口会查询失败，切换成电脑版后正常
 
 ## 未来：
 ### 1. Angular版本准备升级至15
-### 2. 新增JS工具插件
-### 3. 新增Webgl Demo
-### 4. Web端的聊天室功能完善，增加手机端微信小程序聊天室
+### 2. Web端的聊天室功能完善，增加手机端微信小程序聊天室
 
 ## Development server
 
