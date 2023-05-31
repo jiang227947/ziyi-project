@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {
   ChatChannelRoomInterface,
   ChatChannelSubscribeInterface, ChatChannelSystemStatesUserInterface,
@@ -30,6 +30,8 @@ export class ChatBaseComponent implements OnInit {
 
   // Socket长连接
   @Input() socket: Socket;
+  // 断开
+  @Output() socketDisconnect = new EventEmitter();
   // 输入框
   @ViewChild('textBox') private textBox: ElementRef;
   // 滚动条
@@ -92,15 +94,18 @@ export class ChatBaseComponent implements OnInit {
                 const join: any = {
                   type: this.chatMessagesType.system,
                   systemStates: SystemMessagesEnum.join,
-                  userName: message.msg.userName
+                  userName: message.msg.userName,
+                  id: message.msg.id,
+                  socketId: message.msg.socketId,
+                  timestamp: message.msg.timestamp
                 };
                 this.messagesList.push(join);
                 // todo 同名处理
                 if (this.olineUserList.indexOf(message.msg.userName) === -1) {
                   this.olineUserList.push({
                     userName: message.msg.userName,
-                    id: null,
-                    socketId: ''
+                    id: message.msg.id,
+                    socketId: message.msg.socketId
                   });
                 }
               }
@@ -111,9 +116,18 @@ export class ChatBaseComponent implements OnInit {
                 const left: any = {
                   type: this.chatMessagesType.system,
                   systemStates: SystemMessagesEnum.left,
-                  userName: message.msg.userName
+                  userName: message.msg.userName,
+                  id: message.msg.id,
+                  socketId: message.msg.socketId,
+                  timestamp: message.msg.timestamp
                 };
                 this.messagesList.push(left);
+                console.log('this.messagesList', this.messagesList);
+                const findIndex = this.olineUserList.findIndex(user => user.socketId === message.msg.socketId);
+                // 删除用户
+                if (findIndex !== 0) {
+                  this.olineUserList.splice(findIndex, 1);
+                }
               }
               break;
             default:
@@ -267,6 +281,8 @@ export class ChatBaseComponent implements OnInit {
    * 退出聊天
    */
   quit(): void {
+    // this.socket.connect();
+    this.socket.disconnect();
     this.router.navigate(['/main/index']);
   }
 

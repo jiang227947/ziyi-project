@@ -85,13 +85,21 @@
                 </ng-container>
                 <!--系统消息-->
                 <ng-container *ngSwitchCase="chatMessagesType.system">
-                  <div class="system" *ngIf="item.systemStates === 'userJoin'">
-                    <span class="user-join">{{item.userName}}</span>
-                    <span>进入频道</span>
-                  </div>
-                  <div class="system" *ngIf="item.systemStates === 'userlLeft'">
-                    <span class="user-join">{{item.userName}}</span>
-                    <span>离开频道</span>
+                  <div class="system">
+                    <div class="timestamp timeHidden">
+                      <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}"
+                            datetime="{{item.timestamp}}">
+                        {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}
+                      </time>
+                    </div>
+                    <ng-container *ngIf="item.systemStates === 'userJoin'">
+                      <span class="user-join">{{item.userName}}</span>
+                      <span>进入频道</span>
+                    </ng-container>
+                    <ng-container *ngIf="item.systemStates === 'userlLeft'">
+                      <span class="user-join">{{item.userName}}</span>
+                      <span>离开频道</span>
+                    </ng-container>
                   </div>
                 </ng-container>
               </ng-container>

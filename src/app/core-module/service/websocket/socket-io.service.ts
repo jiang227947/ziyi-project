@@ -4,7 +4,7 @@ import {environment} from '../../../../environments/environment';
 import {Socket} from 'socket.io-client/build/esm/socket';
 import {SessionUtil} from '../../../shared-module/util/session-util';
 import {
-  ChatChannelsMessageTypeEnum
+  ChatChannelsMessageTypeEnum, SystemMessagesEnum
 } from '../../../shared-module/enum/chat-channels.enum';
 import {
   ChatChannelSubscribeInterface,
@@ -41,8 +41,8 @@ export class SocketIoService {
       // 部署服务器地址
       this.socketIo = io(`wss://www.evziyi.top`, opt);
     } else {
-      // this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
-      this.socketIo = io(`wss://www.evziyi.top`, opt);
+      this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
+      // this.socketIo = io(`wss://www.evziyi.top`, opt);
     }
     // 连接成功
     this.socketIo.on('connect', () => {
@@ -101,7 +101,7 @@ export class SocketIoService {
       });
       // 连接断开
       this.socketIo.on('disconnect', (reason) => {
-        // todo 需要处理断开的用户
+        // console.log('Socket disconnected: ' + _id);
         console.log('websocket 连接断开');
         // 重新连接
         /*let reconnectCount: number = 5;

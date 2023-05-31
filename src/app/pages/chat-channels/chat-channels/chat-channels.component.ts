@@ -22,4 +22,8 @@ export class ChatChannelsComponent implements OnInit {
     }
   }
 
+  socketDisconnect(): void {
+    this.$socketIoService.socketIo.disconnect();
+  }
+
 }
