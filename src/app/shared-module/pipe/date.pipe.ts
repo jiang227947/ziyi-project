@@ -12,12 +12,17 @@ export class DateConversionPipe implements PipeTransform {
     const timeDiff = new Date().getTime() - new Date(date).getTime();  // 时间差的毫秒数
     // timeDiff = 时间戳差值
     const days = Math.floor(timeDiff / (24 * 3600 * 1000)); // 计算出天数
+    // 分补0
+    let minutes: number | string = new Date(date).getMinutes();
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
     if (nowTime === dateStr) {
       // 判断是否在同一天
-      dateVal = `今天${new Date(date).getHours()}:${new Date(date).getMinutes()}`;
+      dateVal = `今天${new Date(date).getHours()}:${minutes}`;
     } else if (days === 1) {
       // 判断是否是昨天
-      dateVal = `昨天${new Date(date).getHours()}:${new Date(date).getMinutes()}`;
+      dateVal = `昨天${new Date(date).getHours()}:${minutes}`;
     } else {
       dateVal = date;
     }

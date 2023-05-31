@@ -33,9 +33,9 @@ export class ChatBaseComponent implements OnInit {
   // 断开
   @Output() socketDisconnect = new EventEmitter();
   // 输入框
-  @ViewChild('textBox') private textBox: ElementRef;
+  @ViewChild('textBox') private textBox: ElementRef<Element>;
   // 滚动条
-  @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef;
+  @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef<Element>;
   // 输入的文字
   textValue: string = '';
   // 左侧用户展开控制
@@ -122,7 +122,6 @@ export class ChatBaseComponent implements OnInit {
                   timestamp: message.msg.timestamp
                 };
                 this.messagesList.push(left);
-                console.log('this.messagesList', this.messagesList);
                 const findIndex = this.olineUserList.findIndex(user => user.socketId === message.msg.socketId);
                 // 删除用户
                 if (findIndex !== 0) {
@@ -137,7 +136,7 @@ export class ChatBaseComponent implements OnInit {
       }
       setTimeout(() => {
         this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-      });
+      }, 10);
       console.log('this.messagesList', this.messagesList);
     });
   }
@@ -146,8 +145,24 @@ export class ChatBaseComponent implements OnInit {
    * 发送消息
    */
   send(): void {
+    // 判断空字符
     if (this.textValue === '') {
       return;
+    }
+    // 判断无意义的多段换行
+    const split = this.textValue.split(`\n`);
+    let count: number = 0;
+    for (let i = 0; i < split.length; i++) {
+      if (split[i] === '') {
+        count += 1;
+      }
+    }
+    /**
+     * 如果只有多段换行   并且超过3条只显示3条
+     * 注：换行符split之后的length会默认+2 所以判断要大于5
+     */
+    if (count === split.length && count > 5) {
+      this.textValue = `\n\n\n`;
     }
     const message: ChatMessagesInterface = {
       // 附件
@@ -215,10 +230,10 @@ export class ChatBaseComponent implements OnInit {
     });
     setTimeout(() => {
       this.textBox.nativeElement.innerHTML = '';
-      this.textBox.nativeElement.innerText = '';
+      // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
       this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-    });
+    }, 10);
   }
 
   /**
@@ -234,11 +249,13 @@ export class ChatBaseComponent implements OnInit {
     if (message.type === this.chatMessagesType.system) {
       return message;
     }
+    // 如果上一条消息的用户为当前这个人则为连续发言
     if (this.messagesList.length > 0
       && this.messagesList[this.messagesList.length - 1].author
       && message.author.id === this.messagesList[this.messagesList.length - 1].author.id) {
       message.type = this.chatMessagesType.continuous;
     } else {
+      // 否则为普通发言
       message.type = this.chatMessagesType.general;
     }
     return message;

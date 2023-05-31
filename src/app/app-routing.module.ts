@@ -14,6 +14,9 @@ const routes: Routes = [
   // 聊天频道
   {
     path: 'chat-channels',
+    // 路由守卫
+    // todo 后续添加状态管理器 @ngxs/store
+    canActivate: [SimpleGuardService],
     loadChildren: () => import('./pages/chat-channels/chat-channels.module').then(m => m.ChatChannelsModule)
   },
   // 首页

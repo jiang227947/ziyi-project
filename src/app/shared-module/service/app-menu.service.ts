@@ -241,6 +241,17 @@ export class AppMenuService {
             children: []
           }
         ]
+      },
+      // 聊天频道
+      {
+        menuId: '9',
+        menuName: '聊天频道',
+        menuLevel: 1,
+        menuHref: '/chat-channels',
+        icon: '',
+        isShow: false,
+        isSelected: false,
+        children: []
       }
     ];
   }

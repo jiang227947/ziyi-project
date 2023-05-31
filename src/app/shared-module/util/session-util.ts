@@ -33,7 +33,7 @@ export class SessionUtil {
    */
   static getRoleId(): UserRoleEnum {
     const userInfo = this.getUserInfo();
-    if (userInfo.role) {
+    if (userInfo && userInfo.role) {
       return userInfo.role;
     } else {
       return undefined;
