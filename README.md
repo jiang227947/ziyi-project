@@ -11,6 +11,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### 2. jwt、aes加解密、crud等功能。
 ### ~~接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)~~
 ### 3. 后台服务Node用个人项目 [Node、JWT、sequelize、mysql](https://github.com/jiang227947/node-server)
+### 4. Socket.Io实现聊天室功能完整代码。
 
 ## 目前已知问题：
 ### 1. 和风地图请求数据Loading异常，数据已返回，但还是在loading
