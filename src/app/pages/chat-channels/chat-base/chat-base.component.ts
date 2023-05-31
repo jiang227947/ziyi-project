@@ -14,6 +14,7 @@ import {User} from '../../../shared-module/interface/user';
 import {SessionUtil} from '../../../shared-module/util/session-util';
 import {Socket} from 'socket.io-client/build/esm/socket';
 import {MessageService} from '../../../shared-module/service/Message.service';
+import {Router} from '@angular/router';
 
 // 默认频道为8808
 const CHANNEL_ID: string = '8808';
@@ -27,12 +28,16 @@ const CHANNEL_ID: string = '8808';
 })
 export class ChatBaseComponent implements OnInit {
 
+  // Socket长连接
   @Input() socket: Socket;
+  // 输入框
   @ViewChild('textBox') private textBox: ElementRef;
   // 滚动条
   @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef;
   // 输入的文字
   textValue: string = '';
+  // 左侧用户展开控制
+  isCollapsed: boolean = false;
   // messagesList
   messagesList: ChatMessagesInterface[] | any[] = [];
   // 消息类型枚举
@@ -40,20 +45,25 @@ export class ChatBaseComponent implements OnInit {
   // 用户信息
   userInfo: User;
   // 当前房间频道信息
-  roomChannel: ChatChannelSystemStatesUserInterface;
+  roomChannel: ChatChannelRoomInterface;
   // 在线用户
-  olineUserList = [];
+  olineUserList: {
+    // id
+    id: number;
+    // socketId
+    socketId: string;
+    // 名称
+    userName: string;
+    // 头像
+    avatar?: string;
+  }[] = [];
 
-  constructor(private messages: MessageService) {
+  constructor(private messages: MessageService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.userInfo = SessionUtil.getUserInfo();
-    console.log('this.userInfo', this.userInfo);
-    // todo 需要获取当前存在的用户
-    this.olineUserList.push({
-      userName: this.userInfo.userName
-    });
+    console.log('用户信息', this.userInfo);
     // this.messages.close();
     this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
       console.log('订阅消息', message);
@@ -70,8 +80,11 @@ export class ChatBaseComponent implements OnInit {
           switch (message.msg.systemStates) {
             case SystemMessagesEnum.roomInfo:
               // 赋值房间信息
-              this.roomChannel = message.msg as ChatChannelSystemStatesUserInterface;
+              this.roomChannel = message.msg as ChatChannelRoomInterface;
               console.log('房间信息', this.roomChannel);
+              this.olineUserList = this.roomChannel.users.map((item) => {
+                return item;
+              });
               break;
             case SystemMessagesEnum.join:
               console.log('用户进入');
@@ -84,11 +97,11 @@ export class ChatBaseComponent implements OnInit {
                 this.messagesList.push(join);
                 // todo 同名处理
                 if (this.olineUserList.indexOf(message.msg.userName) === -1) {
-                  this.olineUserList.push(
-                    {
-                      userName: message.msg.userName
-                    }
-                  );
+                  this.olineUserList.push({
+                    userName: message.msg.userName,
+                    id: null,
+                    socketId: ''
+                  });
                 }
               }
               break;
@@ -108,6 +121,9 @@ export class ChatBaseComponent implements OnInit {
           }
           break;
       }
+      setTimeout(() => {
+        this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+      });
       console.log('this.messagesList', this.messagesList);
     });
   }
@@ -177,6 +193,7 @@ export class ChatBaseComponent implements OnInit {
         message.states = ChatChannelsMessageStatesEnum.success;
         this.messagesList.push(this.isContinuous(message));
       } else {
+        // todo 重发
         console.log('消息发送失败');
         message.states = ChatChannelsMessageStatesEnum.error;
         this.messagesList.push(this.isContinuous(message));
@@ -222,6 +239,13 @@ export class ChatBaseComponent implements OnInit {
   }
 
   /**
+   * 在线用户列表隐藏显示
+   */
+  hiddenOnlineUser(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  /**
    * 键盘按键
    * https://cloud.tencent.com/developer/ask/sof/896488/answer/1282111
    */
@@ -237,6 +261,13 @@ export class ChatBaseComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  /**
+   * 退出聊天
+   */
+  quit(): void {
+    this.router.navigate(['/main/index']);
   }
 
 }

@@ -1,18 +1,18 @@
 <div class="container">
   <!--左侧导航-->
-  <div class="sidebar">
+  <div class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':isCollapsed}">
     <!--用户列-->
-    <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
+    <ol class="scrollerInner" aria-label="用户" role="list" tabindex="0">
       <!--每一个在线用户-->
       <ng-container *ngIf="olineUserList.length > 0;else Offline">
-        <li class="olineUserList" aria-setsize="-1" *ngFor="let item of olineUserList;index as idx">
+        <li class="onlineUserList" aria-setsize="-1" *ngFor="let item of olineUserList;index as idx">
           <div class="user-item">
             {{item.userName}}
           </div>
         </li>
       </ng-container>
       <ng-template #Offline>
-        <li class="olineUserList" aria-setsize="-1">
+        <li class="onlineUserList" aria-setsize="-1">
           <div class="user-item">
             当前无人在线
           </div>
@@ -23,6 +23,18 @@
   <!--中间和右侧房间信息-->
   <div class="chat">
     <div class="content">
+      <!--置顶-->
+      <div class="top-info">
+        <div class="info-txt">
+          欢迎来到公共聊天频道！
+        </div>
+        <div class="operation-group">
+          <span class="operation hidden-user-list" title="在线用户" nz-icon nzType="team" nzTheme="outline"
+                (click)="hiddenOnlineUser()"></span>
+          <span class="operation quit" title="退出" nz-icon nzType="poweroff" nzTheme="outline"
+                (click)="quit()"></span>
+        </div>
+      </div>
       <!--主体框-->
       <div class="messagesWrapper">
         <div #scrollerBase class="scrollerBase">
@@ -100,7 +112,9 @@
             </div>
             <!--发送按钮-->
             <div class="buttonArea">
-              <button type="submit" nz-button nzType="primary" class="send-button" (click)="send()">发送</button>
+              <button type="submit" nz-button nzType="primary" class="send-button" (click)="send()">
+                <span nz-icon nzType="send" nzTheme="outline"></span>
+              </button>
             </div>
           </div>
         </div>

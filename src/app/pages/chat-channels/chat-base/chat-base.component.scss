@@ -18,13 +18,15 @@
     display: flex;
     overflow: hidden;
     background-color: $--jjext-color-base;
+    transition: all 0.3s;
+    z-index: 2;
 
     .scrollerInner {
       min-height: 0;
       overflow: hidden;
       list-style: none;
 
-      .olineUserList {
+      .onlineUserList {
         position: relative;
         height: 40px;
         line-height: 40px;
@@ -50,6 +52,13 @@
     }
   }
 
+  /*左侧用户展开*/
+  .sidebar-collapsed {
+    position: absolute;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+
   .chat {
     position: relative;
     display: flex;
@@ -68,6 +77,57 @@
       background: none !important;
       display: flex;
       flex-direction: column;
+
+      .top-info {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: $--jjext-color-base0;
+        box-shadow: 0 1px 3px 0 $--jjext-color-base0;
+        z-index: 1;
+
+        .info-txt {
+          flex: 1 0;
+          min-width: 100px;
+          color: $--jjext-color-base2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: center;
+        }
+
+        .operation-group {
+          display: flex;
+          justify-content: space-around;
+          flex: 1 0;
+
+          .hidden-user-list {
+            display: none;
+          }
+
+          .operation {
+            font-size: 1.5rem;
+            color: $--jjext-color-base2;
+            cursor: pointer;
+
+            &:hover {
+              color: $--user-name1;
+            }
+          }
+
+          .quit {
+            &:hover {
+              color: $--warning;
+            }
+          }
+        }
+
+      }
     }
 
     .messagesWrapper {
@@ -83,7 +143,7 @@
         overflow-x: hidden;
         overflow-anchor: none;
         position: absolute;
-        top: 0;
+        top: 40px;
         bottom: 0;
         left: 0;
         right: 0;
@@ -287,8 +347,7 @@
     .channelTextArea {
       position: relative;
       flex-shrink: 0;
-      padding-left: 16px;
-      padding-right: 16px;
+      padding: 0 16px;
       overflow-x: hidden;
       overflow-y: scroll;
       max-height: 50vh;
@@ -309,12 +368,12 @@
 
       .formArea {
         display: flex;
-        margin-bottom: 24px;
+        margin-bottom: 30px;
         position: relative;
         width: 100%;
         text-indent: 0;
         border-radius: 8px;
-        padding: 4px 10px;
+        padding: 4px;
         background-color: $--jjext-color-base0;
 
         .textArea {
@@ -324,7 +383,7 @@
           .placeholder {
             padding-top: 8px;
             position: absolute;
-            left: 22px;
+            left: 18px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -360,6 +419,7 @@
             margin-left: 6px;
 
             .send-button {
+              width: 42px;
               padding: 10px;
               height: unset;
               border: unset;
@@ -369,6 +429,29 @@
           }
         }
       }
+    }
+  }
+
+  @media screen and (max-width: 768px) and (min-width: 0px) {
+    .hidden-user-list {
+      display: inline-block !important;
+    }
+    /*媒体查询是用来设置样式的 当实际的屏幕大小满足条件时就执行样式 */
+    .isHidden {
+      position: absolute;
+      left: -12rem;
+    }
+
+    .sidebar-collapsed {
+      left: 0 !important;
+      transition: all 0.3s;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    /*媒体查询是用来设置样式的 当实际的屏幕大小满足条件时就执行样式 */
+    .isHidden {
+      position: relative;
     }
   }
 }
