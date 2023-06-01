@@ -38,7 +38,7 @@
            nzTrigger="click"
            nzPlacement="bottomRight">
         <div class="d-flex align-items-center px-sm">
-          <img alt="头像" src="{{avatar}}" class="avatar" *ngIf="avatar !== null">
+          <img alt="头像" src="{{avatar | avatarConversion}}" class="avatar" *ngIf="avatar !== null">
           <nz-avatar nzIcon="user" class="avatar" *ngIf="avatar === null"></nz-avatar>
           <span class="username-p">
             {{ userName }}

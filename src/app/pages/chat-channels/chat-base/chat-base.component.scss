@@ -20,6 +20,7 @@
     background-color: $--jjext-color-base;
     transition: all 0.3s;
     z-index: 2;
+    box-shadow: 2px 0 3px 0 rgb(56, 58, 64);
 
     .scrollerInner {
       min-height: 0;
@@ -28,25 +29,49 @@
 
       .onlineUserList {
         position: relative;
-        height: 40px;
-        line-height: 40px;
         background-color: $--jjext-color-base;
 
-        &:hover {
-          background-color: $--li-hover;
-          border-radius: 8px;
-          transition: all 0.15s;
-        }
 
         .user-item {
-          color: $--user-name1;
-          padding: 2px 1rem;
-          width: 10rem;
+          padding: 4px 0 4px 0.2rem;
+          width: 11rem;
+          height: 60px;
+          margin: 0 auto;
           cursor: pointer;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          font-size: 0.9rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          &:hover {
+            background-color: $--li-hover;
+            border-radius: 8px;
+            transition: all 0.15s;
+          }
+
+          .user-avatar {
+            position: absolute;
+            width: 40px;
+          }
+
+          .user-title {
+            color: $--user-name1;
+            font-size: 0.9rem;
+            width: 10rem;
+            padding-left: 3rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .user-remarks {
+            color: $--text-muted;
+            font-size: 0.6rem;
+            width: 10rem;
+            padding-left: 3rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
       }
     }

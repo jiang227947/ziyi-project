@@ -37,6 +37,7 @@ import {FormComponent} from './component/form/form.component';
 import {SocketIoService} from '../core-module/service/websocket/socket-io.service';
 import {MessageService} from './service/Message.service';
 import {LoadScriptService} from './service/load-script.service';
+import {AvatarPipe} from './pipe/avatar.pipe';
 
 const MODULES = [
   CommonModule,
@@ -77,6 +78,8 @@ const COMPONENT = [EchartColumnComponent, FormComponent];
 
 const SERVICES = [NzMessageService, LoadScriptService, SocketIoService, MessageService];
 
+const PIPES = [AvatarPipe];
+
 @NgModule({
   imports: [
     ...MODULES,
@@ -85,10 +88,11 @@ const SERVICES = [NzMessageService, LoadScriptService, SocketIoService, MessageS
   exports: [
     ...MODULES,
     ...NZMODULES,
-    ...COMPONENT
+    ...COMPONENT,
+    ...PIPES
   ],
   providers: [...SERVICES],
-  declarations: [...COMPONENT]
+  declarations: [...COMPONENT, ...PIPES]
 })
 export class SharedModuleModule {
 }

@@ -1,8 +1,8 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {
-  ChatChannelRoomInterface,
-  ChatChannelSubscribeInterface, ChatChannelSystemStatesUserInterface,
-  ChatMessagesInterface
+  ChatChannelRoomInterface, ChatChannelRoomUserInterface,
+  ChatChannelSubscribeInterface,
+  ChatMessagesInterface, ChatMessagesModal
 } from '../../../shared-module/interface/chat-channels';
 import {
   ChatChannelsCallbackEnum,
@@ -15,6 +15,7 @@ import {SessionUtil} from '../../../shared-module/util/session-util';
 import {Socket} from 'socket.io-client/build/esm/socket';
 import {MessageService} from '../../../shared-module/service/Message.service';
 import {Router} from '@angular/router';
+import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 
 // 默认频道为8808
 const CHANNEL_ID: string = '8808';
@@ -49,18 +50,12 @@ export class ChatBaseComponent implements OnInit {
   // 当前房间频道信息
   roomChannel: ChatChannelRoomInterface;
   // 在线用户
-  olineUserList: {
-    // id
-    id: number;
-    // socketId
-    socketId: string;
-    // 名称
-    userName: string;
-    // 头像
-    avatar?: string;
-  }[] = [];
+  onlineUserList: ChatChannelRoomUserInterface[] = [];
+  // 消息体
+  message: ChatMessagesInterface = new ChatMessagesModal();
 
-  constructor(private messages: MessageService, private router: Router) {
+  constructor(private messages: MessageService, private router: Router,
+              private nzContextMenuService: NzContextMenuService) {
   }
 
   ngOnInit(): void {
@@ -84,7 +79,7 @@ export class ChatBaseComponent implements OnInit {
               // 赋值房间信息
               this.roomChannel = message.msg as ChatChannelRoomInterface;
               console.log('房间信息', this.roomChannel);
-              this.olineUserList = this.roomChannel.users.map((item) => {
+              this.onlineUserList = this.roomChannel.users.map((item) => {
                 return item;
               });
               break;
@@ -101,11 +96,16 @@ export class ChatBaseComponent implements OnInit {
                 };
                 this.messagesList.push(join);
                 // todo 同名处理
-                if (this.olineUserList.indexOf(message.msg.userName) === -1) {
-                  this.olineUserList.push({
-                    userName: message.msg.userName,
+                if (this.onlineUserList.indexOf(message.msg.userName) === -1) {
+                  console.log('message.msg', message.msg);
+                  this.onlineUserList.push({
                     id: message.msg.id,
-                    socketId: message.msg.socketId
+                    socketId: message.msg.socketId,
+                    userName: message.msg.userName,
+                    avatar: message.msg.avatar,
+                    remarks: message.msg.remarks,
+                    role: message.msg.role,
+                    roleName: message.msg.roleName
                   });
                 }
               }
@@ -122,10 +122,10 @@ export class ChatBaseComponent implements OnInit {
                   timestamp: message.msg.timestamp
                 };
                 this.messagesList.push(left);
-                const findIndex = this.olineUserList.findIndex(user => user.socketId === message.msg.socketId);
+                const findIndex = this.onlineUserList.findIndex(user => user.socketId === message.msg.socketId);
                 // 删除用户
                 if (findIndex !== 0) {
-                  this.olineUserList.splice(findIndex, 1);
+                  this.onlineUserList.splice(findIndex, 1);
                 }
               }
               break;
@@ -199,11 +199,11 @@ export class ChatBaseComponent implements OnInit {
       // id
       id: this.userInfo.id,
       // 提及的人
-      mention_everyone: false,
+      mention_everyone: this.message.mention_everyone || false,
       // 提及的角色
-      mention_roles: [],
+      mention_roles: this.message.mention_roles || [],
       // 提及的人名称信息
-      mentions: [],
+      mentions: this.message.mentions || null,
       // 留言参考
       message_reference: [],
       // 参考消息
@@ -292,6 +292,28 @@ export class ChatBaseComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  /**
+   * @提及
+   */
+  mention(user: ChatChannelRoomUserInterface): void {
+    console.log(user);
+    this.message.mention_everyone = true;
+    this.message.mention_roles = [user.role];
+    this.message.mentions = user;
+    this.textValue = `${this.textValue}@${user.userName}`;
+    this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}@${user.userName}`;
+    console.log(this.message);
+  }
+
+  /**
+   * 右键
+   */
+  contextMenu($event: MouseEvent, menu: NzDropdownMenuComponent): void {
+    // 设置下拉根元素的类名称
+    menu.nzOverlayClassName = 'chatDropdownMenu';
+    this.nzContextMenuService.create($event, menu);
   }
 
   /**

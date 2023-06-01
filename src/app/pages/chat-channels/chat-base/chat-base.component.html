@@ -4,20 +4,37 @@
     <!--用户列-->
     <ol class="scrollerInner" aria-label="用户" role="list" tabindex="0">
       <!--每一个在线用户-->
-      <ng-container *ngIf="olineUserList.length > 0;else Offline">
-        <li class="onlineUserList" aria-setsize="-1" *ngFor="let item of olineUserList;index as idx">
-          <div class="user-item">
+      <li class="onlineUserList" aria-setsize="-1" *ngFor="let item of onlineUserList;index as idx">
+        <div class="user-item" (contextmenu)="contextMenu($event, menu)">
+          <!--头像-->
+          <ng-container *ngIf="!item.avatar;else avatar">
+            <nz-avatar
+              [nzGap]="1"
+              [ngStyle]="{ 'background-color': '#ffbf00' }"
+              [nzText]="item.userName"
+              nzSize="large"
+              style="vertical-align: middle;"
+              class="user-avatar"
+            ></nz-avatar>
+          </ng-container>
+          <ng-template #avatar>
+            <img [src]="item.avatar | avatarConversion" alt="头像" class="user-avatar">
+          </ng-template>
+          <!--名称-->
+          <p class="user-title">
             {{item.userName}}
-          </div>
-        </li>
-      </ng-container>
-      <ng-template #Offline>
-        <li class="onlineUserList" aria-setsize="-1">
-          <div class="user-item">
-            当前无人在线
-          </div>
-        </li>
-      </ng-template>
+          </p>
+          <!--备注-->
+          <p class="user-remarks">
+            {{item.remarks}}
+          </p>
+        </div>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item (click)="mention(item)">@提及</li>
+          </ul>
+        </nz-dropdown-menu>
+      </li>
     </ol>
   </div>
   <!--中间和右侧房间信息-->
