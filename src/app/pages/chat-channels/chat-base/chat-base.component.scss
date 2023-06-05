@@ -216,7 +216,7 @@
                 text-indent: 0;
 
                 /*头像*/
-                .avatar {
+                .avatar, .user-avatar {
                   position: absolute;
                   left: 16px;
                   margin-top: calc(4px - 0.125rem);
@@ -442,6 +442,7 @@
           }
 
           .markup {
+            display: inline-block;
             position: relative;
             outline: none;
             overflow-wrap: break-word;

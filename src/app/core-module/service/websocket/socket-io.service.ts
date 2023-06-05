@@ -4,7 +4,7 @@ import {environment} from '../../../../environments/environment';
 import {Socket} from 'socket.io-client/build/esm/socket';
 import {SessionUtil} from '../../../shared-module/util/session-util';
 import {
-  ChatChannelsMessageTypeEnum, SystemMessagesEnum
+  ChatChannelsMessageTypeEnum
 } from '../../../shared-module/enum/chat-channels.enum';
 import {
   ChatChannelSubscribeInterface,
@@ -41,8 +41,8 @@ export class SocketIoService {
       // 部署服务器地址
       this.socketIo = io(`wss://www.evziyi.top`, opt);
     } else {
-      this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
-      // this.socketIo = io(`wss://www.evziyi.top`, opt);
+      // this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
+      this.socketIo = io(`wss://www.evziyi.top`, opt);
     }
     // 连接成功
     this.socketIo.on('connect', () => {

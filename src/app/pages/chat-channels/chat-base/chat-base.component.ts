@@ -263,10 +263,10 @@ export class ChatBaseComponent implements OnInit {
 
   /**
    * 输入框赋值
-   * @param innerHTML Dom元素的innerHTML
+   * @param innerText Dom元素的innerHTML
    */
-  textBoxChange(innerHTML: string): void {
-    this.textValue = innerHTML;
+  textBoxChange(innerText: string): void {
+    this.textValue = innerText;
   }
 
   /**
@@ -284,6 +284,7 @@ export class ChatBaseComponent implements OnInit {
     // 单独回车：发送消息
     if (evt.key === 'Enter' && !evt.shiftKey) {
       // console.log('发送消息');
+      evt.preventDefault();
       this.send();
       return false;
     } else if (evt.key === 'Shift' && evt.shiftKey) {
