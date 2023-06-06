@@ -55,6 +55,8 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
   onlineUserList: ChatChannelRoomUserInterface[] = [];
   // 消息体
   message: ChatMessagesInterface = new ChatMessagesModal();
+  // emoji
+  emojilib: any[] = [];
 
   constructor(private messages: MessageService, private router: Router,
               private nzContextMenuService: NzContextMenuService) {
@@ -141,6 +143,9 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
       }, 10);
       console.log('this.messagesList', this.messagesList);
     });
+    const json = require('../../../../assets/emoji.json');
+    const key = Object.keys(json);
+    this.emojilib = key.splice(0, 50);
   }
 
   /**
@@ -235,7 +240,7 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
       this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-    }, 10);
+    }, 100);
   }
 
   /**
@@ -308,6 +313,14 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
     this.textValue = `${this.textValue}@${user.userName}`;
     this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}@${user.userName}`;
     console.log(this.message);
+  }
+
+  /**
+   * emoji表情
+   */
+  emojiClick(emoji: string, idx: number): void {
+    this.textValue = `${this.textValue}${emoji}`;
+    this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${emoji}`;
   }
 
   /**

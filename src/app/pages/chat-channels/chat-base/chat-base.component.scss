@@ -156,7 +156,7 @@
 
       /*表情选择*/
       .emoji-select {
-        width: 200px;
+        width: 300px;
         height: 0;
         border-radius: 8px;
         box-shadow: 0 0 4px 0 $--jjext-color-base0;
@@ -165,6 +165,7 @@
         left: 16px;
         background-color: $--jjext-color-base;
         transition: all 0.2s;
+        overflow: auto;
 
         .emoji-content {
           color: $--emoji;
@@ -174,7 +175,9 @@
             font-size: 2rem;
             transform: scale(1);
             transition: transform 0.1s;
+            display: inline-block;
             cursor: pointer;
+            user-select: none;
 
             &:hover {
               transform: scale(1.2);
@@ -184,7 +187,7 @@
       }
 
       .emoji-active {
-        height: 200px;
+        height: 400px;
         transition: all 0.2s;
       }
     }
@@ -458,10 +461,10 @@
 
         /*附加功能*/
         .additional {
-          flex: 0.05 1 auto;
           display: flex;
           justify-content: space-around;
           align-items: center;
+          min-width: 100px;
 
           .icon {
             cursor: pointer;

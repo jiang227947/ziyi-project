@@ -77,7 +77,8 @@
                         ></nz-avatar>
                       </ng-container>
                       <ng-template #_avatar>
-                        <img [src]="item.author.avatar | avatarConversion" aria-hidden="true" class="user-avatar" alt="头像">
+                        <img [src]="item.author.avatar | avatarConversion" aria-hidden="true" class="user-avatar"
+                             alt="头像">
                       </ng-template>
                       <!--消息头-->
                       <h3 class="header" aria-labelledby="message-username">
@@ -175,9 +176,9 @@
       <!--表情选择-->
       <div class="emoji-select" [ngClass]="{'emoji-active': emojiSelect}">
         <div class="emoji-content" *ngIf="emojiSelect">
-          <svg class="aliicon emoji" aria-hidden="true">
-            <use xlink:href="#icon-emojifill"></use>
-          </svg>
+          <span class="emoji" *ngFor="let item of emojilib;index as idx" (click)="emojiClick(item, idx)">
+            {{item}}
+          </span>
         </div>
       </div>
     </div>
