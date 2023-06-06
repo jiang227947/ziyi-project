@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {
   ChatChannelRoomInterface, ChatChannelRoomUserInterface,
   ChatChannelSubscribeInterface,
@@ -27,7 +27,7 @@ const CHANNEL_ID: string = '8808';
   templateUrl: './chat-base.component.html',
   styleUrls: ['./chat-base.component.scss']
 })
-export class ChatBaseComponent implements OnInit {
+export class ChatBaseComponent implements OnInit, OnDestroy {
 
   // Socket长连接
   @Input() socket: Socket;
@@ -41,6 +41,8 @@ export class ChatBaseComponent implements OnInit {
   textValue: string = '';
   // 左侧用户展开控制
   isCollapsed: boolean = false;
+  // emoji选择器
+  emojiSelect: boolean = false;
   // messagesList
   messagesList: ChatMessagesInterface[] | any[] = [];
   // 消息类型枚举
@@ -324,6 +326,17 @@ export class ChatBaseComponent implements OnInit {
     // this.socket.connect();
     this.socket.disconnect();
     this.router.navigate(['/main/index']);
+  }
+
+  /**
+   * 关闭弹框
+   */
+  publicClose(): void {
+    this.emojiSelect = false;
+  }
+
+  ngOnDestroy(): void {
+    this.quit();
   }
 
 }

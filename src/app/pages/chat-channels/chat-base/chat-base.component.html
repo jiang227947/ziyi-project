@@ -1,6 +1,6 @@
 <div class="container">
   <!--左侧导航-->
-  <div class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':isCollapsed}">
+  <div class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':isCollapsed}" (click)="publicClose()">
     <!--用户列-->
     <ol class="scrollerInner" aria-label="用户" role="list" tabindex="0">
       <!--每一个在线用户-->
@@ -53,7 +53,7 @@
         </div>
       </div>
       <!--主体框-->
-      <div class="messagesWrapper">
+      <div class="messagesWrapper" (click)="publicClose()">
         <div #scrollerBase class="scrollerBase">
           <!--消息列-->
           <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
@@ -139,7 +139,23 @@
       <!--输入框-->
       <div class="channelTextArea">
         <div class="formArea">
-          <div class="textArea">
+          <!--附加-->
+          <div class="additional">
+            <!--表情-->
+            <span class="icon" title="表情" (click)="emojiSelect = !emojiSelect">
+              <svg class="aliicon" aria-hidden="true">
+                <use xlink:href="#icon-emojifill"></use>
+              </svg>
+            </span>
+            <!--上传-->
+            <span class="icon" title="上传">
+              <svg class="aliicon" aria-hidden="true">
+                <use xlink:href="#icon-jiahao2fill"></use>
+              </svg>
+            </span>
+          </div>
+          <!--文字-->
+          <div class="textArea" (click)="emojiSelect = false">
             <!--placeholder-->
             <div class="placeholder" aria-hidden="true" *ngIf="textValue === ''">开始聊天</div>
             <!--输入框-->
@@ -154,6 +170,14 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      <!--表情选择-->
+      <div class="emoji-select" [ngClass]="{'emoji-active': emojiSelect}">
+        <div class="emoji-content" *ngIf="emojiSelect">
+          <svg class="aliicon emoji" aria-hidden="true">
+            <use xlink:href="#icon-emojifill"></use>
+          </svg>
         </div>
       </div>
     </div>
