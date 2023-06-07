@@ -16,11 +16,8 @@ import {Socket} from 'socket.io-client/build/esm/socket';
 import {MessageService} from '../../../shared-module/service/Message.service';
 import {Router} from '@angular/router';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
+import {CHANNEL_ID} from '../config/config';
 
-// 默认频道为8808
-const CHANNEL_ID: string = '8808';
-
-// todo：频道后面改成可以自己创建群组
 
 @Component({
   selector: 'app-chat-base',
@@ -37,26 +34,32 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
   @ViewChild('textBox') private textBox: ElementRef<Element>;
   // 滚动条
   @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef<Element>;
-  // 输入的文字
-  textValue: string = '';
-  // 左侧用户展开控制
-  isCollapsed: boolean = false;
-  // emoji选择器
-  emojiSelect: boolean = false;
-  // messagesList
-  messagesList: ChatMessagesInterface[] | any[] = [];
-  // 消息类型枚举
-  chatMessagesType = ChatMessagesTypeEnum;
-  // 用户信息
-  userInfo: User;
+
   // 当前房间频道信息
   roomChannel: ChatChannelRoomInterface;
   // 在线用户
   onlineUserList: ChatChannelRoomUserInterface[] = [];
+  // 消息列
+  messagesList: ChatMessagesInterface[] | any[] = [];
+  // 消息类型枚举
+  chatMessagesType = ChatMessagesTypeEnum;
+  // emoji
+  emojiList: string[] = [];
+  // 输入的文字
+  textValue: string = '';
+  // 左侧用户展开控制
+  isCollapsed: boolean = false;
+  // 用户信息
+  userInfo: User;
   // 消息体
   message: ChatMessagesInterface = new ChatMessagesModal();
-  // emoji
-  emojilib: any[] = [];
+  // 输入框更多操作
+  morOperate: { emoji: boolean, fileUpload: boolean } = {
+    // emoji弹框
+    emoji: false,
+    // 文件弹框
+    fileUpload: false
+  };
 
   constructor(private messages: MessageService, private router: Router,
               private nzContextMenuService: NzContextMenuService) {
@@ -64,8 +67,7 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userInfo = SessionUtil.getUserInfo();
-    console.log('用户信息', this.userInfo);
-    // this.messages.close();
+    // console.log('用户信息', this.userInfo);
     this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
       console.log('订阅消息', message);
       switch (message.type) {
@@ -86,9 +88,10 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
               this.onlineUserList = this.roomChannel.users.map((item) => {
                 return item;
               });
+              console.log(this.onlineUserList);
               break;
             case SystemMessagesEnum.join:
-              console.log('用户进入');
+              // console.log('用户进入');
               if ('userName' in message.msg) {
                 const join: any = {
                   type: this.chatMessagesType.system,
@@ -101,7 +104,7 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
                 this.messagesList.push(join);
                 // todo 同名处理
                 if (this.onlineUserList.indexOf(message.msg.userName) === -1) {
-                  console.log('message.msg', message.msg);
+                  // console.log('message.msg', message.msg);
                   this.onlineUserList.push({
                     id: message.msg.id,
                     socketId: message.msg.socketId,
@@ -115,7 +118,7 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
               }
               break;
             case SystemMessagesEnum.left:
-              console.log('用户离开');
+              // console.log('用户离开');
               if ('userName' in message.msg) {
                 const left: any = {
                   type: this.chatMessagesType.system,
@@ -140,12 +143,13 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
       }
       setTimeout(() => {
         this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-      }, 10);
-      console.log('this.messagesList', this.messagesList);
+      }, 50);
+      // console.log('this.messagesList', this.messagesList);
     });
+    // emoji
     const json = require('../../../../assets/emoji.json');
     const key = Object.keys(json);
-    this.emojilib = key.splice(0, 50);
+    this.emojiList = key.splice(0, 200);
   }
 
   /**
@@ -154,6 +158,10 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
   send(): void {
     // 判断空字符
     if (this.textValue === '') {
+      return;
+    }
+    // 判断未进入房间禁止发消息
+    if (!this.roomChannel) {
       return;
     }
     // 判断无意义的多段换行
@@ -225,7 +233,7 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
     };
     this.socket.emit(ChatChannelsMessageTypeEnum.publicMessage, message, (response) => {
       if (response.status === ChatChannelsCallbackEnum.ok) {
-        console.log('消息发送成功');
+        // console.log('消息发送成功');
         message.states = ChatChannelsMessageStatesEnum.success;
         this.messagesList.push(this.isContinuous(message));
       } else {
@@ -240,7 +248,51 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
       this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-    }, 100);
+    }, 50);
+  }
+
+  /**
+   * 输入框赋值
+   */
+  textBoxChange(event: any): void {
+    // console.log(event);
+    this.textValue = event.target.innerText;
+  }
+
+  /**
+   * 在线用户列表隐藏显示
+   */
+  hiddenOnlineUser(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  /**
+   * 键盘按键
+   * https://cloud.tencent.com/developer/ask/sof/896488/answer/1282111
+   */
+  textBoxKeydown(evt: KeyboardEvent): boolean {
+    // 单独回车：发送消息
+    if (evt.key === 'Enter' && !evt.shiftKey) {
+      // console.log('发送消息');
+      this.send();
+      evt.preventDefault();
+    } else if (evt.key === 'Shift' && evt.shiftKey) {
+      // ctrl加回车：换行
+      // console.log('换行');
+    }
+    return true;
+  }
+
+  /**
+   * 粘贴事件 去掉样式
+   */
+  paste(evt: ClipboardEvent): void {
+    evt.preventDefault();
+    const text = evt.clipboardData.getData('text/plain') || '';
+    if (text !== '') {
+      this.textValue = `${this.textValue}${text}`;
+      this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${text}`;
+    }
   }
 
   /**
@@ -266,40 +318,6 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
       message.type = this.chatMessagesType.general;
     }
     return message;
-  }
-
-  /**
-   * 输入框赋值
-   * @param innerText Dom元素的innerHTML
-   */
-  textBoxChange(innerText: string): void {
-    this.textValue = innerText;
-  }
-
-  /**
-   * 在线用户列表隐藏显示
-   */
-  hiddenOnlineUser(): void {
-    this.isCollapsed = !this.isCollapsed;
-  }
-
-  /**
-   * 键盘按键
-   * https://cloud.tencent.com/developer/ask/sof/896488/answer/1282111
-   */
-  textBoxKeydown(evt: KeyboardEvent): boolean {
-    // 单独回车：发送消息
-    if (evt.key === 'Enter' && !evt.shiftKey) {
-      // console.log('发送消息');
-      evt.preventDefault();
-      this.send();
-      return false;
-    } else if (evt.key === 'Shift' && evt.shiftKey) {
-      // ctrl加回车：换行
-      // console.log('换行');
-      return false;
-    }
-    return true;
   }
 
   /**
@@ -345,9 +363,13 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
    * 关闭弹框
    */
   publicClose(): void {
-    this.emojiSelect = false;
+    this.morOperate.emoji = false;
+    this.morOperate.fileUpload = false;
   }
 
+  /**
+   * 页面销毁
+   */
   ngOnDestroy(): void {
     this.quit();
   }

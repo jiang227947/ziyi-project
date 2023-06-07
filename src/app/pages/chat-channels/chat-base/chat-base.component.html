@@ -143,44 +143,48 @@
           <!--附加-->
           <div class="additional">
             <!--表情-->
-            <span class="icon" title="表情" (click)="emojiSelect = !emojiSelect">
+            <span class="icon" title="表情" (click)="morOperate.emoji = !morOperate.emoji">
               <svg class="aliicon" aria-hidden="true">
                 <use xlink:href="#icon-emojifill"></use>
               </svg>
             </span>
             <!--上传-->
-            <span class="icon" title="上传">
+            <span class="icon" title="上传" (click)="morOperate.fileUpload = !morOperate.fileUpload">
               <svg class="aliicon" aria-hidden="true">
                 <use xlink:href="#icon-jiahao2fill"></use>
               </svg>
             </span>
           </div>
           <!--文字-->
-          <div class="textArea" (click)="emojiSelect = false">
+          <div class="textArea" (click)="publicClose()">
             <!--placeholder-->
             <div class="placeholder" aria-hidden="true" *ngIf="textValue === ''">开始聊天</div>
             <!--输入框-->
             <div #textBox role="textbox" class="markup" spellcheck="true" aria-haspopup="listbox" aria-invalid="false"
-                 aria-autocomplete="list" contenteditable="true" (keydown)="textBoxKeydown($event)"
-                 (input)="textBoxChange($event.target.innerText)">
+                 aria-autocomplete="list" contenteditable="true"
+                 (keydown)="textBoxKeydown($event)"
+                 (paste)="paste($event)"
+                 (input)="textBoxChange($event)">
             </div>
-            <!--发送按钮-->
-            <div class="buttonArea">
-              <button type="submit" nz-button nzType="primary" class="send-button" title="send" (click)="send()">
-                <span nz-icon nzType="send" nzTheme="outline"></span>
-              </button>
-            </div>
+          </div>
+          <!--发送按钮-->
+          <div class="buttonArea">
+            <button type="submit" nz-button nzType="primary" class="send-button" title="send" (click)="send()">
+              <span nz-icon nzType="send" nzTheme="outline"></span>
+            </button>
           </div>
         </div>
       </div>
       <!--表情选择-->
-      <div class="emoji-select" [ngClass]="{'emoji-active': emojiSelect}">
-        <div class="emoji-content" *ngIf="emojiSelect">
-          <span class="emoji" *ngFor="let item of emojilib;index as idx" (click)="emojiClick(item, idx)">
+      <div class="emoji-select" [ngClass]="{'emoji-active': morOperate.emoji}">
+        <div class="emoji-content" *ngIf="morOperate.emoji">
+          <span class="emoji" *ngFor="let item of emojiList;index as idx" (click)="emojiClick(item, idx)">
             {{item}}
           </span>
         </div>
       </div>
+      <!--附件上传-->
+      <div class="file-upload" [ngClass]="{'file-upload-active': morOperate.fileUpload}"></div>
     </div>
   </div>
 </div>

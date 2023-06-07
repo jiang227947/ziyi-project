@@ -190,6 +190,24 @@
         height: 400px;
         transition: all 0.2s;
       }
+
+      /*附件上传*/
+      .file-upload {
+        width: 100px;
+        height: 0;
+        border-radius: 8px;
+        box-shadow: 0 0 4px 0 $--jjext-color-base0;
+        position: absolute;
+        bottom: 84px;
+        left: 50px;
+        background-color: $--jjext-color-base;
+        transition: all 0.2s;
+      }
+
+      .file-upload-active {
+        height: 100px;
+        transition: all 0.2s;
+      }
     }
 
     .messagesWrapper {
@@ -326,8 +344,8 @@
                   margin-left: -72px;
                   padding-left: 72px;
                   overflow: hidden;
-                  font-size: 1rem;
-                  line-height: 1.375rem;
+                  font-size: 1.2rem;
+                  line-height: 1.5rem;
                   white-space: pre-wrap;
                   white-space: break-spaces;
                   word-wrap: break-word;
@@ -344,7 +362,7 @@
 
               &:hover {
                 .timeHidden {
-                  display: inline-block !important;
+                  display: flex !important;
                   transition: all 0.2s;
                 }
               }
@@ -358,8 +376,8 @@
                 margin-left: -72px;
                 padding-left: 72px;
                 overflow: hidden;
-                font-size: 1rem;
-                line-height: 1.375rem;
+                font-size: 1.2rem;
+                line-height: 1.5rem;
                 white-space: pre-wrap;
                 white-space: break-spaces;
                 word-wrap: break-word;
@@ -372,12 +390,15 @@
               .timestamp {
                 position: absolute;
                 left: 12px;
-                height: 1.375rem;
-                line-height: 1.375rem;
+                top: 0;
+                bottom: 0;
                 cursor: default;
                 pointer-events: none;
                 color: #dbdee1;
                 font-size: 0.6875rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
               }
 
               .timeHidden {
@@ -399,11 +420,15 @@
               .timestamp {
                 position: absolute;
                 left: 12px;
-                line-height: 2rem;
+                top: 0;
+                bottom: 0;
                 cursor: default;
                 pointer-events: none;
                 color: #dbdee1;
                 font-size: 0.6875rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
               }
 
               .timeHidden {
@@ -417,7 +442,7 @@
 
               &:hover {
                 .timeHidden {
-                  display: inline-block !important;
+                  display: flex !important;
                   transition: all 0.2s;
                 }
               }
@@ -433,7 +458,6 @@
       padding: 0 16px;
       overflow-x: hidden;
       overflow-y: scroll;
-      max-height: 50vh;
       -ms-overflow-style: none;
 
       /*隐藏滚动条*/
@@ -509,6 +533,8 @@
             right: 10px;
             resize: none;
             width: 100%;
+            max-height: 500px;
+            overflow: auto;
             border: none;
             color: #fff;
             padding: 10px;
@@ -518,18 +544,21 @@
             line-height: 1.375rem;
             background-color: $--jjext-color-base0;
           }
+        }
 
-          .buttonArea {
-            margin-left: 6px;
+        /*发送按钮*/
+        .buttonArea {
+          display: flex;
+          justify-content: right;
+          align-items: center;
 
-            .send-button {
-              width: 42px;
-              padding: 10px;
-              height: unset;
-              border: unset;
-              border-radius: 8px;
-              background-color: $--jjext-color-base1;
-            }
+          .send-button {
+            width: 42px;
+            padding: 10px;
+            height: unset;
+            border: unset;
+            border-radius: 8px;
+            background-color: $--jjext-color-base1;
           }
         }
       }
