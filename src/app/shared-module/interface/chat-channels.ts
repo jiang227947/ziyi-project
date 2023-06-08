@@ -24,6 +24,8 @@ export interface ChatChannelRoomInterface {
   roomName: string;
   // 用户信息
   users: ChatChannelRoomUserInterface[];
+  // 最近的聊天信息
+  messages: string;
 }
 
 /**
@@ -115,6 +117,18 @@ export interface ChatMessagesInterface {
   systemStates?: SystemMessagesEnum;
   // 消息发送状态
   states?: ChatChannelsMessageStatesEnum;
+}
+
+/**
+ * 查询的聊天记录接口
+ */
+export interface QueryMessagesList {
+  // 消息体
+  content: string;
+  // id
+  id: number;
+  // 保存时间
+  saveTime: number;
 }
 
 /**

@@ -41,8 +41,8 @@ export class SocketIoService {
       // 部署服务器地址
       this.socketIo = io(`wss://www.evziyi.top`, opt);
     } else {
-      // this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
-      this.socketIo = io(`wss://www.evziyi.top`, opt);
+      this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
+      // this.socketIo = io(`wss://www.evziyi.top`, opt);
     }
     // 连接成功
     this.socketIo.on('connect', () => {
@@ -101,8 +101,11 @@ export class SocketIoService {
       });
       // 连接断开
       this.socketIo.on('disconnect', (reason) => {
-        // console.log('Socket disconnected: ' + _id);
-        console.log('websocket 连接断开');
+        console.log('websocket 连接断开: ', reason);
+        if (reason === 'io server disconnect') {
+          // 如果是服务器断开则重连
+          this.socketIo.connect();
+        }
         // 重新连接
         /*let reconnectCount: number = 5;
         const reconnectTimer = setTimeout(() => {

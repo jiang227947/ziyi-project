@@ -12,7 +12,7 @@ import {
 import {
   ChatChannelRoomInterface, ChatChannelRoomUserInterface,
   ChatChannelSubscribeInterface,
-  ChatMessagesInterface, ChatMessagesModal
+  ChatMessagesInterface, ChatMessagesModal, QueryMessagesList
 } from '../../../shared-module/interface/chat-channels';
 import {
   ChatChannelsCallbackEnum,
@@ -27,6 +27,10 @@ import {MessageService} from '../../../shared-module/service/Message.service';
 import {Router} from '@angular/router';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 import {CHANNEL_ID} from '../config/config';
+import {ChatRequestService} from '../../../core-module/api-service/chat';
+import {PageParams} from '../../../shared-module/interface/pageParms';
+import {Result} from '../../../shared-module/interface/result';
+import {NzMessageService} from 'ng-zorro-antd/message';
 
 
 @Component({
@@ -46,7 +50,8 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('textBox') private textBox: ElementRef<Element>;
   // 滚动条
   @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef<Element>;
-
+  // 聊天消息滚动
+  @ViewChild('visibleList') private visibleList: ElementRef<Element>;
   // 当前房间频道信息
   roomChannel: ChatChannelRoomInterface;
   // 在线用户
@@ -58,6 +63,10 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   // 消息列
   messagesList: ChatMessagesInterface[] | any[] = [];
+  // 分页参数
+  pageParams = new PageParams(1, 1);
+  // 虚拟滚动加载
+  scrollLoading: boolean = false;
   // 消息类型枚举
   chatMessagesType = ChatMessagesTypeEnum;
   // emoji
@@ -78,8 +87,9 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     fileUpload: false
   };
 
-  constructor(private messages: MessageService, private router: Router,
-              private nzContextMenuService: NzContextMenuService) {
+  constructor(private messages: MessageService, private $message: NzMessageService, private router: Router,
+              private nzContextMenuService: NzContextMenuService,
+              private $chatRequestService: ChatRequestService) {
   }
 
   ngOnInit(): void {
@@ -106,7 +116,18 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
                 return item;
               });
               this.loadedingStatus.userLoad = false;
-              console.log(this.onlineUserList);
+              // 分页查询聊天记录
+              this.queryChatMessage().then((msg: any[]) => {
+                console.log(msg);
+                // 合并消息
+                if (msg.length > 0) {
+                  this.messagesList = [...msg, ...JSON.parse(this.roomChannel.messages)];
+                }
+                // 置底
+                setTimeout(() => {
+                  this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+                }, 50);
+              });
               break;
             case SystemMessagesEnum.join:
               // console.log('用户进入');
@@ -173,13 +194,37 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     const isConnected = setTimeout(() => {
       if (!this.socket.connected) {
-        console.log('连接失败');
+        // this.$message.info('聊天室连接不上！');
       }
       this.loadedingStatus.userLoad = false;
-      // todo 查询聊天记录接口
-      this.loadedingStatus.messageLoad = false;
       clearTimeout(isConnected);
     }, 3000);
+  }
+
+  /**
+   * 分页查询聊天记录
+   */
+  queryChatMessage(): Promise<any[]> {
+    return new Promise<any[]>(resolve => {
+      this.$chatRequestService.queryChatMessage(this.pageParams).subscribe((result: Result<QueryMessagesList>) => {
+        this.loadedingStatus.messageLoad = false;
+        if (result.code === 200) {
+          if (!result.data) {
+            this.$message.info('聊天记录已经到顶了');
+            return;
+          }
+          const message: any[] = JSON.parse(result.data[0].content);
+          /*if (message.length > 0) {
+            this.messagesList = [...message, ...this.messagesList];
+            console.log(this.messagesList);
+          }*/
+          resolve(message);
+        } else {
+          this.$message.error('聊天记录查询失败');
+          resolve(null);
+        }
+      });
+    });
   }
 
   /**
@@ -209,7 +254,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     if (count === split.length && count > 5) {
       this.textValue = `\n\n\n`;
     }
-    const message: ChatMessagesInterface = {
+    const message: ChatMessagesInterface = this.isContinuous({
       // 附件
       attachments: [],
       // 消息发送者
@@ -260,17 +305,17 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       tts: false,
       // 消息类型 用于前端展示判断
       type: ChatMessagesTypeEnum.general
-    };
+    });
     this.socket.emit(ChatChannelsMessageTypeEnum.publicMessage, message, (response) => {
       if (response.status === ChatChannelsCallbackEnum.ok) {
         // console.log('消息发送成功');
         message.states = ChatChannelsMessageStatesEnum.success;
-        this.messagesList.push(this.isContinuous(message));
+        this.messagesList.push(message);
       } else {
         // todo 重发
         console.log('消息发送失败');
         message.states = ChatChannelsMessageStatesEnum.error;
-        this.messagesList.push(this.isContinuous(message));
+        this.messagesList.push(message);
       }
     });
     setTimeout(() => {
@@ -279,6 +324,48 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       this.textValue = '';
       this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
     }, 50);
+  }
+
+  /**
+   * 虚拟滚动
+   */
+  handleScroll(): void {
+    const scrollTop = this.scrollerBaseTemp.nativeElement.scrollTop;
+    const scrollHeight = this.scrollerBaseTemp.nativeElement.scrollHeight;
+    this.updateVisibleData(scrollTop, scrollHeight);
+  }
+
+  /**
+   * 更新数据
+   * @param scrollTop 距离顶部的距离
+   * @param scrollH  1
+   */
+  updateVisibleData(scrollTop: number, scrollH: number): void {
+    console.log('scrollTop', scrollTop, 'scrollHeight', scrollH);
+    if (scrollTop <= 300) {
+      if (this.scrollLoading) {
+        return;
+      }
+      this.scrollLoading = true;
+      this.pageParams = new PageParams(this.pageParams.pageNum + 1, 1);
+      this.queryChatMessage().then((msg: any[]) => {
+        // 合并消息
+        if (msg.length > 0) {
+          this.messagesList = [...msg, ...this.messagesList];
+          setTimeout(() => {
+            this.scrollerBaseTemp.nativeElement.scrollTo(scrollH - 300, scrollH);
+            this.scrollLoading = false;
+          }, 1);
+        }
+      });
+    }
+    // scrollTop = scrollTop || 0;
+    // const visibleCount = Math.ceil(400 / this.itemHeight);// 可视区可展示数据量
+    // const start = Math.floor(scrollTop / this.itemHeight);
+    // const end = start + visibleCount;
+    // console.log(visibleCount, start, end);
+    // this.visibleData = this.originData.slice(start, end);
+    // this.content.nativeElement.style.webkitTransform = `translate3d(0, ${ start * this.itemHeight }px, 0)`;
   }
 
   /**
@@ -384,7 +471,6 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
    * 退出聊天
    */
   quit(): void {
-    // this.socket.connect();
     this.socket.disconnect();
     this.router.navigate(['/main/index']);
   }

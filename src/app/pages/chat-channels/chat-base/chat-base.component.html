@@ -59,9 +59,11 @@
       </div>
       <!--主体框-->
       <div class="messagesWrapper" (click)="publicClose()">
-        <div #scrollerBase class="scrollerBase">
+        <!--虚拟滚动-->
+        <div #scrollerBase class="scrollerBase" (scroll)="handleScroll()">
           <!--消息列-->
           <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
+            <!--load状态-->
             <ng-container *ngIf="loadedingStatus.messageLoad">
               <ng-template #indicatorTemplate>
                 <span nz-icon nzType="loading" class="loading"></span>
@@ -188,14 +190,16 @@
       </div>
       <!--表情选择-->
       <div class="emoji-select" [ngClass]="{'emoji-active': morOperate.emoji}">
-        <div class="emoji-content" *ngIf="morOperate.emoji">
+        <div class="emoji-content">
           <span class="emoji" *ngFor="let item of emojiList;index as idx" (click)="emojiClick(item, idx)">
             {{item}}
           </span>
         </div>
       </div>
       <!--附件上传-->
-      <div class="file-upload" [ngClass]="{'file-upload-active': morOperate.fileUpload}"></div>
+      <div class="file-upload" [ngClass]="{'file-upload-active': morOperate.fileUpload}">
+        <span *ngIf="morOperate.fileUpload">暂不支持</span>
+      </div>
     </div>
   </div>
 </div>
