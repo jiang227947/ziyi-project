@@ -1,5 +1,9 @@
 @import "../../chat-channels/config/chat.scss";
 
+* {
+  font-family: myFont1;
+}
+
 .container {
   display: flex;
   overflow: hidden;
@@ -27,6 +31,12 @@
       overflow: hidden;
       list-style: none;
 
+      /*骨架屏*/
+      .skeleton {
+        padding: 0 8px;
+      }
+
+      /*在线用户*/
       .onlineUserList {
         position: relative;
         background-color: $--jjext-color-base;
@@ -238,6 +248,16 @@
           min-height: 0;
           overflow: hidden;
           list-style: none;
+
+          /*加载*/
+          .spin {
+            text-align: center;
+
+            .loading {
+              color: $--jjext-color-base2;
+              font-size: 2rem;
+            }
+          }
 
           /*每一条消息*/
           .messageListItem {

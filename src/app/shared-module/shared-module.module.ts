@@ -30,6 +30,7 @@ import {NzUploadModule} from 'ng-zorro-antd/upload';
 import {NzPopconfirmModule} from 'ng-zorro-antd/popconfirm';
 import {NzProgressModule} from 'ng-zorro-antd/progress';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
+import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
 // component
 import {EchartColumnComponent} from './component/echart-column/echart-column.component';
 import {FormComponent} from './component/form/form.component';
@@ -71,7 +72,8 @@ const NZMODULES = [
   NzUploadModule,
   NzPopconfirmModule,
   NzProgressModule,
-  NzToolTipModule
+  NzToolTipModule,
+  NzSkeletonModule
 ];
 
 const COMPONENT = [EchartColumnComponent, FormComponent];

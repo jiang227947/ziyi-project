@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {
   ChatChannelRoomInterface, ChatChannelRoomUserInterface,
   ChatChannelSubscribeInterface,
@@ -24,12 +34,14 @@ import {CHANNEL_ID} from '../config/config';
   templateUrl: './chat-base.component.html',
   styleUrls: ['./chat-base.component.scss']
 })
-export class ChatBaseComponent implements OnInit, OnDestroy {
+export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Socket长连接
   @Input() socket: Socket;
   // 断开
   @Output() socketDisconnect = new EventEmitter();
+  // 左侧用户
+  @ViewChild('sidebar') private sidebar: ElementRef<Element>;
   // 输入框
   @ViewChild('textBox') private textBox: ElementRef<Element>;
   // 滚动条
@@ -39,6 +51,11 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
   roomChannel: ChatChannelRoomInterface;
   // 在线用户
   onlineUserList: ChatChannelRoomUserInterface[] = [];
+  // 加载状态
+  loadedingStatus: { userLoad: boolean, messageLoad: boolean } = {
+    userLoad: true,
+    messageLoad: true
+  };
   // 消息列
   messagesList: ChatMessagesInterface[] | any[] = [];
   // 消息类型枚举
@@ -88,6 +105,7 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
               this.onlineUserList = this.roomChannel.users.map((item) => {
                 return item;
               });
+              this.loadedingStatus.userLoad = false;
               console.log(this.onlineUserList);
               break;
             case SystemMessagesEnum.join:
@@ -150,6 +168,18 @@ export class ChatBaseComponent implements OnInit, OnDestroy {
     const json = require('../../../../assets/emoji.json');
     const key = Object.keys(json);
     this.emojiList = key.splice(0, 200);
+  }
+
+  ngAfterViewInit(): void {
+    const isConnected = setTimeout(() => {
+      if (!this.socket.connected) {
+        console.log('连接失败');
+      }
+      this.loadedingStatus.userLoad = false;
+      // todo 查询聊天记录接口
+      this.loadedingStatus.messageLoad = false;
+      clearTimeout(isConnected);
+    }, 3000);
   }
 
   /**

@@ -1,40 +1,45 @@
 <div class="container">
   <!--左侧导航-->
-  <div class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':isCollapsed}" (click)="publicClose()">
+  <div #sidebar class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':isCollapsed}" (click)="publicClose()">
     <!--用户列-->
     <ol class="scrollerInner" aria-label="用户" role="list" tabindex="0">
+      <!--骨架屏-->
+      <nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzParagraph]="{ rows: 2 }" class="skeleton"
+                   *ngIf="loadedingStatus.userLoad"></nz-skeleton>
       <!--每一个在线用户-->
-      <li class="onlineUserList" aria-setsize="-1" *ngFor="let item of onlineUserList;index as idx">
-        <div class="user-item" (contextmenu)="contextMenu($event, menu)">
-          <!--头像-->
-          <ng-container *ngIf="!item.avatar;else avatar">
-            <nz-avatar
-              [nzGap]="1"
-              [ngStyle]="{ 'background-color': '#ffbf00' }"
-              [nzText]="item.userName"
-              nzSize="large"
-              style="vertical-align: middle;"
-              class="user-avatar"
-            ></nz-avatar>
-          </ng-container>
-          <ng-template #avatar>
-            <img [src]="item.avatar | avatarConversion" alt="头像" class="user-avatar">
-          </ng-template>
-          <!--名称-->
-          <p class="user-title">
-            {{item.userName}}
-          </p>
-          <!--备注-->
-          <p class="user-remarks">
-            {{item.remarks}}
-          </p>
-        </div>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item (click)="mention(item)">@提及</li>
-          </ul>
-        </nz-dropdown-menu>
-      </li>
+      <ng-container *ngIf="!loadedingStatus.userLoad">
+        <li class="onlineUserList" aria-setsize="-1" *ngFor="let item of onlineUserList;index as idx">
+          <div class="user-item" (contextmenu)="contextMenu($event, menu)">
+            <!--头像-->
+            <ng-container *ngIf="!item.avatar;else avatar">
+              <nz-avatar
+                [nzGap]="1"
+                [ngStyle]="{ 'background-color': '#ffbf00' }"
+                [nzText]="item.userName"
+                nzSize="large"
+                style="vertical-align: middle;"
+                class="user-avatar"
+              ></nz-avatar>
+            </ng-container>
+            <ng-template #avatar>
+              <img [src]="item.avatar | avatarConversion" alt="头像" class="user-avatar">
+            </ng-template>
+            <!--名称-->
+            <p class="user-title">
+              {{item.userName}}
+            </p>
+            <!--备注-->
+            <p class="user-remarks">
+              {{item.remarks}}
+            </p>
+          </div>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="mention(item)">@提及</li>
+            </ul>
+          </nz-dropdown-menu>
+        </li>
+      </ng-container>
     </ol>
   </div>
   <!--中间和右侧房间信息-->
@@ -57,6 +62,12 @@
         <div #scrollerBase class="scrollerBase">
           <!--消息列-->
           <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
+            <ng-container *ngIf="loadedingStatus.messageLoad">
+              <ng-template #indicatorTemplate>
+                <span nz-icon nzType="loading" class="loading"></span>
+              </ng-template>
+              <nz-spin nzSimple [nzIndicator]="indicatorTemplate" class="spin"></nz-spin>
+            </ng-container>
             <!--每一条消息-->
             <li class="messageListItem" aria-setsize="-1" *ngFor="let item of messagesList;index as idx">
               <ng-container [ngSwitch]="item.type">

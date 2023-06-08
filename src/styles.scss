@@ -3,14 +3,22 @@
 @import "app/shared-module/style/index";
 /* 阿里icon*/
 //@import "assets/icon/iconfont/iconfont.css";
-
+/* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
+@font-face {
+  // 阿里妈妈 思源宋体
+  font-family: "myFont";
+  font-weight: 500;
+  src: url("assets/font/Source_Han_Serif_SC_Light_Light.otf") format("woff2"),
+  url("assets/font/Smiley_Sans_Oblique_xt.woff") format("woff");
+  font-display: swap;
+}
 a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, table, tbody, td, tfoot, th, thead, tr, tt, ul, var {
   margin: 0;
   padding: 0;
   border: 0;
   font-weight: inherit;
   font-style: inherit;
-  font-family: inherit;
+  font-family: myFont;
   font-size: 100%;
   vertical-align: baseline;
 }
