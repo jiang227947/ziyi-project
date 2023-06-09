@@ -10,15 +10,19 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  ChatChannelRoomInterface, ChatChannelRoomUserInterface,
+  ChatChannelRoomInterface,
+  ChatChannelRoomUserInterface,
   ChatChannelSubscribeInterface,
-  ChatMessagesInterface, ChatMessagesModal, QueryMessagesList
+  ChatMessagesInterface,
+  ChatMessagesModal,
+  QueryMessagesList
 } from '../../../shared-module/interface/chat-channels';
 import {
   ChatChannelsCallbackEnum,
   ChatChannelsMessageStatesEnum,
   ChatChannelsMessageTypeEnum,
-  ChatMessagesTypeEnum, SystemMessagesEnum
+  ChatMessagesTypeEnum,
+  SystemMessagesEnum
 } from '../../../shared-module/enum/chat-channels.enum';
 import {User} from '../../../shared-module/interface/user';
 import {SessionUtil} from '../../../shared-module/util/session-util';
@@ -31,7 +35,7 @@ import {ChatRequestService} from '../../../core-module/api-service/chat';
 import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
-
+import {VirtualScrollerComponent, IPageInfo} from 'ngx-virtual-scroller';
 
 @Component({
   selector: 'app-chat-base',
@@ -39,6 +43,11 @@ import {NzMessageService} from 'ng-zorro-antd/message';
   styleUrls: ['./chat-base.component.scss']
 })
 export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  constructor(private messages: MessageService, private $message: NzMessageService, private router: Router,
+              private nzContextMenuService: NzContextMenuService,
+              private $chatRequestService: ChatRequestService) {
+  }
 
   // Socket长连接
   @Input() socket: Socket;
@@ -49,7 +58,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   // 输入框
   @ViewChild('textBox') private textBox: ElementRef<Element>;
   // 滚动条
-  @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef<Element>;
+  @ViewChild('scrollerBase') private scrollerBaseTemp: VirtualScrollerComponent;
   // 聊天消息滚动
   @ViewChild('visibleList') private visibleList: ElementRef<Element>;
   // 当前房间频道信息
@@ -87,10 +96,6 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     fileUpload: false
   };
 
-  constructor(private messages: MessageService, private $message: NzMessageService, private router: Router,
-              private nzContextMenuService: NzContextMenuService,
-              private $chatRequestService: ChatRequestService) {
-  }
 
   ngOnInit(): void {
     this.userInfo = SessionUtil.getUserInfo();
@@ -118,15 +123,15 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
               this.loadedingStatus.userLoad = false;
               // 分页查询聊天记录
               this.queryChatMessage().then((msg: any[]) => {
-                console.log(msg);
                 // 合并消息
-                if (msg.length > 0) {
-                  this.messagesList = [...msg, ...JSON.parse(this.roomChannel.messages)];
-                }
+                this.messagesList = [...msg, ...JSON.parse(this.roomChannel.messages)];
                 // 置底
+                console.log(this.scrollerBaseTemp);
+                // this.scrollerBaseTemp.scrollToPosition(100);
+                this.scrollerBaseTemp.scrollToIndex(this.messagesList.length);
                 setTimeout(() => {
-                  this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-                }, 50);
+                  // this.scrollerBaseTemp.nativeElement.scrollTo(100, this.scrollerBaseTemp.nativeElement.scrollHeight);
+                });
               });
               break;
             case SystemMessagesEnum.join:
@@ -180,9 +185,6 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           break;
       }
-      setTimeout(() => {
-        this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-      }, 50);
       // console.log('this.messagesList', this.messagesList);
     });
     // emoji
@@ -210,6 +212,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadedingStatus.messageLoad = false;
         if (result.code === 200) {
           if (!result.data) {
+            this.pageParams = new PageParams(this.pageParams.pageNum - 1, 1);
             this.$message.info('聊天记录已经到顶了');
             return;
           }
@@ -221,7 +224,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
           resolve(message);
         } else {
           this.$message.error('聊天记录查询失败');
-          resolve(null);
+          resolve([]);
         }
       });
     });
@@ -317,55 +320,42 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
         message.states = ChatChannelsMessageStatesEnum.error;
         this.messagesList.push(message);
       }
+      this.scrollerBaseTemp.scrollToIndex(this.messagesList.length);
     });
     setTimeout(() => {
       this.textBox.nativeElement.innerHTML = '';
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
-      this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+      // this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
     }, 50);
   }
 
   /**
-   * 虚拟滚动
+   * 获取滚动距离 scrollTop
+   * 根据 scrollTop 和 itemSize 计算出 startIndex 和 endIndex
+   * 根据 scrollTop 和 itemSize 计算出 startOffset
+   * 显示startIndex 和 endIndex之间的元素
+   * 设置listArea的偏移量为startOffset
    */
   handleScroll(): void {
-    const scrollTop = this.scrollerBaseTemp.nativeElement.scrollTop;
-    const scrollHeight = this.scrollerBaseTemp.nativeElement.scrollHeight;
-    this.updateVisibleData(scrollTop, scrollHeight);
-  }
-
-  /**
-   * 更新数据
-   * @param scrollTop 距离顶部的距离
-   * @param scrollH  1
-   */
-  updateVisibleData(scrollTop: number, scrollH: number): void {
-    console.log('scrollTop', scrollTop, 'scrollHeight', scrollH);
-    if (scrollTop <= 300) {
-      if (this.scrollLoading) {
-        return;
-      }
-      this.scrollLoading = true;
+    // 滚动距离
+    /*const scrollTop: number = this.scrollerBaseTemp.nativeElement.scrollTop;
+    this.scrollBarHeight = this.scrollerBaseTemp.nativeElement.scrollHeight;
+    console.log('scrollTop', scrollTop, 'this.scrollBarHeight', this.scrollBarHeight);
+    if (scrollTop === 0) {
+      this.loadedingStatus.messageLoad = true;
       this.pageParams = new PageParams(this.pageParams.pageNum + 1, 1);
+      // 分页查询聊天记录
       this.queryChatMessage().then((msg: any[]) => {
         // 合并消息
         if (msg.length > 0) {
           this.messagesList = [...msg, ...this.messagesList];
           setTimeout(() => {
-            this.scrollerBaseTemp.nativeElement.scrollTo(scrollH - 300, scrollH);
-            this.scrollLoading = false;
-          }, 1);
+            this.scrollerBaseTemp.nativeElement.scrollTo(652, this.scrollerBaseTemp.nativeElement.scrollHeight);
+          }, 100);
         }
       });
-    }
-    // scrollTop = scrollTop || 0;
-    // const visibleCount = Math.ceil(400 / this.itemHeight);// 可视区可展示数据量
-    // const start = Math.floor(scrollTop / this.itemHeight);
-    // const end = start + visibleCount;
-    // console.log(visibleCount, start, end);
-    // this.visibleData = this.originData.slice(start, end);
-    // this.content.nativeElement.style.webkitTransform = `translate3d(0, ${ start * this.itemHeight }px, 0)`;
+    }*/
   }
 
   /**

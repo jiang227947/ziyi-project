@@ -7,6 +7,7 @@ import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
 import {ChatBaseComponent} from './chat-base/chat-base.component';
 import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/date.pipe';
 import {ChatRequestService} from '../../core-module/api-service/chat';
+import {VirtualScrollerModule} from 'ngx-virtual-scroller';
 
 const COMPONENTS = [
   ChatChannelsComponent,
@@ -17,6 +18,7 @@ const COMPONENTS = [
 const PIPES = [DateConversionPipe, TimeConversionPipe];
 
 const SERVICE = [ChatRequestService];
+
 @NgModule({
   declarations: [
     ...COMPONENTS,
@@ -24,7 +26,8 @@ const SERVICE = [ChatRequestService];
   ],
   imports: [
     SharedModuleModule,
-    RouterModule.forChild(CHAT_CHANNELS_ROUTER_CONFIG)
+    RouterModule.forChild(CHAT_CHANNELS_ROUTER_CONFIG),
+    VirtualScrollerModule
   ],
   providers: [...SERVICE]
 })
