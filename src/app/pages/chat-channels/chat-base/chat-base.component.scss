@@ -230,9 +230,8 @@
       display: flex;
 
       .scrollerBase {
-        //overflow-y: scroll;
-        //overflow-x: hidden;
-        //overflow-anchor: none;
+        overflow-y: scroll;
+        overflow-x: hidden;
         position: absolute;
         top: 40px;
         bottom: 0;
@@ -254,9 +253,9 @@
         }
 
         .scrollerInner {
-          //min-height: 0;
-          //overflow: hidden;
-          //list-style: none;
+          min-height: 0;
+          overflow: hidden;
+          list-style: none;
 
           /*加载*/
           .spin {

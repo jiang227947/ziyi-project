@@ -25,9 +25,9 @@ export class AuthComponent implements OnInit, AfterViewInit {
   @ViewChild('leaveMessageBox') leaveMessageBoxTemp: ElementRef;
   @ViewChild('messageContent') messageContentTemp: ElementRef<Element>;
   // 模式
-  public signStats = 'signUp';
+  public signStats: string = 'signUp';
   // 标题
-  public title = '登录';
+  public title: string = '登录';
   // 登录表单
   public loginForm: UntypedFormGroup;
   // 登录的loading
@@ -121,9 +121,9 @@ export class AuthComponent implements OnInit, AfterViewInit {
    * 初始化表单
    */
   buildForm(): void {
-    const rememberMe: string = localStorage.getItem('rememberMe');
+    const rememberMe: string = localStorage.getItem('rememberMe') || '';
     this.loginForm = this.fb.group({
-      loginName: [rememberMe ? rememberMe : '', [Validators.required, Validators.minLength(3)]],
+      loginName: [rememberMe, [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(3)]],
       remember: [!!rememberMe],
     });

@@ -60,99 +60,15 @@
       <!--主体框-->
       <div class="messagesWrapper" (click)="publicClose()">
         <!--虚拟滚动-->
-        <!--<div #scrollerBase class="scrollerBase" (scroll)="handleScroll()">
-          &lt;!&ndash;消息列&ndash;&gt;
-          <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
-            &lt;!&ndash;load状态&ndash;&gt;
-            <ng-container *ngIf="loadedingStatus.messageLoad">
-              <ng-template #indicatorTemplate>
-                <span nz-icon nzType="loading" class="loading"></span>
-              </ng-template>
-              <nz-spin nzSimple [nzIndicator]="indicatorTemplate" class="spin"></nz-spin>
-            </ng-container>
-            &lt;!&ndash;每一条消息&ndash;&gt;
-            <li class="messageListItem" aria-setsize="-1" *ngFor="let item of messagesList;index as idx">
-              <ng-container [ngSwitch]="item.type">
-                &lt;!&ndash;一般消息&ndash;&gt;
-                <ng-container *ngSwitchCase="chatMessagesType.general">
-                  <div class="message" role="article" tabindex="-1" aria-setsize="-1" aria-roledescription="消息"
-                       aria-labelledby="message-username">
-                    <div class="contents">
-                      &lt;!&ndash;头像&ndash;&gt;
-                      <ng-container *ngIf="!item.author.avatar;else _avatar">
-                        <nz-avatar
-                          [nzGap]="1"
-                          [ngStyle]="{ 'background-color': '#ffbf00' }"
-                          [nzText]="item.author.username"
-                          nzSize="large"
-                          style="vertical-align: middle;"
-                          class="user-avatar"
-                        ></nz-avatar>
-                      </ng-container>
-                      <ng-template #_avatar>
-                        <img [src]="item.author.avatar | avatarConversion" aria-hidden="true" class="user-avatar"
-                             alt="头像">
-                      </ng-template>
-                      &lt;!&ndash;消息头&ndash;&gt;
-                      <h3 class="header" aria-labelledby="message-username">
-                      <span class="headerText">
-                        &lt;!&ndash;用户名&ndash;&gt;
-                        <span class="username" aria-expanded="false" role="button"
-                              tabindex="0">{{item.author.username}}</span>
-                        <span class="timestamp" role="button" tabindex="0">
-                          &lt;!&ndash;时间&ndash;&gt;
-                          <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
-                                datetime="{{item.timestamp}}">
-                            {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}
-                          </time>
-                        </span>
-                      </span>
-                      </h3>
-                      &lt;!&ndash;文字消息&ndash;&gt;
-                      <div class="markupMessage">{{item.content}}</div>
-                    </div>
-                  </div>
-                </ng-container>
-                &lt;!&ndash;连续发言&ndash;&gt;
-                <ng-container *ngSwitchCase="chatMessagesType.continuous">
-                  <div class="message continuous">
-                    <div class="timestamp timeHidden">
-                      <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}"
-                            datetime="{{item.timestamp}}">
-                        {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}
-                      </time>
-                    </div>
-                    &lt;!&ndash;文字消息&ndash;&gt;
-                    <div class="markupMessage">{{item.content}}</div>
-                  </div>
-                </ng-container>
-                &lt;!&ndash;系统消息&ndash;&gt;
-                <ng-container *ngSwitchCase="chatMessagesType.system">
-                  <div class="system">
-                    <div class="timestamp timeHidden">
-                      <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}"
-                            datetime="{{item.timestamp}}">
-                        {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}
-                      </time>
-                    </div>
-                    <ng-container *ngIf="item.systemStates === 'userJoin'">
-                      <span class="user-join">{{item.userName}}</span>
-                      <span>进入频道</span>
-                    </ng-container>
-                    <ng-container *ngIf="item.systemStates === 'userlLeft'">
-                      <span class="user-join">{{item.userName}}</span>
-                      <span>离开频道</span>
-                    </ng-container>
-                  </div>
-                </ng-container>
-              </ng-container>
-            </li>
-          </ol>
-        </div>-->
-        <virtual-scroller #scrollerBase class="scrollerBase" [items]="messagesList"
-        >
+        <div #scrollerBase class="scrollerBase"
+             infinite-scroll
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="scrollDistance"
+             [infiniteScrollUpDistance]="scrollUpDistance"
+             [infiniteScrollThrottle]="throttle"
+             (scrolledUp)="onUp()">
           <!--消息列-->
-          <ol class="scrollerInner">
+          <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
             <!--load状态-->
             <ng-container *ngIf="loadedingStatus.messageLoad">
               <ng-template #indicatorTemplate>
@@ -161,7 +77,7 @@
               <nz-spin nzSimple [nzIndicator]="indicatorTemplate" class="spin"></nz-spin>
             </ng-container>
             <!--每一条消息-->
-            <my-custom-component class="messageListItem" *ngFor="let item of scrollerBase.viewPortItems;index as idx">
+            <li class="messageListItem" aria-setsize="-1" *ngFor="let item of messagesList;index as idx">
               <ng-container [ngSwitch]="item.type">
                 <!--一般消息-->
                 <ng-container *ngSwitchCase="chatMessagesType.general">
@@ -185,18 +101,18 @@
                       </ng-template>
                       <!--消息头-->
                       <h3 class="header" aria-labelledby="message-username">
-                        <span class="headerText">
-                          <!--用户名-->
-                          <span class="username" aria-expanded="false" role="button"
-                                tabindex="0">{{item.author.username}}</span>
-                          <span class="timestamp" role="button" tabindex="0">
-                            <!--时间-->
-                            <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
-                                  datetime="{{item.timestamp}}">
-                              {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}
-                            </time>
-                          </span>
+                      <span class="headerText">
+                        <!--用户名-->
+                        <span class="username" aria-expanded="false" role="button"
+                              tabindex="0">{{item.author.username}}</span>
+                        <span class="timestamp" role="button" tabindex="0">
+                          <!--时间-->
+                          <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
+                                datetime="{{item.timestamp}}">
+                            {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}
+                          </time>
                         </span>
+                      </span>
                       </h3>
                       <!--文字消息-->
                       <div class="markupMessage">{{item.content}}</div>
@@ -236,9 +152,9 @@
                   </div>
                 </ng-container>
               </ng-container>
-            </my-custom-component>
+            </li>
           </ol>
-        </virtual-scroller>
+        </div>
       </div>
       <!--输入框-->
       <div class="channelTextArea">

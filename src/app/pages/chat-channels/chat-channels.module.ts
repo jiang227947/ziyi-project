@@ -6,8 +6,8 @@ import {CHAT_CHANNELS_ROUTER_CONFIG} from './chat-channels-routing.module';
 import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
 import {ChatBaseComponent} from './chat-base/chat-base.component';
 import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/date.pipe';
-import {ChatRequestService} from '../../core-module/api-service/chat';
-import {VirtualScrollerModule} from 'ngx-virtual-scroller';
+import {ChatRequestService} from '../../core-module/api-service';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 const COMPONENTS = [
   ChatChannelsComponent,
@@ -27,7 +27,7 @@ const SERVICE = [ChatRequestService];
   imports: [
     SharedModuleModule,
     RouterModule.forChild(CHAT_CHANNELS_ROUTER_CONFIG),
-    VirtualScrollerModule
+    InfiniteScrollModule
   ],
   providers: [...SERVICE]
 })

@@ -30,7 +30,7 @@
     "luckysheet": "^2.1.13",
     "mapbox-gl": "^2.9.1",
     "ng-zorro-antd": "^14.3.0",
-    "ngx-virtual-scroller": "^4.0.3",
+    "ngx-infinite-scroll": "^14.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

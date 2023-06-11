@@ -31,11 +31,10 @@ import {MessageService} from '../../../shared-module/service/Message.service';
 import {Router} from '@angular/router';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 import {CHANNEL_ID} from '../config/config';
-import {ChatRequestService} from '../../../core-module/api-service/chat';
+import {ChatRequestService} from '../../../core-module/api-service';
 import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {VirtualScrollerComponent, IPageInfo} from 'ngx-virtual-scroller';
 
 @Component({
   selector: 'app-chat-base',
@@ -58,7 +57,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   // 输入框
   @ViewChild('textBox') private textBox: ElementRef<Element>;
   // 滚动条
-  @ViewChild('scrollerBase') private scrollerBaseTemp: VirtualScrollerComponent;
+  @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef<Element>;
   // 聊天消息滚动
   @ViewChild('visibleList') private visibleList: ElementRef<Element>;
   // 当前房间频道信息
@@ -74,8 +73,9 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   messagesList: ChatMessagesInterface[] | any[] = [];
   // 分页参数
   pageParams = new PageParams(1, 1);
-  // 虚拟滚动加载
-  scrollLoading: boolean = false;
+  throttle = 150;
+  scrollDistance = 2;
+  scrollUpDistance = 1.5;
   // 消息类型枚举
   chatMessagesType = ChatMessagesTypeEnum;
   // emoji
@@ -126,11 +126,8 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
                 // 合并消息
                 this.messagesList = [...msg, ...JSON.parse(this.roomChannel.messages)];
                 // 置底
-                console.log(this.scrollerBaseTemp);
-                // this.scrollerBaseTemp.scrollToPosition(100);
-                this.scrollerBaseTemp.scrollToIndex(this.messagesList.length);
                 setTimeout(() => {
-                  // this.scrollerBaseTemp.nativeElement.scrollTo(100, this.scrollerBaseTemp.nativeElement.scrollHeight);
+                  this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
                 });
               });
               break;
@@ -320,42 +317,26 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
         message.states = ChatChannelsMessageStatesEnum.error;
         this.messagesList.push(message);
       }
-      this.scrollerBaseTemp.scrollToIndex(this.messagesList.length);
     });
     setTimeout(() => {
       this.textBox.nativeElement.innerHTML = '';
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
-      // this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+      this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
     }, 50);
   }
 
   /**
-   * 获取滚动距离 scrollTop
-   * 根据 scrollTop 和 itemSize 计算出 startIndex 和 endIndex
-   * 根据 scrollTop 和 itemSize 计算出 startOffset
-   * 显示startIndex 和 endIndex之间的元素
-   * 设置listArea的偏移量为startOffset
+   * 滚动到顶时加载数据
    */
-  handleScroll(): void {
-    // 滚动距离
-    /*const scrollTop: number = this.scrollerBaseTemp.nativeElement.scrollTop;
-    this.scrollBarHeight = this.scrollerBaseTemp.nativeElement.scrollHeight;
-    console.log('scrollTop', scrollTop, 'this.scrollBarHeight', this.scrollBarHeight);
-    if (scrollTop === 0) {
-      this.loadedingStatus.messageLoad = true;
-      this.pageParams = new PageParams(this.pageParams.pageNum + 1, 1);
-      // 分页查询聊天记录
-      this.queryChatMessage().then((msg: any[]) => {
-        // 合并消息
-        if (msg.length > 0) {
-          this.messagesList = [...msg, ...this.messagesList];
-          setTimeout(() => {
-            this.scrollerBaseTemp.nativeElement.scrollTo(652, this.scrollerBaseTemp.nativeElement.scrollHeight);
-          }, 100);
-        }
-      });
-    }*/
+  onUp(): void {
+    this.loadedingStatus.messageLoad = true;
+    this.pageParams = new PageParams(this.pageParams.pageNum + 1, 1);
+    // 分页查询聊天记录
+    this.queryChatMessage().then((msg: any[]) => {
+      // 合并消息
+      this.messagesList = [...msg, ...this.messagesList];
+    });
   }
 
   /**

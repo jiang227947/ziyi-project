@@ -17,10 +17,8 @@ export class ChatChannelsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('socketIo', this.$socketIoService.socketIo);
     if (!this.socket) {
       this.socket = this.$socketIoService.socketIo;
-      console.log('this.socket', this.socket.volatile);
     }
   }
 
