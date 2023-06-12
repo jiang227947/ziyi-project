@@ -15,6 +15,7 @@ import {
   ChatChannelSubscribeInterface,
   ChatMessagesInterface,
   ChatMessagesModal,
+  ChatOperateInterface,
   QueryMessagesList
 } from '../../../shared-module/interface/chat-channels';
 import {
@@ -35,6 +36,7 @@ import {ChatRequestService} from '../../../core-module/api-service';
 import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {ChatCommonUtil} from '../utli/common-util';
 
 @Component({
   selector: 'app-chat-base',
@@ -89,9 +91,13 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   // 消息体
   message: ChatMessagesInterface = new ChatMessagesModal();
   // 输入框更多操作
-  morOperate: { emoji: boolean, fileUpload: boolean } = {
+  morOperate: ChatOperateInterface = {
     // emoji弹框
     emoji: false,
+    // 添加反应emoji弹框
+    reactionEmoji: false,
+    // 当前选择的消息
+    selectMsgIdx: null,
     // 文件弹框
     fileUpload: false
   };
@@ -284,10 +290,12 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       edited_timestamp: null,
       // 嵌入
       embeds: [],
+      // 反应
+      reaction: [],
       // 标志
       flags: 0,
       // id
-      id: this.userInfo.id,
+      id: Math.floor(Math.random() * 10000000 * 3.1415),
       // 提及的人
       mention_everyone: this.message.mention_everyone || false,
       // 提及的角色
@@ -425,8 +433,24 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
    * emoji表情
    */
   emojiClick(emoji: string, idx: number): void {
-    this.textValue = `${this.textValue}${emoji}`;
-    this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${emoji}`;
+    if (this.morOperate.reactionEmoji) {
+      console.log(this.messagesList[this.morOperate.selectMsgIdx]);
+      // 添加反应表情
+      const reaction = this.messagesList[this.morOperate.selectMsgIdx].reaction || [];
+      this.messagesList[this.morOperate.selectMsgIdx].reaction = ChatCommonUtil.addReaction(reaction, emoji, this.userInfo.id);
+    } else if (this.morOperate.emoji) {
+      // 添加聊天表情
+      this.textValue = `${this.textValue}${emoji}`;
+      this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${emoji}`;
+    }
+  }
+
+  /**
+   * 添加反应
+   */
+  additiveReaction(idx: number): void {
+    this.morOperate.selectMsgIdx = idx;
+    this.morOperate.reactionEmoji = true;
   }
 
   /**
@@ -450,7 +474,9 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
    * 关闭弹框
    */
   publicClose(): void {
+    console.log('关闭弹框');
     this.morOperate.emoji = false;
+    this.morOperate.reactionEmoji = false;
     this.morOperate.fileUpload = false;
   }
 

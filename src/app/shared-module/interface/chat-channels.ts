@@ -91,6 +91,12 @@ export interface ChatMessagesInterface {
   edited_timestamp: string;
   // 嵌入
   embeds: any[];
+  // 反应
+  reaction: {
+    emoji: string,
+    count: number,
+    user: number[]
+  }[];
   // 标志
   flags: number;
   // id
@@ -132,6 +138,20 @@ export interface QueryMessagesList {
 }
 
 /**
+ * 操作类的接口
+ */
+export interface ChatOperateInterface {
+  // emoji弹框
+  emoji: boolean;
+  // 添加反应emoji弹框
+  reactionEmoji: boolean;
+  // 当前选择的消息
+  selectMsgIdx: number;
+  // 文件弹框
+  fileUpload: boolean;
+}
+
+/**
  * 消息类
  */
 export class ChatMessagesModal {
@@ -164,6 +184,8 @@ export class ChatMessagesModal {
   edited_timestamp: string;
   // 嵌入
   embeds: any[];
+  // 反应
+  reaction: any[];
   // 标志
   flags: number;
   // id

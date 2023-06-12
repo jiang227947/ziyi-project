@@ -298,6 +298,13 @@
                 padding-left: 0;
                 text-indent: 0;
 
+                &:hover {
+                  .reactionHidden {
+                    display: flex !important;
+                    transition: all 0.2s;
+                  }
+                }
+
                 /*头像*/
                 .avatar, .user-avatar {
                   position: absolute;
@@ -381,6 +388,7 @@
                   position: relative;
                   text-indent: 0;
                 }
+
               }
             }
 
@@ -390,6 +398,11 @@
 
               &:hover {
                 .timeHidden {
+                  display: flex !important;
+                  transition: all 0.2s;
+                }
+
+                .reactionHidden {
                   display: flex !important;
                   transition: all 0.2s;
                 }
@@ -414,19 +427,10 @@
                 text-indent: 0;
               }
 
+
               /*消息时间*/
               .timestamp {
-                position: absolute;
                 left: 12px;
-                top: 0;
-                bottom: 0;
-                cursor: default;
-                pointer-events: none;
-                color: #dbdee1;
-                font-size: 0.6875rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
               }
 
               .timeHidden {
@@ -446,17 +450,7 @@
 
               /*消息时间*/
               .timestamp {
-                position: absolute;
                 left: 12px;
-                top: 0;
-                bottom: 0;
-                cursor: default;
-                pointer-events: none;
-                color: #dbdee1;
-                font-size: 0.6875rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
               }
 
               .timeHidden {

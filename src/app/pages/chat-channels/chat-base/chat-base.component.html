@@ -58,7 +58,7 @@
         </div>
       </div>
       <!--主体框-->
-      <div class="messagesWrapper" (click)="publicClose()">
+      <div class="messagesWrapper">
         <!--虚拟滚动-->
         <div #scrollerBase class="scrollerBase"
              infinite-scroll
@@ -101,27 +101,47 @@
                       </ng-template>
                       <!--消息头-->
                       <h3 class="header" aria-labelledby="message-username">
-                      <span class="headerText">
-                        <!--用户名-->
-                        <span class="username" aria-expanded="false" role="button"
-                              tabindex="0">{{item.author.username}}</span>
-                        <span class="timestamp" role="button" tabindex="0">
-                          <!--时间-->
-                          <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
-                                datetime="{{item.timestamp}}">
-                            {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}
-                          </time>
-                        </span>
-                      </span>
+                        <p class="headerText">
+                          <!--用户名-->
+                          <span class="username" aria-expanded="false" role="button"
+                                tabindex="0">{{item.author.username}}</span>
+                          <span class="timestamp" role="button" tabindex="0">
+                            <!--时间-->
+                            <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
+                                  datetime="{{item.timestamp}}">
+                              {{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}
+                            </time>
+                          </span>
+                        </p>
                       </h3>
                       <!--文字消息-->
-                      <div class="markupMessage">{{item.content}}</div>
+                      <div class="markupMessage" (click)="publicClose()">{{item.content}}</div>
+                      <!--添加反应-->
+                      <div class="additive-reaction reactionHidden"
+                           nzTooltipTitle="添加反应" nzTooltipPlacement="top" nz-tooltip
+                           (click)="additiveReaction(idx)">
+                        <!--表情-->
+                        <span title="表情">
+                          <svg class="aliicon" aria-hidden="true">
+                            <use xlink:href="#icon-emojifill"></use>
+                          </svg>
+                        </span>
+                      </div>
+                      <!--反应表情-->
+                      <div class="additive-emoji">
+                        <div class="reaction-me" *ngFor="let i of item.reaction"
+                             nzTooltipTitle="反应：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip>
+                          <span class="reaction-inner">{{i.emoji}}</span>
+                          <span class="reaction-count">{{i.count}}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </ng-container>
                 <!--连续发言-->
                 <ng-container *ngSwitchCase="chatMessagesType.continuous">
                   <div class="message continuous">
+                    <!--消息时间-->
                     <div class="timestamp timeHidden">
                       <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | timeConversion}}"
                             datetime="{{item.timestamp}}">
@@ -129,7 +149,26 @@
                       </time>
                     </div>
                     <!--文字消息-->
-                    <div class="markupMessage">{{item.content}}</div>
+                    <div class="markupMessage" (click)="publicClose()">{{item.content}}</div>
+                    <!--反应表情-->
+                    <div class="additive-emoji">
+                      <div class="reaction-me" *ngFor="let i of item.reaction"
+                           nzTooltipTitle="反应：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip>
+                        <span class="reaction-inner">{{i.emoji}}</span>
+                        <span class="reaction-count">{{i.count}}</span>
+                      </div>
+                    </div>
+                    <!--添加反应-->
+                    <div class="additive-reaction reactionHidden"
+                         nzTooltipTitle="添加反应" nzTooltipPlacement="top" nz-tooltip
+                         (click)="additiveReaction(idx)">
+                      <!--表情-->
+                      <span title="表情">
+                        <svg class="aliicon" aria-hidden="true">
+                          <use xlink:href="#icon-emojifill"></use>
+                        </svg>
+                      </span>
+                    </div>
                   </div>
                 </ng-container>
                 <!--系统消息-->
@@ -195,7 +234,7 @@
         </div>
       </div>
       <!--表情选择-->
-      <div class="emoji-select" [ngClass]="{'emoji-active': morOperate.emoji}">
+      <div class="emoji-select" [ngClass]="{'emoji-active': morOperate.emoji || morOperate.reactionEmoji}">
         <div class="emoji-content">
           <span class="emoji" *ngFor="let item of emojiList;index as idx" (click)="emojiClick(item, idx)">
             {{item}}
