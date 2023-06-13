@@ -22,6 +22,14 @@ export class ChatCommonUtil {
       if (isId < 0) {
         list[isIndex].user.push(id);
         list[isIndex].count++;
+      } else {
+        list[isIndex].user.splice(isId, 1);
+        // 判断是否为最后一个表情
+        if (list[isIndex].count === 1) {
+          list.splice(isIndex, 1);
+        } else {
+          list[isIndex].count--;
+        }
       }
     } else {
       // 没有反应直接新增

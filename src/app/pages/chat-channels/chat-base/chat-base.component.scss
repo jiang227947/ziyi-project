@@ -128,8 +128,8 @@
         z-index: 1;
 
         .info-txt {
-          flex: 0.2 0;
-          min-width: 100px;
+          flex: 0.8 0;
+          min-width: 150px;
           color: $--jjext-color-base2;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -141,7 +141,6 @@
           display: flex;
           justify-content: space-around;
           flex: 0.1 0;
-          position: relative;
 
           .hidden-user-list {
             display: none;
@@ -167,6 +166,7 @@
           .pushpin {
             position: absolute;
             top: 40px;
+            right: 0;
             box-shadow: 0 1px 3px 0 $--jjext-color-base0;
             color: $--jjext-color-base2;
             transition: all 0.2s;

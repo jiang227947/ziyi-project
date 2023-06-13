@@ -1,6 +1,7 @@
 <div class="container">
   <!--左侧导航-->
-  <div #sidebar class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':morOperate.isCollapsed}" (click)="publicClose()">
+  <div #sidebar class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':morOperate.isCollapsed}"
+       (click)="publicClose()">
     <!--用户列-->
     <ol class="scrollerInner" aria-label="用户" role="list" tabindex="0">
       <!--骨架屏-->
@@ -56,7 +57,8 @@
                 (click)="operateTop('user')"></span>
           <!--标注-->
           <nz-badge nzDot>
-            <span class="operation" [ngClass]="{'pushpin-active':morOperate.pushpin}" title="标注" nz-icon nzType="pushpin"
+            <span class="operation" [ngClass]="{'pushpin-active':morOperate.pushpin}" title="标注" nz-icon
+                  nzType="pushpin"
                   nzTheme="outline"
                   (click)="operateTop('pushpin')"></span>
           </nz-badge>
@@ -69,7 +71,8 @@
             <div class="pushpin-centent">
               <p>- 禁止发布违法法律、违法道德、人身攻击等言论</p>
               <p>- 后续功能正在开发中，可在GitHub查看源码</p>
-              <a nz-button nzType="link" href="https://github.com/jiang227947/ziyi-project" target="_blank">GItHub Link</a>
+              <a nz-button nzType="link" href="https://github.com/jiang227947/ziyi-project" target="_blank">GItHub
+                Link</a>
               <!--              <nz-empty></nz-empty>-->
             </div>
           </div>
@@ -115,12 +118,7 @@
                       </ng-container>
                       <ng-template #_avatar>
                         <img [src]="item.author.avatar | avatarConversion" aria-hidden="true" class="user-avatar"
-                             alt="头像" (contextmenu)="contextMenu($event, menu)">
-                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                          <ul nz-menu>
-                            <li nz-menu-item (click)="mention(item)">@提及</li>
-                          </ul>
-                        </nz-dropdown-menu>
+                             alt="头像">
                       </ng-template>
                       <!--消息头-->
                       <h3 class="header" aria-labelledby="message-username" (click)="publicClose()">
@@ -153,7 +151,8 @@
                       <!--反应表情-->
                       <div class="additive-emoji">
                         <div class="reaction-me" *ngFor="let i of item.reaction"
-                             nzTooltipTitle="反应：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip>
+                             nzTooltipTitle="{{i.count}}人的反应为：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip
+                             (click)="emojiClick(i.emoji, idx)">
                           <span class="reaction-inner">{{i.emoji}}</span>
                           <span class="reaction-count">{{i.count}}</span>
                         </div>
@@ -176,7 +175,8 @@
                     <!--反应表情-->
                     <div class="additive-emoji">
                       <div class="reaction-me" *ngFor="let i of item.reaction"
-                           nzTooltipTitle="反应：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip>
+                           nzTooltipTitle="{{i.count}}人的反应为：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip
+                           (click)="emojiClick(i.emoji, idx)">
                         <span class="reaction-inner">{{i.emoji}}</span>
                         <span class="reaction-count">{{i.count}}</span>
                       </div>

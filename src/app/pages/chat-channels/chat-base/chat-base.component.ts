@@ -335,8 +335,6 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       flags: 0,
       // 提及的人
       mention_everyone: this.message.mention_everyone || false,
-      // 提及的角色
-      mention_roles: this.message.mention_roles || null,
       // 提及的人名称信息
       mentions: this.message.mentions || null,
       // 留言参考
@@ -375,7 +373,9 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
    * 滚动到顶时加载数据
    */
   onUp(): void {
-    if (this.isTop) return;
+    if (this.isTop) {
+      return;
+    }
     this.loadedingStatus.messageLoad = true;
     this.pageParams = new PageParams(this.pageParams.pageNum + 1, 50);
     // 分页查询聊天记录
@@ -476,21 +476,29 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * @提及
    */
-  mention(user: ChatChannelRoomUserInterface): void {
-    console.log(user);
+  mention(info: ChatChannelRoomUserInterface): void {
     this.message.mention_everyone = true;
-    this.message.mention_roles = [user.role];
-    this.message.mentions = user;
-    this.textValue = `${this.textValue}@${user.userName}`;
-    this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}@${user.userName}`;
-    console.log(this.message);
+    this.message.mentions = info;
+    this.textValue = `${this.textValue}@${info.userName}`;
+    this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}@${info.userName}`;
+    // console.log(this.message);
   }
 
   /**
    * emoji表情
    */
-  emojiClick(emoji: string): void {
-    if (this.morOperate.reactionEmoji) {
+  emojiClick(emoji: string, idx?: number): void {
+    if (idx !== undefined) {
+      const param = {
+        emoji,
+        id: this.messagesList[idx].id,
+        userId: this.userInfo.id
+      };
+      this.addReaction(param);
+      // 添加反应表情
+      const reaction = this.messagesList[idx].reaction || [];
+      this.messagesList[idx].reaction = ChatCommonUtil.addReaction(reaction, emoji, this.userInfo.id);
+    } else if (this.morOperate.reactionEmoji) {
       const param = {
         emoji,
         id: this.messagesList[this.morOperate.selectMsgIdx].id,

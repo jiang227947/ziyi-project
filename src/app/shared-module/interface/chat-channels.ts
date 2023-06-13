@@ -82,8 +82,6 @@ export interface ChatMessagesInterface {
   flags: number;
   // 提及的人
   mention_everyone: boolean;
-  // 提及的角色
-  mention_roles: any[];
   // 提及的人名称信息
   mentions: ChatChannelRoomUserInterface;
   // 留言参考
@@ -191,8 +189,6 @@ export class ChatMessagesModal {
   flags: number;
   // 提及的人
   mention_everyone: boolean;
-  // 提及的角色
-  mention_roles: any[];
   // 提及的人名称信息
   mentions: ChatChannelRoomUserInterface;
   // 留言参考

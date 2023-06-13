@@ -84,12 +84,18 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
     display: inline-block;
     min-width: 50px;
     text-align: center;
-    border: 1px solid $--additive-border;
-    background-color: $--additive-bgc;
+    border: 1px solid $--jjext-color-base1;
     border-radius: 0.5rem;
     cursor: pointer;
     margin: 0 0.25rem;
     font-size: 1rem;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $--additive-bgc;
+      border-color: $--additive-border;
+      transition: all 0.2s;
+    }
 
     .reaction-count {
       min-width: 9px;
