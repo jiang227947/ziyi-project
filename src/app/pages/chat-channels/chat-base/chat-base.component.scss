@@ -113,6 +113,7 @@
       display: flex;
       flex-direction: column;
 
+      /*置顶*/
       .top-info {
         position: absolute;
         top: 0;
@@ -127,7 +128,7 @@
         z-index: 1;
 
         .info-txt {
-          flex: 1 0;
+          flex: 0.2 0;
           min-width: 100px;
           color: $--jjext-color-base2;
           overflow: hidden;
@@ -139,7 +140,8 @@
         .operation-group {
           display: flex;
           justify-content: space-around;
-          flex: 1 0;
+          flex: 0.1 0;
+          position: relative;
 
           .hidden-user-list {
             display: none;
@@ -160,8 +162,38 @@
               color: $--warning;
             }
           }
-        }
 
+          /*标注消息*/
+          .pushpin {
+            position: absolute;
+            top: 40px;
+            box-shadow: 0 1px 3px 0 $--jjext-color-base0;
+            color: $--jjext-color-base2;
+            transition: all 0.2s;
+            display: none;
+
+            .pushpin-title {
+              background-color: $--jjext-color-base;
+              padding: 10px;
+            }
+
+            .pushpin-centent {
+              background-color: $--jjext-color-secondary-app;
+              padding: 10px;
+              min-width: 200px;
+              min-height: 100px;
+            }
+          }
+
+          .pushpinShow {
+            display: inline-block;
+            transition: all 0.2s;
+          }
+
+          .pushpin-active {
+            color: $--user-name1;
+          }
+        }
       }
 
       /*表情选择*/
@@ -221,6 +253,7 @@
       }
     }
 
+    /*主体*/
     .messagesWrapper {
       position: relative;
       flex: 1 1 auto;

@@ -12,6 +12,7 @@ import {SafeHtmlPipe} from '../../../shared-module/pipe/safeHtml.pipe';
 import {IndexComponent} from './index.component';
 import {ChatGPTComponent} from './chat-gpt/chat-gpt.component';
 import {AccountCenterComponent} from './account-center/account-center.component';
+import {ChatChannelsModule} from '../../chat-channels/chat-channels.module';
 
 const COMPONENTS = [IndexComponent, ChatGPTComponent, AccountCenterComponent];
 const PIPES = [SafeHtmlPipe];
@@ -21,7 +22,8 @@ const PIPES = [SafeHtmlPipe];
   imports: [
     CommonModule,
     RouterModule.forChild(INDEX_ROUTER_CONFIG),
-    SharedModuleModule
+    SharedModuleModule,
+    ChatChannelsModule
   ],
   providers: [IndexApiService, DownloadUtil, OpenaiRequestService]
 })

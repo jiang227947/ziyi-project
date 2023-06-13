@@ -24,8 +24,6 @@ export interface ChatChannelRoomInterface {
   roomName: string;
   // 用户信息
   users: ChatChannelRoomUserInterface[];
-  // 最近的聊天信息
-  messages: string;
 }
 
 /**
@@ -65,32 +63,15 @@ export interface ChatMessagesInterface {
   // 附件
   attachments: any[];
   // 作者
-  author: {
-    // 头像
-    avatar: string;
-    // 头像描述
-    avatar_decoration: string;
-    // 鉴别器
-    discriminator: string;
-    // 全局名称
-    global_name: string;
-    // id
-    id: number;
-    // 公共标签
-    public_flags: number;
-    // 用户名
-    username: string;
-  };
+  author: ChatSendAuthorInterface;
   // 频道id
-  channel_id: string;
+  channelId: string;
   // 组件
   components: any[];
   // 消息内容
   content: string;
   // 编辑消息的时间
   edited_timestamp: string;
-  // 嵌入
-  embeds: any[];
   // 反应
   reaction: {
     emoji: string,
@@ -99,8 +80,6 @@ export interface ChatMessagesInterface {
   }[];
   // 标志
   flags: number;
-  // id
-  id: number;
   // 提及的人
   mention_everyone: boolean;
   // 提及的角色
@@ -126,6 +105,26 @@ export interface ChatMessagesInterface {
 }
 
 /**
+ * 消息发送方
+ */
+export interface ChatSendAuthorInterface {
+  // 头像
+  avatar: string;
+  // 头像描述
+  avatar_decoration: string;
+  // 鉴别器
+  discriminator: string;
+  // 全局名称
+  global_name: string;
+  // id
+  id: number;
+  // 公共标签
+  public_flags: number;
+  // 用户名
+  userName: string;
+}
+
+/**
  * 查询的聊天记录接口
  */
 export interface QueryMessagesList {
@@ -141,6 +140,10 @@ export interface QueryMessagesList {
  * 操作类的接口
  */
 export interface ChatOperateInterface {
+  // 在线用户弹框
+  isCollapsed: boolean;
+  // 标注消息弹框
+  pushpin: boolean;
   // emoji弹框
   emoji: boolean;
   // 添加反应emoji弹框
@@ -182,14 +185,10 @@ export class ChatMessagesModal {
   content: string;
   // 编辑消息的时间
   edited_timestamp: string;
-  // 嵌入
-  embeds: any[];
   // 反应
   reaction: any[];
   // 标志
   flags: number;
-  // id
-  id: number;
   // 提及的人
   mention_everyone: boolean;
   // 提及的角色

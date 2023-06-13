@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Result} from '../../../shared-module/interface/result';
 import {environment} from '../../../../environments/environment';
 import {PageParams} from '../../../shared-module/interface/pageParms';
-import {QueryMessagesList} from '../../../shared-module/interface/chat-channels';
+import {ChatMessagesInterface} from '../../../shared-module/interface/chat-channels';
 
 /**
  * 聊天接口服务
@@ -17,7 +17,14 @@ export class ChatRequestService {
   /**
    * 查询聊天记录
    */
-  queryChatMessage(pageParams: PageParams): Observable<Result<QueryMessagesList>> {
-    return this.$http.post<Result<QueryMessagesList>>(`${environment.API_URL}/queryChatMessage`, pageParams);
+  queryChatMessage(pageParams: PageParams): Observable<Result<ChatMessagesInterface[]>> {
+    return this.$http.post<Result<ChatMessagesInterface[]>>(`${environment.API_URL}/queryChatMessage`, pageParams);
+  }
+
+  /**
+   * 添加反应表情
+   */
+  addReaction(param: { emoji: string, id: number, userId: number }): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/addReaction`, param);
   }
 }

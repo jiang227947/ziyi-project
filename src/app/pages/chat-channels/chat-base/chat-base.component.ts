@@ -15,8 +15,7 @@ import {
   ChatChannelSubscribeInterface,
   ChatMessagesInterface,
   ChatMessagesModal,
-  ChatOperateInterface,
-  QueryMessagesList
+  ChatOperateInterface, ChatSendAuthorInterface,
 } from '../../../shared-module/interface/chat-channels';
 import {
   ChatChannelsCallbackEnum,
@@ -37,6 +36,7 @@ import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {ChatCommonUtil} from '../utli/common-util';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-chat-base',
@@ -62,6 +62,8 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('scrollerBase') private scrollerBaseTemp: ElementRef<Element>;
   // 聊天消息滚动
   @ViewChild('visibleList') private visibleList: ElementRef<Element>;
+  // 观察者订阅
+  subscription: Subscription;
   // 当前房间频道信息
   roomChannel: ChatChannelRoomInterface;
   // 在线用户
@@ -74,7 +76,9 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   // 消息列
   messagesList: ChatMessagesInterface[] | any[] = [];
   // 分页参数
-  pageParams = new PageParams(1, 1);
+  pageParams = new PageParams(1, 50);
+  // 消息是否查询完毕
+  isTop: boolean = false;
   throttle = 150;
   scrollDistance = 2;
   scrollUpDistance = 1.5;
@@ -84,14 +88,16 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   emojiList: string[] = [];
   // 输入的文字
   textValue: string = '';
-  // 左侧用户展开控制
-  isCollapsed: boolean = false;
   // 用户信息
   userInfo: User;
   // 消息体
-  message: ChatMessagesInterface = new ChatMessagesModal();
-  // 输入框更多操作
+  message: ChatMessagesModal = new ChatMessagesModal();
+  // 更多操作
   morOperate: ChatOperateInterface = {
+    // 在线用户弹框
+    isCollapsed: false,
+    // 标注消息弹框
+    pushpin: false,
     // emoji弹框
     emoji: false,
     // 添加反应emoji弹框
@@ -101,12 +107,17 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     // 文件弹框
     fileUpload: false
   };
-
+  // 刷屏监听参数 3秒内连续发言超过三次则算刷屏
+  continuousChat: { count: number, time: number, timer: any } = {
+    count: 0,
+    time: 3,
+    timer: null
+  };
 
   ngOnInit(): void {
     this.userInfo = SessionUtil.getUserInfo();
     // console.log('用户信息', this.userInfo);
-    this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
+    this.subscription = this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
       console.log('订阅消息', message);
       switch (message.type) {
         case ChatChannelsMessageTypeEnum.publicMessage:
@@ -128,13 +139,14 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
               });
               this.loadedingStatus.userLoad = false;
               // 分页查询聊天记录
-              this.queryChatMessage().then((msg: any[]) => {
+              this.queryChatMessage().then((msg: ChatMessagesInterface[]) => {
+                // console.log('msg', msg);
                 // 合并消息
-                this.messagesList = [...msg, ...JSON.parse(this.roomChannel.messages)];
+                this.messagesList = msg;
                 // 置底
                 setTimeout(() => {
                   this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-                });
+                }, 30);
               });
               break;
             case SystemMessagesEnum.join:
@@ -209,27 +221,34 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * 分页查询聊天记录
    */
-  queryChatMessage(): Promise<any[]> {
-    return new Promise<any[]>(resolve => {
-      this.$chatRequestService.queryChatMessage(this.pageParams).subscribe((result: Result<QueryMessagesList>) => {
+  queryChatMessage(): Promise<ChatMessagesInterface[]> {
+    return new Promise<ChatMessagesInterface[]>(resolve => {
+      this.$chatRequestService.queryChatMessage(this.pageParams).subscribe((result: Result<ChatMessagesInterface[]>) => {
         this.loadedingStatus.messageLoad = false;
         if (result.code === 200) {
-          if (!result.data) {
-            this.pageParams = new PageParams(this.pageParams.pageNum - 1, 1);
+          // 聊天记录到顶判断
+          if (result.data.length < this.pageParams.pageSize) {
             this.$message.info('聊天记录已经到顶了');
-            return;
+            this.isTop = true;
           }
-          const message: any[] = JSON.parse(result.data[0].content);
-          /*if (message.length > 0) {
-            this.messagesList = [...message, ...this.messagesList];
-            console.log(this.messagesList);
-          }*/
-          resolve(message);
+          resolve(result.data);
         } else {
           this.$message.error('聊天记录查询失败');
           resolve([]);
         }
       });
+    });
+  }
+
+  /**
+   * 添加反应表情
+   */
+  addReaction(param: { emoji: string, id: number, userId: number }): void {
+    this.$chatRequestService.addReaction(param).subscribe((result: Result<void>) => {
+      if (result.code === 200) {
+      } else {
+        this.$message.error('添加反应表情失败');
+      }
     });
   }
 
@@ -260,9 +279,31 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     if (count === split.length && count > 5) {
       this.textValue = `\n\n\n`;
     }
+    // 每次发消息 数量累加，3秒内达到上限则停止发送
+    this.continuousChat.count += 1;
+    // 如果没有定时器则开始定时
+    if (!this.continuousChat.timer) {
+      this.continuousChat.timer = setInterval(() => {
+        // 判断3秒时间到，则重置消息次数
+        if (this.continuousChat.time <= 0) {
+          // 清除定时器
+          clearInterval(this.continuousChat.timer);
+          // 重置消息次数
+          this.continuousChat.count = 0;
+        }
+        // 每秒钟-1
+        this.continuousChat.time -= 1;
+      }, 1000);
+    }
+    // 判断是否刷屏
+    if (this.continuousChat.count > 5 && this.continuousChat.time > 0) {
+      this.$message.info(`您的消息太频繁，请稍后${this.continuousChat.time}秒`);
+      return;
+    }
+    // 消息体
     const message: ChatMessagesInterface = this.isContinuous({
       // 附件
-      attachments: [],
+      attachments: null,
       // 消息发送者
       author: {
         // 头像
@@ -278,34 +319,30 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
         // 公共标签
         public_flags: 0,
         // 用户名
-        username: this.userInfo.userName,
+        userName: this.userInfo.userName,
       },
       // 频道id
-      channel_id: CHANNEL_ID,
+      channelId: CHANNEL_ID,
       // 组件
-      components: [],
+      components: null,
       // 消息内容
       content: this.textValue,
       // 编辑消息的时间
       edited_timestamp: null,
-      // 嵌入
-      embeds: [],
       // 反应
-      reaction: [],
+      reaction: null,
       // 标志
       flags: 0,
-      // id
-      id: Math.floor(Math.random() * 10000000 * 3.1415),
       // 提及的人
       mention_everyone: this.message.mention_everyone || false,
       // 提及的角色
-      mention_roles: this.message.mention_roles || [],
+      mention_roles: this.message.mention_roles || null,
       // 提及的人名称信息
       mentions: this.message.mentions || null,
       // 留言参考
-      message_reference: [],
+      message_reference: null,
       // 参考消息
-      referenced_message: [],
+      referenced_message: null,
       // 固定
       pinned: false,
       // 时间
@@ -321,7 +358,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
         this.messagesList.push(message);
       } else {
         // todo 重发
-        console.log('消息发送失败');
+        this.$message.info('消息发送失败');
         message.states = ChatChannelsMessageStatesEnum.error;
         this.messagesList.push(message);
       }
@@ -331,17 +368,18 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
       this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-    }, 50);
+    }, 30);
   }
 
   /**
    * 滚动到顶时加载数据
    */
   onUp(): void {
+    if (this.isTop) return;
     this.loadedingStatus.messageLoad = true;
-    this.pageParams = new PageParams(this.pageParams.pageNum + 1, 1);
+    this.pageParams = new PageParams(this.pageParams.pageNum + 1, 50);
     // 分页查询聊天记录
-    this.queryChatMessage().then((msg: any[]) => {
+    this.queryChatMessage().then((msg: ChatMessagesInterface[]) => {
       // 合并消息
       this.messagesList = [...msg, ...this.messagesList];
     });
@@ -356,10 +394,27 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * 在线用户列表隐藏显示
+   * 置顶的操作
    */
-  hiddenOnlineUser(): void {
-    this.isCollapsed = !this.isCollapsed;
+  operateTop(type: string): void {
+    switch (type) {
+      case 'quit':
+        // 退出
+        this.socket.disconnect();
+        this.socketDisconnect.emit();
+        // 清除订阅
+        this.subscription.unsubscribe();
+        // this.router.navigate(['/main/index']);
+        break;
+      case 'pushpin':
+        // 标注消息弹框
+        this.morOperate.pushpin = !this.morOperate.pushpin;
+        break;
+      case 'user':
+        // 在线用户列表隐藏显示
+        this.morOperate.isCollapsed = !this.morOperate.isCollapsed;
+        break;
+    }
   }
 
   /**
@@ -395,10 +450,12 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
    * 判断是否为连续发言
    */
   isContinuous(message: ChatMessagesInterface): ChatMessagesInterface {
-    if (message.author.avatar && message.author.avatar.indexOf('http' || 'https') !== -1) {
+    // 类型断言
+    const author: ChatSendAuthorInterface = message.author;
+    if (author.avatar && author.avatar.indexOf('http' || 'https') !== -1) {
       // message.author.avatar = message.author.avatar;
-    } else if (message.author.avatar !== null) {
-      message.author.avatar = `https://www.evziyi.top${message.author.avatar}`;
+    } else if (author.avatar !== null) {
+      author.avatar = `https://www.evziyi.top${author.avatar}`;
     }
     // 系统消息不判断
     if (message.type === this.chatMessagesType.system) {
@@ -407,7 +464,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     // 如果上一条消息的用户为当前这个人则为连续发言
     if (this.messagesList.length > 0
       && this.messagesList[this.messagesList.length - 1].author
-      && message.author.id === this.messagesList[this.messagesList.length - 1].author.id) {
+      && author.id === this.messagesList[this.messagesList.length - 1].author.id) {
       message.type = this.chatMessagesType.continuous;
     } else {
       // 否则为普通发言
@@ -432,9 +489,14 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * emoji表情
    */
-  emojiClick(emoji: string, idx: number): void {
+  emojiClick(emoji: string): void {
     if (this.morOperate.reactionEmoji) {
-      console.log(this.messagesList[this.morOperate.selectMsgIdx]);
+      const param = {
+        emoji,
+        id: this.messagesList[this.morOperate.selectMsgIdx].id,
+        userId: this.userInfo.id
+      };
+      this.addReaction(param);
       // 添加反应表情
       const reaction = this.messagesList[this.morOperate.selectMsgIdx].reaction || [];
       this.messagesList[this.morOperate.selectMsgIdx].reaction = ChatCommonUtil.addReaction(reaction, emoji, this.userInfo.id);
@@ -463,18 +525,9 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * 退出聊天
-   */
-  quit(): void {
-    this.socket.disconnect();
-    this.router.navigate(['/main/index']);
-  }
-
-  /**
    * 关闭弹框
    */
   publicClose(): void {
-    console.log('关闭弹框');
     this.morOperate.emoji = false;
     this.morOperate.reactionEmoji = false;
     this.morOperate.fileUpload = false;
@@ -484,7 +537,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
    * 页面销毁
    */
   ngOnDestroy(): void {
-    this.quit();
+    this.operateTop('quit');
   }
 
 }

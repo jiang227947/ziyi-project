@@ -29,6 +29,9 @@ const SERVICE = [ChatRequestService];
     RouterModule.forChild(CHAT_CHANNELS_ROUTER_CONFIG),
     InfiniteScrollModule
   ],
+  exports: [
+    ChatChannelsComponent
+  ],
   providers: [...SERVICE]
 })
 export class ChatChannelsModule {

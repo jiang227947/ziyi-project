@@ -29,7 +29,7 @@ export class SocketIoService {
   /**
    * 连接
    */
-  public connect(reconnect?): void {
+  public connect(): void {
     const opt = {
       // path: '/socket.io',
       extraHeaders: {
@@ -53,9 +53,6 @@ export class SocketIoService {
         // any missed packets will be received
       } else {
         // new or unrecoverable session
-      }
-      if (reconnect) {
-        clearInterval(reconnect);
       }
       console.log('websocket 连接成功', this.socketIo.id);
       // this.socketIo.send('ping');
