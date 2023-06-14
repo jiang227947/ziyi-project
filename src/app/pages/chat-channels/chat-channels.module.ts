@@ -7,6 +7,7 @@ import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
 import {ChatBaseComponent} from './chat-base/chat-base.component';
 import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/date.pipe';
 import {ChatRequestService} from '../../core-module/api-service';
+import {ChatBaseOperateService} from './config/chat-base-operate.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {NzMentionModule} from 'ng-zorro-antd/mention';
 import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
@@ -19,7 +20,7 @@ const COMPONENTS = [
 
 const PIPES = [DateConversionPipe, TimeConversionPipe];
 
-const SERVICE = [ChatRequestService];
+const SERVICE = [ChatRequestService, ChatBaseOperateService];
 
 @NgModule({
   declarations: [
