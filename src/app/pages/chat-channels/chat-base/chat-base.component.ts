@@ -15,7 +15,7 @@ import {
   ChatChannelSubscribeInterface,
   ChatMessagesInterface,
   ChatMessagesModal,
-  ChatSendAuthorInterface,
+  ChatOperateInterface, ChatSendAuthorInterface,
 } from '../../../shared-module/interface/chat-channels';
 import {
   ChatChannelsCallbackEnum,
@@ -36,22 +36,18 @@ import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {ChatCommonUtil} from '../utli/common-util';
-import {ChatBaseOperateService} from '../config/chat-base-operate.service';
 import {Subscription} from 'rxjs';
-import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat-base',
   templateUrl: './chat-base.component.html',
   styleUrls: ['./chat-base.component.scss']
 })
-export class ChatBaseComponent extends ChatBaseOperateService implements OnInit, AfterViewInit, OnDestroy {
+export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  constructor(public titleService: Title,
-              public messages: MessageService, public $message: NzMessageService, public router: Router,
-              public nzContextMenuService: NzContextMenuService,
-              public $chatRequestService: ChatRequestService) {
-    super(document, titleService, messages, $message, router, nzContextMenuService, $chatRequestService);
+  constructor(private messages: MessageService, private $message: NzMessageService, private router: Router,
+              private nzContextMenuService: NzContextMenuService,
+              private $chatRequestService: ChatRequestService) {
   }
 
   // Socket长连接
@@ -96,6 +92,21 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   userInfo: User;
   // 消息体
   message: ChatMessagesModal = new ChatMessagesModal();
+  // 更多操作
+  morOperate: ChatOperateInterface = {
+    // 在线用户弹框
+    isCollapsed: false,
+    // 标注消息弹框
+    pushpin: false,
+    // emoji弹框
+    emoji: false,
+    // 添加反应emoji弹框
+    reactionEmoji: false,
+    // 当前选择的消息
+    selectMsgIdx: null,
+    // 文件弹框
+    fileUpload: false
+  };
   // 刷屏监听参数 3秒内连续发言超过5次则算刷屏
   continuousChat: { count: number, time: number, timer: any } = {
     count: 0,
@@ -104,8 +115,6 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   };
 
   ngOnInit(): void {
-    // 初始化
-    this.onInit();
     this.userInfo = SessionUtil.getUserInfo();
     // console.log('用户信息', this.userInfo);
     this.subscription = this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
@@ -113,23 +122,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       switch (message.type) {
         case ChatChannelsMessageTypeEnum.publicMessage:
           this.messagesList.push(this.isContinuous(message.msg));
-          // 如果页面切到后台，则累加新消息数量
-          if (this.messageReminder.show) {
-            this.messageReminder.count += 1;
-            this.titleService.setTitle(`[新消息${this.messageReminder.count}] Cat 团子`);
-          }
           // 置底
-          this.scrollToBottom(this.scrollerBaseTemp);
+          this.scrollToBottom();
           break;
         case ChatChannelsMessageTypeEnum.roomMessage:
           this.messagesList.push(this.isContinuous(message.msg));
-          // 如果页面切到后台，则累加新消息数量
-          if (this.messageReminder.show) {
-            this.messageReminder.count += 1;
-            this.titleService.setTitle(`[新消息${this.messageReminder.count}] Cat 团子`);
-          }
           // 置底
-          this.scrollToBottom(this.scrollerBaseTemp);
+          this.scrollToBottom();
           break;
         case ChatChannelsMessageTypeEnum.allMessage:
           break;
@@ -151,7 +150,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
                 // 合并消息
                 this.messagesList = msg;
                 // 置底
-                this.scrollToBottom(this.scrollerBaseTemp);
+                this.scrollToBottom();
               });
               break;
             case SystemMessagesEnum.join:
@@ -180,7 +179,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
                   });
                 }
                 // 置底
-                this.scrollToBottom(this.scrollerBaseTemp);
+                this.scrollToBottom();
               }
               break;
             case SystemMessagesEnum.left:
@@ -196,12 +195,14 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
                 };
                 this.messagesList.push(left);
                 const findIndex = this.onlineUserList.findIndex(user => user.socketId === message.msg.socketId);
+                console.log('onlineUserList', this.onlineUserList);
+                console.log('findIndex', findIndex);
                 // 删除用户
                 if (findIndex >= 0) {
                   this.onlineUserList.splice(findIndex, 1);
                 }
                 // 置底
-                this.scrollToBottom(this.scrollerBaseTemp);
+                this.scrollToBottom();
               }
               break;
             default:
@@ -215,6 +216,15 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     const json = require('../../../../assets/emoji.json');
     const key = Object.keys(json);
     this.emojiList = key.splice(0, 200);
+  }
+
+  /**
+   * 置底
+   */
+  scrollToBottom(): void {
+    setTimeout(() => {
+      this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+    }, 30);
   }
 
   ngAfterViewInit(): void {
@@ -374,7 +384,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       this.textBox.nativeElement.innerHTML = '';
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
-      this.scrollToBottom(this.scrollerBaseTemp);
+      this.scrollToBottom();
     }, 30);
   }
 
@@ -398,14 +408,32 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
    * 输入框赋值
    */
   textBoxChange(event: any): void {
-    let text: string = event.target.innerText;
-    // 替换内容中间的全角空格为普通空格
-    text = text.replace(/　+/, ' ');
-    // 移除开头回车空格
-    text = text.replace(/^\s+/, '');
-    // 将内容中间换行空格替换成换行
-    text = text.replace(/\n\s+/, `\n`);
-    this.textValue = text;
+    // console.log(event);
+    this.textValue = event.target.innerText;
+  }
+
+  /**
+   * 置顶的操作
+   */
+  operateTop(type: string): void {
+    switch (type) {
+      case 'quit':
+        // 退出
+        this.socket.disconnect();
+        this.socketDisconnect.emit();
+        // 清除订阅
+        this.subscription.unsubscribe();
+        this.router.navigate(['/main/index']);
+        break;
+      case 'pushpin':
+        // 标注消息弹框
+        this.morOperate.pushpin = !this.morOperate.pushpin;
+        break;
+      case 'user':
+        // 在线用户列表隐藏显示
+        this.morOperate.isCollapsed = !this.morOperate.isCollapsed;
+        break;
+    }
   }
 
   /**
@@ -430,14 +458,8 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
    */
   paste(evt: ClipboardEvent): void {
     evt.preventDefault();
-    let text = evt.clipboardData.getData('text/plain') || '';
+    const text = evt.clipboardData.getData('text/plain') || '';
     if (text !== '') {
-      // 替换内容中间的全角空格为普通空格
-      text = text.replace(/　+/, ' ');
-      // 移除开头回车空格
-      text = text.replace(/^\s+/, '');
-      // 将内容中间换行空格替换成换行
-      text = text.replace(/\n\s+/, `\n`);
       this.textValue = `${this.textValue}${text}`;
       this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${text}`;
     }
@@ -512,6 +534,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     }
   }
 
+  /**
+   * 添加反应
+   */
+  additiveReaction(idx: number): void {
+    this.morOperate.selectMsgIdx = idx;
+    this.morOperate.reactionEmoji = true;
+  }
 
   /**
    * 右键
@@ -523,15 +552,19 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   }
 
   /**
+   * 关闭弹框
+   */
+  publicClose(): void {
+    this.morOperate.emoji = false;
+    this.morOperate.reactionEmoji = false;
+    this.morOperate.fileUpload = false;
+  }
+
+  /**
    * 页面销毁
    */
   ngOnDestroy(): void {
     this.operateTop('quit');
-    // 清除订阅
-    this.subscription.unsubscribe();
-    // socket断开
-    this.socket.disconnect();
-    this.socketDisconnect.emit();
   }
 
 }
