@@ -13,6 +13,7 @@ import {CommonUtil} from '../../../shared-module/util/commonUtil';
 import {getJSONLocalStorage, setLocalStorage} from '../../../shared-module/util/localStorage';
 import {LeaveMessage} from '../../../shared-module/interface/leaveMessage';
 import {decipher} from '../../../shared-module/util/encipher';
+import {RuleUtil} from '../../../shared-module/util/rule-util';
 
 @Component({
   selector: 'app-auth',
@@ -122,15 +123,23 @@ export class AuthComponent implements OnInit, AfterViewInit {
    */
   buildForm(): void {
     const rememberMe: string = localStorage.getItem('rememberMe') || '';
+    // 登录的表单
     this.loginForm = this.fb.group({
-      loginName: [rememberMe, [Validators.required, Validators.minLength(3)]],
+      // 用户名
+      loginName: [rememberMe, [Validators.required, Validators.minLength(3), Validators.maxLength(12)]],
+      // 密码
       password: ['', [Validators.required, Validators.minLength(3)]],
       remember: [!!rememberMe],
     });
+    // 注册的表单
     this.registerForm = this.fb.group({
-      registerName: ['', [Validators.required, Validators.minLength(3)]],
-      userName: ['', [Validators.required]],
+      // 用户名
+      registerName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(12), Validators.pattern('^[A-Za-z0-9-_.]+$')]],
+      // 昵称
+      userName: ['', [Validators.required, Validators.maxLength(12)]],
+      // 密码
       registerPassword: ['', [Validators.required, Validators.minLength(3)]],
+      // 密码
       registerPassword2: ['', [Validators.required, Validators.minLength(3), this.confirmationValidator]]
     });
   }
@@ -230,7 +239,8 @@ export class AuthComponent implements OnInit, AfterViewInit {
     SessionUtil.setMenuList().then(() => {
       // 设置上次登录时间显示
       const lastLoginTime: string = user.lastLoginTime ? format(new Date(user.lastLoginTime), 'yyyy-MM-dd HH:mm:ss') : null;
-      this.router.navigate(['/main/index']);
+      this.router.navigate(['/chat-channels']);
+      // this.router.navigate(['/main/index']);
       // 设置message提示文字
       const messageTitle: string = lastLoginTime ? `欢迎 ${user.userName}，上次登录时间：${lastLoginTime}` : `欢迎 ${user.userName}`;
       this.$message.success(messageTitle, {nzDuration: 3000});

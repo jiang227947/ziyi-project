@@ -5,20 +5,21 @@ import {Exception404Component} from './pages/exception/404.component';
 
 const routes: Routes = [
   // 默认路由
-  {path: '', pathMatch: 'full', redirectTo: 'login'},
+  // {path: '', pathMatch: 'full', redirectTo: 'login'},
+  {path: '', pathMatch: 'full', redirectTo: 'chat-channels'},
   // 简历
   {
     path: 'resume',
     loadChildren: () => import('./pages/resume/resume.module').then(m => m.ResumeModule)
   },
   // 聊天频道
-  /*{
+  {
     path: 'chat-channels',
     // 路由守卫
     // todo 后续添加状态管理器 @ngxs/store
     canActivate: [SimpleGuardService],
     loadChildren: () => import('./pages/chat-channels/chat-channels.module').then(m => m.ChatChannelsModule)
-  },*/
+  },
   // 首页
   {
     path: 'main',

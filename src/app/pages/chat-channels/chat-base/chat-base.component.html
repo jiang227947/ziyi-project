@@ -26,7 +26,7 @@
               <img [src]="item.avatar | avatarConversion" alt="头像" class="user-avatar">
             </ng-template>
             <!--名称-->
-            <p class="user-title">
+            <p class="user-title" [style]="{color:item.color}">
               {{item.userName}}
             </p>
             <!--备注-->
@@ -49,7 +49,7 @@
       <!--置顶-->
       <div class="top-info">
         <div class="info-txt">
-          欢迎来到公共聊天频道！
+          欢迎来到闲聊频道！
         </div>
         <div class="operation-group">
           <!--在线用户-->
@@ -63,13 +63,14 @@
                   (click)="operateTop('pushpin')"></span>
           </nz-badge>
           <!--退出-->
-          <!--<span class="operation quit" title="退出" nz-icon nzType="poweroff" nzTheme="outline"
-                (click)="operateTop('quit')"></span>-->
+          <span class="operation quit" title="退出" nz-icon nzType="poweroff" nzTheme="outline"
+                (click)="operateTop('quit')"></span>
           <!--标注消息-->
           <div class="pushpin" [ngClass]="{'pushpinShow':morOperate.pushpin}">
             <p class="pushpin-title">标注消息</p>
             <div class="pushpin-centent">
-              <p>- 禁止发布违法法律、违法道德、人身攻击等言论</p>
+              <p>- 禁止发布违反法律、违反道德、人身攻击等言论</p>
+              <p>- ChatGPT功能@机器人后使用</p>
               <p>- 后续功能正在开发中，可在GitHub查看源码</p>
               <a nz-button nzType="link" href="https://github.com/jiang227947/ziyi-project" target="_blank">GItHub
                 Link</a>
@@ -110,7 +111,7 @@
                         <nz-avatar
                           [nzGap]="1"
                           [ngStyle]="{ 'background-color': '#ffbf00' }"
-                          [nzText]="item.author.username"
+                          [nzText]="item.author.userName"
                           nzSize="large"
                           style="vertical-align: middle;"
                           class="user-avatar"
@@ -125,7 +126,7 @@
                         <p class="headerText">
                           <!--用户名-->
                           <span class="username" aria-expanded="false" role="button"
-                                tabindex="0">{{item.author.username}}</span>
+                                tabindex="0">{{item.author.userName}}</span>
                           <span class="timestamp" role="button" tabindex="0">
                             <!--时间-->
                             <time aria-label="{{item.timestamp | date:'yyyy/MM/dd HH:mm:ss' | dateConversion}}"
@@ -207,7 +208,7 @@
                       <span class="user-join">{{item.userName}}</span>
                       <span>进入频道</span>
                     </ng-container>
-                    <ng-container *ngIf="item.systemStates === 'userlLeft'">
+                    <ng-container *ngIf="item.systemStates === 'userLeft'">
                       <span class="user-join">{{item.userName}}</span>
                       <span>离开频道</span>
                     </ng-container>
@@ -239,7 +240,7 @@
           <!--文字-->
           <div class="textArea" (click)="publicClose()">
             <!--placeholder-->
-            <div class="placeholder" aria-hidden="true" *ngIf="textValue === ''">开始聊天</div>
+            <div class="placeholder" aria-hidden="true" *ngIf="textValue === ''">开始聊天（Enter发送，Shift+Enter换行）</div>
             <!--输入框-->
             <div #textBox role="textbox" class="markup" spellcheck="true" aria-haspopup="listbox" aria-invalid="false"
                  aria-autocomplete="list" contenteditable="true"

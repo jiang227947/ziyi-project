@@ -13,7 +13,6 @@ export class MessageService {
 
   // 发射消息
   sendMessage(message: any): void {
-    console.log('发射消息', message);
     this._messages.next(message);
   }
 

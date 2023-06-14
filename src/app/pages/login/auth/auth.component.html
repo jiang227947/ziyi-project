@@ -9,11 +9,13 @@
             <input type="text" nz-input formControlName="loginName" placeholder="请输入用户名"/>
           </nz-input-group>
           <ng-template #loginNameInfo>
-            <ng-container *ngIf="loginName.dirty && loginName.errors">
-              <div>
-                <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
-                <span>请输入用户名</span>
-              </div>
+            <ng-container *ngIf="loginName.hasError('required')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              <span>请输入用户名</span>
+            </ng-container>
+            <ng-container *ngIf="loginName.hasError('maxlength')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              <span>用户名太长</span>
             </ng-container>
           </ng-template>
         </nz-form-control>
@@ -76,8 +78,12 @@
           用户名
         </nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="registerNameInfo">
-          <input type="text" nz-input formControlName="registerName" [placeholder]="'请填写用户名'"/>
+          <input type="text" nz-input formControlName="registerName" [placeholder]="'用户名登录使用'"/>
           <ng-template #registerNameInfo let-control>
+            <ng-container *ngIf="control.hasError('pattern')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              只能英文数字和下划线和中横线
+            </ng-container>
             <ng-container *ngIf="control.hasError('required')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
               请填写用户名
@@ -85,6 +91,10 @@
             <ng-container *ngIf="control.hasError('minlength')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
               用户名太短
+            </ng-container>
+            <ng-container *ngIf="control.hasError('maxlength')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              用户名太长
             </ng-container>
           </ng-template>
         </nz-form-control>
@@ -95,11 +105,15 @@
           昵称
         </nz-form-label>
         <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="userNameTpl">
-          <input type="text" nz-input formControlName="userName" [placeholder]="'请填写昵称'"/>
+          <input type="text" nz-input formControlName="userName" [placeholder]="'昵称可随时更改'"/>
           <ng-template #userNameTpl let-control>
             <ng-container *ngIf="control.hasError('required')">
               <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
               请填写昵称
+            </ng-container>
+            <ng-container *ngIf="control.hasError('maxlength')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              昵称太长
             </ng-container>
           </ng-template>
         </nz-form-control>

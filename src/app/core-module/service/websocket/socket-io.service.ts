@@ -34,7 +34,7 @@ export class SocketIoService {
       // path: '/socket.io',
       extraHeaders: {
         role: SessionUtil.getRoleId(),
-        token: SessionUtil.getToken().tokenValue
+        token: SessionUtil.getToken().tokenValue || undefined
       }
     };
     if (environment.production) {

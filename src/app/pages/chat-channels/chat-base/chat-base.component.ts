@@ -30,7 +30,7 @@ import {Socket} from 'socket.io-client/build/esm/socket';
 import {MessageService} from '../../../shared-module/service/Message.service';
 import {Router} from '@angular/router';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
-import {CHANNEL_ID} from '../config/config';
+import {CHANNEL_ID, CHAT_GPT_BOT} from '../config/config';
 import {ChatRequestService} from '../../../core-module/api-service';
 import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
@@ -107,7 +107,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     // 文件弹框
     fileUpload: false
   };
-  // 刷屏监听参数 3秒内连续发言超过三次则算刷屏
+  // 刷屏监听参数 3秒内连续发言超过5次则算刷屏
   continuousChat: { count: number, time: number, timer: any } = {
     count: 0,
     time: 3,
@@ -122,9 +122,13 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       switch (message.type) {
         case ChatChannelsMessageTypeEnum.publicMessage:
           this.messagesList.push(this.isContinuous(message.msg));
+          // 置底
+          this.scrollToBottom();
           break;
         case ChatChannelsMessageTypeEnum.roomMessage:
           this.messagesList.push(this.isContinuous(message.msg));
+          // 置底
+          this.scrollToBottom();
           break;
         case ChatChannelsMessageTypeEnum.allMessage:
           break;
@@ -134,9 +138,11 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
               // 赋值房间信息
               this.roomChannel = message.msg as ChatChannelRoomInterface;
               console.log('房间信息', this.roomChannel);
-              this.onlineUserList = this.roomChannel.users.map((item) => {
+              const roomUsers = this.roomChannel.users.map((item) => {
                 return item;
               });
+              // 房间用户
+              this.onlineUserList = [CHAT_GPT_BOT, ...roomUsers];
               this.loadedingStatus.userLoad = false;
               // 分页查询聊天记录
               this.queryChatMessage().then((msg: ChatMessagesInterface[]) => {
@@ -144,9 +150,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
                 // 合并消息
                 this.messagesList = msg;
                 // 置底
-                setTimeout(() => {
-                  this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
-                }, 30);
+                this.scrollToBottom();
               });
               break;
             case SystemMessagesEnum.join:
@@ -174,6 +178,8 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
                     roleName: message.msg.roleName
                   });
                 }
+                // 置底
+                this.scrollToBottom();
               }
               break;
             case SystemMessagesEnum.left:
@@ -189,10 +195,14 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
                 };
                 this.messagesList.push(left);
                 const findIndex = this.onlineUserList.findIndex(user => user.socketId === message.msg.socketId);
+                console.log('onlineUserList', this.onlineUserList);
+                console.log('findIndex', findIndex);
                 // 删除用户
-                if (findIndex !== 0) {
+                if (findIndex >= 0) {
                   this.onlineUserList.splice(findIndex, 1);
                 }
+                // 置底
+                this.scrollToBottom();
               }
               break;
             default:
@@ -206,6 +216,15 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     const json = require('../../../../assets/emoji.json');
     const key = Object.keys(json);
     this.emojiList = key.splice(0, 200);
+  }
+
+  /**
+   * 置底
+   */
+  scrollToBottom(): void {
+    setTimeout(() => {
+      this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+    }, 30);
   }
 
   ngAfterViewInit(): void {
@@ -365,7 +384,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       this.textBox.nativeElement.innerHTML = '';
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
-      this.scrollerBaseTemp.nativeElement.scrollTo(0, this.scrollerBaseTemp.nativeElement.scrollHeight);
+      this.scrollToBottom();
     }, 30);
   }
 
@@ -404,7 +423,7 @@ export class ChatBaseComponent implements OnInit, AfterViewInit, OnDestroy {
         this.socketDisconnect.emit();
         // 清除订阅
         this.subscription.unsubscribe();
-        // this.router.navigate(['/main/index']);
+        this.router.navigate(['/main/index']);
         break;
       case 'pushpin':
         // 标注消息弹框

@@ -57,6 +57,15 @@ export class AccountCenterComponent implements OnInit {
       item.onError(error.message, item.file);
     });
   });
+  // 密码一致校验
+  confirmationValidator = (control): { [s: string]: boolean } => {
+    if (!control.value) {
+      return {required: true};
+    } else if (control.value !== this.formInstance.getData().password) {
+      return {confirm: true, error: true};
+    }
+    return {};
+  };
 
   ngOnInit(): void {
     this.user = SessionUtil.getUserInfo();
@@ -122,7 +131,7 @@ export class AccountCenterComponent implements OnInit {
         inputType: 'password',
         col: 24,
         require: true,
-        rule: [{required: true}, {minLength: 3, msg: '长度最小为3'}],
+        rule: [{required: true}, {minLength: 3, msg: '长度最小为3'}]
       },
       {
         // 备注
@@ -153,6 +162,7 @@ export class AccountCenterComponent implements OnInit {
         this.user.password = data.password;
         // 重新保存信息
         localStorage.setItem('user_info', JSON.stringify(this.user));
+        this.$message.success('保存成功，下次登录时生效');
       } else {
         this.$message.error(result.msg);
       }
@@ -169,8 +179,9 @@ export class AccountCenterComponent implements OnInit {
     this.formInstance = event.instance;
     this.formInstance.group.patchValue(this.user);
     // 获取用户输入的值
-    // this.formInstance.group.valueChanges.subscribe((e) => {
-    // });
+    /*this.formInstance.group.valueChanges.subscribe((e) => {
+      console.log(e);
+    });*/
   }
 
   /**
