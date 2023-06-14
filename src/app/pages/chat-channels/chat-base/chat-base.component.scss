@@ -203,7 +203,7 @@
         border-radius: 8px;
         box-shadow: 0 0 4px 0 $--jjext-color-base0;
         position: absolute;
-        bottom: 84px;
+        bottom: 70px;
         left: 16px;
         background-color: $--jjext-color-base;
         transition: all 0.2s;
@@ -240,7 +240,7 @@
         border-radius: 8px;
         box-shadow: 0 0 4px 0 $--jjext-color-base0;
         position: absolute;
-        bottom: 84px;
+        bottom: 70px;
         left: 50px;
         background-color: $--jjext-color-base;
         transition: all 0.2s;
@@ -402,26 +402,6 @@
                     }
                   }
                 }
-
-                /*文字消息*/
-                .markupMessage {
-                  -webkit-user-select: text;
-                  -moz-user-select: text;
-                  -ms-user-select: text;
-                  user-select: text;
-                  margin-left: -72px;
-                  padding-left: 72px;
-                  overflow: hidden;
-                  font-size: 1.2rem;
-                  line-height: 1.5rem;
-                  white-space: pre-wrap;
-                  white-space: break-spaces;
-                  word-wrap: break-word;
-                  color: #fff;
-                  position: relative;
-                  text-indent: 0;
-                }
-
               }
             }
 
@@ -440,26 +420,6 @@
                   transition: all 0.2s;
                 }
               }
-
-              /*文字消息*/
-              .markupMessage {
-                -webkit-user-select: text;
-                -moz-user-select: text;
-                -ms-user-select: text;
-                user-select: text;
-                margin-left: -72px;
-                padding-left: 72px;
-                overflow: hidden;
-                font-size: 1.2rem;
-                line-height: 1.5rem;
-                white-space: pre-wrap;
-                white-space: break-spaces;
-                word-wrap: break-word;
-                color: #fff;
-                position: relative;
-                text-indent: 0;
-              }
-
 
               /*消息时间*/
               .timestamp {
@@ -530,7 +490,7 @@
 
       .formArea {
         display: flex;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         position: relative;
         width: 100%;
         text-indent: 0;

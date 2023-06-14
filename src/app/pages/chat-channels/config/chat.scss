@@ -24,6 +24,25 @@ $--emoji: rgb(255, 204, 77);
 $--additive-border: rgb(88, 101, 242);
 $--additive-bgc: rgba(88, 101, 242, 0.15);
 
+/*文字消息*/
+.markupMessage {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  margin-left: -72px;
+  padding-left: 72px;
+  overflow: hidden;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+  white-space: pre-wrap;
+  white-space: break-spaces;
+  word-wrap: break-word;
+  color: #fff;
+  position: relative;
+  text-indent: 0;
+}
+
 /*消息时间*/
 .timestamp {
   position: absolute;
@@ -105,5 +124,9 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
       text-align: center;
     }
   }
+}
+
+.hidden-additive {
+  display: none;
 }
 
