@@ -75,22 +75,3 @@ body {
   border-radius: 2px;
   background-color: #bfbfbf;
 }
-
-
-/*聊天频道右键样式*/
-.chatDropdownMenu {
-  .ant-dropdown-menu {
-    background-color: #000000;
-    min-width: 188px;
-    max-width: 320px;
-    border-radius: 6px;
-
-    .ant-dropdown-menu-item {
-      color: #f0f2f5;
-
-      &:hover {
-        background-color: #4e5969;
-      }
-    }
-  }
-}

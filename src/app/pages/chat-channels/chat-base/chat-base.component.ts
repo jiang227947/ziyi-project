@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -39,6 +39,7 @@ import {ChatCommonUtil} from '../utli/common-util';
 import {ChatBaseOperateService} from '../config/chat-base-operate.service';
 import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'app-chat-base',
@@ -47,12 +48,6 @@ import {Title} from '@angular/platform-browser';
 })
 export class ChatBaseComponent extends ChatBaseOperateService implements OnInit, AfterViewInit, OnDestroy {
 
-  constructor(public titleService: Title,
-              public messages: MessageService, public $message: NzMessageService, public router: Router,
-              public nzContextMenuService: NzContextMenuService,
-              public $chatRequestService: ChatRequestService) {
-    super(document, titleService, messages, $message, router, nzContextMenuService, $chatRequestService);
-  }
 
   // Socket长连接
   @Input() socket: Socket;
@@ -102,6 +97,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     time: 3,
     timer: null
   };
+
+  constructor(@Inject(DOCUMENT) public document: Document, public titleService: Title,
+              public messages: MessageService, public $message: NzMessageService, public router: Router,
+              public nzContextMenuService: NzContextMenuService,
+              public $chatRequestService: ChatRequestService) {
+    super(document, titleService, messages, $message, router, nzContextMenuService, $chatRequestService);
+  }
 
   ngOnInit(): void {
     // 初始化
@@ -237,8 +239,9 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
         if (result.code === 200) {
           // 聊天记录到顶判断
           if (result.data.length < this.pageParams.pageSize) {
-            this.$message.info('聊天记录已经到顶了');
             this.isTop = true;
+            this.pageParams = new PageParams(this.pageParams.pageNum - 1, 50);
+            this.$message.info('聊天记录已经到顶了');
           }
           resolve(result.data);
         } else {
@@ -363,18 +366,19 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
         // console.log('消息发送成功');
         message.states = ChatChannelsMessageStatesEnum.success;
         this.messagesList.push(message);
+        this.scrollToBottom(this.scrollerBaseTemp);
       } else {
         // todo 重发
         this.$message.info('消息发送失败');
         message.states = ChatChannelsMessageStatesEnum.error;
         this.messagesList.push(message);
+        this.scrollToBottom(this.scrollerBaseTemp);
       }
     });
     setTimeout(() => {
       this.textBox.nativeElement.innerHTML = '';
       // this.textBox.nativeElement.innerText = '';
       this.textValue = '';
-      this.scrollToBottom(this.scrollerBaseTemp);
     }, 30);
   }
 

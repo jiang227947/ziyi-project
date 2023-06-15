@@ -126,7 +126,63 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
   }
 }
 
-.hidden-additive {
-  display: none;
+/**
+ * 下面是ng-zorro-antd样式
+ */
+::ng-deep {
+  /*聊天频道右键样式*/
+  .chatDropdownMenu {
+    .ant-dropdown-menu {
+      background-color: #000000;
+      min-width: 188px;
+      max-width: 320px;
+      border-radius: 6px;
+
+      .ant-dropdown-menu-item {
+        color: $--jjext-color-base2;
+
+        &:hover {
+          background-color: $--jjext-color-secondary-app;
+        }
+      }
+    }
+  }
+
+
+  /*提及功能组件样式修改以及屏蔽*/
+  .ant-mentions-dropdown {
+    min-width: 188px;
+    max-width: 320px;
+    border-radius: 7px;
+    .ant-mentions-dropdown-menu {
+      border-radius: 6px;
+
+      .ant-mentions-dropdown-menu-item {
+        background-color: #000000;
+        color: $--jjext-color-base2;
+
+        &:hover {
+          background-color: $--jjext-color-secondary-app;
+        }
+      }
+    }
+  }
 }
 
+.ant-mentions {
+  height: unset;
+  border: unset;
+  outline: none;
+  box-shadow: none;
+  border-radius: unset;
+  background-color: unset;
+
+  &:hover {
+    border: unset;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

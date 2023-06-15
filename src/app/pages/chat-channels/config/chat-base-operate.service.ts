@@ -4,8 +4,8 @@ import {MessageService} from '../../../shared-module/service/Message.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Router} from '@angular/router';
 import {NzContextMenuService} from 'ng-zorro-antd/dropdown';
-import {ChatRequestService} from '../../../core-module/api-service/chat';
-import {ChatOperateInterface} from '../../../shared-module/interface/chat-channels';
+import {ChatRequestService} from '../../../core-module/api-service';
+import {ChatChannelRoomUserInterface, ChatOperateInterface} from '../../../shared-module/interface/chat-channels';
 import {Title} from '@angular/platform-browser';
 
 /**
@@ -36,6 +36,9 @@ export class ChatBaseOperateService {
     fileUpload: false
   };
 
+  // 提及功能 筛选数组对象的key
+  suggestionsValueWith = (data: ChatChannelRoomUserInterface): string => data.userName;
+
   constructor(@Inject(DOCUMENT) public document: Document, public titleService: Title,
               public messages: MessageService, public $message: NzMessageService, public router: Router,
               public nzContextMenuService: NzContextMenuService,
@@ -60,6 +63,16 @@ export class ChatBaseOperateService {
         this.titleService.setTitle('Cat 团子');
       }
     });
+  }
+
+  /**
+   * 机器人事件
+   */
+  botHandleFunc(type: string): void {
+    switch (type) {
+      case 'welcome':
+        break;
+    }
   }
 
   /**

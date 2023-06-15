@@ -141,18 +141,6 @@ export class DefaultInterceptor implements HttpInterceptor {
       if (token) {
         headers = headers.append(token.tokenName, `Bearer ${token.tokenValue}`);
       }
-    } else if (url.includes('api2d')) {
-      // 查询余额
-      if (url.includes('profile')) {
-        const API2D_TOKEN = '1148|sPsDncYL2iY0yNnrpqaB34dUvUIHKsqQGWaH4woy';
-        headers = headers.append('Accept', 'application/json');
-        headers = headers.append('Authorization', `Bearer ${API2D_TOKEN}`);
-      } else {
-        // 对话
-        const API2D_KEY = 'fk186791-RToqs3gWFqVMVivKBFd2fdJlU0o9rUsc';
-        headers = headers.append('Content-Type', 'application/json');
-        headers = headers.append('Authorization', `Bearer ${API2D_KEY}`);
-      }
     }
     // 统一添加国际化的头部处理    并携带WEB标识
     // let newHeaders = req.headers.append('Accept-Language', this.i18n.currentLang);
