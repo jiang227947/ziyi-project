@@ -7,6 +7,10 @@
   font-display: swap;
 }
 
+* {
+  font-family: myFont1;
+}
+
 $--jjext-color-secondary-app: #4e5969;
 $--jjext-color-thirdly: #86909c;
 $--jjext-color-primary: #1d2129;
@@ -19,6 +23,7 @@ $--text-muted: rgb(148, 155, 164);
 $--li-hover: rgb(70 73 80);
 $--user-int: #abcdef;
 $--user-name1: rgb(46, 204, 113);
+$--green-1: rgb(35, 165, 89);
 $--warning: #f50;
 $--emoji: rgb(255, 204, 77);
 $--additive-border: rgb(88, 101, 242);
@@ -129,7 +134,10 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
 /**
  * 下面是ng-zorro-antd样式
  */
+
 ::ng-deep {
+  font-family: myFont1;
+
   /*聊天频道右键样式*/
   .chatDropdownMenu {
     .ant-dropdown-menu {
@@ -154,6 +162,7 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
     min-width: 188px;
     max-width: 320px;
     border-radius: 7px;
+
     .ant-mentions-dropdown-menu {
       border-radius: 6px;
 
@@ -164,6 +173,48 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
         &:hover {
           background-color: $--jjext-color-secondary-app;
         }
+      }
+    }
+  }
+
+  .ant-tooltip-inner {
+    background-color: #000000;
+  }
+
+  /*标注消息*/
+  .ant-modal {
+    padding: 0;
+    border-radius: 6px;
+
+    .ant-modal-content {
+      background-color: $--jjext-color-secondary-app;
+      box-shadow: 0 1px 3px 0 $--jjext-color-base0;
+      border-radius: 6px;
+
+      /*关闭*/
+      .ant-modal-close {
+        color: $--jjext-color-base2;
+      }
+
+      /*头部*/
+      .ant-modal-header {
+        background-color: $--jjext-color-primary;
+        border-bottom: 0;
+
+        .ant-modal-title {
+          color: $--jjext-color-base2;
+        }
+      }
+
+      /*中部*/
+      .ant-modal-body {
+        padding: 12px;
+      }
+
+      /*底部*/
+      .ant-modal-footer {
+        background-color: $--jjext-color-primary;
+        border-top: 0;
       }
     }
   }

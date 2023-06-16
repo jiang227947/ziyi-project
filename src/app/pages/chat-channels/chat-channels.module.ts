@@ -9,13 +9,18 @@ import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/d
 import {ChatRequestService} from '../../core-module/api-service';
 import {ChatBaseOperateService} from './config/chat-base-operate.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {CreateChannelComponent} from './components/create-channel/create-channel.component';
+
+/*NZ*/
 import {NzMentionModule} from 'ng-zorro-antd/mention';
 import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
+import {NzSwitchModule} from 'ng-zorro-antd/switch';
 
 const COMPONENTS = [
   ChatChannelsComponent,
   ChatSidebarComponent,
-  ChatBaseComponent
+  ChatBaseComponent,
+  CreateChannelComponent
 ];
 
 const PIPES = [DateConversionPipe, TimeConversionPipe];
@@ -32,7 +37,8 @@ const SERVICE = [ChatRequestService, ChatBaseOperateService];
     RouterModule.forChild(CHAT_CHANNELS_ROUTER_CONFIG),
     InfiniteScrollModule,
     NzSkeletonModule,
-    NzMentionModule
+    NzMentionModule,
+    NzSwitchModule
   ],
   exports: [
     ChatChannelsComponent

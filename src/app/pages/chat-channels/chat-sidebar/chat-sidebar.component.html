@@ -1,10 +1,24 @@
 <div class="wrapper">
   <div class="option-tree">
+    <!--固定的公共频道-->
     <div class="avatar" nzTooltipTitle="闲聊频道" nzTooltipPlacement="right" nz-tooltip>
       <img src="https://www.evziyi.top/data/avatar/processing_or_loading_data.gif" alt="avatar">
     </div>
     <ul class="tree-ul">
+      <!--循环该用户有的频道-->
       <li class="tree-li"></li>
+      <!--添加频道-->
+      <li class="add-chat" (click)="createChannel()"
+          nzTooltipTitle="添加频道" nzTooltipPlacement="right" nz-tooltip>
+        <span nz-icon nzType="plus" nzTheme="outline"></span>
+      </li>
     </ul>
   </div>
 </div>
+
+<!--创建频道组件-->
+<ng-container *ngIf="visible">
+  <app-create-channel [visible]="visible"
+                      (visibleEvent)="onCancel()"
+  ></app-create-channel>
+</ng-container>

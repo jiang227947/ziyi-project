@@ -27,4 +27,11 @@ export class ChatRequestService {
   addReaction(param: { emoji: string, id: number, userId: number }): Observable<Result<void>> {
     return this.$http.post<Result<void>>(`${environment.API_URL}/addReaction`, param);
   }
+
+  /**
+   * 上传头像
+   */
+  uploadChannelAvatar(formData: FormData): Observable<Result<string>> {
+    return this.$http.post<Result<string>>(`${environment.API_URL}/uploadChannelAvatar`, formData);
+  }
 }

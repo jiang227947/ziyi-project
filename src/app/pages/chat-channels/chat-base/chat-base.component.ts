@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter, Inject,
@@ -46,7 +45,7 @@ import {DOCUMENT} from '@angular/common';
   templateUrl: './chat-base.component.html',
   styleUrls: ['./chat-base.component.scss']
 })
-export class ChatBaseComponent extends ChatBaseOperateService implements OnInit, AfterViewInit, OnDestroy {
+export class ChatBaseComponent extends ChatBaseOperateService implements OnInit, OnDestroy {
 
 
   // Socket长连接
@@ -78,6 +77,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   pageParams = new PageParams(1, 50);
   // 消息是否查询完毕
   isTop: boolean = false;
+  // 置顶后的请求等待毫秒
   throttle = 150;
   scrollDistance = 2;
   scrollUpDistance = 1.5;
@@ -217,16 +217,6 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     const json = require('../../../../assets/emoji.json');
     const key = Object.keys(json);
     this.emojiList = key.splice(0, 200);
-  }
-
-  ngAfterViewInit(): void {
-    const isConnected = setTimeout(() => {
-      if (!this.socket.connected) {
-        // this.$message.info('聊天室连接不上！');
-      }
-      this.loadedingStatus.userLoad = false;
-      clearTimeout(isConnected);
-    }, 3000);
   }
 
   /**
@@ -386,7 +376,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
    * 滚动到顶时加载数据
    */
   onUp(): void {
-    if (this.isTop) {
+    if (this.loadedingStatus.messageLoad || this.isTop) {
       return;
     }
     this.loadedingStatus.messageLoad = true;
@@ -515,7 +505,6 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${emoji}`;
     }
   }
-
 
   /**
    * 右键

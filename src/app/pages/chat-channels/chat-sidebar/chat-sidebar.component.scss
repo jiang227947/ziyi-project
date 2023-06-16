@@ -36,7 +36,7 @@
       left: 0;
       width: 4px;
       height: 40px;
-      background-color: #fff;
+      background-color: $--jjext-color-base2;
       border-top-right-radius: 6px;
       border-bottom-right-radius: 6px;
     }
@@ -52,10 +52,36 @@
   }
 
   .tree-ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
 
     .tree-li {
 
     }
+
+    /*添加频道*/
+    .add-chat {
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $--user-name1;
+      border-radius: 24px;
+      font-size: 1.2rem;
+      background-color: $--jjext-color-secondary-app;
+      transition: all 0.2s;
+
+      &:hover {
+        color: $--header-primary;
+        border-radius: 16px;
+        background-color: $--green-1;
+        transition: all 0.2s;
+      }
+    }
   }
 }
+

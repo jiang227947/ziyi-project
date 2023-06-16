@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-chat-sidebar',
@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatSidebarComponent implements OnInit {
 
-  constructor() { }
+  // 创建频道模板
+  visible: boolean = false;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  /**
+   * 创建频道
+   */
+  createChannel(): void {
+    this.visible = true;
+  }
+
+  onCancel(): void {
+    this.visible = false;
+  }
 }

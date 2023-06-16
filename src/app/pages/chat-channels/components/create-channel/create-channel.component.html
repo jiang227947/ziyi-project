@@ -1,0 +1,84 @@
+<nz-modal
+  [nzVisible]="visible"
+  [nzTitle]="titleContent"
+  [nzWidth]="440"
+  [nzMask]="false"
+  [nzContent]="modalContent"
+  [nzFooter]="footerContent"
+  (nzOnCancel)="onCancel()"
+>
+  <!--标题-->
+  <ng-template #titleContent>
+    <span>{{nzTitle}}</span>
+  </ng-template>
+  <!--弹框中间-->
+  <ng-template #modalContent>
+    <!--创建-->
+    <div class="content create" *ngIf="stepsStatus === 0">
+      <div>
+        <nz-upload
+          nzListType="picture-card"
+          [nzShowUploadList]="false"
+          [nzDisabled]="imageLoading"
+          [nzBeforeUpload]="beforeUpload"
+          [nzCustomRequest]='uploadAvatar'
+          (nzChange)="handleChange($event)"
+        >
+          <ng-container *ngIf="!previewImage">
+            <span nz-icon nzType="plus"></span>
+          </ng-container>
+          <img *ngIf="previewImage" [src]="previewImage" style="width: 100%"/>
+        </nz-upload>
+        <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzStrokeColor="#1890ff"
+                     *ngIf="filePercent > 0"></nz-progress>
+        <span class="upload-msg" *ngIf="filePercent === 100">上传成功，正在保存...</span>
+      </div>
+      <div class="create-form">
+        <span class="form-title">频道名称</span>
+        <input nz-input type="text" [(ngModel)]="createChannelParam.name"/>
+        <span class="form-title">频道标签</span>
+        <input nz-input type="text" [(ngModel)]="createChannelParam.tags"/>
+        <span class="form-title">是否为私密频道</span>
+        <div>
+          <nz-switch [(ngModel)]="createChannelParam.isPrivacy" nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
+        </div>
+        <span class="form-title" *ngIf="createChannelParam.isPrivacy">密码</span>
+        <input nz-input type="password" [(ngModel)]="createChannelParam.password" *ngIf="createChannelParam.isPrivacy"/>
+        <span class="form-title">备注</span>
+        <input nz-input type="text" [(ngModel)]="createChannelParam.remark"/>
+      </div>
+      <button nz-button nzType="primary"
+              class="create-channel-btn"
+              (click)="createChannel()">创建
+      </button>
+    </div>
+    <!--加入-->
+    <div class="content join" *ngIf="stepsStatus === 1">
+      <span class="join-title">在下方输入频道ID</span>
+      <input nz-input type="text" [(ngModel)]="joinChannelParam.id"/>
+      <span class="join-title">频道密码（如果没有请忽略）</span>
+      <input nz-input type="password" [(ngModel)]="joinChannelParam.password"/>
+    </div>
+  </ng-template>
+  <!--弹框底部-->
+  <ng-template #footerContent>
+    <!--前往加入-->
+    <div class="join-channel" *ngIf="stepsStatus === 0">
+      <p class="join-channel-title">已经有了邀请？</p>
+      <button nz-button nzType="primary"
+              class="join-channel-btn"
+              (click)="stepsStatusChange(1)">加入
+      </button>
+    </div>
+    <!--返回创建-->
+    <div class="back" *ngIf="stepsStatus === 1">
+      <button nz-button nzType="default"
+              (click)="stepsStatusChange(0)">后退
+      </button>
+      <button nz-button nzType="primary"
+              class="join-btn"
+              (click)="joinChannel()">加入
+      </button>
+    </div>
+  </ng-template>
+</nz-modal>

@@ -1,0 +1,84 @@
+@import "../../config/chat.scss";
+
+.content {
+  min-height: 100px;
+  max-height: 300px;
+  overflow: auto;
+  /*隐藏滚动条*/
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0 !important
+  }
+}
+
+/*创建*/
+.create {
+  text-align: center;
+
+  .create-form {
+    text-align: left;
+
+    .form-title {
+      color: $--jjext-color-base2;
+    }
+  }
+
+  .create-channel-btn {
+    width: 200px;
+    margin-top: 14px;
+    background-color: $--text-muted;
+    border-color: $--text-muted;
+  }
+}
+
+/*加入*/
+.join {
+
+}
+
+.upload-msg {
+  color: #888;
+  font-size: 0.6rem;
+}
+
+/*加入频道*/
+.join-channel {
+  text-align: center;
+
+  .join-channel-title {
+    font-size: 1rem;
+    color: $--jjext-color-base2;
+  }
+
+  .join-channel-btn {
+    width: 300px;
+    background-color: $--text-muted;
+    border-color: $--text-muted;
+  }
+}
+
+/*加入频道*/
+.join {
+  text-align: center;
+  color: $--jjext-color-base2;
+
+  .join-title {
+    font-size: 1.2rem;
+  }
+}
+
+/*返回创建*/
+.back {
+  display: flex;
+  justify-content: space-between;
+
+  .join-btn {
+    width: 100px;
+    background-color: $--text-muted;
+    border-color: $--text-muted;
+  }
+}
+
