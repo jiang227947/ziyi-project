@@ -1,12 +1,25 @@
 <div class="wrapper">
   <div class="option-tree">
     <!--固定的公共频道-->
-    <div class="avatar" nzTooltipTitle="闲聊频道" nzTooltipPlacement="right" nz-tooltip>
+    <div class="avatar"
+         [ngClass]="{'selectActiveChannel':selectActiveChannel === 8088}"
+         nzTooltipTitle="闲聊频道"
+         nzTooltipPlacement="right"
+         nz-tooltip
+         (click)="selectActiveChannel = 8088">
       <img src="https://www.evziyi.top/data/avatar/processing_or_loading_data.gif" alt="avatar">
     </div>
     <ul class="tree-ul">
       <!--循环该用户有的频道-->
-      <li class="tree-li"></li>
+      <li class="tree-li avatar"
+          [ngClass]="{'selectActiveChannel':selectActiveChannel === item.id}"
+          nz-tooltip
+          nzTooltipPlacement="right"
+          [nzTooltipTitle]="item.channelName"
+          *ngFor="let item of channelList"
+          (click)="selectActiveChannel = item.id">
+        <img [src]="item.avatar | avatarConversion" alt="avatar">
+      </li>
       <!--添加频道-->
       <li class="add-chat" (click)="createChannel()"
           nzTooltipTitle="添加频道" nzTooltipPlacement="right" nz-tooltip>
@@ -19,6 +32,6 @@
 <!--创建频道组件-->
 <ng-container *ngIf="visible">
   <app-create-channel [visible]="visible"
-                      (visibleEvent)="onCancel()"
+                      (visibleEvent)="onCancel($event)"
   ></app-create-channel>
 </ng-container>

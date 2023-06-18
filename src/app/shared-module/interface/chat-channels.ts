@@ -208,3 +208,25 @@ export class ChatMessagesModal {
   // 消息发送状态
   states?: ChatChannelsMessageStatesEnum;
 }
+
+/**
+ * 创建频道的参数接口
+ */
+export interface CreateChannelParamInterface {
+  // id
+  id?: number;
+  // 头像
+  avatar: string;
+  // 名称
+  channelName: string;
+  // 标签
+  tags: string | string[];
+  // 管理员
+  admins: string | number[];
+  // 是否私密
+  isPrivacy: number | boolean;
+  // 密码
+  password: string;
+  // 备注
+  remark: string;
+}

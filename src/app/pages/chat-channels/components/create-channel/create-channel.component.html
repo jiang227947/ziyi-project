@@ -35,17 +35,43 @@
       </div>
       <div class="create-form">
         <span class="form-title">频道名称</span>
-        <input nz-input type="text" [(ngModel)]="createChannelParam.name"/>
+        <input nz-input type="text" maxlength="12" placeholder="频道名称" [(ngModel)]="createChannelParam.channelName"/>
         <span class="form-title">频道标签</span>
-        <input nz-input type="text" [(ngModel)]="createChannelParam.tags"/>
+        <div>
+          <nz-tag
+            *ngFor="let tag of createChannelParam.tags; let i = index"
+            [nzMode]="'closeable'"
+            (nzOnClose)="handleClose(tag)"
+          >
+            {{ sliceTagName(tag) }}
+          </nz-tag>
+          <nz-tag *ngIf="!tagsInputVisible" class="editable-tag" nzNoAnimation (click)="showInput()">
+            <span nz-icon nzType="plus"></span>
+            新标签
+          </nz-tag>
+          <input
+            #inputElement
+            nz-input
+            nzSize="small"
+            maxlength="12"
+            type="text"
+            style="width: 78px;"
+            [(ngModel)]="tagsInputValue"
+            *ngIf="tagsInputVisible"
+            (blur)="handleInputConfirm()"
+            (keydown.enter)="handleInputConfirm()"
+          />
+        </div>
         <span class="form-title">是否为私密频道</span>
         <div>
-          <nz-switch [(ngModel)]="createChannelParam.isPrivacy" nzCheckedChildren="是" nzUnCheckedChildren="否"></nz-switch>
+          <nz-switch [(ngModel)]="createChannelParam.isPrivacy" nzCheckedChildren="是"
+                     nzUnCheckedChildren="否"></nz-switch>
         </div>
         <span class="form-title" *ngIf="createChannelParam.isPrivacy">密码</span>
-        <input nz-input type="password" [(ngModel)]="createChannelParam.password" *ngIf="createChannelParam.isPrivacy"/>
+        <input nz-input type="number" min="0" minlength="5" maxlength="10" placeholder="房间密码（最少为5位）"
+               [(ngModel)]="createChannelParam.password" *ngIf="createChannelParam.isPrivacy"/>
         <span class="form-title">备注</span>
-        <input nz-input type="text" [(ngModel)]="createChannelParam.remark"/>
+        <input nz-input type="text" placeholder="备注（选填）" [(ngModel)]="createChannelParam.remark"/>
       </div>
       <button nz-button nzType="primary"
               class="create-channel-btn"
@@ -55,9 +81,9 @@
     <!--加入-->
     <div class="content join" *ngIf="stepsStatus === 1">
       <span class="join-title">在下方输入频道ID</span>
-      <input nz-input type="text" [(ngModel)]="joinChannelParam.id"/>
+      <input nz-input type="text" placeholder="频道ID" [(ngModel)]="joinChannelParam.id"/>
       <span class="join-title">频道密码（如果没有请忽略）</span>
-      <input nz-input type="password" [(ngModel)]="joinChannelParam.password"/>
+      <input nz-input type="number" min="0" minlength="5" maxlength="10" placeholder="频道密码" [(ngModel)]="joinChannelParam.password"/>
     </div>
   </ng-template>
   <!--弹框底部-->
