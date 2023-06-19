@@ -213,8 +213,8 @@ export class ChatMessagesModal {
  * 创建频道的参数接口
  */
 export interface CreateChannelParamInterface {
-  // id
-  id?: number;
+  // 频道ID
+  channelId?: string;
   // 头像
   avatar: string;
   // 名称

@@ -51,7 +51,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   // Socket长连接
   @Input() socket: Socket;
   // 断开
-  @Output() socketDisconnect = new EventEmitter();
+  @Output() socketDisconnect = new EventEmitter<void>();
   // 左侧用户
   @ViewChild('sidebar') private sidebar: ElementRef<Element>;
   // 输入框
@@ -140,7 +140,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
             case SystemMessagesEnum.roomInfo:
               // 赋值房间信息
               this.roomChannel = message.msg as ChatChannelRoomInterface;
-              console.log('房间信息', this.roomChannel);
+              // console.log('房间信息', this.roomChannel);
               const roomUsers = this.roomChannel.users.map((item) => {
                 return item;
               });
@@ -207,6 +207,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
               }
               break;
             default:
+              this.$message.error(message.msg);
               break;
           }
           break;
@@ -224,14 +225,16 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
    */
   queryChatMessage(): Promise<ChatMessagesInterface[]> {
     return new Promise<ChatMessagesInterface[]>(resolve => {
-      this.$chatRequestService.queryChatMessage(this.pageParams).subscribe((result: Result<ChatMessagesInterface[]>) => {
+      this.$chatRequestService.queryChatMessage(
+        {channelId: this.roomChannel.roomId, ...this.pageParams}
+      ).subscribe((result: Result<ChatMessagesInterface[]>) => {
         this.loadedingStatus.messageLoad = false;
         if (result.code === 200) {
           // 聊天记录到顶判断
           if (result.data.length < this.pageParams.pageSize) {
             this.isTop = true;
             this.pageParams = new PageParams(this.pageParams.pageNum - 1, 50);
-            this.$message.info('聊天记录已经到顶了');
+            // this.$message.info('聊天记录已经到顶了');
           }
           resolve(result.data);
         } else {
@@ -324,7 +327,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
         userName: this.userInfo.userName,
       },
       // 频道id
-      channelId: CHANNEL_ID,
+      channelId: this.roomChannel.roomId,
       // 组件
       components: null,
       // 消息内容

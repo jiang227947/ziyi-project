@@ -136,7 +136,9 @@
         .operation-group {
           display: flex;
           justify-content: space-around;
-          flex: 0.1 0;
+          align-items: center;
+          flex: 0.2 0;
+          min-width: 120px;
 
           .hidden-user-list {
             display: none;

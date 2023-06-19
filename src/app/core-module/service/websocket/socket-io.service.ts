@@ -29,20 +29,21 @@ export class SocketIoService {
   /**
    * 连接
    */
-  public connect(): void {
+  public connect(selectActiveChannel?: string): void {
     const opt = {
       // path: '/socket.io',
       extraHeaders: {
         role: SessionUtil.getRoleId(),
-        token: SessionUtil.getToken().tokenValue || undefined
+        token: SessionUtil.getToken().tokenValue || undefined,
+        channelId: selectActiveChannel
       }
     };
     if (environment.production) {
       // 部署服务器地址
       this.socketIo = io(`wss://www.evziyi.top`, opt);
     } else {
-      // this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
-      this.socketIo = io(`wss://www.evziyi.top`, opt);
+      this.socketIo = io(`ws://127.0.0.1:3011/`, opt);
+      // this.socketIo = io(`wss://www.evziyi.top`, opt);
     }
     // 连接成功
     this.socketIo.on('connect', () => {
@@ -54,7 +55,7 @@ export class SocketIoService {
       } else {
         // new or unrecoverable session
       }
-      console.log('websocket 连接成功', this.socketIo.id);
+      console.log('websocket 连接成功', this.socketIo, this.socketIo.id);
       // this.socketIo.send('ping');
       // 开启心跳检测
       // this.heartCheckStart();

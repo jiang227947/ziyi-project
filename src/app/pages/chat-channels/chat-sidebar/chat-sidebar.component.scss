@@ -52,6 +52,7 @@
   }
 }
 
+/*频道头像*/
 .avatar {
   position: relative;
   margin: 0 0 8px;
@@ -91,6 +92,26 @@
     cursor: pointer;
     border-radius: 24px;
     transition: all 0.2s;
+  }
+}
+
+/*左下角操作栏*/
+.operation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0;
+
+  .operation-spn {
+    color: $--header-primary;
+    cursor: pointer;
+    padding: 16px;
+    font-size: 1.25rem;
+
+    &:hover {
+      color: $--user-name1;
+    }
   }
 }
 

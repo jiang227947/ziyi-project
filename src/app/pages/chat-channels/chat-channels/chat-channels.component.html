@@ -1,6 +1,9 @@
 <div class="body">
   <!--侧边栏-->
-  <app-chat-sidebar></app-chat-sidebar>
+  <app-chat-sidebar
+    [selectActiveChannel]="selectActiveChannel"
+    (selectActiveChannelEmit)="socketDisconnect($event)"
+  ></app-chat-sidebar>
   <!--主体-->
   <app-chat-base [socket]="socket" (socketDisconnect)="socketDisconnect()"></app-chat-base>
 </div>

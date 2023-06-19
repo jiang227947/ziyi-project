@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Result} from '../../../shared-module/interface/result';
 import {CreateChannelParamInterface} from '../../../shared-module/interface/chat-channels';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -14,14 +14,20 @@ import {User} from '../../../shared-module/interface/user';
 })
 export class ChatSidebarComponent implements OnInit {
 
-  // 创建频道模板
-  visible: boolean = false;
+  // 当前选择的频道
+  @Input() selectActiveChannel: string;
+  // 当前选择的频道
+  @Output() selectActiveChannelEmit = new EventEmitter<string>();
+  // 创建频道模板显示变量
+  createChannelVisible: boolean = false;
+  // 设置频道模板显示变量
+  showSettingVisible: boolean = false;
   // 用户信息
   user: User;
   // 频道列表
   channelList: CreateChannelParamInterface[] = [];
-  // 当前选择的频道
-  selectActiveChannel: number = 8088;
+  // 当前频道
+  channel: CreateChannelParamInterface;
 
   constructor(private $message: NzMessageService, public $chatRequestService: ChatRequestService) {
   }
@@ -39,7 +45,6 @@ export class ChatSidebarComponent implements OnInit {
     this.$chatRequestService.queryChannel(this.user.id).subscribe((result: Result<CreateChannelParamInterface[]>) => {
       if (result.code === 200) {
         this.channelList = result.data;
-        console.log(this.channelList);
       } else {
         this.$message.error(result.msg);
       }
@@ -49,16 +54,59 @@ export class ChatSidebarComponent implements OnInit {
   }
 
   /**
-   * 创建频道
+   * 切换频道
+   * @param channelID 频道ID
    */
-  createChannel(): void {
-    this.visible = true;
+  selectActiveChannelChange(channelID: string): void {
+    this.selectActiveChannel = channelID;
+    this.channel = this.channelList.find(item => item.channelId === this.selectActiveChannel);
+    if (this.channel.tags) {
+      this.channel.tags = JSON.parse(this.channel.tags as string);
+    }
+    this.selectActiveChannelEmit.emit(this.selectActiveChannel);
   }
 
-  onCancel(query?: boolean): void {
-    this.visible = false;
-    if (query) {
-      this.queryChannel();
+  /**
+   * 打开弹框
+   * @param type 弹框类型
+   */
+  showVisible(type: string): void {
+    switch (type) {
+      case 'createChannel':
+        this.createChannelVisible = true;
+        break;
+      case 'showSetting':
+        this.showSettingVisible = true;
+        break;
     }
+  }
+
+  /**
+   * 关闭弹框
+   * @param type 弹框类型
+   * @param param 入参
+   */
+  hiddenVisible(type: string, param?: boolean): void {
+    switch (type) {
+      case 'createChannel':
+        this.createChannelVisible = false;
+        if (param) {
+          this.queryChannel();
+        }
+        break;
+      case 'showSetting':
+        this.showSettingVisible = false;
+        if (param) {
+          this.selectActiveChannelChange('8088');
+        }
+        break;
+    }
+  }
+
+  /**
+   * 前往github
+   */
+  github(): void {
+    window.open('https://github.com/jiang227947/ziyi-project', '_blank');
   }
 }

@@ -181,10 +181,11 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
     background-color: #000000;
   }
 
-  /*标注消息*/
+  /*弹框*/
   .ant-modal {
     padding: 0;
     border-radius: 6px;
+    font-family: myFont1;
 
     .ant-modal-content {
       background-color: $--jjext-color-secondary-app;
@@ -216,6 +217,13 @@ $--additive-bgc: rgba(88, 101, 242, 0.15);
         background-color: $--jjext-color-primary;
         border-top: 0;
       }
+    }
+  }
+
+  /*确认框*/
+  .ant-modal-confirm-body {
+    .ant-modal-confirm-title, .ant-modal-confirm-content {
+      color: $--jjext-color-base2;
     }
   }
 }

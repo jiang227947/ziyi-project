@@ -9,6 +9,8 @@ import {Socket} from 'socket.io-client/build/esm/socket';
 })
 export class ChatChannelsComponent implements OnInit, OnDestroy {
 
+  // 切换频道的ID
+  selectActiveChannel: string = '8808';
   // socket
   socket: Socket;
 
@@ -22,8 +24,17 @@ export class ChatChannelsComponent implements OnInit, OnDestroy {
     }
   }
 
-  socketDisconnect(): void {
+  /**
+   * 断开
+   */
+  socketDisconnect(isActiveChannel?: string): void {
     this.$socketIoService.socketIo.disconnect();
+    this.$socketIoService.close();
+    // 如果是切换频道则重新连接并赋值
+    if (isActiveChannel) {
+      this.$socketIoService.connect(isActiveChannel);
+      this.socket = this.$socketIoService.socketIo;
+    }
   }
 
   /**

@@ -11,16 +11,18 @@ import {ChatBaseOperateService} from './config/chat-base-operate.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CreateChannelComponent} from './components/create-channel/create-channel.component';
 
-/*NZ*/
+/*ng-zorro-antd*/
 import {NzMentionModule} from 'ng-zorro-antd/mention';
 import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
+import {SettingChannelComponent} from './components/setting-channel/setting-channel.component';
 
 const COMPONENTS = [
   ChatChannelsComponent,
   ChatSidebarComponent,
   ChatBaseComponent,
-  CreateChannelComponent
+  CreateChannelComponent,
+  SettingChannelComponent
 ];
 
 const PIPES = [DateConversionPipe, TimeConversionPipe];
@@ -30,7 +32,7 @@ const SERVICE = [ChatRequestService, ChatBaseOperateService];
 @NgModule({
   declarations: [
     ...COMPONENTS,
-    ...PIPES
+    ...PIPES,
   ],
   imports: [
     SharedModuleModule,

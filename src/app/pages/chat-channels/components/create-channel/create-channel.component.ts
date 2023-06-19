@@ -142,6 +142,10 @@ export class CreateChannelComponent implements OnInit {
     this.createChannelParam.tags = tags.filter(tag => tag !== removedTag);
   }
 
+  /**
+   * 标签长度截取
+   * @param tag
+   */
   sliceTagName(tag: string): string {
     const isLongTag = tag.length > 10;
     return isLongTag ? `${tag.slice(0, 10)}...` : tag;

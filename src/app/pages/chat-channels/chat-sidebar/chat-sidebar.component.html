@@ -2,36 +2,53 @@
   <div class="option-tree">
     <!--固定的公共频道-->
     <div class="avatar"
-         [ngClass]="{'selectActiveChannel':selectActiveChannel === 8088}"
+         [ngClass]="{'selectActiveChannel':selectActiveChannel === '8808'}"
          nzTooltipTitle="闲聊频道"
          nzTooltipPlacement="right"
          nz-tooltip
-         (click)="selectActiveChannel = 8088">
+         (click)="selectActiveChannelChange('8808')">
       <img src="https://www.evziyi.top/data/avatar/processing_or_loading_data.gif" alt="avatar">
     </div>
     <ul class="tree-ul">
       <!--循环该用户有的频道-->
       <li class="tree-li avatar"
-          [ngClass]="{'selectActiveChannel':selectActiveChannel === item.id}"
+          [ngClass]="{'selectActiveChannel':selectActiveChannel === item.channelId}"
           nz-tooltip
           nzTooltipPlacement="right"
           [nzTooltipTitle]="item.channelName"
           *ngFor="let item of channelList"
-          (click)="selectActiveChannel = item.id">
+          (click)="selectActiveChannelChange(item.channelId)">
         <img [src]="item.avatar | avatarConversion" alt="avatar">
       </li>
       <!--添加频道-->
-      <li class="add-chat" (click)="createChannel()"
+      <li class="add-chat" (click)="showVisible('createChannel')"
           nzTooltipTitle="添加频道" nzTooltipPlacement="right" nz-tooltip>
         <span nz-icon nzType="plus" nzTheme="outline"></span>
       </li>
     </ul>
   </div>
+  <!--左下角操作栏-->
+  <div class="operation">
+    <!--github-->
+    <span nz-icon nzType="github" nzTheme="outline" title="github" class="operation-spn" (click)="github()"></span>
+    <!--设置-->
+    <span nz-icon nzType="setting" nzTheme="outline" title="设置" class="operation-spn"
+          *ngIf="selectActiveChannel !== '8808'"
+          (click)="showVisible('showSetting')"></span>
+  </div>
 </div>
 
 <!--创建频道组件-->
-<ng-container *ngIf="visible">
-  <app-create-channel [visible]="visible"
-                      (visibleEvent)="onCancel($event)"
+<ng-container *ngIf="createChannelVisible">
+  <app-create-channel [visible]="createChannelVisible"
+                      (visibleEvent)="hiddenVisible('createChannel', $event)"
   ></app-create-channel>
+</ng-container>
+
+<!--设置频道组件-->
+<ng-container *ngIf="showSettingVisible">
+  <app-setting-channel [visible]="showSettingVisible"
+                       [channel]="channel"
+                       (visibleEvent)="hiddenVisible('showSetting', $event)"
+  ></app-setting-channel>
 </ng-container>

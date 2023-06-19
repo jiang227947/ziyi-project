@@ -17,8 +17,8 @@ export class ChatRequestService {
   /**
    * 查询聊天记录
    */
-  queryChatMessage(pageParams: PageParams): Observable<Result<ChatMessagesInterface[]>> {
-    return this.$http.post<Result<ChatMessagesInterface[]>>(`${environment.API_URL}/queryChatMessage`, pageParams);
+  queryChatMessage(params: { channelId: string, pageNum: number, pageSize: number }): Observable<Result<ChatMessagesInterface[]>> {
+    return this.$http.post<Result<ChatMessagesInterface[]>>(`${environment.API_URL}/queryChatMessage`, params);
   }
 
   /**
@@ -49,5 +49,12 @@ export class ChatRequestService {
     return this.$http.get<Result<CreateChannelParamInterface[]>>(`${environment.API_URL}/queryChannel`, {
       params: {id}
     });
+  }
+
+  /**
+   * 删除频道
+   */
+  deleteChannel(channelId: string): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/deleteChannel`, {channelId});
   }
 }
