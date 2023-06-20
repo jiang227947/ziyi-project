@@ -22,6 +22,10 @@ export interface ChatChannelRoomInterface {
   roomId: string;
   // 房间名称
   roomName: string;
+  // 公告
+  announcement: string;
+  // 频道人员
+  personnel: string | ChatChannelRoomUserInterface[];
   // 用户信息
   users: ChatChannelRoomUserInterface[];
 }
@@ -38,12 +42,16 @@ export interface ChatChannelRoomUserInterface {
   userName: string;
   // 头像
   avatar: string;
+  // 颜色
+  color: string;
   // 备注
   remarks: string;
   // 角色
   role: string;
   // 角色名称
   roleName: string;
+  // 在线状态
+  status: number;
 }
 
 /**
@@ -227,6 +235,8 @@ export interface CreateChannelParamInterface {
   isPrivacy: number | boolean;
   // 密码
   password: string;
+  // 公告
+  announcement: string;
   // 备注
   remark: string;
 }

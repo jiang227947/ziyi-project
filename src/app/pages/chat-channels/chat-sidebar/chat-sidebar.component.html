@@ -1,14 +1,14 @@
 <div class="wrapper">
   <div class="option-tree">
     <!--固定的公共频道-->
-    <div class="avatar"
+    <!--<div class="avatar"
          [ngClass]="{'selectActiveChannel':selectActiveChannel === '8808'}"
          nzTooltipTitle="闲聊频道"
          nzTooltipPlacement="right"
          nz-tooltip
          (click)="selectActiveChannelChange('8808')">
       <img src="https://www.evziyi.top/data/avatar/processing_or_loading_data.gif" alt="avatar">
-    </div>
+    </div>-->
     <ul class="tree-ul">
       <!--循环该用户有的频道-->
       <li class="tree-li avatar"
@@ -49,6 +49,7 @@
 <ng-container *ngIf="showSettingVisible">
   <app-setting-channel [visible]="showSettingVisible"
                        [channel]="channel"
+                       [user]="user"
                        (visibleEvent)="hiddenVisible('showSetting', $event)"
   ></app-setting-channel>
 </ng-container>

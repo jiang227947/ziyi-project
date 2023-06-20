@@ -115,6 +115,48 @@ export class ChatBaseOperateService {
   }
 
   /**
+   * 在线用户操作
+   * @param online 在线用户
+   * @param allUser 所有用户
+   */
+  onlineUser(online: ChatChannelRoomUserInterface[], allUser: ChatChannelRoomUserInterface[]): ChatChannelRoomUserInterface[] {
+    const onlineUser = online.map(item => item.id);
+    for (let i = 0; i < allUser.length; i++) {
+      // 判断是否在线
+      if (onlineUser.indexOf(allUser[i].id) >= 0) {
+        allUser[i].color = 'rgb(46, 204, 113)';
+        allUser[i].status = 1;
+      } else {
+        allUser[i].color = 'rgb(56, 58, 64)';
+        allUser[i].status = 0;
+      }
+    }
+    return allUser;
+  }
+
+  /**
+   * 弹框的折叠
+   * @param type 入参
+   */
+  morOperateChange(type: string): void {
+    switch (type) {
+      case 'emoji':
+        if (!this.morOperate.emoji && this.morOperate.reactionEmoji) {
+          this.morOperate.reactionEmoji = false;
+          break;
+        }
+        this.morOperate.emoji = !this.morOperate.emoji;
+        break;
+      case 'fileUpload':
+        this.morOperate.fileUpload = !this.morOperate.fileUpload;
+        break;
+      case 'reactionEmoji':
+        this.morOperate.reactionEmoji = !this.morOperate.reactionEmoji;
+        break;
+    }
+  }
+
+  /**
    * 关闭弹框
    */
   publicClose(): void {

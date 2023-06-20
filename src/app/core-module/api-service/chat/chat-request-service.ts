@@ -57,4 +57,11 @@ export class ChatRequestService {
   deleteChannel(channelId: string): Observable<Result<void>> {
     return this.$http.post<Result<void>>(`${environment.API_URL}/deleteChannel`, {channelId});
   }
+
+  /**
+   * 加入频道
+   */
+  joinChannel(param: { channelId: string, password: string }): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/joinChannel`, param);
+  }
 }

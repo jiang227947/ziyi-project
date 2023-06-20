@@ -11,9 +11,9 @@
   <ng-template #modalContent>
     <div class="content">
       <p class="content-title">频道ID</p>
-      <p class="content-p">
-        {{channel.channelId}}
-        <span nz-icon nzType="copy" nzTheme="outline"></span>
+      <p class="content-p cursor" (click)="copy(channel.channelId)">
+        <a nz-button nzType="link">{{channel.channelId}}</a>
+        <span nz-icon nzType="copy" nzTheme="outline" class="copy"></span>
       </p>
       <p class="content-title">频道标签</p>
       <p class="content-p">
@@ -26,10 +26,13 @@
         {{channel.password}}
       </p>
       <p class="content-p" *ngIf="!channel.isPrivacy">无</p>
+      <p class="content-title">公告</p>
+      <textarea maxlength="100" rows="4" nz-input class="content-p"
+                [ngModel]="channel.announcement"></textarea>
       <p class="content-title">备注</p>
       <p class="content-p">{{channel.remark}}</p>
       <!--删除频道-->
-      <div class="delete">
+      <div class="delete" *ngIf="isDelete">
         <button nz-button nzType="primary" nzDanger (click)="deleteChannel()">删除频道</button>
       </div>
     </div>

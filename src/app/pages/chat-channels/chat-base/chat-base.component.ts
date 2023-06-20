@@ -112,6 +112,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     // console.log('用户信息', this.userInfo);
     this.subscription = this.messages.messages.subscribe((message: ChatChannelSubscribeInterface) => {
       console.log('订阅消息', message);
+      const findIndex: number | undefined = this.onlineUserList.findIndex(item => item.id === message.msg.id);
       switch (message.type) {
         case ChatChannelsMessageTypeEnum.publicMessage:
           this.messagesList.push(this.isContinuous(message.msg));
@@ -140,12 +141,14 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
             case SystemMessagesEnum.roomInfo:
               // 赋值房间信息
               this.roomChannel = message.msg as ChatChannelRoomInterface;
-              // console.log('房间信息', this.roomChannel);
               const roomUsers = this.roomChannel.users.map((item) => {
                 return item;
               });
+              // console.log('房间信息', roomUsers);
+              const personnel = this.onlineUser(roomUsers, this.roomChannel.personnel as ChatChannelRoomUserInterface[]);
+              // console.log('personnel', personnel);
               // 房间用户
-              this.onlineUserList = [CHAT_GPT_BOT, ...roomUsers];
+              this.onlineUserList = [CHAT_GPT_BOT, ...personnel];
               this.loadedingStatus.userLoad = false;
               // 分页查询聊天记录
               this.queryChatMessage().then((msg: ChatMessagesInterface[]) => {
@@ -157,54 +160,47 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
               });
               break;
             case SystemMessagesEnum.join:
-              // console.log('用户进入');
-              if ('userName' in message.msg) {
-                const join: any = {
-                  type: this.chatMessagesType.system,
-                  systemStates: SystemMessagesEnum.join,
-                  userName: message.msg.userName,
-                  id: message.msg.id,
-                  socketId: message.msg.socketId,
-                  timestamp: message.msg.timestamp
-                };
-                this.messagesList.push(join);
-                // todo 同名处理
-                if (this.onlineUserList.indexOf(message.msg.userName) === -1) {
-                  // console.log('message.msg', message.msg);
-                  this.onlineUserList.push({
-                    id: message.msg.id,
-                    socketId: message.msg.socketId,
-                    userName: message.msg.userName,
-                    avatar: message.msg.avatar,
-                    remarks: message.msg.remarks,
-                    role: message.msg.role,
-                    roleName: message.msg.roleName
-                  });
-                }
-                // 置底
-                this.scrollToBottom(this.scrollerBaseTemp);
+              // console.log('用户进入', message);
+              const join: any = {
+                type: this.chatMessagesType.system,
+                systemStates: SystemMessagesEnum.join,
+                userName: message.msg.userName,
+                id: message.msg.id,
+                socketId: message.msg.socketId,
+                timestamp: message.msg.timestamp
+              };
+              this.messagesList.push(join);
+              // todo 同名处理
+              if (findIndex) {
+                this.onlineUserList[findIndex].color = 'rgb(46, 204, 113)';
+                this.onlineUserList[findIndex].status = 1;
+                this.onlineUserList[findIndex].socketId = message.msg.socketId;
               }
+              // 置底
+              this.scrollToBottom(this.scrollerBaseTemp);
               break;
             case SystemMessagesEnum.left:
               // console.log('用户离开');
-              if ('userName' in message.msg) {
-                const left: any = {
-                  type: this.chatMessagesType.system,
-                  systemStates: SystemMessagesEnum.left,
-                  userName: message.msg.userName,
-                  id: message.msg.id,
-                  socketId: message.msg.socketId,
-                  timestamp: message.msg.timestamp
-                };
-                this.messagesList.push(left);
-                const findIndex = this.onlineUserList.findIndex(user => user.socketId === message.msg.socketId);
-                // 删除用户
-                if (findIndex >= 0) {
-                  this.onlineUserList.splice(findIndex, 1);
-                }
-                // 置底
-                this.scrollToBottom(this.scrollerBaseTemp);
+              const left: any = {
+                type: this.chatMessagesType.system,
+                systemStates: SystemMessagesEnum.left,
+                userName: message.msg.userName,
+                id: message.msg.id,
+                socketId: message.msg.socketId,
+                timestamp: message.msg.timestamp
+              };
+              this.messagesList.push(left);
+              if (findIndex) {
+                this.onlineUserList[findIndex].color = 'rgb(56, 58, 64)';
+                this.onlineUserList[findIndex].status = 0;
+                this.onlineUserList[findIndex].socketId = null;
               }
+              // 删除用户
+              // if (findIndex >= 0) {
+              //   this.onlineUserList.splice(findIndex, 1);
+              // }
+              // 置底
+              this.scrollToBottom(this.scrollerBaseTemp);
               break;
             default:
               this.$message.error(message.msg);

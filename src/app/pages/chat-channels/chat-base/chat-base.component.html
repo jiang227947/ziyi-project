@@ -49,7 +49,7 @@
       <!--置顶-->
       <div class="top-info">
         <div class="info-txt">
-          欢迎来到闲聊频道！
+          欢迎来到{{roomChannel?.roomName}}！
         </div>
         <div class="operation-group">
           <!--在线用户-->
@@ -65,13 +65,21 @@
           <!--标注消息-->
           <div class="pushpin" [ngClass]="{'pushpinShow':morOperate.pushpin}">
             <p class="pushpin-title">标注消息</p>
-            <div class="pushpin-centent">
+            <!--闲聊频道标注消息-->
+            <div class="pushpin-centent" *ngIf="roomChannel?.roomId === '8808'">
               <p>- 禁止发布违反法律、违反道德、人身攻击等言论</p>
               <!--<p>- ChatGPT功能@机器人后使用</p>-->
               <p>- 后续功能正在开发中，可在GitHub查看源码</p>
               <a nz-button nzType="link" href="https://github.com/jiang227947/ziyi-project" target="_blank">GItHub
                 Link</a>
-              <!--              <nz-empty></nz-empty>-->
+            </div>
+            <!--自定义标注消息-->
+            <div class="pushpin-centent" *ngIf="roomChannel?.roomId !== '8808'">
+              <textarea maxlength="100" rows="4" readonly class="pushpin-textarea"
+                        [ngModel]="roomChannel?.announcement"
+                        *ngIf="roomChannel?.announcement !== ''">
+              </textarea>
+              <nz-empty *ngIf="roomChannel?.announcement === ''"></nz-empty>
             </div>
           </div>
           <!--退出-->
@@ -140,7 +148,6 @@
                       <div class="markupMessage" (click)="publicClose()">{{item.content}}</div>
                       <!--添加反应-->
                       <div class="additive-reaction reactionHidden"
-                           nzTooltipTitle="添加反应" nzTooltipPlacement="top" nz-tooltip
                            (click)="additiveReaction(idx)">
                         <!--表情-->
                         <span title="表情">
@@ -150,7 +157,7 @@
                         </span>
                       </div>
                       <!--反应表情-->
-                      <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction}">
+                      <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction}" (click)="publicClose()">
                         <div class="reaction-me" *ngFor="let i of item.reaction"
                              nzTooltipTitle="{{i.count}}人的反应为：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip
                              (click)="emojiClick(i.emoji, idx)">
@@ -174,7 +181,7 @@
                     <!--文字消息-->
                     <div class="markupMessage" (click)="publicClose()">{{item.content}}</div>
                     <!--反应表情-->
-                    <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction}">
+                    <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction }">
                       <div class="reaction-me" *ngFor="let i of item.reaction"
                            nzTooltipTitle="{{i.count}}人的反应为：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip
                            (click)="emojiClick(i.emoji, idx)">
@@ -184,7 +191,6 @@
                     </div>
                     <!--添加反应-->
                     <div class="additive-reaction reactionHidden"
-                         nzTooltipTitle="添加反应" nzTooltipPlacement="top" nz-tooltip
                          (click)="additiveReaction(idx)">
                       <!--表情-->
                       <span title="表情">
@@ -225,13 +231,13 @@
           <!--附加-->
           <div class="additional">
             <!--表情-->
-            <span class="icon" title="表情" (click)="morOperate.emoji = !morOperate.emoji">
+            <span class="icon" title="表情" (click)="morOperateChange('emoji')">
               <svg class="aliicon" aria-hidden="true">
                 <use xlink:href="#icon-emojifill"></use>
               </svg>
             </span>
             <!--上传-->
-            <span class="icon" title="上传" (click)="morOperate.fileUpload = !morOperate.fileUpload">
+            <span class="icon" title="上传" (click)="morOperateChange('fileUpload')">
               <svg class="aliicon" aria-hidden="true">
                 <use xlink:href="#icon-jiahao2fill"></use>
               </svg>

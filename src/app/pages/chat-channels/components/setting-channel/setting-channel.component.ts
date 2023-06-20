@@ -4,6 +4,7 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {ChatRequestService} from '../../../../core-module/api-service';
 import {Result} from '../../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
+import {User} from '../../../../shared-module/interface/user';
 
 @Component({
   selector: 'app-setting-channel',
@@ -16,8 +17,12 @@ export class SettingChannelComponent implements OnInit {
   @Input() visible: boolean;
   // 当前频道
   @Input() channel: CreateChannelParamInterface;
+  // 用户信息
+  @Input() user: User;
   // 关闭弹窗的回调
   @Output() visibleEvent = new EventEmitter<boolean>();
+  // 是否可删除
+  isDelete: boolean = false;
 
   constructor(private modal: NzModalService,
               private $message: NzMessageService,
@@ -25,6 +30,7 @@ export class SettingChannelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isDelete = this.user.id === this.channel.admins[0];
   }
 
   /**
@@ -46,7 +52,8 @@ export class SettingChannelComponent implements OnInit {
               reject();
             }
           });
-        }).catch()
+        }).catch(),
+      nzOnCancel: () => confirmModal.destroy()
     });
   }
 
@@ -57,6 +64,19 @@ export class SettingChannelComponent implements OnInit {
     this.visible = false;
     // 回调关闭
     this.visibleEvent.emit(isDelete);
+  }
+
+  /**
+   * 一键复制
+   */
+  copy(value: string): void {
+    const input = document.createElement('input'); // 创建input对象
+    input.value = value; // 设置复制内容
+    document.body.appendChild(input); // 添加临时实例
+    input.select(); // 选择实例内容
+    document.execCommand('Copy'); // 执行复制
+    document.body.removeChild(input); // 删除临时实例
+    this.$message.success('复制成功！', {nzDuration: 1000});
   }
 
   /**

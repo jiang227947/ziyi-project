@@ -58,9 +58,12 @@ export class ChatSidebarComponent implements OnInit {
    * @param channelID 频道ID
    */
   selectActiveChannelChange(channelID: string): void {
+    if (this.selectActiveChannel === channelID) {
+      return;
+    }
     this.selectActiveChannel = channelID;
     this.channel = this.channelList.find(item => item.channelId === this.selectActiveChannel);
-    if (this.channel.tags) {
+    if (this.channel && this.channel.tags) {
       this.channel.tags = JSON.parse(this.channel.tags as string);
     }
     this.selectActiveChannelEmit.emit(this.selectActiveChannel);
@@ -97,7 +100,7 @@ export class ChatSidebarComponent implements OnInit {
       case 'showSetting':
         this.showSettingVisible = false;
         if (param) {
-          this.selectActiveChannelChange('8088');
+          this.selectActiveChannelChange('8808');
         }
         break;
     }

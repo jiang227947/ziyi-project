@@ -181,6 +181,14 @@
               min-width: 200px;
               min-height: 100px;
             }
+
+            .pushpin-textarea {
+              width: 100%;
+              border: none;
+              outline: none;
+              color: $--jjext-color-base2;
+              background-color: $--jjext-color-secondary-app;
+            }
           }
 
           .pushpinShow {

@@ -62,6 +62,16 @@
             (keydown.enter)="handleInputConfirm()"
           />
         </div>
+        <span class="form-title">公告</span>
+        <form nz-form [formGroup]="form" nzLayout="vertical">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-textarea-count [nzMaxCharacterCount]="100">
+                <textarea maxlength="100" rows="4" formControlName="announcement" nz-input></textarea>
+              </nz-textarea-count>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
         <span class="form-title">是否为私密频道</span>
         <div>
           <nz-switch [(ngModel)]="createChannelParam.isPrivacy" nzCheckedChildren="是"
@@ -75,13 +85,14 @@
       </div>
       <button nz-button nzType="primary"
               class="create-channel-btn"
+              [nzLoading]="loading"
               (click)="createChannel()">创建
       </button>
     </div>
     <!--加入-->
     <div class="content join" *ngIf="stepsStatus === 1">
       <span class="join-title">在下方输入频道ID</span>
-      <input nz-input type="text" placeholder="频道ID" [(ngModel)]="joinChannelParam.id"/>
+      <input nz-input type="text" placeholder="频道ID" [(ngModel)]="joinChannelParam.channelId"/>
       <span class="join-title">频道密码（如果没有请忽略）</span>
       <input nz-input type="number" min="0" minlength="5" maxlength="10" placeholder="频道密码" [(ngModel)]="joinChannelParam.password"/>
     </div>
@@ -103,6 +114,7 @@
       </button>
       <button nz-button nzType="primary"
               class="join-btn"
+              [nzLoading]="loading"
               (click)="joinChannel()">加入
       </button>
     </div>

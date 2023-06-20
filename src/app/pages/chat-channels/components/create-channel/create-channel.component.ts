@@ -10,6 +10,7 @@ import {User} from '../../../../shared-module/interface/user';
 import {ChatRequestService} from '../../../../core-module/api-service';
 import {Observable, Observer} from 'rxjs';
 import {CreateChannelParamInterface} from '../../../../shared-module/interface/chat-channels';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-create-channel',
@@ -45,19 +46,28 @@ export class CreateChannelComponent implements OnInit {
     admins: [],
     isPrivacy: 0,
     password: '',
+    announcement: '',
     remark: '',
   };
+  // loading
+  loading: boolean = false;
   // 标签输入框
   tagsInputValue: string = '';
   // 标签创建的显示
   tagsInputVisible: boolean = false;
   // 加入的频道参数
-  joinChannelParam: { id: string, password: string } = {
-    id: '',
+  joinChannelParam: { channelId: string, password: string } = {
+    channelId: '',
     password: ''
   };
+  // 公告表单
+  form: UntypedFormGroup;
 
-  constructor(private $message: NzMessageService, public $chatRequestService: ChatRequestService) {
+  constructor(private $message: NzMessageService, private $chatRequestService: ChatRequestService,
+              private formBuilder: UntypedFormBuilder) {
+    this.form = this.formBuilder.group({
+      announcement: [null, [Validators.maxLength(100)]]
+    });
   }
 
   uploadAvatar = ((item: NzUploadXHRArgs) => {
@@ -108,7 +118,7 @@ export class CreateChannelComponent implements OnInit {
         break;
       case 'done':
         this.avatarFile = info.file;
-        // Get this url from response in real world.
+        // tslint:disable-next-line:no-non-null-assertion
         this.getBase64(info.file!.originFileObj!, (img: string) => {
           this.imageLoading = false;
           this.previewImage = img;
@@ -129,6 +139,7 @@ export class CreateChannelComponent implements OnInit {
    */
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
+    // tslint:disable-next-line:no-non-null-assertion
     reader.addEventListener('load', () => callback(reader.result!.toString()));
     reader.readAsDataURL(img);
   }
@@ -187,12 +198,15 @@ export class CreateChannelComponent implements OnInit {
     }
     // 判断私密房间的密码
     if (this.createChannelParam.isPrivacy && this.createChannelParam.password === '') {
-      this.$message.info('请填写房间密码');
+      this.$message.info('请填写频道密码');
       return;
     }
+    this.loading = true;
     // 入参
     const param: CreateChannelParamInterface = {
       ...this.createChannelParam,
+      // 公告表单赋值
+      announcement: this.form.value.announcement,
       // 布尔值转换为数字
       isPrivacy: this.createChannelParam.isPrivacy ? 1 : 0,
       // 标签转成字符串
@@ -201,8 +215,10 @@ export class CreateChannelComponent implements OnInit {
       admins: JSON.stringify([this.user.id])
     };
     this.$chatRequestService.createChannel(param).subscribe((result: Result<void>) => {
+      this.loading = false;
       if (result.code === 200) {
         this.$message.success(result.msg);
+        // 关闭弹框回调查询
         this.onCancel(true);
       } else {
         this.$message.error(result.msg);
@@ -217,8 +233,24 @@ export class CreateChannelComponent implements OnInit {
    * 加入频道
    */
   joinChannel(): void {
+    if (this.joinChannelParam.channelId === '') {
+      this.$message.error('请输入频道ID');
+      return;
+    }
     console.log(this.joinChannelParam);
-    this.$message.info('功能正在开发中');
+    this.loading = true;
+    this.$chatRequestService.joinChannel(this.joinChannelParam).subscribe((result: Result<void>) => {
+      this.loading = false;
+      if (result.code === 200) {
+        this.$message.success(result.msg);
+        // 关闭弹框回调查询
+        this.onCancel(true);
+      } else {
+        this.$message.error(result.msg);
+      }
+    }, (error: HttpErrorResponse) => {
+      this.$message.error(error.message);
+    });
   }
 
   /**
@@ -232,19 +264,10 @@ export class CreateChannelComponent implements OnInit {
 
   /**
    * 步骤切换
-   * @param type 参数
+   * @param type 0 返回创建 1 加入频道
    */
   stepsStatusChange(type: number): void {
-    switch (type) {
-      case 0:
-        // 返回创建
-        this.stepsStatus = 0;
-        break;
-      case 1:
-        // 加入频道
-        this.stepsStatus = 1;
-        break;
-    }
+    this.stepsStatus = type;
     this.nzTitle = this.stepsStatus === 0 ? '创建频道' : '加入频道';
   }
 
