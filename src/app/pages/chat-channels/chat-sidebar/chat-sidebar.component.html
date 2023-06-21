@@ -48,6 +48,7 @@
 <!--设置频道组件-->
 <ng-container *ngIf="showSettingVisible">
   <app-setting-channel [visible]="showSettingVisible"
+                       [settingType]="'channel'"
                        [channel]="channel"
                        [user]="user"
                        (visibleEvent)="hiddenVisible('showSetting', $event)"

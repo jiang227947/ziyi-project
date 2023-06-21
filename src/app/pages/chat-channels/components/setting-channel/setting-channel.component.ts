@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CreateChannelParamInterface} from '../../../../shared-module/interface/chat-channels';
 import {NzModalService} from 'ng-zorro-antd/modal';
-import {ChatRequestService} from '../../../../core-module/api-service';
 import {Result} from '../../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../../../shared-module/interface/user';
+import {ChatRequestService} from '../../../../core-module/api-service/chat';
 
 @Component({
   selector: 'app-setting-channel',
@@ -15,6 +15,8 @@ export class SettingChannelComponent implements OnInit {
 
   // 接收弹框的显示
   @Input() visible: boolean;
+  // 接收设置的类型
+  @Input() settingType: string;
   // 当前频道
   @Input() channel: CreateChannelParamInterface;
   // 用户信息
@@ -23,6 +25,8 @@ export class SettingChannelComponent implements OnInit {
   @Output() visibleEvent = new EventEmitter<boolean>();
   // 是否可删除
   isDelete: boolean = false;
+  // 标题
+  nzTitle: string = '';
 
   constructor(private modal: NzModalService,
               private $message: NzMessageService,
@@ -30,7 +34,10 @@ export class SettingChannelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isDelete = this.user.id === this.channel.admins[0];
+    if (this.settingType === 'channel') {
+      this.isDelete = this.user.id === this.channel.admins[0];
+    }
+    this.nzTitle = this.settingType === 'channel' ? '频道设置' : '我的设置';
   }
 
   /**

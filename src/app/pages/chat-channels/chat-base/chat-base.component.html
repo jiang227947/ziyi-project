@@ -15,7 +15,7 @@
             <ng-container *ngIf="!item.avatar;else avatar">
               <nz-avatar
                 [nzGap]="1"
-                [ngStyle]="{ 'background-color': '#ffbf00' }"
+                [ngStyle]="{ 'background-color': '#2db7f5' }"
                 [nzText]="item.userName"
                 nzSize="large"
                 style="vertical-align: middle;"
@@ -42,6 +42,37 @@
         </li>
       </ng-container>
     </ol>
+    <!--我的信息-->
+    <div class="my-info">
+      <div class="avatar-wrapper">
+        <!--头像-->
+        <div class="avatar">
+          <ng-container *ngIf="!userInfo.avatar;else avatar">
+            <nz-avatar
+              [nzGap]="1"
+              [ngStyle]="{ 'background-color': 'rgb(46, 204, 113)' }"
+              [nzText]="userInfo.userName"
+              nzSize="large"
+              style="vertical-align: middle;"
+              class="user-avatar"
+            ></nz-avatar>
+          </ng-container>
+          <ng-template #avatar>
+            <img [src]="userInfo.avatar | avatarConversion" alt="头像" class="user-avatar">
+          </ng-template>
+        </div>
+        <!--名称-->
+        <div class="name-tag">
+          <p class="name-title">{{userInfo.userName}}</p>
+          <p class="status">在线</p>
+        </div>
+      </div>
+      <div class="config-wrapper">
+        <!--设置-->
+        <span nz-icon nzType="setting" nzTheme="outline" title="我的设置" class="user-setting"
+              (click)="morOperateChange('showSetting')"></span>
+      </div>
+    </div>
   </div>
   <!--中间和右侧房间信息-->
   <div class="chat">
@@ -157,7 +188,8 @@
                         </span>
                       </div>
                       <!--反应表情-->
-                      <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction}" (click)="publicClose()">
+                      <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction}"
+                           (click)="publicClose()">
                         <div class="reaction-me" *ngFor="let i of item.reaction"
                              nzTooltipTitle="{{i.count}}人的反应为：{{i.emoji}}" nzTooltipPlacement="top" nz-tooltip
                              (click)="emojiClick(i.emoji, idx)">
@@ -294,3 +326,12 @@
     </div>
   </div>
 </div>
+
+<!--设置频道组件-->
+<ng-container *ngIf="morOperate.mySetting">
+  <app-setting-channel [visible]="morOperate.mySetting"
+                       [settingType]="'user'"
+                       [user]="userInfo"
+                       (visibleEvent)="hiddenSetting($event)"
+  ></app-setting-channel>
+</ng-container>

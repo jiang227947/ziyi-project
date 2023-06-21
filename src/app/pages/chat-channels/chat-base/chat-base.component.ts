@@ -29,8 +29,8 @@ import {Socket} from 'socket.io-client/build/esm/socket';
 import {MessageService} from '../../../shared-module/service/Message.service';
 import {Router} from '@angular/router';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
-import {CHANNEL_ID, CHAT_GPT_BOT} from '../config/config';
-import {ChatRequestService} from '../../../core-module/api-service';
+import {CHAT_GPT_BOT} from '../config/config';
+import {ChatRequestService} from '../../../core-module/api-service/chat';
 import {PageParams} from '../../../shared-module/interface/pageParms';
 import {Result} from '../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
@@ -101,8 +101,8 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   constructor(@Inject(DOCUMENT) public document: Document, public titleService: Title,
               public messages: MessageService, public $message: NzMessageService, public router: Router,
               public nzContextMenuService: NzContextMenuService,
-              public $chatRequestService: ChatRequestService) {
-    super(document, titleService, messages, $message, router, nzContextMenuService, $chatRequestService);
+              private $chatRequestService: ChatRequestService) {
+    super(document, titleService, messages, $message, router, nzContextMenuService);
   }
 
   ngOnInit(): void {

@@ -7,7 +7,7 @@ import {Result} from '../../../../shared-module/interface/result';
 import {HttpErrorResponse} from '@angular/common/http';
 import {SessionUtil} from '../../../../shared-module/util/session-util';
 import {User} from '../../../../shared-module/interface/user';
-import {ChatRequestService} from '../../../../core-module/api-service';
+import {ChatRequestService} from '../../../../core-module/api-service/chat';
 import {Observable, Observer} from 'rxjs';
 import {CreateChannelParamInterface} from '../../../../shared-module/interface/chat-channels';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';

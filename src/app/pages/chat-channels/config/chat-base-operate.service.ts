@@ -4,7 +4,6 @@ import {MessageService} from '../../../shared-module/service/Message.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Router} from '@angular/router';
 import {NzContextMenuService} from 'ng-zorro-antd/dropdown';
-import {ChatRequestService} from '../../../core-module/api-service';
 import {ChatChannelRoomUserInterface, ChatOperateInterface} from '../../../shared-module/interface/chat-channels';
 import {Title} from '@angular/platform-browser';
 
@@ -24,6 +23,8 @@ export class ChatBaseOperateService {
   morOperate: ChatOperateInterface = {
     // 在线用户弹框
     isCollapsed: false,
+    // 我的设置弹框
+    mySetting: false,
     // 标注消息弹框
     pushpin: false,
     // emoji弹框
@@ -41,8 +42,7 @@ export class ChatBaseOperateService {
 
   constructor(@Inject(DOCUMENT) public document: Document, public titleService: Title,
               public messages: MessageService, public $message: NzMessageService, public router: Router,
-              public nzContextMenuService: NzContextMenuService,
-              public $chatRequestService: ChatRequestService) {
+              public nzContextMenuService: NzContextMenuService) {
   }
 
   /**
@@ -111,7 +111,7 @@ export class ChatBaseOperateService {
    */
   additiveReaction(idx: number): void {
     this.morOperate.selectMsgIdx = idx;
-    this.morOperate.reactionEmoji = true;
+    this.morOperate.reactionEmoji = !this.morOperate.reactionEmoji;
   }
 
   /**
@@ -147,12 +147,26 @@ export class ChatBaseOperateService {
         }
         this.morOperate.emoji = !this.morOperate.emoji;
         break;
+      case 'showSetting':
+        // this.morOperate.mySetting = !this.morOperate.mySetting;
+        // console.log(this.morOperate.mySetting);
+        break;
       case 'fileUpload':
         this.morOperate.fileUpload = !this.morOperate.fileUpload;
         break;
       case 'reactionEmoji':
         this.morOperate.reactionEmoji = !this.morOperate.reactionEmoji;
         break;
+    }
+  }
+
+  /**
+   * 关闭设置
+   */
+  hiddenSetting(query: boolean): void {
+    this.morOperate.mySetting = false;
+    if (query) {
+
     }
   }
 

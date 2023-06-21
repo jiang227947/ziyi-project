@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Result} from '../../../shared-module/interface/result';
 import {environment} from '../../../../environments/environment';
-import {PageParams} from '../../../shared-module/interface/pageParms';
 import {ChatMessagesInterface, CreateChannelParamInterface} from '../../../shared-module/interface/chat-channels';
 
 /**

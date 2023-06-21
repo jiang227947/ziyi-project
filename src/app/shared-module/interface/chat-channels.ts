@@ -148,6 +148,8 @@ export interface QueryMessagesList {
 export interface ChatOperateInterface {
   // 在线用户弹框
   isCollapsed: boolean;
+  // 我的设置弹框
+  mySetting: boolean;
   // 标注消息弹框
   pushpin: boolean;
   // emoji弹框

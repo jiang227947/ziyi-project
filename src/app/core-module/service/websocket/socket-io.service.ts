@@ -55,7 +55,7 @@ export class SocketIoService {
       } else {
         // new or unrecoverable session
       }
-      console.log('websocket 连接成功', this.socketIo, this.socketIo.id);
+      // console.log('websocket 连接成功', this.socketIo, this.socketIo.id);
       // this.socketIo.send('ping');
       // 开启心跳检测
       // this.heartCheckStart();

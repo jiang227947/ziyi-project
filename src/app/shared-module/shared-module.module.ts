@@ -39,6 +39,7 @@ import {SocketIoService} from '../core-module/service/websocket/socket-io.servic
 import {MessageService} from './service/Message.service';
 import {LoadScriptService} from './service/load-script.service';
 import {AvatarPipe} from './pipe/avatar.pipe';
+import {FileUploadService} from './service/file-upload.service';
 
 const MODULES = [
   CommonModule,
@@ -78,7 +79,13 @@ const NZMODULES = [
 
 const COMPONENT = [EchartColumnComponent, FormComponent];
 
-const SERVICES = [NzMessageService, LoadScriptService, SocketIoService, MessageService];
+const SERVICES = [
+  NzMessageService,
+  LoadScriptService,
+  SocketIoService,
+  MessageService,
+  FileUploadService
+];
 
 const PIPES = [AvatarPipe];
 

@@ -3,7 +3,7 @@ import {Result} from '../../../shared-module/interface/result';
 import {CreateChannelParamInterface} from '../../../shared-module/interface/chat-channels';
 import {HttpErrorResponse} from '@angular/common/http';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {ChatRequestService} from '../../../core-module/api-service';
+import {ChatRequestService} from '../../../core-module/api-service/chat';
 import {SessionUtil} from '../../../shared-module/util/session-util';
 import {User} from '../../../shared-module/interface/user';
 
