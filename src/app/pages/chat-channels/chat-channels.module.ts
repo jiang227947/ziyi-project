@@ -6,16 +6,18 @@ import {CHAT_CHANNELS_ROUTER_CONFIG} from './chat-channels-routing.module';
 import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
 import {ChatBaseComponent} from './chat-base/chat-base.component';
 import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/date.pipe';
-import {ChatRequestService} from '../../core-module/api-service/chat';
-import {ChatBaseOperateService} from './config/chat-base-operate.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CreateChannelComponent} from './components/create-channel/create-channel.component';
+import {SettingChannelComponent} from './components/setting-channel/setting-channel.component';
 
 /*ng-zorro-antd*/
 import {NzMentionModule} from 'ng-zorro-antd/mention';
 import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
-import {SettingChannelComponent} from './components/setting-channel/setting-channel.component';
+/*service*/
+import {ChatRequestService} from '../../core-module/api-service/chat';
+import {ChatBaseOperateService} from './config/chat-base-operate.service';
+import {IndexApiService} from '../main/index/service/indexApiService';
 
 const COMPONENTS = [
   ChatChannelsComponent,
@@ -27,7 +29,11 @@ const COMPONENTS = [
 
 const PIPES = [DateConversionPipe, TimeConversionPipe];
 
-const SERVICE = [ChatRequestService, ChatBaseOperateService];
+const SERVICE = [
+  ChatRequestService,
+  ChatBaseOperateService,
+  IndexApiService
+];
 
 @NgModule({
   declarations: [
@@ -42,8 +48,7 @@ const SERVICE = [ChatRequestService, ChatBaseOperateService];
     NzMentionModule,
     NzSwitchModule
   ],
-  exports: [
-  ],
+  exports: [],
   providers: [...SERVICE],
 })
 export class ChatChannelsModule {

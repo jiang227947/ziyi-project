@@ -101,6 +101,7 @@ export class ChatSidebarComponent implements OnInit {
         this.showSettingVisible = false;
         if (param) {
           this.selectActiveChannelChange('8808');
+          this.queryChannel();
         }
         break;
     }

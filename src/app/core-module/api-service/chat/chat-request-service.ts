@@ -30,7 +30,7 @@ export class ChatRequestService {
   /**
    * 上传头像
    */
-  uploadChannelAvatar(formData: FormData): Observable<Result<string>> {
+  uploadAvatar(formData: FormData): Observable<Result<string>> {
     return this.$http.post<Result<string>>(`${environment.API_URL}/uploadChannelAvatar`, formData);
   }
 

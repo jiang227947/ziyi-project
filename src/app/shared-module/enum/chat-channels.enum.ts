@@ -52,6 +52,8 @@ export enum ChatMessagesTypeEnum {
 export enum SystemMessagesEnum {
     // 房间信息
     roomInfo = 'roomInfo',
+    // 信息更新
+    update = 'update',
     // 用户加入
     join = 'userJoin',
     // 用户离开

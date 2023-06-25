@@ -16,27 +16,16 @@
     <!--创建-->
     <div class="content create" *ngIf="stepsStatus === 0">
       <div>
-        <nz-upload
-          nzListType="picture-card"
-          [nzShowUploadList]="false"
-          [nzDisabled]="imageLoading"
-          [nzBeforeUpload]="beforeUpload"
-          [nzCustomRequest]='uploadAvatar'
-          (nzChange)="handleChange($event)"
-        >
-          <ng-container *ngIf="!previewImage">
-            <span nz-icon nzType="plus"></span>
-          </ng-container>
-          <img *ngIf="previewImage" [src]="previewImage" style="width: 100%"/>
-        </nz-upload>
-        <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzStrokeColor="#1890ff"
-                     *ngIf="filePercent > 0"></nz-progress>
-        <span class="upload-msg" *ngIf="filePercent === 100">上传成功，正在保存...</span>
+        <app-file-upload [requestService]="$chatRequestService"
+                         [fileType]="fileTypeEnum.image"
+                         [fileName]="'avatar'"
+                         (uploadCallback)="uploadCallback($event)"
+        ></app-file-upload>
       </div>
       <div class="create-form">
-        <span class="form-title">频道名称</span>
+        <p class="form-title">频道名称</p>
         <input nz-input type="text" maxlength="12" placeholder="频道名称" [(ngModel)]="createChannelParam.channelName"/>
-        <span class="form-title">频道标签</span>
+        <p class="form-title">频道标签</p>
         <div>
           <nz-tag
             *ngFor="let tag of createChannelParam.tags; let i = index"
@@ -62,7 +51,7 @@
             (keydown.enter)="handleInputConfirm()"
           />
         </div>
-        <span class="form-title">公告</span>
+        <p class="form-title">公告</p>
         <form nz-form [formGroup]="form" nzLayout="vertical">
           <nz-form-item>
             <nz-form-control>
@@ -77,10 +66,10 @@
           <nz-switch [(ngModel)]="createChannelParam.isPrivacy" nzCheckedChildren="是"
                      nzUnCheckedChildren="否"></nz-switch>
         </div>
-        <span class="form-title" *ngIf="createChannelParam.isPrivacy">密码</span>
+        <p class="form-title" *ngIf="createChannelParam.isPrivacy">密码</p>
         <input nz-input type="number" min="0" minlength="5" maxlength="10" placeholder="房间密码（最少为5位）"
                [(ngModel)]="createChannelParam.password" *ngIf="createChannelParam.isPrivacy"/>
-        <span class="form-title">备注</span>
+        <p class="form-title">备注</p>
         <input nz-input type="text" placeholder="备注（选填）" [(ngModel)]="createChannelParam.remark"/>
       </div>
       <button nz-button nzType="primary"
@@ -94,7 +83,8 @@
       <span class="join-title">在下方输入频道ID</span>
       <input nz-input type="text" placeholder="频道ID" [(ngModel)]="joinChannelParam.channelId"/>
       <span class="join-title">频道密码（如果没有请忽略）</span>
-      <input nz-input type="number" min="0" minlength="5" maxlength="10" placeholder="频道密码" [(ngModel)]="joinChannelParam.password"/>
+      <input nz-input type="number" min="0" minlength="5" maxlength="10" placeholder="频道密码"
+             [(ngModel)]="joinChannelParam.password"/>
     </div>
   </ng-template>
   <!--弹框底部-->

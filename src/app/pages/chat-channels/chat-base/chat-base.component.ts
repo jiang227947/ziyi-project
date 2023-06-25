@@ -138,6 +138,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
           break;
         case ChatChannelsMessageTypeEnum.systemMessage:
           switch (message.msg.systemStates) {
+            // 房间信息
             case SystemMessagesEnum.roomInfo:
               // 赋值房间信息
               this.roomChannel = message.msg as ChatChannelRoomInterface;
@@ -159,6 +160,17 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
                 this.scrollToBottom(this.scrollerBaseTemp);
               });
               break;
+            // 信息更新
+            case SystemMessagesEnum.update:
+              // 更新房间内的用户信息
+              const idx = this.onlineUserList.findIndex(item => item.id === +message.msg.id);
+              this.onlineUserList[idx].avatar = message.msg.avatar;
+              if (message.msg.userName && message.msg.remarks) {
+                this.onlineUserList[idx].userName = message.msg.userName;
+                this.onlineUserList[idx].remarks = message.msg.remarks;
+              }
+              break;
+            // 用户加入
             case SystemMessagesEnum.join:
               // console.log('用户进入', message);
               const join: any = {
@@ -179,6 +191,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
               // 置底
               this.scrollToBottom(this.scrollerBaseTemp);
               break;
+            // 用户离开
             case SystemMessagesEnum.left:
               // console.log('用户离开');
               const left: any = {

@@ -11,6 +11,7 @@ import {ChatRequestService} from '../../../../core-module/api-service/chat';
 import {Observable, Observer} from 'rxjs';
 import {CreateChannelParamInterface} from '../../../../shared-module/interface/chat-channels';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {FileTypeEnum} from '../../../../shared-module/enum/file.enum';
 
 @Component({
   selector: 'app-create-channel',
@@ -29,13 +30,7 @@ export class CreateChannelComponent implements OnInit {
   nzTitle: string = '创建频道';
   // 用户信息
   user: User;
-  // 上传的进度
-  filePercent = 0;
-  imageLoading: boolean = false;
-  // 上传的头像文件
-  avatarFile: any = null;
-  // 预览的头像
-  previewImage: string | undefined = '';
+  fileTypeEnum = FileTypeEnum;
   // 流程状态
   stepsStatus: number = 0;
   // 创建频道的参数
@@ -63,85 +58,27 @@ export class CreateChannelComponent implements OnInit {
   // 公告表单
   form: UntypedFormGroup;
 
-  constructor(private $message: NzMessageService, private $chatRequestService: ChatRequestService,
+  constructor(private $message: NzMessageService, public $chatRequestService: ChatRequestService,
               private formBuilder: UntypedFormBuilder) {
     this.form = this.formBuilder.group({
       announcement: [null, [Validators.maxLength(100)]]
     });
   }
 
-  uploadAvatar = ((item: NzUploadXHRArgs) => {
-    const formData = new FormData();
-    formData.append('avatar', this.avatarFile);
-    return this.$chatRequestService.uploadChannelAvatar(formData).subscribe((result: Result<string>) => {
-      if (result.code === 200) {
-        this.createChannelParam.avatar = result.data;
-        this.$message.success(result.msg);
-        item.onSuccess(result.msg, item.file, result.msg);
-      } else {
-        this.$message.error(result.msg);
-        item.onError(result.msg, item.file);
-      }
-    }, (error: HttpErrorResponse) => {
-      this.$message.error(error.message);
-      item.onError(error.message, item.file);
-    });
-  });
-
   ngOnInit(): void {
     this.user = SessionUtil.getUserInfo();
     this.createChannelParam.channelName = `${this.user.userName}的频道`;
   }
 
-  // 文件上传之前处理
-  beforeUpload = (file: NzUploadFile): Observable<boolean> =>
-    new Observable((observer: Observer<boolean>) => {
-      if (file.size > SIZE_10MB) {
-        this.$message.error('文件大小不能超过10MB！');
-        observer.complete();
-        return;
-      }
-      if (CommonUtil.fileType(file.type, 'image')) {
-        this.$message.error('该类型无法上传！');
-        observer.complete();
-        return;
-      }
-      this.avatarFile = file;
-      observer.next(true);
-      observer.complete();
-    });
-
-  handleChange(info: { file: NzUploadFile }): void {
-    switch (info.file.status) {
-      case 'uploading':
-        this.imageLoading = true;
-        break;
-      case 'done':
-        this.avatarFile = info.file;
-        // tslint:disable-next-line:no-non-null-assertion
-        this.getBase64(info.file!.originFileObj!, (img: string) => {
-          this.imageLoading = false;
-          this.previewImage = img;
-        });
-        break;
-      case 'error':
-        this.$message.error('上传失败');
-        this.imageLoading = false;
-        break;
-    }
-  }
-
   /**
-   * file文件转64
-   * @param img
-   * @param callback
-   * @private
+   * 上传的回调结果
+   * @param result 回调结果
    */
-  private getBase64(img: File, callback: (img: string) => void): void {
-    const reader = new FileReader();
-    // tslint:disable-next-line:no-non-null-assertion
-    reader.addEventListener('load', () => callback(reader.result!.toString()));
-    reader.readAsDataURL(img);
+  uploadCallback(result: any): void {
+    // 上传成功赋值路径
+    if (result.status === 1) {
+      this.createChannelParam.avatar = result.result;
+    }
   }
 
   /**

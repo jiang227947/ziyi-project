@@ -11,6 +11,7 @@ import {SessionUtil} from '../../../../shared-module/util/session-util';
 import {IndexApiService} from '../service/indexApiService';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Result} from '../../../../shared-module/interface/result';
+import {FileTypeEnum} from '../../../../shared-module/enum/file.enum';
 
 @Component({
   selector: 'app-account-center',
@@ -39,7 +40,6 @@ export class AccountCenterComponent implements OnInit {
 
   uploadAvatar = ((item: NzUploadXHRArgs) => {
     const formData = new FormData();
-    formData.append('id', `${this.user.id}`);
     formData.append('avatar', this.avatarFile);
     return this.$IndexApiService.uploadAvatar(formData).subscribe((result: Result<any>) => {
       if (result.code === 200) {
@@ -81,7 +81,7 @@ export class AccountCenterComponent implements OnInit {
         observer.complete();
         return;
       }
-      if (CommonUtil.fileType(file.type, 'image')) {
+      if (CommonUtil.fileType(file.type, FileTypeEnum.image)) {
         this.$message.error('该类型无法上传！');
         observer.complete();
         return;

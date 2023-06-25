@@ -40,6 +40,31 @@
       </ng-container>
       <!--个人设置-->
       <ng-container *ngIf="settingType === 'user'">
+        <!--头像-->
+        <app-file-upload [requestService]="$indexApiService"
+                         [fileType]="fileTypeEnum.image"
+                         [fileName]="'avatar'"
+                         [previewImage]="user.avatar"
+                         (uploadCallback)="uploadCallback($event)"
+        ></app-file-upload>
+        <p class="content-title">昵称</p>
+        <p class="content-p">
+          <input nz-input type="text" maxlength="12" placeholder="昵称"
+                 [(ngModel)]="user.userName"/>
+        </p>
+        <p class="content-title">备注</p>
+        <p class="content-p">
+          <input nz-input type="text" placeholder="备注"
+                 [(ngModel)]="user.remarks"/>
+        </p>
+        <!--修改-->
+        <div class="delete">
+          <button nz-button nzType="primary"
+                  class="update-btn"
+                  [nzLoading]="loading"
+                  (click)="updateUser()">修改
+          </button>
+        </div>
       </ng-container>
     </div>
   </ng-template>

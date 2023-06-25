@@ -4,7 +4,10 @@ import {NzModalService} from 'ng-zorro-antd/modal';
 import {Result} from '../../../../shared-module/interface/result';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {User} from '../../../../shared-module/interface/user';
-import {ChatRequestService} from '../../../../core-module/api-service/chat';
+import {ChatRequestService} from '../../../../core-module/api-service';
+import {FileTypeEnum} from '../../../../shared-module/enum/file.enum';
+import {IndexApiService} from '../../../main/index/service/indexApiService';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-setting-channel',
@@ -27,10 +30,15 @@ export class SettingChannelComponent implements OnInit {
   isDelete: boolean = false;
   // 标题
   nzTitle: string = '';
+  // 文件枚举
+  fileTypeEnum = FileTypeEnum;
+  // 修改loading
+  loading: boolean = false;
 
   constructor(private modal: NzModalService,
               private $message: NzMessageService,
-              private $chatRequestService: ChatRequestService) {
+              public $chatRequestService: ChatRequestService,
+              public $indexApiService: IndexApiService) {
   }
 
   ngOnInit(): void {
@@ -93,5 +101,43 @@ export class SettingChannelComponent implements OnInit {
   sliceTagName(tag: string): string {
     const isLongTag = tag.length > 10;
     return isLongTag ? `${tag.slice(0, 10)}...` : tag;
+  }
+
+  /**
+   * 修改信息
+   */
+  updateUser(): void {
+    const info = {
+      id: this.user.id,
+      userName: this.user.userName,
+      avatar: this.user.avatar,
+      remarks: this.user.remarks
+    };
+    this.loading = true;
+    this.$indexApiService.updateUser(info).subscribe((result: Result<void>) => {
+      this.loading = false;
+      if (result.code === 200) {
+        this.$message.success(result.msg);
+        // 重新保存信息
+        localStorage.setItem('user_info', JSON.stringify(this.user));
+      } else {
+        this.$message.error(result.msg);
+      }
+    }, (error: HttpErrorResponse) => {
+      this.$message.error(error.message);
+    });
+  }
+
+  /**
+   * 上传的回调结果
+   * @param result 回调结果
+   */
+  uploadCallback(result: any): void {
+    // 上传成功赋值路径
+    if (result.status === 1) {
+      this.user.avatar = result.result;
+      // 重新保存信息
+      localStorage.setItem('user_info', JSON.stringify(this.user));
+    }
   }
 }

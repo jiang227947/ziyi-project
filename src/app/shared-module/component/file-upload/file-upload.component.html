@@ -1,0 +1,15 @@
+<div class="upload">
+  <nz-upload nzName="file"
+             nzListType="picture-card"
+             [nzShowUploadList]="false"
+             [nzDisabled]="fileLoading"
+             [nzBeforeUpload]="beforeUpload"
+             [nzCustomRequest]='uploadAvatar'
+             (nzChange)="handleChange($event)"
+  >
+    <ng-container *ngIf="!previewImage">
+      <span class="upload-icon" nz-icon [nzType]="fileLoading ? 'loading' : 'plus'"></span>
+    </ng-container>
+    <img *ngIf="previewImage" [src]="previewImage | avatarConversion" style="width: 100%"/>
+  </nz-upload>
+</div>

@@ -148,8 +148,7 @@ export class ChatBaseOperateService {
         this.morOperate.emoji = !this.morOperate.emoji;
         break;
       case 'showSetting':
-        // this.morOperate.mySetting = !this.morOperate.mySetting;
-        // console.log(this.morOperate.mySetting);
+        this.morOperate.mySetting = !this.morOperate.mySetting;
         break;
       case 'fileUpload':
         this.morOperate.fileUpload = !this.morOperate.fileUpload;

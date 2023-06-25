@@ -10,8 +10,6 @@ export class AvatarPipe implements PipeTransform {
       return url;
     } else if (url !== null && url !== undefined) {
       return `https://www.evziyi.top${url}`;
-    } else {
-
     }
   }
 }

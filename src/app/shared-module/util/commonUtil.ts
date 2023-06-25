@@ -1,6 +1,14 @@
 import {parse, startOfWeek, startOfYear} from 'date-fns';
-import {IMAGE_TYPE_CONST, OFFICE_TYPE_CONST, OTHER_TYPE_CONST, TEXT_TYPE_CONST} from '../const/commou.const';
+import {
+  IMAGE_TYPE_CONST,
+  OFFICE_TYPE_CONST,
+  OTHER_TYPE_CONST,
+  SIZE_10MB, SIZE_2MB,
+  SIZE_30MB,
+  TEXT_TYPE_CONST
+} from '../const/commou.const';
 import {SkillsAliIconEnum} from '../enum/resume.enum';
+import {FileTypeEnum} from '../enum/file.enum';
 
 /**
  * 工具类
@@ -154,7 +162,7 @@ export class CommonUtil {
    * @param fileType:文件类型
    * @param type:限制的文件类型
    */
-  static fileType(fileType: string, type?: string): boolean {
+  static fileType(fileType: string, type?: FileTypeEnum): boolean {
     // 可上传的类型
     let FILE_TYPE_CONST = [
       ...IMAGE_TYPE_CONST,
@@ -162,15 +170,61 @@ export class CommonUtil {
       ...OFFICE_TYPE_CONST,
       ...OTHER_TYPE_CONST
     ];
-    if (type) {
-      switch (type) {
-        case 'image':
-          // 限制图片类型
-          FILE_TYPE_CONST = IMAGE_TYPE_CONST;
+    switch (type) {
+      case FileTypeEnum.image:
+        // 限制图片类型
+        FILE_TYPE_CONST = IMAGE_TYPE_CONST;
+        break;
+      case FileTypeEnum.office:
+        // 限制文档类型
+        FILE_TYPE_CONST = OFFICE_TYPE_CONST;
+        break;
+      case FileTypeEnum.text:
+        // 限制文本类型
+        FILE_TYPE_CONST = TEXT_TYPE_CONST;
+        break;
+      case FileTypeEnum.other:
+        // 限制其他类型
+        FILE_TYPE_CONST = OTHER_TYPE_CONST;
+        break;
+      default:
+        break;
+    }
+    return FILE_TYPE_CONST.indexOf(fileType) === -1;
+  }
+
+  /**
+   * 文件大小限制
+   * @param fileType 文件类型
+   */
+  static fileSize(fileType: FileTypeEnum): { size: number, msg: string } {
+    let size: number = 0;
+    let msg: string = '';
+    if (fileType) {
+      switch (fileType) {
+        case FileTypeEnum.image:
+          // 限制图片大小
+          size = SIZE_10MB;
+          msg = '10MB';
+          break;
+        case FileTypeEnum.office:
+          // 限制文档大小
+          size = SIZE_10MB;
+          msg = '10MB';
+          break;
+        case FileTypeEnum.text:
+          // 限制文本大小
+          size = SIZE_2MB;
+          msg = '2MB';
+          break;
+        case FileTypeEnum.other:
+          // 限制其他大小
+          size = SIZE_30MB;
+          msg = '30MB';
           break;
       }
     }
-    return FILE_TYPE_CONST.indexOf(fileType) === -1;
+    return {size, msg};
   }
 
   /**

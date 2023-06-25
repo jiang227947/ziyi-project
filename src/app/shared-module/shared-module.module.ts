@@ -34,12 +34,12 @@ import {NzEmptyModule} from 'ng-zorro-antd/empty';
 // component
 import {EchartColumnComponent} from './component/echart-column/echart-column.component';
 import {FormComponent} from './component/form/form.component';
+import {FileUploadComponent} from './component/file-upload/file-upload.component';
 // service
 import {SocketIoService} from '../core-module/service/websocket/socket-io.service';
 import {MessageService} from './service/Message.service';
 import {LoadScriptService} from './service/load-script.service';
 import {AvatarPipe} from './pipe/avatar.pipe';
-import {FileUploadService} from './service/file-upload.service';
 
 const MODULES = [
   CommonModule,
@@ -77,14 +77,17 @@ const NZMODULES = [
   NzEmptyModule
 ];
 
-const COMPONENT = [EchartColumnComponent, FormComponent];
+const COMPONENT = [
+  EchartColumnComponent,
+  FormComponent,
+  FileUploadComponent
+];
 
 const SERVICES = [
   NzMessageService,
   LoadScriptService,
   SocketIoService,
-  MessageService,
-  FileUploadService
+  MessageService
 ];
 
 const PIPES = [AvatarPipe];
@@ -101,7 +104,7 @@ const PIPES = [AvatarPipe];
     ...PIPES
   ],
   providers: [...SERVICES],
-  declarations: [...COMPONENT, ...PIPES]
+  declarations: [...COMPONENT, ...PIPES, FileUploadComponent]
 })
 export class SharedModuleModule {
 }
