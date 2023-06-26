@@ -1,0 +1,49 @@
+<nz-spin [nzSpinning]="loading">
+  <div class="info-content">
+    <!--头像-->
+    <div class="avatar" *ngIf="userInfo">
+      <ng-container *ngIf="!userInfo?.avatar;else avatar">
+        <nz-avatar
+          [nzGap]="1"
+          [ngStyle]="{ 'background-color': '#87d068' }"
+          [nzText]="userInfo?.username"
+          nzSize="large"
+          style="vertical-align: middle;"
+          class="user-avatar"
+        ></nz-avatar>
+      </ng-container>
+      <ng-template #avatar>
+        <img [src]="userInfo?.avatar | avatarConversion" alt="头像" class="user-avatar">
+      </ng-template>
+    </div>
+    <!--信息-->
+    <div class="content">
+      <!--名称-->
+      <div class="title">
+        <p class="title-p">{{userInfo?.username}}</p>
+        <span class="title-spn">{{userInfo?.name}}</span>
+      </div>
+      <!--注册时间-->
+      <div class="gap">
+        <p class="title-p">注册时间</p>
+        <span class="title-spn">
+        <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+          {{userInfo?.createdAt | date:'yyyy-MM-dd'}}
+      </span>
+      </div>
+      <!--最后登录时间-->
+      <div class="gap">
+        <p class="title-p">最后登录时间</p>
+        <span class="title-spn">
+        <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+          {{userInfo?.lastLoginTime | date:'yyyy-MM-dd'}}
+      </span>
+      </div>
+      <!--备注-->
+      <div>
+        <p class="title-p">备注</p>
+        <span>{{userInfo?.remarks}}</span>
+      </div>
+    </div>
+  </div>
+</nz-spin>

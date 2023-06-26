@@ -89,6 +89,8 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   textValue: string = '';
   // 用户信息
   userInfo: User;
+  // 选中的用户ID
+  selectUserId: number;
   // 消息体
   message: ChatMessagesModal = new ChatMessagesModal();
   // 刷屏监听参数 3秒内连续发言超过5次则算刷屏
@@ -119,7 +121,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
           // 如果页面切到后台，则累加新消息数量
           if (this.messageReminder.show) {
             this.messageReminder.count += 1;
-            this.titleService.setTitle(`[新消息${this.messageReminder.count}] Cat 团子`);
+            this.titleService.setTitle(`[新消息${this.messageReminder.count}] EVZIYI`);
           }
           // 置底
           this.scrollToBottom(this.scrollerBaseTemp);
@@ -129,7 +131,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
           // 如果页面切到后台，则累加新消息数量
           if (this.messageReminder.show) {
             this.messageReminder.count += 1;
-            this.titleService.setTitle(`[新消息${this.messageReminder.count}] Cat 团子`);
+            this.titleService.setTitle(`[新消息${this.messageReminder.count}] EVZIYI`);
           }
           // 置底
           this.scrollToBottom(this.scrollerBaseTemp);

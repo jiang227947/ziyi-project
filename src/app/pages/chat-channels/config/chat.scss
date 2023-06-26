@@ -36,6 +36,18 @@ $--red: #f50;
 $--gold: #faad14;
 $--lime: #a0d911;
 
+/*颜色列表*/
+$--color-list: $--header-primary, $--additive-bgc, $--blue, $--green, $--cyan, $--cyan, $--red, $--gold, $--lime;
+
+/*创建一个mixin从列表中获取一个随机的颜色*/
+@mixin bg-color() {
+  /*generate a random number between 1 and the length of the list*/
+  $random-color: random(length($--color-list));
+
+  /*return an item from the list based on the random number*/
+  background-color: nth($--color-list, $random-color);
+}
+
 /*文字消息*/
 .markupMessage {
   -webkit-user-select: text;
@@ -233,22 +245,39 @@ $--lime: #a0d911;
       color: $--jjext-color-base2;
     }
   }
-}
 
-.ant-mentions {
-  height: unset;
-  border: unset;
-  outline: none;
-  box-shadow: none;
-  border-radius: unset;
-  background-color: unset;
-
-  &:hover {
+  .ant-mentions {
+    height: unset;
     border: unset;
-  }
-
-  &:focus {
     outline: none;
     box-shadow: none;
+    border-radius: unset;
+    background-color: unset;
+
+    &:hover {
+      border: unset;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  /*气泡弹框*/
+  .ant-popover-arrow-content {
+    &:before {
+      background-color: $--jjext-color-base0;
+    }
+  }
+
+  .ant-popover-inner {
+    border-radius: 4px;
+    background-color: $--jjext-color-base0;
+
+    .ant-popover-inner-content {
+      padding: 0;
+      border-radius: 4px;
+    }
   }
 }

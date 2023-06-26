@@ -60,7 +60,7 @@ export class ChatBaseOperateService {
           count: 0,
           show: false,
         };
-        this.titleService.setTitle('Cat 团子');
+        this.titleService.setTitle('EVZIYI');
       }
     });
   }

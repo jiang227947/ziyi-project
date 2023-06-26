@@ -10,12 +10,17 @@
       <!--每一个在线用户-->
       <ng-container *ngIf="!loadedingStatus.userLoad">
         <li class="onlineUserList" aria-setsize="-1" *ngFor="let item of onlineUserList;index as idx">
-          <div class="user-item" (contextmenu)="contextMenu($event, menu)">
+          <div class="user-item" (contextmenu)="contextMenu($event, menu)"
+               (click)="selectUserId = item.id"
+               nz-popover
+               nzPopoverTrigger="click"
+               nzPopoverPlacement="right"
+               [nzPopoverContent]="popoverContentTemplate">
             <!--头像-->
             <ng-container *ngIf="!item.avatar;else avatar">
               <nz-avatar
                 [nzGap]="1"
-                [ngStyle]="{ 'background-color': '#2db7f5' }"
+                [ngStyle]="{ 'background-color': '#87d068' }"
                 [nzText]="item.userName"
                 nzSize="large"
                 style="vertical-align: middle;"
@@ -50,7 +55,7 @@
           <ng-container *ngIf="!userInfo.avatar;else avatar">
             <nz-avatar
               [nzGap]="1"
-              [ngStyle]="{ 'background-color': 'rgb(46, 204, 113)' }"
+              [ngStyle]="{ 'background-color': '#87d068' }"
               [nzText]="userInfo.userName"
               nzSize="large"
               style="vertical-align: middle;"
@@ -149,16 +154,26 @@
                       <ng-container *ngIf="!item.author.avatar;else _avatar">
                         <nz-avatar
                           [nzGap]="1"
-                          [ngStyle]="{ 'background-color': '#ffbf00' }"
+                          [ngStyle]="{ 'background-color': '#87d068' }"
                           [nzText]="item.author.userName"
                           nzSize="large"
                           style="vertical-align: middle;"
                           class="user-avatar"
+                          (click)="selectUserId = item.author.id"
+                          nz-popover
+                          nzPopoverTrigger="click"
+                          nzPopoverPlacement="right"
+                          [nzPopoverContent]="popoverContentTemplate"
                         ></nz-avatar>
                       </ng-container>
                       <ng-template #_avatar>
                         <img [src]="item.author.avatar | avatarConversion" aria-hidden="true" class="user-avatar"
-                             alt="头像">
+                             alt="头像"
+                             (click)="selectUserId = item.author.id"
+                             nz-popover
+                             nzPopoverTrigger="click"
+                             nzPopoverPlacement="right"
+                             [nzPopoverContent]="popoverContentTemplate">
                       </ng-template>
                       <!--消息头-->
                       <h3 class="header" aria-labelledby="message-username" (click)="publicClose()">
@@ -335,3 +350,8 @@
                        (visibleEvent)="hiddenSetting($event)"
   ></app-setting-channel>
 </ng-container>
+
+<!--用户信息弹框-->
+<ng-template #popoverContentTemplate>
+  <app-user-infobox [userId]="selectUserId"></app-user-infobox>
+</ng-template>

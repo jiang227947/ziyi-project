@@ -60,7 +60,11 @@ export class LoginRequestService {
    * 查询用户
    */
   queryUserById(userId: number): Observable<Result<User>> {
-    return this.$http.get<Result<User>>(`${environment.API_URL}/queryUserById/${userId}`);
+    return this.$http.get<Result<User>>(`${environment.API_URL}/queryUserById`, {
+      params: {
+        id: userId
+      }
+    });
   }
 
   /**

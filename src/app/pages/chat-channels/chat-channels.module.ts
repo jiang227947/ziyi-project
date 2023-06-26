@@ -14,17 +14,20 @@ import {SettingChannelComponent} from './components/setting-channel/setting-chan
 import {NzMentionModule} from 'ng-zorro-antd/mention';
 import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
+import {NzPopoverModule} from 'ng-zorro-antd/popover';
 /*service*/
 import {ChatRequestService} from '../../core-module/api-service/chat';
 import {ChatBaseOperateService} from './config/chat-base-operate.service';
 import {IndexApiService} from '../main/index/service/indexApiService';
+import {UserInfoboxComponent} from './components/user-infobox/user-infobox.component';
 
 const COMPONENTS = [
   ChatChannelsComponent,
   ChatSidebarComponent,
   ChatBaseComponent,
   CreateChannelComponent,
-  SettingChannelComponent
+  SettingChannelComponent,
+  UserInfoboxComponent
 ];
 
 const PIPES = [DateConversionPipe, TimeConversionPipe];
@@ -35,20 +38,24 @@ const SERVICE = [
   IndexApiService
 ];
 
+const NZMODULE = [
+  NzSkeletonModule,
+  NzMentionModule,
+  NzSwitchModule,
+  NzPopoverModule
+];
+
 @NgModule({
   declarations: [
     ...COMPONENTS,
-    ...PIPES,
+    ...PIPES
   ],
   imports: [
     SharedModuleModule,
     RouterModule.forChild(CHAT_CHANNELS_ROUTER_CONFIG),
     InfiniteScrollModule,
-    NzSkeletonModule,
-    NzMentionModule,
-    NzSwitchModule
+    ...NZMODULE
   ],
-  exports: [],
   providers: [...SERVICE],
 })
 export class ChatChannelsModule {

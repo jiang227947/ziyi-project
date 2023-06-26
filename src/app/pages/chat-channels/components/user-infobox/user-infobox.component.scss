@@ -1,0 +1,83 @@
+@import "../../config/chat";
+
+.info-content {
+  padding: 8px;
+  border-radius: 4px;
+  position: relative;
+  background-color: $--jjext-color-base0;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: $--header-primary;
+  }
+
+  /*头像*/
+  .avatar {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+    }
+  }
+
+  /*信息*/
+  .content {
+    width: 200px;
+    min-height: 180px;
+    padding: 6px;
+    border-radius: 4px;
+    margin-top: 60px;
+    color: $--header-primary;
+    background-color: $--jjext-color-base3;
+
+    /*大文字*/
+    .title-p {
+      width: 100%;
+      font-size: 1.1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /*小文字*/
+    .title-spn {
+      width: 100%;
+      font-size: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .gap {
+      margin: 5px 0;
+    }
+
+    /*名称*/
+    .title {
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 1px;
+        background-color: $--jjext-color-base1;
+      }
+    }
+  }
+}
+
+
