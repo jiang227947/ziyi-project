@@ -69,7 +69,7 @@ export interface ChatChannelSystemStatesUserInterface {
  */
 export interface ChatMessagesInterface {
   // 附件
-  attachments: any[];
+  attachments: ChatAttachmentsInterface | string;
   // 作者
   author: ChatSendAuthorInterface;
   // 频道id
@@ -241,4 +241,22 @@ export interface CreateChannelParamInterface {
   announcement: string;
   // 备注
   remark: string;
+}
+
+/**
+ * 聊天附件接口
+ */
+export interface ChatAttachmentsInterface {
+  // 路径
+  path: string;
+  // 名称
+  name: string;
+  // 大小
+  size: number;
+  // 类型
+  type: string;
+  // 类型
+  fileType: string;
+  // 时间
+  date: number;
 }

@@ -1,3 +1,24 @@
 .upload {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
   text-align: center;
+
+  .upload-icon {
+    font-size: 1.3rem;
+  }
+}
+
+.upload-msg {
+  color: #888;
+  font-size: 0.6rem;
+}
+
+::ng-deep {
+  .ant-upload.ant-upload-drag .ant-upload {
+    width: 100px;
+    height: 100px;
+    padding: 0;
+    flex-direction: column;
+  }
 }

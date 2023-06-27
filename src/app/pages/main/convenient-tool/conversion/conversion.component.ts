@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BUFFER_CONST, traceDat} from '../../../../shared-module/const/commou.const';
 import {RadixEnum} from '../share/enum/tool';
 import {_radixConversionOption, _radixConversionType} from '../share/const/radixConversion.const';
-import {Charts} from '../../../../shared-module/util/echarts';
 
 @Component({
   selector: 'app-conversion',
@@ -33,17 +31,6 @@ export class ConversionComponent implements OnInit {
     let result: string | number;
     switch (this.radixConversionType) {
       case RadixEnum._HEXtoDec:
-        // const buffer = this.buffer.slice(8, this.buffer.length);
-        // const bufferList = buffer.replace(/(.{4})/g, '$1,').split(',');
-        // console.log('bufferList', bufferList);
-        // const bufferResult = [];
-        // console.time('花费时间');
-        // for (let i = 0; i < bufferList.length; i++) {
-        //   bufferResult.push(this.hexadecimalToDecimalConverter(bufferList[i]));
-        // }
-        // console.error('结果', bufferResult);
-        // setTimeout(() => this.lineChartInstance.setOption(Charts.basicsLineChart(traceDat)));
-        // console.timeEnd('花费时间');
         result = this.hexadecimalToDecimalConverter(this.buffer);
         break;
       case RadixEnum.HEXtoDec:

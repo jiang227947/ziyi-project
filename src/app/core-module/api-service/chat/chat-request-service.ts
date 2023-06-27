@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Result} from '../../../shared-module/interface/result';
 import {environment} from '../../../../environments/environment';
@@ -32,6 +32,15 @@ export class ChatRequestService {
    */
   uploadAvatar(formData: FormData): Observable<Result<string>> {
     return this.$http.post<Result<string>>(`${environment.API_URL}/uploadChannelAvatar`, formData);
+  }
+
+  /**
+   * 上传附件
+   */
+  uploadFile(formData: FormData): Observable<HttpEvent<Result<string>>> {
+    return this.$http.post<Result<string>>(`${environment.API_URL}/attachmentsUpload`, formData, {
+      reportProgress: true, observe: 'events',
+    });
   }
 
   /**

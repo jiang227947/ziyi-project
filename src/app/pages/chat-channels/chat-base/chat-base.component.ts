@@ -103,7 +103,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   constructor(@Inject(DOCUMENT) public document: Document, public titleService: Title,
               public messages: MessageService, public $message: NzMessageService, public router: Router,
               public nzContextMenuService: NzContextMenuService,
-              private $chatRequestService: ChatRequestService) {
+              public $chatRequestService: ChatRequestService) {
     super(document, titleService, messages, $message, router, nzContextMenuService);
   }
 
@@ -399,6 +399,81 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     this.queryChatMessage().then((msg: ChatMessagesInterface[]) => {
       // 合并消息
       this.messagesList = [...msg, ...this.messagesList];
+    });
+  }
+
+  /**
+   * 附件上传回调
+   */
+  uploadCallback(result: any): void {
+    const message: ChatMessagesInterface = this.isContinuous({
+      // 附件
+      attachments: {
+        name: result.file.name,
+        size: result.file.size,
+        type: result.file.type,
+        fileType: result.file.type,
+        path: result.result,
+        date: result.date
+      },
+      // 消息发送者
+      author: {
+        // 头像
+        avatar: this.userInfo.avatar,
+        // 头像描述
+        avatar_decoration: null,
+        // 鉴别器
+        discriminator: null,
+        // 全局名称
+        global_name: null,
+        // id
+        id: this.userInfo.id,
+        // 公共标签
+        public_flags: 0,
+        // 用户名
+        userName: this.userInfo.userName,
+      },
+      // 频道id
+      channelId: this.roomChannel.roomId,
+      // 组件
+      components: null,
+      // 消息内容
+      content: this.textValue,
+      // 编辑消息的时间
+      edited_timestamp: null,
+      // 反应
+      reaction: null,
+      // 标志
+      flags: 0,
+      // 提及的人
+      mention_everyone: this.message.mention_everyone || false,
+      // 提及的人名称信息
+      mentions: this.message.mentions || null,
+      // 留言参考
+      message_reference: null,
+      // 参考消息
+      referenced_message: null,
+      // 固定
+      pinned: false,
+      // 时间
+      timestamp: new Date().toISOString(),
+      tts: false,
+      // 消息类型 用于前端展示判断
+      type: ChatMessagesTypeEnum.general
+    });
+    this.socket.emit(ChatChannelsMessageTypeEnum.publicMessage, message, (response) => {
+      if (response.status === ChatChannelsCallbackEnum.ok) {
+        message.states = ChatChannelsMessageStatesEnum.success;
+        console.log(message);
+        this.messagesList.push(message);
+        this.scrollToBottom(this.scrollerBaseTemp);
+      } else {
+        // todo 重发
+        this.$message.info('消息发送失败');
+        message.states = ChatChannelsMessageStatesEnum.error;
+        this.messagesList.push(message);
+        this.scrollToBottom(this.scrollerBaseTemp);
+      }
     });
   }
 

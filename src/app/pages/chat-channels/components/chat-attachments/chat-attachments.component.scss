@@ -1,0 +1,40 @@
+@import "../../config/chat.scss";
+
+/*附件消息*/
+.attachments {
+  //width: 100px;
+  border-radius: 6px;
+
+  /*图片*/
+  .image {
+    width: auto;
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  /*媒体*/
+  .audio {
+    min-width: 100px;
+
+    .audio-name {
+      cursor: text;
+      user-select: text;
+      color: $--gold;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    audio {
+      width: 100%;
+      height: 30px;
+    }
+
+    audio::-webkit-media-controls-panel {
+      height: 30px;
+      outline: none;
+      border: none;
+      background-color: $--user-int;
+    }
+  }
+}

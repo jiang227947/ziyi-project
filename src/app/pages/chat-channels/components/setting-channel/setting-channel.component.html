@@ -42,7 +42,7 @@
       <ng-container *ngIf="settingType === 'user'">
         <!--头像-->
         <app-file-upload [requestService]="$indexApiService"
-                         [fileType]="fileTypeEnum.image"
+                         [fileType]="[fileTypeEnum.image]"
                          [fileName]="'avatar'"
                          [previewImage]="user.avatar"
                          (uploadCallback)="uploadCallback($event)"

@@ -81,7 +81,7 @@ export class AccountCenterComponent implements OnInit {
         observer.complete();
         return;
       }
-      if (CommonUtil.fileType(file.type, FileTypeEnum.image)) {
+      if (CommonUtil.fileType(file.type, [FileTypeEnum.image])) {
         this.$message.error('该类型无法上传！');
         observer.complete();
         return;

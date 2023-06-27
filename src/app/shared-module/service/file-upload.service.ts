@@ -7,6 +7,7 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {Result} from '../interface/result';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ChatRequestService} from '../../core-module/api-service';
+import {FileTypeEnum} from '../enum/file.enum';
 
 /**
  * 文件上传公共服务
@@ -33,7 +34,7 @@ export class FileUploadService {
         observer.complete();
         return;
       }
-      if (CommonUtil.fileType(file.type, 'image')) {
+      if (CommonUtil.fileType(file.type, [FileTypeEnum.image])) {
         this.$message.error('该类型无法上传！');
         observer.complete();
         return;
@@ -46,7 +47,7 @@ export class FileUploadService {
   uploadAvatar = ((item: NzUploadXHRArgs) => {
     const formData = new FormData();
     formData.append('avatar', this.file);
-    return this.requestService.uploadChannelAvatar(formData).subscribe((result: Result<string>) => {
+    return this.requestService.uploadAvatar(formData).subscribe((result: Result<string>) => {
       if (result.code === 200) {
         this.$message.success(result.msg);
         item.onSuccess(result.msg, item.file, result.msg);

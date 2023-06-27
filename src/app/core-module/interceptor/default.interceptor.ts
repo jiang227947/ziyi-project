@@ -39,6 +39,8 @@ const CODEMESSAGE = {
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
 
+  cookie: string = '';
+
   constructor(private injector: Injector, private $router: Router, private $message: NzMessageService) {
   }
 
@@ -118,7 +120,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     /**
      * headers添加skip字段则认为是不需要校验的请求
      */
-    // 请求跳过白名单
+      // 请求跳过白名单
     const skipIntercept = req.headers.has('skip');
     if (skipIntercept) {
       // 删除跳过请求头

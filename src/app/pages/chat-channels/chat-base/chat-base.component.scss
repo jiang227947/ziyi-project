@@ -256,6 +256,10 @@
             display: none;
           }
 
+          .open-user-list {
+            color: $--user-name1 !important;
+          }
+
           .operation {
             font-size: 1.5rem;
             color: $--jjext-color-base2;
@@ -363,10 +367,20 @@
         background-color: $--jjext-color-base;
         transition: all 0.2s;
         color: #ffffff;
+        overflow: hidden;
+
+        .upload-drag-icon {
+          font-size: 1.2rem;
+        }
+
+        .info {
+          font-size: 0.9rem;
+          text-align: center;
+        }
       }
 
       .file-upload-active {
-        height: 100px;
+        height: 120px;
         transition: all 0.2s;
       }
     }

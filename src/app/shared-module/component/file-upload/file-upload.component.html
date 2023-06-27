@@ -1,6 +1,8 @@
 <div class="upload">
   <nz-upload nzName="file"
+             nzType="drag"
              nzListType="picture-card"
+             nzAccept="image/png, image/jpg, image/jpeg, image/gif, audio/mpeg, audio/wav"
              [nzShowUploadList]="false"
              [nzDisabled]="fileLoading"
              [nzBeforeUpload]="beforeUpload"
@@ -9,6 +11,9 @@
   >
     <ng-container *ngIf="!previewImage">
       <span class="upload-icon" nz-icon [nzType]="fileLoading ? 'loading' : 'plus'"></span>
+      <p>点击或拖拽上传</p>
+      <nz-progress [nzPercent]="filePercent" [nzSteps]="10" nzSize="small" nzStrokeColor="#86909c" *ngIf="filePercent > 0"></nz-progress>
+      <span class="upload-msg" *ngIf="filePercent === 100">上传成功，正在保存...</span>
     </ng-container>
     <img *ngIf="previewImage" [src]="previewImage | avatarConversion" style="width: 100%"/>
   </nz-upload>

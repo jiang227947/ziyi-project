@@ -1,6 +1,5 @@
 import {User} from '../interface/user';
 import {Token} from '../interface/token';
-import {SimpleGuardService} from '../../core-module/service/simple-guard.service';
 import {MenuModel} from '../../core-module/model/menu.model';
 import {AppMenuService} from '../service/app-menu.service';
 import {UserRoleEnum} from '../enum/user.enum';

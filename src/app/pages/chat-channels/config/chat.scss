@@ -48,7 +48,7 @@ $--color-list: $--header-primary, $--additive-bgc, $--blue, $--green, $--cyan, $
   background-color: nth($--color-list, $random-color);
 }
 
-/*文字消息*/
+/*消息内容*/
 .markupMessage {
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -260,6 +260,13 @@ $--color-list: $--header-primary, $--additive-bgc, $--blue, $--green, $--cyan, $
 
     &:focus {
       outline: none;
+      border: unset;
+      box-shadow: none;
+    }
+
+    &:focus-within {
+      outline: none;
+      border: unset;
       box-shadow: none;
     }
   }

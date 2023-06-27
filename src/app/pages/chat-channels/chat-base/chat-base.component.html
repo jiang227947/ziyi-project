@@ -89,7 +89,8 @@
         </div>
         <div class="operation-group">
           <!--在线用户-->
-          <span class="operation hidden-user-list" title="在线用户" nz-icon nzType="team" nzTheme="outline"
+          <span class="operation hidden-user-list" [ngClass]="{'open-user-list':morOperate.isCollapsed}" title="在线用户"
+                nz-icon nzType="team" nzTheme="outline"
                 (click)="operateTop('user')"></span>
           <!--标注-->
           <nz-badge nzDot>
@@ -190,8 +191,14 @@
                           </span>
                         </p>
                       </h3>
-                      <!--文字消息-->
-                      <div class="markupMessage" (click)="publicClose()">{{item.content}}</div>
+                      <!--消息内容-->
+                      <div class="markupMessage" (click)="publicClose()">
+                        <!--附件消息-->
+                        <app-chat-attachments *ngIf="item.attachments"
+                          [attachments]="item.attachments"></app-chat-attachments>
+                        <!--文字消息-->
+                        <span *ngIf="!item.attachments">{{item.content}}</span>
+                      </div>
                       <!--添加反应-->
                       <div class="additive-reaction reactionHidden"
                            (click)="additiveReaction(idx)">
@@ -226,7 +233,13 @@
                       </time>
                     </div>
                     <!--文字消息-->
-                    <div class="markupMessage" (click)="publicClose()">{{item.content}}</div>
+                    <div class="markupMessage" (click)="publicClose()">
+                      <!--附件消息-->
+                      <app-chat-attachments *ngIf="item.attachments"
+                                            [attachments]="item.attachments"></app-chat-attachments>
+                      <!--文字消息-->
+                      <span *ngIf="!item.attachments">{{item.content}}</span>
+                    </div>
                     <!--反应表情-->
                     <div class="additive-emoji" [ngClass]="{'hidden-additive': !item.reaction }">
                       <div class="reaction-me" *ngFor="let i of item.reaction"
@@ -336,7 +349,12 @@
       </div>
       <!--附件上传-->
       <div class="file-upload" [ngClass]="{'file-upload-active': morOperate.fileUpload}">
-        <span *ngIf="morOperate.fileUpload">暂不支持</span>
+        <app-file-upload [requestService]="$chatRequestService"
+                         [fileType]="[fileTypeEnum.image,fileTypeEnum.media,fileTypeEnum.other]"
+                         [fileName]="'file'"
+                         (uploadCallback)="uploadCallback($event)"
+        ></app-file-upload>
+        <p class="info">限图片、音频文件</p>
       </div>
     </div>
   </div>

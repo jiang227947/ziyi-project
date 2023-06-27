@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import {NzContextMenuService} from 'ng-zorro-antd/dropdown';
 import {ChatChannelRoomUserInterface, ChatOperateInterface} from '../../../shared-module/interface/chat-channels';
 import {Title} from '@angular/platform-browser';
+import {NzUploadChangeParam} from 'ng-zorro-antd/upload';
+import {FileTypeEnum} from '../../../shared-module/enum/file.enum';
 
 /**
  * 聊天频道组件服务
@@ -36,6 +38,7 @@ export class ChatBaseOperateService {
     // 文件弹框
     fileUpload: false
   };
+  fileTypeEnum = FileTypeEnum;
 
   // 提及功能 筛选数组对象的key
   suggestionsValueWith = (data: ChatChannelRoomUserInterface): string => data.userName;

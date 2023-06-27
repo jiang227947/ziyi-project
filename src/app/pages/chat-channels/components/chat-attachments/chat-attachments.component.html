@@ -1,0 +1,29 @@
+<!--附件消息-->
+<div class="attachments">
+  <ng-container [ngSwitch]="fileInfo.fileType">
+    <!--图片-->
+    <ng-container *ngSwitchCase="'image'">
+      <img [src]="fileInfo.path | avatarConversion" class="image">
+    </ng-container>
+    <!--文本-->
+    <ng-container *ngSwitchCase="'text'">
+      <span>文本附件开发中</span>
+    </ng-container>
+    <!--音频-->
+    <ng-container *ngSwitchCase="'audio'">
+      <div class="audio">
+        <p class="audio-name">{{fileInfo.name}}</p>
+        <audio controls>
+          <source [src]="fileInfo.path | avatarConversion" [type]="fileInfo.type">
+          您的浏览器不支持 audio 元素。
+        </audio>
+      </div>
+    </ng-container>
+    <!--其他-->
+    <ng-container *ngSwitchDefault>
+      <span>其他附件开发中</span>
+    </ng-container>
+  </ng-container>
+  <!--  <span nz-icon nzType="file-image" nzTheme="outline"></span>-->
+  <!--  <span class="attachments-title">Marketing manager.png</span>-->
+</div>

@@ -1,14 +1,9 @@
 import {NgModule} from '@angular/core';
-import {ChatChannelsComponent} from './chat-channels/chat-channels.component';
 import {SharedModuleModule} from '../../shared-module/shared-module.module';
 import {RouterModule} from '@angular/router';
 import {CHAT_CHANNELS_ROUTER_CONFIG} from './chat-channels-routing.module';
-import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
-import {ChatBaseComponent} from './chat-base/chat-base.component';
 import {DateConversionPipe, TimeConversionPipe} from '../../shared-module/pipe/date.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {CreateChannelComponent} from './components/create-channel/create-channel.component';
-import {SettingChannelComponent} from './components/setting-channel/setting-channel.component';
 
 /*ng-zorro-antd*/
 import {NzMentionModule} from 'ng-zorro-antd/mention';
@@ -19,7 +14,14 @@ import {NzPopoverModule} from 'ng-zorro-antd/popover';
 import {ChatRequestService} from '../../core-module/api-service/chat';
 import {ChatBaseOperateService} from './config/chat-base-operate.service';
 import {IndexApiService} from '../main/index/service/indexApiService';
+/*component*/
+import {ChatChannelsComponent} from './chat-channels/chat-channels.component';
+import {ChatSidebarComponent} from './chat-sidebar/chat-sidebar.component';
+import {ChatBaseComponent} from './chat-base/chat-base.component';
+import {CreateChannelComponent} from './components/create-channel/create-channel.component';
+import {SettingChannelComponent} from './components/setting-channel/setting-channel.component';
 import {UserInfoboxComponent} from './components/user-infobox/user-infobox.component';
+import {ChatAttachmentsComponent} from './components/chat-attachments/chat-attachments.component';
 
 const COMPONENTS = [
   ChatChannelsComponent,
@@ -27,7 +29,8 @@ const COMPONENTS = [
   ChatBaseComponent,
   CreateChannelComponent,
   SettingChannelComponent,
-  UserInfoboxComponent
+  UserInfoboxComponent,
+  ChatAttachmentsComponent
 ];
 
 const PIPES = [DateConversionPipe, TimeConversionPipe];

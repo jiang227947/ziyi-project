@@ -17,7 +17,7 @@
     <div class="content create" *ngIf="stepsStatus === 0">
       <div>
         <app-file-upload [requestService]="$chatRequestService"
-                         [fileType]="fileTypeEnum.image"
+                         [fileType]="[fileTypeEnum.image]"
                          [fileName]="'avatar'"
                          (uploadCallback)="uploadCallback($event)"
         ></app-file-upload>

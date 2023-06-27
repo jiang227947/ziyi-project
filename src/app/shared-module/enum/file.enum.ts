@@ -3,6 +3,7 @@
  */
 export enum FileTypeEnum {
   image = 'image',
+  media = 'media',
   text = 'text',
   office = 'office',
   other = 'other'
