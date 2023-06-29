@@ -7,6 +7,11 @@ const routes: Routes = [
   // 默认路由
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   // {path: '', pathMatch: 'full', redirectTo: 'chat-channels'},
+  // home
+  /*{
+    path: '',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
+  },*/
   // 简历
   {
     path: 'resume',

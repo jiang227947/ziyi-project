@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {CommonUtil} from '../util/commonUtil';
 
 /**
  * 时间转换
@@ -9,21 +10,8 @@ export class DateConversionPipe implements PipeTransform {
     let dateVal = '';
     const nowTime = new Date().toDateString();
     const dateStr = new Date(date).toDateString();
-    // 清除昨天的时分秒毫秒
-    const yesterday = new Date(date);
-    yesterday.setHours(0);
-    yesterday.setMinutes(0);
-    yesterday.setSeconds(0);
-    yesterday.setMilliseconds(0);
-    // 清除今天的时分秒毫秒
-    const today = new Date();
-    today.setHours(0);
-    today.setMinutes(0);
-    today.setSeconds(0);
-    today.setMilliseconds(0);
-    const timeDiff = today.getTime() - yesterday.getTime();  // 时间差的毫秒数
-    // timeDiff = 时间戳差值
-    const days = Math.floor(timeDiff / (24 * 3600 * 1000)); // 计算出天数
+    // 时间戳差值
+    const days = CommonUtil.getTimeDiff(date);
     // 分补0
     let minutes: number | string = new Date(date).getMinutes();
     if (minutes < 10) {

@@ -1,9 +1,11 @@
 import {parse, startOfWeek, startOfYear} from 'date-fns';
 import {
-  IMAGE_TYPE_CONST, MEDIA_TYPE_CONST,
+  IMAGE_TYPE_CONST,
+  MEDIA_TYPE_CONST,
   OFFICE_TYPE_CONST,
   OTHER_TYPE_CONST,
-  SIZE_10MB, SIZE_2MB,
+  SIZE_10MB,
+  SIZE_2MB,
   SIZE_30MB,
   TEXT_TYPE_CONST
 } from '../const/commou.const';
@@ -257,6 +259,29 @@ export class CommonUtil {
     if (typeof codeEnum !== 'string') {
       return codeEnum.map(item => `#icon-${item}`);
     }
+  }
+
+  /**
+   * 获取时间相差的天数
+   * @param date 比较的时间
+   */
+  static getTimeDiff(date): number {
+    // 清除昨天的时分秒毫秒
+    const yesterday = new Date(date);
+    yesterday.setHours(0);
+    yesterday.setMinutes(0);
+    yesterday.setSeconds(0);
+    yesterday.setMilliseconds(0);
+    // 清除今天的时分秒毫秒
+    const today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    const timeDiff = today.getTime() - yesterday.getTime();  // 时间差的毫秒数
+    // timeDiff = 时间戳差值
+     // 计算出天数
+    return Math.floor(timeDiff / (24 * 3600 * 1000));
   }
 
   /**

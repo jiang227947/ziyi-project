@@ -39,6 +39,7 @@ import {ChatBaseOperateService} from '../config/chat-base-operate.service';
 import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {DOCUMENT} from '@angular/common';
+import {CommonUtil} from '../../../shared-module/util/commonUtil';
 
 @Component({
   selector: 'app-chat-base',
@@ -541,10 +542,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     if (message.type === this.chatMessagesType.system) {
       return message;
     }
+    // 时间戳差值
+    const days = CommonUtil.getTimeDiff(this.messagesList[this.messagesList.length - 1].timestamp);
     // 如果上一条消息的用户为当前这个人则为连续发言
     if (this.messagesList.length > 0
       && this.messagesList[this.messagesList.length - 1].author
-      && author.id === this.messagesList[this.messagesList.length - 1].author.id) {
+      && author.id === this.messagesList[this.messagesList.length - 1].author.id
+      && days === 0) {
       message.type = this.chatMessagesType.continuous;
     } else {
       // 否则为普通发言

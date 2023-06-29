@@ -52,6 +52,9 @@ export class ChatBaseOperateService {
    * 初始化
    */
   onInit(): void {
+    // 当前的 2023-06-28T02:01:57.682Z
+    // 上一个 2023-06-28T01:16:54.456Z
+    // 上上一个 2023-06-27T14:50:22.327Z
     this.document.addEventListener('visibilitychange', () => {
       const isHidden = this.document.hidden;
       if (isHidden) {

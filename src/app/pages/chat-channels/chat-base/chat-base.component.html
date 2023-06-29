@@ -350,7 +350,7 @@
       <!--附件上传-->
       <div class="file-upload" [ngClass]="{'file-upload-active': morOperate.fileUpload}">
         <app-file-upload [requestService]="$chatRequestService"
-                         [fileType]="[fileTypeEnum.image,fileTypeEnum.media,fileTypeEnum.other]"
+                         [fileType]="[fileTypeEnum.image,fileTypeEnum.media,fileTypeEnum.text,fileTypeEnum.other]"
                          [fileName]="'file'"
                          (uploadCallback)="uploadCallback($event)"
         ></app-file-upload>

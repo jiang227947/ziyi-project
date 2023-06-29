@@ -72,4 +72,14 @@ export class ChatRequestService {
   joinChannel(param: { channelId: string, password: string }): Observable<Result<void>> {
     return this.$http.post<Result<void>>(`${environment.API_URL}/joinChannel`, param);
   }
+
+  /**
+   * 获取文件元数据
+   */
+  getFileData(path: string): Observable<Blob> {
+    return this.$http.get(`https://www.evziyi.top${path}`, {
+      // @ts-ignore
+      responseType: 'blob'
+    });
+  }
 }

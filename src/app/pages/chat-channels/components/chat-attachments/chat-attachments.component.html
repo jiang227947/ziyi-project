@@ -3,11 +3,15 @@
   <ng-container [ngSwitch]="fileInfo.fileType">
     <!--图片-->
     <ng-container *ngSwitchCase="'image'">
-      <img [src]="fileInfo.path | avatarConversion" class="image">
+      <div class="image-h">
+        <img [src]="fileInfo.path | avatarConversion" class="image">
+      </div>
     </ng-container>
     <!--文本-->
     <ng-container *ngSwitchCase="'text'">
-      <span>文本附件开发中</span>
+      <div class="text">
+        <code class="code">{{fileText}}</code>
+      </div>
     </ng-container>
     <!--音频-->
     <ng-container *ngSwitchCase="'audio'">
@@ -21,7 +25,7 @@
     </ng-container>
     <!--其他-->
     <ng-container *ngSwitchDefault>
-      <span>其他附件开发中</span>
+      <span>其他附件展示开发中</span>
     </ng-container>
   </ng-container>
   <!--  <span nz-icon nzType="file-image" nzTheme="outline"></span>-->

@@ -6,10 +6,42 @@
   border-radius: 6px;
 
   /*图片*/
-  .image {
-    width: auto;
-    max-width: 100px;
-    max-height: 100px;
+  .image-h {
+    width: 100px;
+    height: 100px;
+
+    .image {
+      width: auto;
+      height: auto;
+      max-width: 100px;
+      max-height: 100px;
+    }
+  }
+
+  /*文本*/
+  .text {
+    max-width: 90%;
+    height: 220px;
+    border-radius: 4px;
+    padding: 10px 0;
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+    background-clip: border-box;
+
+    .code {
+      display: block;
+      overflow: auto;
+      max-height: 200px;
+      padding: 0.5em;
+      border-radius: 4px;
+      font-family: Arial, 'Hiragino Sans GB', 'Microsoft Yahei', 'Microsoft Sans Serif', sans-serif;
+      font-size: 0.875rem;
+      line-height: 1.125rem;
+      text-indent: 0;
+      white-space: pre-wrap;
+      background-color: $--jjext-color-primary;
+      border: 1px solid $--jjext-color-base1;
+    }
   }
 
   /*媒体*/
@@ -27,6 +59,7 @@
 
     audio {
       width: 100%;
+      max-width: 500px;
       height: 30px;
     }
 
