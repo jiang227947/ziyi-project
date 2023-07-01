@@ -76,7 +76,7 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
       this.$message.warning('登录已过期，请重新登录');
       SessionUtil.clearUserLocal();
       // 重定向到登录页面
-      return this.router.parseUrl('/login');
+      return this.router.parseUrl('/home');
     }
   }
 

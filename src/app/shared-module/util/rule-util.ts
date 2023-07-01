@@ -52,6 +52,16 @@ export class RuleUtil {
   }
 
   /**
+   * 邮箱检验规则
+   */
+  static getMailRule(): { pattern: string, msg: string } {
+    return {
+      pattern: '^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\\.[a-zA-Z0-9_-]+)+$',
+      msg: '邮箱地址有误！'
+    };
+  }
+
+  /**
    * 名称检验规则
    * returns {{pattern: string; msg: any}}
    */
@@ -59,16 +69,6 @@ export class RuleUtil {
     return {
       pattern: '^[\\s\\da-zA-Z\u4e00-\u9fa5`\\-=\\[\\]\\\\;\',./~!@#$%^&*\\(\\)_+{}|:"<>?·【】、；\'、‘’，。、！￥……（）——+｛｝：“”《》？]+$',
       msg: '只能输入中文、英文、数字、空格和常用符号！'
-    };
-  }
-
-  /**
-   * 邮箱检验规则
-   */
-  getMailRule(): { pattern: string, msg: string } {
-    return {
-      pattern: '^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\\.[a-zA-Z0-9_-]+)+$',
-      msg: '邮箱地址有误！'
     };
   }
 }

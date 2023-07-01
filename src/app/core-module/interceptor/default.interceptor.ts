@@ -90,7 +90,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       case 401:
         SessionUtil.clearUserLocal();
         this.$message.error('登录已过期！');
-        this.$router.navigate(['/login']);
+        this.$router.navigate(['/home']);
         break;
       case 403:
         break;
@@ -129,7 +129,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       });
     }
     if (!token && !skipIntercept) {
-      this.$router.navigate(['/login']);
+      this.$router.navigate(['/home']);
     }
     /**
      * 请求添加header信息
@@ -182,7 +182,7 @@ export class DefaultInterceptor implements HttpInterceptor {
           case 401:
             SessionUtil.clearUserLocal();
             this.$message.error('登录已过期！');
-            this.$router.navigate(['/login']);
+            this.$router.navigate(['/home']);
             break;
           case 403:
             break;

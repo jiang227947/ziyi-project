@@ -1,0 +1,375 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  background: #ededed;
+}
+
+input,
+button {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+.cont {
+  overflow: hidden;
+  position: relative;
+  max-width: 900px;
+  height: 550px;
+  margin: 0 auto 100px;
+  background: #fff;
+}
+
+.form {
+  position: relative;
+  max-width: 640px;
+  height: 100%;
+  transition: transform 1s ease-in-out;
+  padding: 50px 30px 0;
+}
+
+.sub-cont {
+  overflow: hidden;
+  position: absolute;
+  left: 640px;
+  top: 0;
+  max-width: 900px;
+  height: 100%;
+  padding-left: 260px;
+  background: #fff;
+  transition: transform 1s ease-in-out;
+}
+
+.cont.s--signup .sub-cont {
+  transform: translate3d(-640px, 0, 0);
+}
+
+button {
+  display: block;
+  margin: 0 auto;
+  width: 260px;
+  height: 36px;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.img {
+  overflow: hidden;
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  padding-top: 360px;
+}
+
+.img:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 900px;
+  height: 100%;
+  background-image: url("https://d2g16cura83u2t.cloudfront.net/illustration/premium/original/3928762.png?token=eyJhbGciOiJoczI1NiIsImtpZCI6ImRlZmF1bHQifQ__.eyJpc3MiOiJkMmcxNmN1cmE4M3UydC5jbG91ZGZyb250Lm5ldCIsImV4cCI6MTY4ODQyODgwMCwicSI6bnVsbCwiaWF0IjoxNjg4MjA1NjEzfQ__.3ba61ee37447fbccf11bcb14d5b3e8f6accee7a2bb2450c2db118002c357aede");
+  background-size: cover;
+  transition: transform 1s ease-in-out;
+}
+
+.img:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cont.s--signup .img:before {
+  transform: translate3d(640px, 0, 0);
+}
+
+.img__text {
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+  color: #fff;
+  transition: transform 1s ease-in-out;
+}
+
+.img__text h2 {
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.img__text p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cont.s--signup .img__text.m--up {
+  transform: translateX(520px);
+}
+
+.img__text.m--in {
+  transform: translateX(-520px);
+}
+
+.cont.s--signup .img__text.m--in {
+  transform: translateX(0);
+}
+
+.img__btn {
+  overflow: hidden;
+  z-index: 2;
+  position: relative;
+  width: 100px;
+  height: 36px;
+  margin: 0 auto;
+  background: transparent;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.img__btn:after {
+  content: "";
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #fff;
+  border-radius: 30px;
+}
+
+.img__btn span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 1s;
+}
+
+.img__btn span.m--in {
+  transform: translateY(-72px);
+}
+
+.cont.s--signup .img__btn span.m--in {
+  transform: translateY(0);
+}
+
+.cont.s--signup .img__btn span.m--up {
+  transform: translateY(72px);
+}
+
+h2 {
+  width: 100%;
+  font-size: 26px;
+  text-align: center;
+}
+
+label {
+  display: block;
+  width: 260px;
+  margin: 25px auto 0;
+  text-align: center;
+}
+
+label span {
+  font-size: 14px;
+  color: #cfcfcf;
+  text-transform: uppercase;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.forgot-pass {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 12px;
+  color: #cfcfcf;
+}
+
+.more-sign {
+  text-align: center;
+  position: relative;
+}
+
+.more-sign > ul {
+  margin: 1.5rem 0 0 0;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.more-sign li {
+  cursor: pointer;
+}
+
+.submit {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  background: #6222CC;
+  text-transform: uppercase;
+}
+
+.min {
+  display: none;
+}
+
+@media screen and (min-width: 0px) and (max-width: 768px) {
+  .min-btn {
+    width: 150px;
+  }
+
+  .min {
+    display: block;
+  }
+
+  .img {
+    display: none;
+  }
+
+  .cont {
+    height: 600px;
+  }
+
+  .cont.s--signup .sub-cont {
+    /*left: 0;*/
+    padding-left: 0;
+    /*transform: translate3d(-340px, 0, 0);*/
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 962px) {
+  .min-btn {
+    width: 200px;
+  }
+
+  .min {
+    display: none;
+  }
+
+  .form {
+    width: 440px;
+  }
+
+  .cont {
+  }
+
+  .cont .sub-cont {
+    left: 640px;
+    transform: translate3d(-240px, 0, 0);
+  }
+
+  .cont.s--signup .sub-cont {
+    /*left: 440px;*/
+    /*transform: translate3d(-340px, 0, 0);*/
+  }
+}
+
+@media screen and (min-width: 963px) {
+  .cont.s--signup .sign-in {
+    transform: translate3d(740px, 0, 0) !important;
+  }
+
+  .cont.s--signup .sub-cont {
+    transform: translate3d(-440px, 0, 0) !important;
+  }
+
+  .cont {
+    width: 900px;
+  }
+
+  .sub-cont {
+    width: 800px;
+  }
+}
+
+.fb-btn {
+  border: 2px solid #d3dae9;
+  color: #8fa1c7;
+}
+
+.fb-btn span {
+  font-weight: bold;
+  color: #455a81;
+}
+
+.sign-in {
+  transition-timing-function: ease-out;
+}
+
+.cont.s--signup .sign-in {
+  transition-timing-function: ease-in-out;
+  transition-duration: 1s;
+  transform: translate3d(640px, 0, 0);
+}
+
+.sign-up {
+  transform: translate3d(-900px, 0, 0);
+}
+
+.verification {
+  display: flex;
+}
+
+.send-verification {
+  width: 110px;
+  font-size: 13px;
+  border: 1px solid #6222CC;
+  background-color: #6222CC;
+  border-radius: 0;
+}
+
+.cont.s--signup .sign-up {
+  transform: translate3d(0, 0, 0);
+}
+
+.icon-link {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 32px;
+}
+
+.icon-link img {
+  width: 100%;
+  vertical-align: top;
+}
+
+.icon-link--twitter {
+  left: auto;
+  right: 5px;
+}

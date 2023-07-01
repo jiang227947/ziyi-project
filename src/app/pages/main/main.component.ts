@@ -38,7 +38,7 @@ export class MainComponent implements OnInit {
       this.menuList = SessionUtil.getMenuList();
     } else {
       SessionUtil.clearUserLocal();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -99,7 +99,7 @@ export class MainComponent implements OnInit {
   logout(): void {
     this.$message.success('退出成功', {nzDuration: 1000});
     SessionUtil.clearUserLocal();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
     // const userInfo: User = SessionUtil.getUserInfo();
     // this.loginRequestService.logout(userInfo.id).subscribe((result: Result<any>) => {
     //   if (result.code === 200) {

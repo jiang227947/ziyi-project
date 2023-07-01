@@ -5,13 +5,13 @@ import {Exception404Component} from './pages/exception/404.component';
 
 const routes: Routes = [
   // 默认路由
-  {path: '', pathMatch: 'full', redirectTo: 'login'},
+  {path: '', pathMatch: 'full', redirectTo: ''},
   // {path: '', pathMatch: 'full', redirectTo: 'chat-channels'},
   // home
-  /*{
+  {
     path: '',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
-  },*/
+  },
   // 简历
   {
     path: 'resume',
@@ -34,10 +34,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)
   },
   // 登录
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
-  },
+  // {
+  //   path: 'login',
+  //   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
+  // },
   // 404页面
   {
     path: 'exception', component: Exception404Component,

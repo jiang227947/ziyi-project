@@ -120,6 +120,21 @@
       </nz-form-item>
 
       <nz-form-item>
+        <nz-form-label nzRequired nzFor="email" [nzSm]="8" [nzXs]="24">
+          邮箱
+        </nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" [nzErrorTip]="emailTpl">
+          <input type="text" nz-input formControlName="email" [placeholder]="'邮箱地址'"/>
+          <ng-template #emailTpl let-control>
+            <ng-container *ngIf="control.hasError('email')">
+              <i nz-icon nzType="exclamation-circle" nzTheme="outline"></i>
+              邮箱格式错误
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
         <nz-form-label nzRequired nzFor="name" [nzSm]="8" [nzXs]="24">
           密码
         </nz-form-label>

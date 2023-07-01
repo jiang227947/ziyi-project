@@ -19,15 +19,34 @@ export class LoginRequestService {
   /**
    * 注册接口
    */
-  register(loginInfo: { name: string, password: number }): Observable<Result<void>> {
-    return this.$http.post<Result<void>>(`${environment.API_URL}/register`, loginInfo);
+  register(loginInfo: { name: string, userName: string, password: string, email: string, code: number }): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/register`, loginInfo, {
+      headers: {
+        skip: 'true'
+      }
+    });
+  }
+
+  /**
+   * 发送邮件验证码
+   */
+  sendEmail(email: string): Observable<Result<void>> {
+    return this.$http.post<Result<void>>(`${environment.API_URL}/sendEmail`, {email}, {
+      headers: {
+        skip: 'true'
+      }
+    });
   }
 
   /**
    * 登录接口
    */
-  login(loginInfo: { name: string, password: number }): Observable<Result<User>> {
-    return this.$http.post<Result<User>>(`${environment.API_URL}/login`, loginInfo);
+  login(loginInfo: { name: string, password: string }): Observable<Result<User>> {
+    return this.$http.post<Result<User>>(`${environment.API_URL}/login`, loginInfo, {
+      headers: {
+        skip: 'true'
+      }
+    });
   }
 
   /**
@@ -37,6 +56,9 @@ export class LoginRequestService {
     return this.$http.get<Result<string>>(`${environment.API_URL}/gitUuidState`, {
       params: {
         random
+      },
+      headers: {
+        skip: 'true'
       }
     });
   }

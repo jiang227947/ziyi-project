@@ -74,7 +74,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (!SessionUtil.getTokenOut()) {
       SessionUtil.clearUserLocal();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
     } else {
       if (window.history.length === 1) {
         this.router.navigate(['/main/index']);
@@ -137,6 +137,8 @@ export class AuthComponent implements OnInit, AfterViewInit {
       registerName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(12), Validators.pattern('^[A-Za-z0-9-_.]+$')]],
       // 昵称
       userName: ['', [Validators.required, Validators.maxLength(12)]],
+      // email
+      email: ['', [Validators.required, Validators.email]],
       // 密码
       registerPassword: ['', [Validators.required, Validators.minLength(3)]],
       // 密码
@@ -200,7 +202,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
         role: UserRoleEnum.general,
         roleName: '普通用户',
       };
-      this.loginRequestService.register(registerInfo).subscribe((registerResult: Result<void>) => {
+      /*this.loginRequestService.register(registerInfo).subscribe((registerResult: Result<void>) => {
         if (registerResult.code === 200) {
           setTimeout(() => {
             const loginInfo = {
@@ -223,7 +225,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
         this.registerLoading = false;
       }, () => {
         this.registerLoading = false;
-      });
+      });*/
     } else {
       this.registerLoading = false;
     }
@@ -407,6 +409,10 @@ export class AuthComponent implements OnInit, AfterViewInit {
 
   get userName(): AbstractControl {
     return this.registerForm.controls.userName;
+  }
+
+  get email(): AbstractControl {
+    return this.registerForm.controls.email;
   }
 
   get registerPassword(): AbstractControl {

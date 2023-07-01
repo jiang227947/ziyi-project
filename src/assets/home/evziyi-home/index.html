@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EVZIYI</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon">
+  <!-- Google Web Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Jost:wght@500;600;700&display=swap"
+        rel="stylesheet">
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <!-- Libraries Stylesheet -->
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Template Stylesheet -->
+  <link href="css/style.css" rel="stylesheet">
+  <!-- Template Stylesheet -->
+  <link href="scss/form.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-xxl bg-white p-0 content">
+  <!-- Spinner Start -->
+  <div id="spinner"
+       class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <!-- Spinner End -->
+
+  <!-- Navbar & Hero Start -->
+  <div class="container-xxl position-relative p-0">
+    <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+      <a href="" class="navbar-brand p-0">
+        <h1 class="m-0">EVZIYI</h1>
+        <!-- <img src="img/logo.png" alt="Logo"> -->
+      </a>
+      <button class="navbar-toggler min-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav mx-auto py-0">
+          <a href="javascript:;" class="nav-item nav-link active">Home</a>
+          <!--<a href="service.html" class="nav-item nav-link">Service</a>-->
+          <a href="https://www.evziyi.top/resume" class="nav-item nav-link">关于</a>
+          <!--<a href="project.html" class="nav-item nav-link">Project</a>
+          <div class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+              <div class="dropdown-menu m-0">
+                  <a href="team.html" class="dropdown-item">Our Team</a>
+                  <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                  <a href="404.html" class="dropdown-item">404 Page</a>
+              </div>
+          </div>-->
+          <a href="javascript:;" class="nav-item nav-link contact">联系</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-xxl bg-primary hero-header">
+      <div class="container px-lg-5">
+        <div class="row g-5 align-items-end">
+          <div class="col-lg-8 text-center text-lg-start">
+            <h1 class="text-white mb-4 animated slideInDown">仿Discrod聊天平台</h1>
+            <p class="text-white pb-3 animated slideInDown">
+              模仿国外的Discrod社交平台做的简易版，前端使用Angular，后端使用Node，通信使用Socket.IO，功能还在迭代中</p>
+            <a href="javascript:;"
+               class="signIn btn btn-secondary py-sm-3 px-sm-5 rounded-pill me-3 animated slideInLeft min-btn">注册</a>
+            <a href="javascript:;" class="login btn btn-light py-sm-3 px-sm-5 rounded-pill animated slideInRight min-btn">登录</a>
+          </div>
+          <div class="col-lg-4 text-center text-lg-start">
+            <img class="img-fluid animated zoomIn" src="img/2231685.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Navbar & Hero End -->
+
+  <!-- Feature Start -->
+  <div class="container-xxl py-5">
+    <div class="container py-5 px-lg-5">
+      <div class="row g-4">
+        <div class="col-lg-12">
+          <div class="cont">
+            <div class="form sign-in">
+              <h2>欢迎回来,</h2>
+              <label>
+                <span>用户名</span>
+                <input type="text" name="name" placeholder="Name"/>
+              </label>
+              <label>
+                <span>密码</span>
+                <input type="password" name="password" placeholder="Password"/>
+              </label>
+              <!--<p class="forgot-pass">忘记密码？</p>-->
+              <button type="button" class="submit submit-sign-in">登录</button>
+              <button type="button" class="submit min">注册</button>
+              <!--第三方登录-->
+              <!--<div class="more-sign">
+                <ul>
+                  &lt;!&ndash;Github登录&ndash;&gt;
+                  <li class="github" title="Github登录">
+                    Github
+                  </li>
+                  &lt;!&ndash;QQ登录&ndash;&gt;
+                  <li class="qq" title="QQ登录">
+                    QQ
+                  </li>
+                </ul>
+              </div>-->
+            </div>
+            <div class="sub-cont">
+              <div class="img">
+                <div class="img__text m--up">
+                  <!--                <h2>New here?</h2>-->
+                  <!--                <p>Sign up and discover great amount of new opportunities!</p>-->
+                </div>
+                <div class="img__text m--in">
+                  <!--                <h2>One of us?</h2>-->
+                  <!--                <p>If you already has an account, just sign in. We've missed you!</p>-->
+                </div>
+                <div class="img__btn">
+                  <span class="m--up">注册</span>
+                  <span class="m--in">登录</span>
+                </div>
+              </div>
+              <div class="form sign-up">
+                <h2>欢迎注册，</h2>
+                <form id="signUp" name="signUp">
+                  <label>
+                    <span>用户名</span>
+                    <input type="text" name="signupName" value="" placeholder="Name" maxlength="24"/>
+                  </label>
+                  <label>
+                    <span>邮箱</span>
+                    <input type="email" name="signupEmail" value="" placeholder="Email"/>
+                  </label>
+                  <label>
+                    <span>密码</span>
+                    <input type="password" name="signupPassword" value="" placeholder="Password" maxlength="24"/>
+                  </label>
+                  <label>
+                    <span>邮箱验证码</span>
+                    <div class="verification">
+                      <input type="text" name="signupCode" value="" placeholder="Verification code" class="signupCode"/>
+                      <button type="button" class="send-verification">发送验证码</button>
+                    </div>
+                  </label>
+                  <button type="button" class="submit submit-sign-up">注册</button>
+                  <button type="button" class="submit min">登录</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Feature End -->
+
+  <!-- Facts Start -->
+  <!--<div class="container-xxl bg-primary fact py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container py-5 px-lg-5">
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
+          <i class="fa fa-certificate fa-3x text-secondary mb-3"></i>
+          <h1 class="text-white mb-2" data-toggle="counter-up">1234</h1>
+          <p class="text-white mb-0">Years Experience</p>
+        </div>
+        <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+          <i class="fa fa-users-cog fa-3x text-secondary mb-3"></i>
+          <h1 class="text-white mb-2" data-toggle="counter-up">1234</h1>
+          <p class="text-white mb-0">Team Members</p>
+        </div>
+        <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.5s">
+          <i class="fa fa-users fa-3x text-secondary mb-3"></i>
+          <h1 class="text-white mb-2" data-toggle="counter-up">1234</h1>
+          <p class="text-white mb-0">Satisfied Clients</p>
+        </div>
+        <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
+          <i class="fa fa-check fa-3x text-secondary mb-3"></i>
+          <h1 class="text-white mb-2" data-toggle="counter-up">1234</h1>
+          <p class="text-white mb-0">Compleate Projects</p>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  <!-- Facts End -->
+
+  <!-- Footer Start -->
+  <div class="container-fluid bg-primary text-light footer wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5 px-lg-5">
+      <div class="row g-24">
+        <div class="col-md-12 col-lg-6">
+          <p class="section-title text-white h5 mb-4">联系<span></span></p>
+          <p><i class="fa fa-map-marker-alt me-3"></i>中国/湖北/武汉</p>
+          <p><i class="fa fa-envelope me-3"></i>jzy19981211@gmail.com</p>
+          <!--<div class="d-flex pt-2">
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+          </div>-->
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <p class="section-title text-white h5 mb-4">其他链接<span></span></p>
+          <a class="btn btn-link" href="https://github.com/jiang227947" target="_blank">GitHub</a>
+          <a class="btn btn-link" href="https://blog.csdn.net/weixin_43658453?type=blog" target="_blank">CSDN</a>
+          <a class="btn btn-link" href="https://juejin.cn/user/4099452084696839?utm_source=gold_browser_extension"
+             target="_blank">掘金社区</a>
+        </div>
+      </div>
+    </div>
+    <div class="container px-lg-24">
+      <div class="copyright">
+        <div class="row">
+          <div class="col-md-12 text-center mb-24 mb-md-0">
+            &copy; Copyright ©2022-2023 ICP备案
+            <a href="https://beian.miit.gov.cn" target="_blank">鄂ICP备2022017495号-1 </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="lib/wow/wow.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>
