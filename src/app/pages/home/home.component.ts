@@ -1,20 +1,20 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {LoginRequestService} from '../../core-module/api-service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Result} from '../../shared-module/interface/result';
-import {RuleUtil} from '../../shared-module/util/rule-util';
 import {User} from '../../shared-module/interface/user';
 import {SessionUtil} from '../../shared-module/util/session-util';
 import {format} from 'date-fns';
-import {Oauth2Enum, UserRoleEnum} from '../../shared-module/enum/user.enum';
+import {Oauth2Enum} from '../../shared-module/enum/user.enum';
 import {decipher} from '../../shared-module/util/encipher';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [LoginRequestService]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
@@ -186,6 +186,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           reject(null);
         }
       }, () => {
+        this.iframe.nativeElement.contentWindow.postMessage('login', '*');
         reject(null);
       });
     });

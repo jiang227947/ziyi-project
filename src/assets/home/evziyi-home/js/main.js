@@ -133,9 +133,6 @@
     window.parent.postMessage(JSON.stringify(formData), '*');
   });
 
-  document.querySelector('.img__btn').addEventListener('click', function () {
-    document.querySelector('.cont').classList.toggle('s--signup');
-  });
   window.addEventListener('message', (event) => {
     if (event.data === 'email') {
       verification.innerHTML = '发送验证码';
