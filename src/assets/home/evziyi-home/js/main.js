@@ -38,9 +38,17 @@
     return false;
   });
   // 小屏幕注册滚动
-  $('.min').click(function () {
+  $('.min-sign-in').click(function () {
     // 自动切换表单
     if (s_signup.length === 0) {
+      document.querySelector('.cont').classList.toggle('s--signup');
+    }
+    return false;
+  });
+  // 小屏幕登录滚动
+  $('.min-sign-up').click(function () {
+    // 自动切换表单
+    if (s_signup.length !== 0) {
       document.querySelector('.cont').classList.toggle('s--signup');
     }
     return false;
