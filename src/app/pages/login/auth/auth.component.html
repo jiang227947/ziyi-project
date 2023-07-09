@@ -1,6 +1,7 @@
+<!--
 <div #active class="container" [ngClass]="{'right-panel-active':signStats === 'signUp'}">
-  <!--登录-->
-  <div class="container__form container--signup">
+  &lt;!&ndash;登录&ndash;&gt;
+  <div class="container__form container&#45;&#45;signup">
     <form nz-form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" role="form" class="form">
       <h2 class="form__title">{{title}}</h2>
       <nz-form-item>
@@ -35,7 +36,7 @@
           </ng-template>
         </nz-form-control>
       </nz-form-item>
-      <!--  <a class="test-user" (click)="testUser()">使用测试账户</a>-->
+      &lt;!&ndash;  <a class="test-user" (click)="testUser()">使用测试账户</a>&ndash;&gt;
       <nz-form-item>
         <div class="optiona">
           <label nz-checkbox formControlName="remember">记住用户名</label>
@@ -48,17 +49,17 @@
         </button>
       </nz-form-item>
 
-      <!--第三方登录-->
+      &lt;!&ndash;第三方登录&ndash;&gt;
       <div class="more-sign">
         <span class="oauth2">第三方登录</span>
         <ul>
-          <!--Github登录-->
+          &lt;!&ndash;Github登录&ndash;&gt;
           <li class="github" title="Github登录" (click)="oauthLogin(oauth2Enum.github)">
             <svg class="aliicon" aria-hidden="true">
               <use xlink:href="#icon-github-login"></use>
             </svg>
           </li>
-          <!--QQ登录-->
+          &lt;!&ndash;QQ登录&ndash;&gt;
           <li class="qq" title="QQ登录" (click)="oauthLogin(oauth2Enum.qq)">
             <svg class="aliicon" aria-hidden="true">
               <use xlink:href="#icon-QQ"></use>
@@ -68,8 +69,8 @@
       </div>
     </form>
   </div>
-  <!--注册-->
-  <div class="container__form container--signin">
+  &lt;!&ndash;注册&ndash;&gt;
+  <div class="container__form container&#45;&#45;signin">
     <form nz-form [formGroup]="registerForm" (ngSubmit)="registerSubmit()" role="form" class="form"
           *ngIf="!registerSuccess">
       <h2 class="form__title">{{title}}</h2>
@@ -194,14 +195,14 @@
     </nz-result>
   </div>
 
-  <!-- 切换 -->
+  &lt;!&ndash; 切换 &ndash;&gt;
   <div class="container__overlay">
     <div class="overlay">
-      <div class="overlay__panel overlay--left">
+      <div class="overlay__panel overlay&#45;&#45;left">
         <button class="btn" (click)="signChange('signIn')">注册</button>
         <button class="btn resume" (click)="signChange('resume')">简历</button>
       </div>
-      <div class="overlay__panel overlay--right">
+      <div class="overlay__panel overlay&#45;&#45;right">
         <button class="btn" (click)="signChange('signUp')">登录</button>
         <button class="btn resume" (click)="signChange('resume')">简历</button>
       </div>
@@ -209,7 +210,7 @@
   </div>
 </div>
 
-<!--留言图标-->
+&lt;!&ndash;留言图标&ndash;&gt;
 <div class="leave-message" title="留言" (click)="showLeaveMessageModal()">
   <svg class="aliicon" [ngClass]="{'show-leave-message':showLeaveMessage}" aria-hidden="true">
     <use xlink:href="#icon-liuyan"></use>
@@ -217,9 +218,9 @@
   <i nz-icon nzType="close" nzTheme="outline" class="close" [ngClass]="{'hidden-leave-message':!showLeaveMessage}"></i>
 </div>
 
-<!--留言盒子-->
+&lt;!&ndash;留言盒子&ndash;&gt;
 <div #leaveMessageBox class="leave-message-box">
-  <!--历史留言-->
+  &lt;!&ndash;历史留言&ndash;&gt;
   <div #messageContent class="message">
     <nz-spin [nzSpinning]="leaveMessageLoading">
       <div *ngFor="let msg of messageList;" class="message-box">
@@ -231,13 +232,13 @@
       </div>
     </nz-spin>
   </div>
-  <!--输入框-->
+  &lt;!&ndash;输入框&ndash;&gt;
   <div nz-row nzAlign="middle" class="message-send">
     <div nz-col nzXs="6" class="user-name">
       <span class="user">
         <i nz-icon nzType="user" nzTheme="outline"></i>
       </span>
-      <!--用户昵称-->
+      &lt;!&ndash;用户昵称&ndash;&gt;
       <nz-input-group [nzSuffix]="suffixIcon" class="input">
         <input type="text" maxlength="5" nz-input placeholder="昵称" [(ngModel)]="leaveMessage.name"/>
       </nz-input-group>
@@ -245,12 +246,12 @@
         <i nz-icon nzType="edit" nzTheme="outline"></i>
       </ng-template>
     </div>
-    <!--输入框-->
+    &lt;!&ndash;输入框&ndash;&gt;
     <div nz-col nzXs="18">
       <textarea rows="4" nz-input type="text" maxlength="200" placeholder="请输入留言..." nzBorderless
                 [(ngModel)]="leaveMessage.message"></textarea>
     </div>
-    <!--发送按钮-->
+    &lt;!&ndash;发送按钮&ndash;&gt;
     <div class="send" *ngIf="leaveMessage.message !== ''">
       <button nz-button nzType="primary" (click)="addLeaveMessage()">
         <i nz-icon nzType="send" nzTheme="outline"></i>
@@ -258,8 +259,9 @@
     </div>
   </div>
 </div>
-<!--ICP备案信息-->
+&lt;!&ndash;ICP备案信息&ndash;&gt;
 <div class="IPC">
   Copyright ©2022-2023 ICP备案
   <a href="https://beian.miit.gov.cn" target="_blank">鄂ICP备2022017495号-1 </a>
 </div>
+-->

@@ -80,7 +80,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/main/index']);
       }
     }
-    this.buildForm();
+    // this.buildForm();
   }
 
   ngAfterViewInit(): void {
@@ -96,6 +96,8 @@ export class AuthComponent implements OnInit, AfterViewInit {
           if (oauthParam.login_type === 'qq_oauth') {
             // 读取请求之前的uuidState
             this.uuidState = localStorage.getItem('UuidState');
+            console.log('oauthParam.state', oauthParam.state);
+            console.log('this.uuidState', this.uuidState);
             // 判断参数是否一致
             if (this.uuidState && this.uuidState === oauthParam.state) {
               // 删除参数

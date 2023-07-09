@@ -34,10 +34,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)
   },
   // 登录
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
-  // },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
+  },
   // 404页面
   {
     path: 'exception', component: Exception404Component,
