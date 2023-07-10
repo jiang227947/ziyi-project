@@ -52,6 +52,8 @@ export interface ChatChannelRoomUserInterface {
   roleName: string;
   // 在线状态
   status: number;
+  // 最后登录时间
+  lastOnline: number;
 }
 
 /**

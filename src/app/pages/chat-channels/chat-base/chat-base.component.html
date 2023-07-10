@@ -195,7 +195,7 @@
                       <div class="markupMessage" (click)="publicClose()">
                         <!--附件消息-->
                         <app-chat-attachments *ngIf="item.attachments"
-                          [attachments]="item.attachments"></app-chat-attachments>
+                                              [attachments]="item.attachments"></app-chat-attachments>
                         <!--文字消息-->
                         <span *ngIf="!item.attachments">{{item.content}}</span>
                       </div>
@@ -371,5 +371,6 @@
 
 <!--用户信息弹框-->
 <ng-template #popoverContentTemplate>
-  <app-user-infobox [userId]="selectUserId"></app-user-infobox>
+  <app-user-infobox [userId]="selectUserId"
+                    (privateMessageEvent)="privateMessage($event)"></app-user-infobox>
 </ng-template>

@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {NzContextMenuService} from 'ng-zorro-antd/dropdown';
 import {ChatChannelRoomUserInterface, ChatOperateInterface} from '../../../shared-module/interface/chat-channels';
 import {Title} from '@angular/platform-browser';
-import {NzUploadChangeParam} from 'ng-zorro-antd/upload';
 import {FileTypeEnum} from '../../../shared-module/enum/file.enum';
 
 /**
@@ -137,6 +136,8 @@ export class ChatBaseOperateService {
         allUser[i].status = 0;
       }
     }
+    // 排序，在线用户置顶
+    allUser = allUser.sort((a, b) => b.status - a.status);
     return allUser;
   }
 

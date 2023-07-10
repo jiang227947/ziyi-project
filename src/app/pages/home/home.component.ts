@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           signupPassword?: string,
           signupCode?: number
         } = JSON.parse(event.data);
-        console.log(formData);
+        // console.log(formData);
         switch (formData.type) {
           // 提醒
           case 'msg':
@@ -84,7 +84,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
               code: formData.signupCode
             };
             this.loginRequestService.register(registerInfo).subscribe((registerResult: Result<void>) => {
-              this.iframe.nativeElement.contentWindow.postMessage('signIn', '*');
               if (registerResult.code === 200) {
                 setTimeout(() => {
                   const login = {
@@ -100,9 +99,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
                   });
                 }, 2000);
               } else {
+                this.iframe.nativeElement.contentWindow.postMessage('signIn', '*');
                 this.$message.error(registerResult.msg);
               }
             }, () => {
+              this.iframe.nativeElement.contentWindow.postMessage('signIn', '*');
             });
             break;
           // 登录
@@ -125,7 +126,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             }).catch(() => {
               this.iframe.nativeElement.contentWindow.postMessage('login', '*');
             });
-            console.log('登录');
             break;
           // github
           case Oauth2Enum.github:

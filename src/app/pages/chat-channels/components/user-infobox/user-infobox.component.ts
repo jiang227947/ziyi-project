@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from '../../../../shared-module/interface/user';
 import {LoginRequestService} from '../../../../core-module/api-service/login';
 import {Result} from '../../../../shared-module/interface/result';
+import {ChatChannelRoomUserInterface} from '../../../../shared-module/interface/chat-channels';
 
 @Component({
   selector: 'app-user-infobox',
@@ -13,6 +14,8 @@ export class UserInfoboxComponent implements OnInit {
 
   // 用户ID
   @Input() userId: number;
+  // 私聊的回调
+  @Output() privateMessageEvent = new EventEmitter<number>();
   // 用户信息
   userInfo: User = null;
   // loading
@@ -31,4 +34,10 @@ export class UserInfoboxComponent implements OnInit {
     });
   }
 
+  /**
+   * 私聊回调
+   */
+  privateMessageCallBack(): void {
+    this.privateMessageEvent.emit(this.userInfo.id);
+  }
 }

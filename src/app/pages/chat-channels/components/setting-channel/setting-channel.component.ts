@@ -8,6 +8,7 @@ import {ChatRequestService} from '../../../../core-module/api-service';
 import {FileTypeEnum} from '../../../../shared-module/enum/file.enum';
 import {IndexApiService} from '../../../main/index/service/indexApiService';
 import {HttpErrorResponse} from '@angular/common/http';
+import {CommonUtil} from '../../../../shared-module/util/commonUtil';
 
 @Component({
   selector: 'app-setting-channel',
@@ -26,6 +27,8 @@ export class SettingChannelComponent implements OnInit {
   @Input() user: User;
   // 关闭弹窗的回调
   @Output() visibleEvent = new EventEmitter<boolean>();
+  // 用户信息拷贝
+  userInfo: User;
   // 是否可删除
   isDelete: boolean = false;
   // 标题
@@ -34,6 +37,10 @@ export class SettingChannelComponent implements OnInit {
   fileTypeEnum = FileTypeEnum;
   // 修改loading
   loading: boolean = false;
+  // 昵称
+  userNameError: boolean = false;
+  // 邮箱格式校验
+  emailError: boolean = false;
 
   constructor(private modal: NzModalService,
               private $message: NzMessageService,
@@ -42,8 +49,10 @@ export class SettingChannelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // 深拷贝
+    this.userInfo = CommonUtil.deepClone(this.user);
     if (this.settingType === 'channel') {
-      this.isDelete = this.user.id === this.channel.admins[0];
+      this.isDelete = this.userInfo.id === this.channel.admins[0];
     }
     this.nzTitle = this.settingType === 'channel' ? '频道设置' : '我的设置';
   }
@@ -82,6 +91,27 @@ export class SettingChannelComponent implements OnInit {
   }
 
   /**
+   * 校验填写
+   * @param txt 内容
+   * @param type 类型
+   */
+  txtChange(txt: string, type: string): void {
+    switch (type) {
+      case 'name':
+        this.userNameError = !txt;
+        break;
+      case 'email':
+        if (txt) {
+          const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+          this.emailError = !regEmail.test(txt);
+        } else {
+          this.emailError = false;
+        }
+        break;
+    }
+  }
+
+  /**
    * 一键复制
    */
   copy(value: string): void {
@@ -107,11 +137,15 @@ export class SettingChannelComponent implements OnInit {
    * 修改信息
    */
   updateUser(): void {
+    if (this.emailError || this.userNameError) {
+      return;
+    }
     const info = {
-      id: this.user.id,
-      userName: this.user.userName,
-      avatar: this.user.avatar,
-      remarks: this.user.remarks
+      id: this.userInfo.id,
+      userName: this.userInfo.userName,
+      email: this.userInfo.email,
+      avatar: this.userInfo.avatar,
+      remarks: this.userInfo.remarks
     };
     this.loading = true;
     this.$indexApiService.updateUser(info).subscribe((result: Result<void>) => {
@@ -119,7 +153,7 @@ export class SettingChannelComponent implements OnInit {
       if (result.code === 200) {
         this.$message.success(result.msg);
         // 重新保存信息
-        localStorage.setItem('user_info', JSON.stringify(this.user));
+        localStorage.setItem('user_info', JSON.stringify(this.userInfo));
       } else {
         this.$message.error(result.msg);
       }
@@ -135,9 +169,9 @@ export class SettingChannelComponent implements OnInit {
   uploadCallback(result: any): void {
     // 上传成功赋值路径
     if (result.status === 1) {
-      this.user.avatar = result.result;
+      this.userInfo.avatar = result.result;
       // 重新保存信息
-      localStorage.setItem('user_info', JSON.stringify(this.user));
+      localStorage.setItem('user_info', JSON.stringify(this.userInfo));
     }
   }
 }

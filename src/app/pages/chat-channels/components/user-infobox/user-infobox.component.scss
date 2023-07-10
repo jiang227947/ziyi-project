@@ -77,6 +77,18 @@
         background-color: $--jjext-color-base1;
       }
     }
+
+    /*私聊*/
+    .privateMessage {
+      margin-top: 8px;
+      text-align: center;
+
+      button {
+        width: 150px;
+        background-color: $--additive-border;
+        border-color: $--additive-border;
+      }
+    }
   }
 }
 

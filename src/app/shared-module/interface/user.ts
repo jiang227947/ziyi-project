@@ -5,6 +5,7 @@ export interface User {
   id: number; // id
   name: string;    // 登录名
   userName: string;    // 用户名
+  email: string;    // 邮箱
   password: string; // 密码
   avatar: string;    // 头像路径
   remarks: string;    // 备注

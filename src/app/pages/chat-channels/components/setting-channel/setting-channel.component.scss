@@ -23,6 +23,15 @@
     margin-bottom: 10px;
   }
 
+  .successTitle {
+    display: none;
+  }
+
+  .errorTitle {
+    display: inline;
+    color: $--gold;
+  }
+
   .update-btn {
     width: 200px;
     margin-top: 14px;

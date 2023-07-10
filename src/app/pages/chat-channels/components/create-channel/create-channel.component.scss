@@ -69,6 +69,11 @@
     width: 300px;
     background-color: $--text-muted;
     border-color: $--text-muted;
+
+    &:hover {
+      background-color: $--additive-border;
+      border-color: $--additive-border;
+    }
   }
 }
 

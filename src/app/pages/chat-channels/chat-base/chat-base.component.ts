@@ -542,16 +542,20 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     if (message.type === this.chatMessagesType.system) {
       return message;
     }
-    // 时间戳差值
-    const days = CommonUtil.getTimeDiff(this.messagesList[this.messagesList.length - 1].timestamp);
-    // 如果上一条消息的用户为当前这个人则为连续发言
-    if (this.messagesList.length > 0
-      && this.messagesList[this.messagesList.length - 1].author
-      && author.id === this.messagesList[this.messagesList.length - 1].author.id
-      && days === 0) {
-      message.type = this.chatMessagesType.continuous;
+    if (this.messagesList.length > 0) {
+      // 时间戳差值
+      const days = CommonUtil.getTimeDiff(this.messagesList[this.messagesList.length - 1].timestamp);
+      // 如果上一条消息的用户为当前这个人则为连续发言
+      if (this.messagesList[this.messagesList.length - 1].author
+        && author.id === this.messagesList[this.messagesList.length - 1].author.id
+        && days === 0) {
+        message.type = this.chatMessagesType.continuous;
+      } else {
+        // 否则为普通发言
+        message.type = this.chatMessagesType.general;
+      }
     } else {
-      // 否则为普通发言
+      // 第一条消息为普通发言
       message.type = this.chatMessagesType.general;
     }
     return message;
@@ -566,6 +570,14 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     this.textValue = `${this.textValue}@${info.userName}`;
     this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}@${info.userName}`;
     // console.log(this.message);
+  }
+
+  /**
+   * 私聊
+   * @param id 私聊用户ID
+   */
+  privateMessage(id: number): void {
+    console.log(id);
   }
 
   /**
