@@ -465,7 +465,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     this.socket.emit(ChatChannelsMessageTypeEnum.publicMessage, message, (response) => {
       if (response.status === ChatChannelsCallbackEnum.ok) {
         message.states = ChatChannelsMessageStatesEnum.success;
-        console.log(message);
+        // console.log(message);
         this.messagesList.push(message);
         this.scrollToBottom(this.scrollerBaseTemp);
       } else {

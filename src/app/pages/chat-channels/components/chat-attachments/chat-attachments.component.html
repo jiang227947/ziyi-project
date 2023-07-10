@@ -4,7 +4,10 @@
     <!--图片-->
     <ng-container *ngSwitchCase="'image'">
       <div class="image-h">
-        <img [src]="fileInfo.path | avatarConversion" class="image">
+        <nz-image-group>
+          <img nz-image class="image" [nzSrc]="fileInfo.path | avatarConversion" alt=""/>
+        </nz-image-group>
+        <!--        <img [src]="fileInfo.path | avatarConversion" (click)="imgPreview(fileInfo.path)">-->
       </div>
     </ng-container>
     <!--文本-->

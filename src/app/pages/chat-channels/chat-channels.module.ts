@@ -10,6 +10,7 @@ import {NzMentionModule} from 'ng-zorro-antd/mention';
 import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzPopoverModule} from 'ng-zorro-antd/popover';
+import {NzImageModule} from 'ng-zorro-antd/image';
 /*service*/
 import {ChatRequestService} from '../../core-module/api-service/chat';
 import {ChatBaseOperateService} from './config/chat-base-operate.service';
@@ -45,7 +46,8 @@ const NZMODULE = [
   NzSkeletonModule,
   NzMentionModule,
   NzSwitchModule,
-  NzPopoverModule
+  NzPopoverModule,
+  NzImageModule
 ];
 
 @NgModule({

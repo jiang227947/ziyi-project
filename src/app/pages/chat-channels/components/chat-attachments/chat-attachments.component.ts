@@ -3,7 +3,6 @@ import {ChatAttachmentsInterface} from '../../../../shared-module/interface/chat
 import {
   IMAGE_TYPE_CONST,
   MEDIA_TYPE_CONST,
-  OFFICE_TYPE_CONST, OTHER_TYPE_CONST,
   TEXT_TYPE_CONST
 } from '../../../../shared-module/const/commou.const';
 import {ChatRequestService} from '../../../../core-module/api-service/chat';
@@ -16,7 +15,7 @@ import {ChatRequestService} from '../../../../core-module/api-service/chat';
 export class ChatAttachmentsComponent implements OnInit {
 
   // 附件信息
-  @Input() attachments: string;
+  @Input() attachments: string | ChatAttachmentsInterface;
   // 附件信息
   fileInfo: ChatAttachmentsInterface = null;
   // 文本数据
@@ -27,11 +26,17 @@ export class ChatAttachmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // 转换对象
-    const attachments: ChatAttachmentsInterface = JSON.parse(this.attachments);
-    // 赋值
-    this.fileInfo = attachments;
-    this.fileInfo.fileType = this.find(attachments.type);
+    if (typeof this.attachments === 'string') {
+      // 转换对象
+      const attachments: ChatAttachmentsInterface = JSON.parse(this.attachments);
+      // 赋值
+      this.fileInfo = attachments;
+      this.fileInfo.fileType = this.find(attachments.type);
+    } else {
+      // 赋值
+      this.fileInfo = this.attachments;
+      this.fileInfo.fileType = this.find(this.attachments.type);
+    }
   }
 
   /**
