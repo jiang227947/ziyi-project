@@ -44,6 +44,8 @@ export interface ChatChannelRoomUserInterface {
   avatar: string;
   // 颜色
   color: string;
+  // 邮箱
+  email: string;
   // 备注
   remarks: string;
   // 角色
@@ -95,9 +97,9 @@ export interface ChatMessagesInterface {
   // 提及的人名称信息
   mentions: ChatChannelRoomUserInterface;
   // 留言参考
-  message_reference: any[];
+  message_reference: ChatSendAuthorInterface;
   // 参考消息
-  referenced_message: any[];
+  referenced_message: any;
   // 固定
   pinned: boolean;
   // 时间
@@ -205,7 +207,7 @@ export class ChatMessagesModal {
   mentions: ChatChannelRoomUserInterface;
   // 留言参考
   message_reference: any[];
-  // 参考消息
+  // 引用消息
   referenced_message: any[];
   // 固定
   pinned: boolean;

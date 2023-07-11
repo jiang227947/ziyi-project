@@ -16,6 +16,8 @@ export class ChatSidebarComponent implements OnInit {
 
   // 当前选择的频道
   @Input() selectActiveChannel: string;
+  // 频道折叠
+  @Input() channelsUnfold: boolean = false;
   // 当前选择的频道
   @Output() selectActiveChannelEmit = new EventEmitter<string>();
   // 创建频道模板显示变量

@@ -56,7 +56,7 @@
         </p>
         <p class="content-title">邮箱</p>
         <p class="content-p">
-          <input nz-input type="email" placeholder="邮箱"
+          <input nz-input type="email" disabled="{{userInfo.email===''}}" placeholder="邮箱"
                  (ngModelChange)="txtChange($event, 'email')"
                  [(ngModel)]="userInfo.email"/>
           <span class="successTitle" [ngClass]="{'errorTitle':emailError}">邮箱格式错误!</span>

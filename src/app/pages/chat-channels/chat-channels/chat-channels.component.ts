@@ -13,6 +13,8 @@ export class ChatChannelsComponent implements OnInit, OnDestroy {
   selectActiveChannel: string = '8808';
   // socket
   socket: Socket;
+  // 频道折叠
+  channelsUnfold: boolean = false;
 
   constructor(private $socketIoService: SocketIoService) {
     this.$socketIoService.connect();
@@ -35,6 +37,14 @@ export class ChatChannelsComponent implements OnInit, OnDestroy {
       this.$socketIoService.connect(isActiveChannel);
       this.socket = this.$socketIoService.socketIo;
     }
+  }
+
+  /**
+   * 频道折叠
+   * @param unfold 入参
+   */
+  channelUnfold(unfold: boolean): void {
+    this.channelsUnfold = unfold;
   }
 
   /**

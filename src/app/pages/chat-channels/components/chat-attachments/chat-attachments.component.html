@@ -20,7 +20,7 @@
     <ng-container *ngSwitchCase="'audio'">
       <div class="audio">
         <p class="audio-name">{{fileInfo.name}}</p>
-        <audio controls>
+        <audio controls preload="none" [volume]="0.8">
           <source [src]="fileInfo.path | avatarConversion" [type]="fileInfo.type">
           您的浏览器不支持 audio 元素。
         </audio>

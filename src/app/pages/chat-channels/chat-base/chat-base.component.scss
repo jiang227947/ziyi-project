@@ -8,6 +8,7 @@
   right: 0;
   top: 0;
   bottom: 0;
+  transition: all 0.2s;
 
   .sidebar {
     flex-direction: column;
@@ -235,6 +236,11 @@
         box-shadow: 0 1px 3px 0 $--jjext-color-base0;
         z-index: 1;
 
+        .unfold {
+          color: #fff3cd;
+          flex: 0.2 0;
+        }
+
         .info-txt {
           flex: 0.8 0;
           min-width: 150px;
@@ -394,6 +400,24 @@
       z-index: 0;
       display: flex;
 
+      /*置底按钮*/
+      .toBottoms {
+        position: fixed;
+        bottom: 75px;
+        left: 0;
+        right: 0;
+        text-align: center;
+
+        .toBottomsTitle {
+          color: $--header-primary;
+          cursor: pointer;
+          padding: 5px;
+          border-radius: 6px;
+          background-color: $--jjext-color-base;
+        }
+      }
+
+      /*虚拟滚动*/
       .scrollerBase {
         overflow-y: scroll;
         overflow-x: hidden;
@@ -442,6 +466,7 @@
               transition: background-color 0.15s;
             }
 
+            /*消息外层*/
             .message {
               margin-top: 1.0625rem;
               padding: 0 16px 0 72px;
@@ -455,6 +480,26 @@
               -ms-flex: 0 0 auto;
               flex: 0 0 auto;
               min-height: 1.375rem;
+
+              /*引用消息*/
+              .reference {
+                color: $--jjext-color-base2;
+                font-size: 0.9rem;
+                display: flex;
+                margin-bottom: 4px;
+
+                .referenceUserName {
+                  color: $--user-name1;
+                  margin-right: 4px;
+                }
+
+                .referenceTxt {
+                  max-width: 70%;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+              }
 
               /*消息主体*/
               .contents {
@@ -599,6 +644,7 @@
       }
     }
 
+    /*输入框*/
     .channelTextArea {
       position: relative;
       flex-shrink: 0;
@@ -620,6 +666,28 @@
         border-width: initial;
       }
 
+      /*回复引用消息*/
+      .recoverChat {
+        padding: 6px 8px 0 8px;
+        border-radius: 8px;
+        color: $--jjext-color-base2;
+        background-color: $--jjext-color-base1;
+        display: flex;
+        justify-content: space-between;
+
+        .recoverChatForm {
+          display: inline-block;
+          margin-left: 4px;
+          color: $--user-name1;
+        }
+
+        .closeRecover {
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+      }
+
+      /*输入框内部*/
       .formArea {
         display: flex;
         margin-bottom: 20px;
@@ -718,27 +786,43 @@
       }
     }
   }
+}
 
-  @media screen and (max-width: 768px) and (min-width: 0px) {
-    .hidden-user-list {
-      display: inline-block !important;
-    }
-    /*媒体查询是用来设置样式的 当实际的屏幕大小满足条件时就执行样式 */
-    .isHidden {
-      position: absolute;
-      left: -12rem;
-    }
+.channelsUnfold {
+  left: 70px !important;
+}
 
-    .sidebar-collapsed {
-      left: 0 !important;
-      transition: all 0.3s;
-    }
+@media screen and (max-width: 768px) and (min-width: 0px) {
+  .container {
+    left: 0;
+  }
+  .unfold {
+    display: inline-block !important;
+  }
+  .hidden-user-list {
+    display: inline-block !important;
+  }
+  /*媒体查询是用来设置样式的 当实际的屏幕大小满足条件时就执行样式 */
+  .isHidden {
+    position: absolute;
+    left: -12rem;
   }
 
-  @media screen and (min-width: 769px) {
-    /*媒体查询是用来设置样式的 当实际的屏幕大小满足条件时就执行样式 */
-    .isHidden {
-      position: relative;
-    }
+  .sidebar-collapsed {
+    left: 0 !important;
+    transition: all 0.3s;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  /*媒体查询是用来设置样式的 当实际的屏幕大小满足条件时就执行样式 */
+  .container {
+    left: 70px;
+  }
+  .unfold {
+    display: none !important;
+  }
+  .isHidden {
+    position: relative;
   }
 }

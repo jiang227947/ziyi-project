@@ -140,13 +140,15 @@ export class SettingChannelComponent implements OnInit {
     if (this.emailError || this.userNameError) {
       return;
     }
-    const info = {
+    const info: any = {
       id: this.userInfo.id,
       userName: this.userInfo.userName,
-      email: this.userInfo.email,
       avatar: this.userInfo.avatar,
       remarks: this.userInfo.remarks
     };
+    if (!this.user.email) {
+      info.email = this.userInfo.email;
+    }
     this.loading = true;
     this.$indexApiService.updateUser(info).subscribe((result: Result<void>) => {
       this.loading = false;

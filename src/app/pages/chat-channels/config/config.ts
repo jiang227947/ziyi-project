@@ -17,6 +17,7 @@ export const CHAT_GPT_BOT = {
   roleName: '管理员',
   socketId: null,
   userName: '机器人🤖',
+  email: '',
   status: 1,
   lastOnline: 1,
 };

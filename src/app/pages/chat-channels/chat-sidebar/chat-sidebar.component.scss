@@ -1,11 +1,28 @@
 @import "../../chat-channels/config/chat.scss";
 
+@media screen and (max-width: 768px) and (min-width: 0px) {
+  .wrapper {
+    width: 0 !important;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .wrapper {
+    width: 72px;
+  }
+}
+
+.unfold {
+  width: 72px !important;
+}
+
 .wrapper {
   position: relative;
   width: 72px;
   height: 100%;
   flex-shrink: 0;
   overflow: hidden;
+  transition: all 0.2s;
   display: flex;
   flex-direction: column;
   background-color: $--jjext-color-primary;

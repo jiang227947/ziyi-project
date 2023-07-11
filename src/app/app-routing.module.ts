@@ -5,7 +5,7 @@ import {Exception404Component} from './pages/exception/404.component';
 
 const routes: Routes = [
   // 默认路由
-  {path: '', pathMatch: 'full', redirectTo: ''},
+  {path: '', redirectTo: '', pathMatch: 'full'},
   // {path: '', pathMatch: 'full', redirectTo: 'chat-channels'},
   // home
   {

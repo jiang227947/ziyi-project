@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'channelsUnfold':channelsUnfold}">
   <!--左侧导航-->
   <div #sidebar class="sidebar isHidden" [ngClass]="{'sidebar-collapsed':morOperate.isCollapsed}"
        (click)="publicClose()">
@@ -84,12 +84,15 @@
     <div class="content">
       <!--置顶-->
       <div class="top-info">
+        <span nz-icon nzType="{{channelsUnfold ? 'menu-fold':'menu-unfold'}}" nzTheme="outline" class="unfold"
+              (click)="channelsHidden()"></span>
         <div class="info-txt">
           欢迎来到{{roomChannel?.roomName}}！
         </div>
         <div class="operation-group">
           <!--在线用户-->
-          <span class="operation hidden-user-list" [ngClass]="{'open-user-list':morOperate.isCollapsed}" title="在线用户"
+          <span class="operation hidden-user-list" [ngClass]="{'open-user-list':morOperate.isCollapsed}"
+                title="在线用户"
                 nz-icon nzType="team" nzTheme="outline"
                 (click)="operateTop('user')"></span>
           <!--标注-->
@@ -120,8 +123,8 @@
             </div>
           </div>
           <!--退出-->
-          <span class="operation quit" title="退出" nz-icon nzType="poweroff" nzTheme="outline"
-                (click)="operateTop('quit')"></span>
+          <!--<span class="operation quit" title="退出" nz-icon nzType="poweroff" nzTheme="outline"
+                (click)="operateTop('quit')"></span>-->
         </div>
       </div>
       <!--主体-->
@@ -133,7 +136,9 @@
              [infiniteScrollDistance]="scrollDistance"
              [infiniteScrollUpDistance]="scrollUpDistance"
              [infiniteScrollThrottle]="throttle"
-             (scrolledUp)="onUp()">
+             (scrolledUp)="onUp()"
+             (scrolled)="onUp(true, $event)"
+             (scroll)="onUp($event)">
           <!--消息列-->
           <ol class="scrollerInner" aria-label="消息" role="list" tabindex="0">
             <!--load状态-->
@@ -144,12 +149,18 @@
               <nz-spin nzSimple [nzIndicator]="indicatorTemplate" class="spin"></nz-spin>
             </ng-container>
             <!--每一条消息-->
-            <li class="messageListItem" aria-setsize="-1" *ngFor="let item of messagesList;index as idx">
+            <li class="messageListItem" aria-setsize="-1"
+                *ngFor="let item of messagesList;index as idx"
+                (contextmenu)="contextMenu($event, messageMenu)">
               <ng-container [ngSwitch]="item.type">
                 <!--一般消息-->
                 <ng-container *ngSwitchCase="chatMessagesType.general">
                   <div class="message" role="article" tabindex="-1" aria-setsize="-1" aria-roledescription="消息"
                        aria-labelledby="message-username">
+                    <div class="reference" *ngIf="item.message_reference">
+                      <span class="referenceUserName">@{{item.message_reference.userName}}</span>
+                      <span class="referenceTxt">{{item.referenced_message}}</span>
+                    </div>
                     <div class="contents">
                       <!--头像-->
                       <ng-container *ngIf="!item.author.avatar;else _avatar">
@@ -281,12 +292,37 @@
                   </div>
                 </ng-container>
               </ng-container>
+              <!--消息右键-->
+              <nz-dropdown-menu #messageMenu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item (click)="recover(item)">
+                    <span>回复</span>
+                    <span nz-icon nzType="enter" nzTheme="outline"></span>
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
             </li>
           </ol>
+        </div>
+        <!--置底按钮-->
+        <div class="toBottoms" *ngIf="scrollToBottoms">
+          <span class="toBottomsTitle" (click)="scrollToBottom(scrollerBaseTemp,true)">返回底部</span>
         </div>
       </div>
       <!--输入框-->
       <div class="channelTextArea">
+        <!--回复引用消息-->
+        <div class="recoverChat" *ngIf="recoverChat.recover">
+          <div>
+            <span>正在回复至</span>
+            <span class="recoverChatForm">{{recoverChat.form.userName}}</span>
+          </div>
+          <!--关闭回复-->
+          <div class="closeRecover" (click)="recover(null,true)">
+            <span nz-icon nzType="close" nzTheme="outline"></span>
+          </div>
+        </div>
+        <!--输入框内部-->
         <div class="formArea">
           <!--附加-->
           <div class="additional">

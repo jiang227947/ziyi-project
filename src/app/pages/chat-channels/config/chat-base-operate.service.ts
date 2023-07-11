@@ -38,6 +38,12 @@ export class ChatBaseOperateService {
     fileUpload: false
   };
   fileTypeEnum = FileTypeEnum;
+  // 判断是否手动滚动
+  scrollHeight: { previous: number, now: number, currentScrollPosition: number } = {previous: 0, now: 0, currentScrollPosition: 0};
+  // 是否手动置底
+  scrollToBottoms: boolean = false;
+  // 频道折叠
+  channelsUnfold: boolean = false;
 
   // 提及功能 筛选数组对象的key
   suggestionsValueWith = (data: ChatChannelRoomUserInterface): string => data.userName;
@@ -80,6 +86,7 @@ export class ChatBaseOperateService {
     }
   }
 
+
   /**
    * 置顶的操作
    */
@@ -104,8 +111,18 @@ export class ChatBaseOperateService {
 
   /**
    * 置底
+   * @param scrollerBaseTemp 置底的DOM
+   * @param toBottoms 手动置底
    */
-  scrollToBottom(scrollerBaseTemp: ElementRef<Element>): void {
+  scrollToBottom(scrollerBaseTemp: ElementRef<Element>, toBottoms?: boolean): void {
+    // 判断是否为手动置底
+    if (toBottoms) {
+      this.scrollToBottoms = false;
+    }
+    // 如果手动置顶了 则禁止自动置底
+    if (this.scrollToBottoms) {
+      return;
+    }
     setTimeout(() => {
       scrollerBaseTemp.nativeElement.scrollTo(0, scrollerBaseTemp.nativeElement.scrollHeight);
     }, 30);
