@@ -69,7 +69,7 @@ export class SimpleGuardService implements CanActivate, CanActivateChild {
   private checkLogin(url: string): true | UrlTree {
     const token = SessionUtil.getToken();
     // 校验已登录并且token未超时
-    if (token && SessionUtil.getTokenOut()) {
+    if (token && !SessionUtil.getTokenOut()) {
       // 返回true
       return true;
     } else {

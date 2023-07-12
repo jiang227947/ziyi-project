@@ -114,8 +114,11 @@ export class SessionUtil {
    */
   static getTokenOut(): boolean {
     const tokenOut: string = localStorage.getItem('token_out');
-    // 判断时间是否超过6小时
-    return new Date().getTime() < new Date(+tokenOut).getTime();
+    if (tokenOut !== null) {
+      // 判断时间是否超过6小时
+      return new Date(+tokenOut).getTime() - new Date().getTime() <= 0;
+    }
+    return true;
   }
 
   /**

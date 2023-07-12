@@ -72,14 +72,14 @@ export class AuthComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
-    if (!SessionUtil.getTokenOut()) {
+    /*if (!SessionUtil.getTokenOut()) {
       SessionUtil.clearUserLocal();
       this.router.navigate(['/home']);
     } else {
       if (window.history.length === 1) {
         this.router.navigate(['/main/index']);
       }
-    }
+    }*/
     // this.buildForm();
   }
 

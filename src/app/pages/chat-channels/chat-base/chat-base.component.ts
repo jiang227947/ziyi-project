@@ -9,6 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {
+  ChatAttachmentsInterface,
   ChatChannelRoomInterface,
   ChatChannelRoomUserInterface,
   ChatChannelSubscribeInterface,
@@ -40,6 +41,7 @@ import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {DOCUMENT} from '@angular/common';
 import {CommonUtil} from '../../../shared-module/util/commonUtil';
+import {IMAGE_TYPE_CONST} from '../../../shared-module/const/commou.const';
 
 @Component({
   selector: 'app-chat-base',
@@ -387,6 +389,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       // 消息类型 用于前端展示判断
       type: ChatMessagesTypeEnum.general
     });
+    // 发送消息
     this.socket.emit(ChatChannelsMessageTypeEnum.publicMessage, message, (response) => {
       if (response.status === ChatChannelsCallbackEnum.ok) {
         // console.log('消息发送成功');
@@ -650,10 +653,27 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       };
       return;
     }
-    // 设置回复内容
+    let txt: string = '';
+    // 附件转换格式
+    const attachments: ChatAttachmentsInterface | string = JSON.parse(info.attachments as string);
+    // 判断是否是附件
+    if (typeof attachments === 'object' && !!attachments) {
+      // 判断图片附件引用
+      if (IMAGE_TYPE_CONST.indexOf(attachments.fileType) !== -1) {
+        // 设置回复图片内容
+        txt = '[图片]';
+      } else {
+        // 设置回复附件内容
+        txt = attachments.name;
+      }
+    } else {
+      // 设置回复消息内容
+      txt = info.content;
+    }
+    // 赋值回复的内容
     this.recoverChat = {
       recover: true,
-      txt: info.content,
+      txt,
       form: info.author
     };
   }
