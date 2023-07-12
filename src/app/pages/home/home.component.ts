@@ -150,9 +150,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
       SessionUtil.clearUserLocal();
       this.router.navigate(['/home']);
     } else {
-      if (window.history.length === 1) {
-        this.router.navigate(['/chat-channels']);
-      }
+      // if (window.history.length === 1) {
+      this.router.navigate(['/chat-channels']);
+      // }
     }
   }
 
@@ -186,7 +186,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.iframe.nativeElement.contentWindow.postMessage('login', '*');
         if (result.code === 200) {
           const userInfo: User = result.data;
-          console.log(userInfo);
           // 设置token
           SessionUtil.setToken(userInfo.token);
           resolve(userInfo);

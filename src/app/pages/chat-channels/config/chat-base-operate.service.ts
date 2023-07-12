@@ -7,6 +7,7 @@ import {NzContextMenuService} from 'ng-zorro-antd/dropdown';
 import {ChatChannelRoomUserInterface, ChatOperateInterface} from '../../../shared-module/interface/chat-channels';
 import {Title} from '@angular/platform-browser';
 import {FileTypeEnum} from '../../../shared-module/enum/file.enum';
+import {SessionUtil} from '../../../shared-module/util/session-util';
 
 /**
  * 聊天频道组件服务
@@ -96,7 +97,8 @@ export class ChatBaseOperateService {
         // 清除监听页面是否在当前显示
         this.document.removeEventListener('visibilitychange', () => {
         });
-        this.router.navigate(['/main/index']);
+        SessionUtil.clearUserLocal();
+        this.router.navigate(['/home']);
         break;
       case 'pushpin':
         // 标注消息弹框
