@@ -328,15 +328,15 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
     }
     // 引用消息
     const recover = {
-      message_reference: null,
-      referenced_message: null
+      messageReference: null,
+      referencedMessage: null
     };
     // 判断是否为引用消息
     if (this.recoverChat.recover) {
       // 被引用消息的用户
-      recover.message_reference = this.recoverChat.form;
+      recover.messageReference = this.recoverChat.form;
       // 引用的消息赋值
-      recover.referenced_message = this.recoverChat.txt;
+      recover.referencedMessage = this.recoverChat.txt;
     }
     // 消息体
     const message: ChatMessagesInterface = this.isContinuous({
@@ -376,9 +376,9 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       // 提及的人名称信息
       mentions: this.message.mentions || null,
       // 消息引用
-      message_reference: recover.message_reference,
+      messageReference: recover.messageReference,
       // 引用消息
-      referenced_message: recover.referenced_message,
+      referencedMessage: recover.referencedMessage,
       // 固定
       pinned: false,
       // 时间
@@ -514,9 +514,9 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       // 提及的人名称信息
       mentions: this.message.mentions || null,
       // 留言参考
-      message_reference: null,
+      messageReference: null,
       // 参考消息
-      referenced_message: null,
+      referencedMessage: null,
       // 固定
       pinned: false,
       // 时间
@@ -609,7 +609,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       // 时间戳差值
       const days = CommonUtil.getTimeDiff(this.messagesList[this.messagesList.length - 1].timestamp);
       // 如果上一条消息的用户为当前这个人则为连续发言
-      if (!message.message_reference && this.messagesList[this.messagesList.length - 1].author
+      if (!message.messageReference && this.messagesList[this.messagesList.length - 1].author
         && author.id === this.messagesList[this.messagesList.length - 1].author.id
         && days === 0) {
         message.type = this.chatMessagesType.continuous;

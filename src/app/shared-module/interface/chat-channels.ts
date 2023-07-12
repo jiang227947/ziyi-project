@@ -97,9 +97,9 @@ export interface ChatMessagesInterface {
   // 提及的人名称信息
   mentions: ChatChannelRoomUserInterface;
   // 留言参考
-  message_reference: ChatSendAuthorInterface;
+  messageReference: ChatSendAuthorInterface;
   // 参考消息
-  referenced_message: any;
+  referencedMessage: any;
   // 固定
   pinned: boolean;
   // 时间
@@ -206,9 +206,9 @@ export class ChatMessagesModal {
   // 提及的人名称信息
   mentions: ChatChannelRoomUserInterface;
   // 留言参考
-  message_reference: any[];
+  messageReference: any[];
   // 引用消息
-  referenced_message: any[];
+  referencedMessage: any[];
   // 固定
   pinned: boolean;
   // 时间

@@ -157,9 +157,9 @@
                 <ng-container *ngSwitchCase="chatMessagesType.general">
                   <div class="message" role="article" tabindex="-1" aria-setsize="-1" aria-roledescription="消息"
                        aria-labelledby="message-username">
-                    <div class="reference" *ngIf="item.message_reference">
-                      <span class="referenceUserName">@{{item.message_reference.userName}}</span>
-                      <span class="referenceTxt">{{item.referenced_message}}</span>
+                    <div class="reference" *ngIf="item.messageReference">
+                      <span class="referenceUserName">@{{item.messageReference.userName}}</span>
+                      <span class="referenceTxt">{{item.referencedMessage}}</span>
                     </div>
                     <div class="contents">
                       <!--头像-->
