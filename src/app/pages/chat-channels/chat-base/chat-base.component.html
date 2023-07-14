@@ -359,7 +359,6 @@
                         nzAutosize
                         nzMentionTrigger
                         (keydown)="textBoxKeydown($event)"
-                        (paste)="paste($event)"
                         [(ngModel)]="textValue"
               ></textarea>
               <ng-container *nzMentionSuggestion="let framework">
