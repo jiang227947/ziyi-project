@@ -60,7 +60,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   // 左侧用户
   @ViewChild('sidebar') private sidebar: ElementRef<Element>;
   // 输入框
-  @ViewChild('textBox') private textBox: ElementRef<Element>;
+  @ViewChild('textBox') private textBox: ElementRef;
   // 滚动条
   @ViewChild('scrollerBase') public scrollerBaseTemp: ElementRef<Element>;
   // 聊天消息滚动
@@ -394,17 +394,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       if (response.status === ChatChannelsCallbackEnum.ok) {
         // console.log('消息发送成功');
         message.states = ChatChannelsMessageStatesEnum.success;
-        this.messagesList.push(message);
-        // 赋值消息ID
-        this.messagesList[this.messagesList.length - 1].id = this.messagesList[this.messagesList.length - 2].id + 1;
-        this.scrollToBottom(this.scrollerBaseTemp);
       } else {
         // todo 重发
         this.$message.info('消息发送失败');
         message.states = ChatChannelsMessageStatesEnum.error;
-        this.messagesList.push(message);
-        this.scrollToBottom(this.scrollerBaseTemp);
       }
+      this.messagesList.push(message);
+      this.scrollToBottom(this.scrollerBaseTemp);
     });
     setTimeout(() => {
       this.recover(null, true);
@@ -635,12 +631,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       };
       return;
     }
+    this.textBox.nativeElement.focus();
     let txt: string;
     let attachments: ChatAttachmentsInterface;
-    if (typeof info.attachments === 'string') {
+    if (info.attachments && typeof info.attachments === 'string') {
       // 附件转换格式
       attachments = JSON.parse(info.attachments as string);
-    } else if (typeof info.attachments === 'object') {
+    } else if (info.attachments && typeof info.attachments === 'object') {
       attachments = info.attachments;
     } else {
       // 非附件  设置回复消息内容

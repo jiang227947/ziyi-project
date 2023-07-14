@@ -464,6 +464,11 @@
             &:hover {
               background-color: $--li-hover;
               transition: background-color 0.15s;
+
+              .reactionHidden {
+                display: flex !important;
+                transition: all 0.2s;
+              }
             }
 
             /*消息外层*/
@@ -521,13 +526,6 @@
                 margin-left: 0;
                 padding-left: 0;
                 text-indent: 0;
-
-                &:hover {
-                  .reactionHidden {
-                    display: flex !important;
-                    transition: all 0.2s;
-                  }
-                }
 
                 /*头像*/
                 .avatar, .user-avatar {
@@ -602,11 +600,6 @@
 
               &:hover {
                 .timeHidden {
-                  display: flex !important;
-                  transition: all 0.2s;
-                }
-
-                .reactionHidden {
                   display: flex !important;
                   transition: all 0.2s;
                 }
