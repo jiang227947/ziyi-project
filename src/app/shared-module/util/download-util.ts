@@ -37,6 +37,28 @@ export class DownloadUtil {
   }
 
   /**
+   * 通用文件下载
+   * param url
+   * param fileName
+   */
+  getDownloadFile(url: string, fileName: string): void {
+    this.$http.get(url, {
+      responseType: 'blob'
+    }).subscribe((event: Blob) => {
+      const blob = new Blob([event], {type: 'application/octet-stream'});
+      const download = document.createElement('a');
+      download.id = 'download-file';
+      download.href = window.URL.createObjectURL(blob);
+      download.download = fileName;
+      document.body.appendChild(download);
+      const aLink = document.getElementById('download-file');
+      aLink.click();
+      document.body.removeChild(aLink);
+      window.URL.revokeObjectURL(download.href);
+    });
+  }
+
+  /**
    * 下载进度
    * @param url:请求地址
    * @param fileName:文件名称

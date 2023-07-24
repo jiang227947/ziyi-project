@@ -170,7 +170,9 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
                 // 合并消息
                 this.messagesList = msg;
                 // 置底
-                this.scrollToBottom(this.scrollerBaseTemp);
+                setTimeout(() => {
+                  this.scrollToBottom(this.scrollerBaseTemp);
+                }, 50);
               });
               break;
             // 信息更新
@@ -400,7 +402,9 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
         message.states = ChatChannelsMessageStatesEnum.error;
       }
       this.messagesList.push(message);
-      this.scrollToBottom(this.scrollerBaseTemp);
+      setTimeout(() => {
+        this.scrollToBottom(this.scrollerBaseTemp);
+      }, 30);
     });
     setTimeout(() => {
       this.recover(null, true);
@@ -663,6 +667,27 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       txt,
       form: info.author
     };
+  }
+
+  /**
+   * 复制
+   * @param info 消息
+   */
+  copy(info: ChatMessagesInterface): void {
+    let value: string;
+    if (info.attachments || typeof info.attachments !== 'string' && typeof info.attachments !== 'object') {
+      const attachments: ChatAttachmentsInterface = JSON.parse(info.attachments as string);
+      value = attachments.name;
+    } else {
+      value = info.content;
+    }
+    const input = document.createElement('input'); // 创建input对象
+    input.value = value; // 设置复制内容
+    document.body.appendChild(input); // 添加临时实例
+    input.select(); // 选择实例内容
+    document.execCommand('Copy'); // 执行复制
+    document.body.removeChild(input); // 删除临时实例
+    this.$message.success('复制成功！');
   }
 
   /**

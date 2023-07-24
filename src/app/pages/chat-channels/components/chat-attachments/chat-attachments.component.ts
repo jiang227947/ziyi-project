@@ -6,11 +6,13 @@ import {
   TEXT_TYPE_CONST
 } from '../../../../shared-module/const/commou.const';
 import {ChatRequestService} from '../../../../core-module/api-service/chat';
+import {DownloadUtil} from '../../../../shared-module/util/download-util';
 
 @Component({
   selector: 'app-chat-attachments',
   templateUrl: './chat-attachments.component.html',
-  styleUrls: ['./chat-attachments.component.scss']
+  styleUrls: ['./chat-attachments.component.scss'],
+  providers: [DownloadUtil]
 })
 export class ChatAttachmentsComponent implements OnInit {
 
@@ -20,9 +22,12 @@ export class ChatAttachmentsComponent implements OnInit {
   fileInfo: ChatAttachmentsInterface = null;
   // 文本数据
   fileText: string = '';
+  // 下载冷却变量
+  downloadDisabled: number = 0;
 
   constructor(private $renderer: Renderer2,
-              private $chatRequestService: ChatRequestService) {
+              private $chatRequestService: ChatRequestService,
+              private downloadUtil: DownloadUtil) {
   }
 
   ngOnInit(): void {
@@ -73,10 +78,29 @@ export class ChatAttachmentsComponent implements OnInit {
     // }
   }
 
+  /**
+   * 下载文件
+   * @param url 地址
+   * @param name 文件名
+   */
   downloadAudio(url: string, name: string): void {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    a.click();
+    if (this.downloadDisabled > 0) {
+      return;
+    }
+    let downloadPath: string;
+    if (url && url.indexOf('http' || 'https') !== -1) {
+      downloadPath = url;
+    } else if (url !== null && url !== undefined) {
+      downloadPath = `https://www.evziyi.top${url}`;
+    }
+    this.downloadDisabled = 2;
+    this.downloadUtil.getDownloadFile(downloadPath, name);
+    const timer = setInterval(() => {
+      this.downloadDisabled -= 1;
+      if (this.downloadDisabled <= 0) {
+        this.downloadDisabled = 0;
+        clearInterval(timer);
+      }
+    }, 1000);
   }
 }
