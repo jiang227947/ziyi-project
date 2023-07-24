@@ -73,4 +73,10 @@ export class ChatAttachmentsComponent implements OnInit {
     // }
   }
 
+  downloadAudio(url: string, name: string): void {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.click();
+  }
 }

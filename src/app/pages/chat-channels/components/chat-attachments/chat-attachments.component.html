@@ -24,6 +24,7 @@
           <source [src]="fileInfo.path | avatarConversion" [type]="fileInfo.type">
           您的浏览器不支持 audio 元素。
         </audio>
+        <a [href]="fileInfo.path | avatarConversion" download (click)="downloadAudio(fileInfo.path, fileInfo.name)">Download</a>
       </div>
     </ng-container>
     <!--其他-->
