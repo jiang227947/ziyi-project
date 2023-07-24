@@ -41,7 +41,7 @@ import {Subscription} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 import {DOCUMENT} from '@angular/common';
 import {CommonUtil} from '../../../shared-module/util/commonUtil';
-import {IMAGE_TYPE_CONST} from '../../../shared-module/const/commou.const';
+import {IMAGE_TYPE_CONST, TEXT_TYPE_CONST} from '../../../shared-module/const/commou.const';
 
 @Component({
   selector: 'app-chat-base',
@@ -60,7 +60,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   // 左侧用户
   @ViewChild('sidebar') private sidebar: ElementRef<Element>;
   // 输入框
-  @ViewChild('textBox') private textBox: ElementRef<Element>;
+  @ViewChild('textBox') private textBox: ElementRef;
   // 滚动条
   @ViewChild('scrollerBase') public scrollerBaseTemp: ElementRef<Element>;
   // 聊天消息滚动
@@ -394,17 +394,13 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       if (response.status === ChatChannelsCallbackEnum.ok) {
         // console.log('消息发送成功');
         message.states = ChatChannelsMessageStatesEnum.success;
-        this.messagesList.push(message);
-        // 赋值消息ID
-        this.messagesList[this.messagesList.length - 1].id = this.messagesList[this.messagesList.length - 2].id + 1;
-        this.scrollToBottom(this.scrollerBaseTemp);
       } else {
         // todo 重发
         this.$message.info('消息发送失败');
         message.states = ChatChannelsMessageStatesEnum.error;
-        this.messagesList.push(message);
-        this.scrollToBottom(this.scrollerBaseTemp);
       }
+      this.messagesList.push(message);
+      this.scrollToBottom(this.scrollerBaseTemp);
     });
     setTimeout(() => {
       this.recover(null, true);
@@ -576,24 +572,6 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   }
 
   /**
-   * 粘贴事件 去掉样式
-   */
-  paste(evt: ClipboardEvent): void {
-    evt.preventDefault();
-    let text = evt.clipboardData.getData('text/plain') || '';
-    if (text !== '') {
-      // 替换内容中间的全角空格为普通空格
-      text = text.replace(/　+/, ' ');
-      // 移除开头回车空格
-      text = text.replace(/^\s+/, '');
-      // 将内容中间换行空格替换成换行
-      text = text.replace(/\n\s+/, `\n`);
-      this.textValue = `${this.textValue}${text}`;
-      this.textBox.nativeElement.innerHTML = `${this.textBox.nativeElement.innerHTML}${text}`;
-    }
-  }
-
-  /**
    * 判断是否为连续发言
    */
   isContinuous(message: ChatMessagesInterface): ChatMessagesInterface {
@@ -653,22 +631,31 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
       };
       return;
     }
-    let txt: string = '';
-    // 附件转换格式
-    const attachments: ChatAttachmentsInterface | string = JSON.parse(info.attachments as string);
-    // 判断是否是附件
-    if (typeof attachments === 'object' && !!attachments) {
+    this.textBox.nativeElement.focus();
+    let txt: string;
+    let attachments: ChatAttachmentsInterface;
+    if (info.attachments && typeof info.attachments === 'string') {
+      // 附件转换格式
+      attachments = JSON.parse(info.attachments as string);
+    } else if (info.attachments && typeof info.attachments === 'object') {
+      attachments = info.attachments;
+    } else {
+      // 非附件  设置回复消息内容
+      txt = info.content;
+    }
+    // 判断是否为附件内容
+    if (!txt) {
       // 判断图片附件引用
-      if (IMAGE_TYPE_CONST.indexOf(attachments.fileType) !== -1) {
+      if (IMAGE_TYPE_CONST.indexOf(attachments.type) !== -1) {
         // 设置回复图片内容
         txt = '[图片]';
+      } else if (TEXT_TYPE_CONST.indexOf(attachments.type) !== -1) {
+        // 设置回复文本内容
+        txt = '[文本]';
       } else {
         // 设置回复附件内容
         txt = attachments.name;
       }
-    } else {
-      // 设置回复消息内容
-      txt = info.content;
     }
     // 赋值回复的内容
     this.recoverChat = {
