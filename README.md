@@ -14,11 +14,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### 4. Socket.Io实现聊天室功能完整代码。
 
 ## 目前已知问题：
-### 1. 和风地图请求数据Loading异常，数据已返回，但还是在loading
+### 1. 并发量过高时会偶尔导致消息错位BUG
 
 ## 未来：
 ### 1. Angular版本准备升级至15
-### 2. Web端的聊天室功能完善，增加手机端微信小程序聊天室
+### 2. Web端的聊天室功能完善，增加小程序聊天室
 
 ## Development server
 
