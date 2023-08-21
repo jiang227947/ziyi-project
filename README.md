@@ -5,6 +5,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # 在线地址：
 [https://www.evziyi.top/](https://www.evziyi.top/)
 
+# 预览效果：
+![聊天界面概览](https://github.com/jiang227947/ziyi-project/assets/55941915/14f94ee2-f7b1-4fd8-8a83-7f5e7ba4eea4)
+
 
 ## 使用Angular14 + Ant-Design
 ### ~~1. 包含个人介绍、谷歌地图、高德地图、MapBox、和风天气API、Qunee等Demo代码示例~~（此功能源码上面有，但在平台上面不体现，可从路由地址手动跳转）。
