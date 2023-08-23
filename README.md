@@ -5,20 +5,24 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # 在线地址：
 [https://www.evziyi.top/](https://www.evziyi.top/)
 
+# 预览效果：
+![聊天界面概览](https://github.com/jiang227947/ziyi-project/assets/55941915/14f94ee2-f7b1-4fd8-8a83-7f5e7ba4eea4)
+
 
 ## 使用Angular14 + Ant-Design
-### 1. 包含简历、gpt、谷歌地图、高德地图、MapBox、和风天气API、MxDraw CAD、Qunee等Demo代码示例。
+### ~~1. 包含个人介绍、谷歌地图、高德地图、MapBox、和风天气API、Qunee等Demo代码示例~~（此功能源码上面有，但在平台上面不体现，可从路由地址手动跳转）。
+### 1. 模仿国外设计平台[Discord](https://discord.com/)实现的聊天系统，基本聊天功能已完成。
 ### 2. jwt、aes加解密、crud等功能。
 ### ~~接口服务Java使用个人项目 [MySpingBoot](https://github.com/jiang227947/MySpingBoot)~~
 ### 3. 后台服务Node用个人项目 [Node、JWT、sequelize、mysql](https://github.com/jiang227947/node-server)
-### 4. Socket.Io实现聊天室功能完整代码。
+### 4. Socket.Io实现在线聊天室。
 
 ## 目前已知问题：
-### 1. 和风地图请求数据Loading异常，数据已返回，但还是在loading
+### 1. 并发量过高时会偶尔导致消息错位BUG（未使用RabbitMQ等类似消息代理软件）
 
 ## 未来：
 ### 1. Angular版本准备升级至15
-### 2. Web端的聊天室功能完善，增加手机端微信小程序聊天室
+### 2. Web端的聊天室功能完善，增加小程序聊天室
 
 ## Development server
 
