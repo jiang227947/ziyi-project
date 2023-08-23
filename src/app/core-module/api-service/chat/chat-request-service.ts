@@ -53,7 +53,7 @@ export class ChatRequestService {
   /**
    * 查询频道
    */
-  queryChannel(id: number): Observable<Result<CreateChannelParamInterface[]>> {
+  queryChannel(id: string): Observable<Result<CreateChannelParamInterface[]>> {
     return this.$http.get<Result<CreateChannelParamInterface[]>>(`${environment.API_URL}/queryChannel`, {
       params: {id}
     });

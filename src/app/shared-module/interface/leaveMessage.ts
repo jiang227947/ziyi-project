@@ -5,5 +5,5 @@ export interface LeaveMessage {
   name: string;
   message: string;
   browser: string;
-  createdAt?: string;
+  created?: string;
 }

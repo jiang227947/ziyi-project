@@ -2,7 +2,7 @@ import {Token} from './token';
 import {UserRoleEnum} from '../enum/user.enum';
 
 export interface User {
-  id: number; // id
+  id: string; // id
   name: string;    // 登录名
   userName: string;    // 用户名
   email: string;    // 邮箱
@@ -14,7 +14,7 @@ export interface User {
   lastLoginTime?: string;    // 上次登录时间
   token?: Token;   // token数据
   saTokenInfo?: Token;   // token数据
-  createdAt?: string;   // 创建时间
+  created?: string;   // 创建时间
   username?: string;    // 用户名
 }
 
