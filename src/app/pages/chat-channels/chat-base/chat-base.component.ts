@@ -273,7 +273,7 @@ export class ChatBaseComponent extends ChatBaseOperateService implements OnInit,
   /**
    * 添加反应表情
    */
-  addReaction(param: { emoji: string, id: number, userId: number }): void {
+  addReaction(param: { emoji: string, id: number, userId: string }): void {
     this.$chatRequestService.addReaction(param).subscribe((result: Result<void>) => {
       if (result.code === 200) {
       } else {

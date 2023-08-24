@@ -148,7 +148,7 @@ export class AccountCenterComponent implements OnInit {
    * 保存
    */
   submit(): void {
-    const data: { id: number, userName: string, remarks: string, password: string } = {
+    const data: { id: string, userName: string, remarks: string, password: string } = {
       id: this.user.id,
       userName: this.user.userName,
       remarks: this.formInstance.getData().remarks,

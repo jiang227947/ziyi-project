@@ -23,7 +23,7 @@ export class ChatRequestService {
   /**
    * 添加反应表情
    */
-  addReaction(param: { emoji: string, id: number, userId: number }): Observable<Result<void>> {
+  addReaction(param: { emoji: string, id: number, userId: string }): Observable<Result<void>> {
     return this.$http.post<Result<void>>(`${environment.API_URL}/addReaction`, param);
   }
 

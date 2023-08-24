@@ -9,7 +9,7 @@ export class ChatCommonUtil {
    * @param emoji 表情
    * @param id 用户id
    */
-  public static addReaction(list: { emoji: string, count: number, user: number[] }[], emoji: string, id: number): any[] {
+  public static addReaction(list: { emoji: string, count: number, user: string[] }[], emoji: string, id: string): any[] {
     const reactionList = [];
     for (let i = 0; i < list.length; i++) {
       reactionList.push(list[i].emoji);

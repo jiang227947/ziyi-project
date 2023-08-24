@@ -127,7 +127,7 @@ export interface ChatSendAuthorInterface {
   // 全局名称
   global_name: string;
   // id
-  id: number;
+  id: string;
   // 公共标签
   public_flags: number;
   // 用户名

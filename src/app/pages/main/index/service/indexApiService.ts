@@ -41,7 +41,7 @@ export class IndexApiService {
   /**
    * 修改用户
    */
-  updateUser(userInfo: { id: number, userName: string, remarks: string, password?: string }): Observable<Result<void>> {
+  updateUser(userInfo: { id: string, userName: string, remarks: string, password?: string }): Observable<Result<void>> {
     return this.$http.post<Result<void>>(`${environment.API_URL}/updateUser`, userInfo);
   }
 
