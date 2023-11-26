@@ -51,7 +51,7 @@ export class UserListComponent implements OnInit {
   }
 
   // 删除用户
-  deleteUser(id: number): void {
+  deleteUser(id: string): void {
     if (id === SessionUtil.getUserId()) {
       this.$message.error('无法删除自己');
       return;

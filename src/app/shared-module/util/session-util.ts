@@ -22,7 +22,7 @@ export class SessionUtil {
   /**
    * 获取用户ID
    */
-  static getUserId(): number {
+  static getUserId(): string {
     const userInfo = this.getUserInfo();
     return userInfo.id;
   }

@@ -8,6 +8,10 @@ export enum UserRoleEnum {
   general = '1002',
   // Github用户
   github = '2001',
+  // qq用户
+  qq = '2002',
+  // 小程序用户
+  mobile = '2003',
 }
 
 /**

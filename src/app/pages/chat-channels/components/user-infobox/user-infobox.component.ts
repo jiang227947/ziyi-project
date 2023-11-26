@@ -15,7 +15,7 @@ export class UserInfoboxComponent implements OnInit {
   // 用户ID
   @Input() userId: number;
   // 私聊的回调
-  @Output() privateMessageEvent = new EventEmitter<number>();
+  @Output() privateMessageEvent = new EventEmitter<string>();
   // 用户信息
   userInfo: User = null;
   // loading

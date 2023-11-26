@@ -28,7 +28,7 @@ export class UserManagementRequestService {
   /**
    * 删除用户
    */
-  deleteUser(id: number): Observable<Result<void>> {
+  deleteUser(id: string): Observable<Result<void>> {
     return this.$http.post<Result<void>>(`${environment.API_URL}/deleteUser`, {id});
   }
 }
