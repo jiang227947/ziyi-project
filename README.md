@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.3.0.
 
 # 在线地址：
-[https://www.evziyi.top/](https://www.evziyi.top/)
+~~[https://www.evziyi.top/](https://www.evziyi.top/)~~
 
 # 预览效果：
 ![聊天界面概览](https://github.com/jiang227947/ziyi-project/assets/55941915/14f94ee2-f7b1-4fd8-8a83-7f5e7ba4eea4)
@@ -19,10 +19,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## 目前已知问题：
 ### 1. 并发量过高时会偶尔导致消息错位BUG（未使用RabbitMQ等类似消息代理软件）
-
-## 未来：
-### 1. Angular版本准备升级至15
-### 2. Web端的聊天室功能完善，增加小程序聊天室
 
 ## Development server
 
